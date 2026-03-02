@@ -195,7 +195,7 @@ class UserAccountControllerTest extends IntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "test@example.com")
+    @WithMockUser(username = "test@example.com", authorities = "user:read:own")
     void shouldGetCurrentAccountSuccessfully() throws Exception {
         UserEntity user = createUser("test@example.com", Set.of(UserGroupConstants.ADMIN));
 
@@ -210,7 +210,7 @@ class UserAccountControllerTest extends IntegrationTest {
     // region UserAccountController.getCurrentUserPermissions
 
     @Test
-    @WithMockUser(username = "test@example.com")
+    @WithMockUser(username = "test@example.com", authorities = "user:read:own")
     void shouldGetCurrentUserPermissionsSuccessfully() throws Exception {
         UserEntity user = createUserWithoutRole("test@example.com");
         RoleGroupEntity roleGroup = createRoleGroupWithPermissions("TestGroup", Set.of("user:read"));
@@ -226,7 +226,7 @@ class UserAccountControllerTest extends IntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "test@example.com")
+    @WithMockUser(username = "test@example.com", authorities = "user:read:own")
     void shouldReturnEmptyPermissionsWhenUserHasNoRoleGroups() throws Exception {
         createUserWithoutRole("test@example.com");
 
@@ -236,7 +236,7 @@ class UserAccountControllerTest extends IntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "test@example.com")
+    @WithMockUser(username = "test@example.com", authorities = "user:read:own")
     void shouldFlattenPermissionsFromMultipleRoleGroups() throws Exception {
         UserEntity user = createUserWithoutRole("test@example.com");
         RoleGroupEntity groupA = createRoleGroupWithPermissions("GroupA", Set.of("user:read"));
@@ -260,13 +260,13 @@ class UserAccountControllerTest extends IntegrationTest {
     // endregion
 
     @Test
-    @WithMockUser(username = "nonexistent@example.com")
+    @WithMockUser(username = "nonexistent@example.com", authorities = "user:read:own")
     void shouldFailToGetAccountWhenUserNotFound() throws Exception {
         get(API_ACCOUNT, status().isBadRequest());
     }
 
     @Test
-    @WithMockUser(username = "test@example.com")
+    @WithMockUser(username = "test@example.com", authorities = "user:update:own")
     void shouldUpdateAccountSuccessfully() throws Exception {
         UserEntity user = createUser("test@example.com");
 
@@ -285,7 +285,7 @@ class UserAccountControllerTest extends IntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "test@example.com")
+    @WithMockUser(username = "test@example.com", authorities = "user:update:own")
     void shouldSoftDeleteCurrentAccount() throws Exception {
         UserEntity user = createUser("test@example.com");
 
@@ -325,7 +325,7 @@ class UserAccountControllerTest extends IntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "test@example.com")
+    @WithMockUser(username = "test@example.com", authorities = "user:update:own")
     void shouldChangePasswordSuccessfully() throws Exception {
         String currentPassword = "currentPassword123!";
         UserEntity user = createUser("test@example.com");
@@ -343,7 +343,7 @@ class UserAccountControllerTest extends IntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "test@example.com")
+    @WithMockUser(username = "test@example.com", authorities = "user:update:own")
     void shouldFailToChangePasswordWithWrongCurrentPassword() throws Exception {
         UserEntity user = createUser("test@example.com");
         user.getUserCredentials().setPasswordHash(passwordEncoder.encode("actualPassword123!"));
@@ -359,7 +359,7 @@ class UserAccountControllerTest extends IntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "test@example.com")
+    @WithMockUser(username = "test@example.com", authorities = "user:update:own")
     void shouldFailToChangePasswordWithInvalidNewPassword() throws Exception {
         createUser("test@example.com");
 

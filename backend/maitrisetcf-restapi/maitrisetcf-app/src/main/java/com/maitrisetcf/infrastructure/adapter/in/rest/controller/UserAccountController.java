@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,6 +76,7 @@ public class UserAccountController {
      * Get the current user.
      */
     @GetMapping("/me")
+    @PreAuthorize("hasAuthority('user:read:own')")
     public UserSummaryDTO getUserDetails() {
         User user = accountUseCase.getCurrentUserWithAuthorities();
         return userDtoMapper.toSummaryDTO(user);
@@ -84,6 +86,7 @@ public class UserAccountController {
      * Get resolved permissions of the current user (flattened from role groups).
      */
     @GetMapping("/me/permissions")
+    @PreAuthorize("hasAuthority('user:read:own')")
     public List<PermissionDTO> getCurrentUserPermissions() {
         return accountUseCase.getCurrentUserWithAuthorities()
                 .resolvePermissions()
@@ -97,6 +100,7 @@ public class UserAccountController {
      * Update the current user information.
      */
     @PutMapping("/me")
+    @PreAuthorize("hasAuthority('user:update:own')")
     public UserSummaryDTO updateAccount(@Valid @RequestBody UpdateUserRequest request) {
         UserInfoUpdate infoUpdate = updateUserRequestMapper.toDomain(request);
         return userDtoMapper.toSummaryDTO(accountUseCase.updateCurrentUser(infoUpdate));
@@ -107,6 +111,7 @@ public class UserAccountController {
      */
     @DeleteMapping("/me")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('user:update:own')")
     public void deleteCurrentAccount() {
         accountUseCase.deleteCurrentUserAccount();
     }
@@ -130,6 +135,7 @@ public class UserAccountController {
      */
     @PatchMapping("/me/password")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('user:update:own')")
     public void changePassword(@RequestBody PasswordChangeRequest request) {
         accountUseCase.changePassword(request.currentPassword(), request.newPassword());
     }

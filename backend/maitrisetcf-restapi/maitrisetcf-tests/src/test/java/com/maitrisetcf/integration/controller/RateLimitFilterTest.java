@@ -7,6 +7,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -72,7 +74,7 @@ class RateLimitFilterTest extends IntegrationTest {
     // -------------------------------------------------------------------------
 
     @Test
-    @WithMockUser(username = DEFAULT_USER_EMAIL)
+    @WithMockUser(username = DEFAULT_USER_EMAIL, authorities = "user:read:own")
     void shouldAllowRequestsWithinApiRateLimit() throws Exception {
         createDefaultUser();
         for (int i = 0; i < 5; i++) {
@@ -84,7 +86,7 @@ class RateLimitFilterTest extends IntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = DEFAULT_USER_EMAIL)
+    @WithMockUser(username = DEFAULT_USER_EMAIL, authorities = "user:read:own")
     void shouldRejectRequestExceedingApiRateLimit() throws Exception {
         createDefaultUser();
         for (int i = 0; i < 5; i++) {
@@ -117,14 +119,14 @@ class RateLimitFilterTest extends IntegrationTest {
             final int idx = i;
             mockMvc.perform(
                     MockMvcRequestBuilders.get(ACCOUNT_URL)
-                            .with(jwt().jwt(j -> j.subject(userId)))
+                            .with(jwt().jwt(j -> j.subject(userId)).authorities(new SimpleGrantedAuthority("user:read:own")))
                             .with(req -> { req.setRemoteAddr("10.5.0." + idx); return req; })
             ).andExpect(status().isOk());
         }
         // 6th: fresh IP but user+device bucket is exhausted → 429
         mockMvc.perform(
                 MockMvcRequestBuilders.get(ACCOUNT_URL)
-                        .with(jwt().jwt(j -> j.subject(userId)))
+                        .with(jwt().jwt(j -> j.subject(userId)).authorities(new SimpleGrantedAuthority("user:read:own")))
                         .with(req -> { req.setRemoteAddr("10.5.0.6"); return req; })
         ).andExpect(status().isTooManyRequests());
     }
@@ -140,7 +142,7 @@ class RateLimitFilterTest extends IntegrationTest {
             final int idx = i;
             mockMvc.perform(
                     MockMvcRequestBuilders.get(ACCOUNT_URL)
-                            .with(jwt().jwt(j -> j.subject(userId)))
+                            .with(jwt().jwt(j -> j.subject(userId)).authorities(new SimpleGrantedAuthority("user:read:own")))
                             .header("X-Device-ID", "device-A")
                             .with(req -> { req.setRemoteAddr("10.6.0." + idx); return req; })
             ).andExpect(status().isOk());
@@ -150,7 +152,7 @@ class RateLimitFilterTest extends IntegrationTest {
             final int idx = i;
             mockMvc.perform(
                     MockMvcRequestBuilders.get(ACCOUNT_URL)
-                            .with(jwt().jwt(j -> j.subject(userId)))
+                            .with(jwt().jwt(j -> j.subject(userId)).authorities(new SimpleGrantedAuthority("user:read:own")))
                             .header("X-Device-ID", "device-B")
                             .with(req -> { req.setRemoteAddr("10.6.0." + idx); return req; })
             ).andExpect(status().isOk());
