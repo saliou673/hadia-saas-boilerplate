@@ -1,5 +1,6 @@
 package com.maitrisetcf.integration.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.maitrisetcf.infrastructure.adapter.in.rest.controller.dto.PermissionDTO;
 import com.maitrisetcf.infrastructure.adapter.in.rest.controller.dto.RoleGroupDTO;
 import com.maitrisetcf.infrastructure.adapter.in.rest.controller.requests.CreateRoleGroupRequest;
@@ -9,10 +10,10 @@ import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.RoleGroupEn
 import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.PermissionRepository;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.RoleGroupRepository;
 import com.maitrisetcf.integration.IntegrationTest;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
+
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;

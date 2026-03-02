@@ -41,7 +41,8 @@ public class SecurityConfiguration {
             new PublicRoute(POST, "/api/*/accounts/reset-password/finish"),
             new PublicRoute(POST, "/api/*/accounts/invitation/complete"),
             new PublicRoute(POST, "/api/*/auth/2fa/verify"),
-            new PublicRoute(POST, "/api/*/contact")
+            new PublicRoute(POST, "/api/*/contact"),
+            new PublicRoute(GET, "/api/*/plans")
     );
 
     @Bean

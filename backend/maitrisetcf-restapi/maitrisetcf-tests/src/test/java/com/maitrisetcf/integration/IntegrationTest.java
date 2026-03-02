@@ -1,5 +1,7 @@
 package com.maitrisetcf.integration;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maitrisetcf.domain.constants.DomainConstants;
 import com.maitrisetcf.domain.enumerations.UserGender;
 import com.maitrisetcf.domain.enumerations.UserGroupConstants;
@@ -11,8 +13,6 @@ import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.RoleGroupEn
 import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.UserEntity;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.RoleGroupRepository;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.UserRepository;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -65,7 +65,7 @@ public class IntegrationTest {
         // Truncate all transient tables in one shot; CASCADE handles FK-dependent tables
         // (app_user_role_group, refresh_token, two_factor_challenge, stamp, transaction).
         jdbcTemplate.execute(
-                "TRUNCATE TABLE app_user, app_configuration RESTART IDENTITY CASCADE"
+                "TRUNCATE TABLE app_user, app_configuration, subscription_plan RESTART IDENTITY CASCADE"
         );
         // role_group holds both seed data (last_updated_by='system') and test-created rows.
         // Delete only the test rows; ON DELETE CASCADE handles role_group_permission automatically.

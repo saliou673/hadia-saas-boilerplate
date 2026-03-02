@@ -1,5 +1,6 @@
 package com.maitrisetcf.integration.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.maitrisetcf.domain.constants.DomainConstants;
 import com.maitrisetcf.domain.enumerations.AppConfigurationCategory;
 import com.maitrisetcf.domain.enumerations.UserGender;
@@ -19,7 +20,6 @@ import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.Permiss
 import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.RoleGroupRepository;
 import com.maitrisetcf.infrastructure.adapter.out.query.PaginatedResult;
 import com.maitrisetcf.integration.IntegrationTest;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

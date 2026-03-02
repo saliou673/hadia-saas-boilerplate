@@ -3,11 +3,10 @@ package com.maitrisetcf.integration.controller;
 import com.maitrisetcf.integration.IntegrationTest;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
@@ -45,7 +44,10 @@ class RateLimitFilterTest extends IntegrationTest {
                     MockMvcRequestBuilders.post(LOGIN_URL)
                             .contentType(APPLICATION_JSON_VALUE)
                             .content(NO_USER_LOGIN_BODY)
-                            .with(req -> { req.setRemoteAddr("10.1.1.1"); return req; })
+                            .with(req -> {
+                                req.setRemoteAddr("10.1.1.1");
+                                return req;
+                            })
             ).andExpect(status().isUnauthorized()); // 401 = allowed through, login failed
         }
     }
@@ -57,7 +59,10 @@ class RateLimitFilterTest extends IntegrationTest {
                     MockMvcRequestBuilders.post(LOGIN_URL)
                             .contentType(APPLICATION_JSON_VALUE)
                             .content(NO_USER_LOGIN_BODY)
-                            .with(req -> { req.setRemoteAddr("10.2.2.2"); return req; })
+                            .with(req -> {
+                                req.setRemoteAddr("10.2.2.2");
+                                return req;
+                            })
             ).andExpect(status().isUnauthorized()); // allowed
         }
         // 4th request must be blocked by the rate limiter
@@ -65,7 +70,10 @@ class RateLimitFilterTest extends IntegrationTest {
                 MockMvcRequestBuilders.post(LOGIN_URL)
                         .contentType(APPLICATION_JSON_VALUE)
                         .content(NO_USER_LOGIN_BODY)
-                        .with(req -> { req.setRemoteAddr("10.2.2.2"); return req; })
+                        .with(req -> {
+                            req.setRemoteAddr("10.2.2.2");
+                            return req;
+                        })
         ).andExpect(status().isTooManyRequests());
     }
 
@@ -80,7 +88,10 @@ class RateLimitFilterTest extends IntegrationTest {
         for (int i = 0; i < 5; i++) {
             mockMvc.perform(
                     MockMvcRequestBuilders.get(ACCOUNT_URL)
-                            .with(req -> { req.setRemoteAddr("10.3.3.3"); return req; })
+                            .with(req -> {
+                                req.setRemoteAddr("10.3.3.3");
+                                return req;
+                            })
             ).andExpect(status().isOk());
         }
     }
@@ -92,13 +103,19 @@ class RateLimitFilterTest extends IntegrationTest {
         for (int i = 0; i < 5; i++) {
             mockMvc.perform(
                     MockMvcRequestBuilders.get(ACCOUNT_URL)
-                            .with(req -> { req.setRemoteAddr("10.4.4.4"); return req; })
+                            .with(req -> {
+                                req.setRemoteAddr("10.4.4.4");
+                                return req;
+                            })
             ).andExpect(status().isOk());
         }
         // 6th request must be blocked
         mockMvc.perform(
                 MockMvcRequestBuilders.get(ACCOUNT_URL)
-                        .with(req -> { req.setRemoteAddr("10.4.4.4"); return req; })
+                        .with(req -> {
+                            req.setRemoteAddr("10.4.4.4");
+                            return req;
+                        })
         ).andExpect(status().isTooManyRequests());
     }
 
@@ -120,14 +137,20 @@ class RateLimitFilterTest extends IntegrationTest {
             mockMvc.perform(
                     MockMvcRequestBuilders.get(ACCOUNT_URL)
                             .with(jwt().jwt(j -> j.subject(userId)).authorities(new SimpleGrantedAuthority("user:read:own")))
-                            .with(req -> { req.setRemoteAddr("10.5.0." + idx); return req; })
+                            .with(req -> {
+                                req.setRemoteAddr("10.5.0." + idx);
+                                return req;
+                            })
             ).andExpect(status().isOk());
         }
         // 6th: fresh IP but user+device bucket is exhausted → 429
         mockMvc.perform(
                 MockMvcRequestBuilders.get(ACCOUNT_URL)
                         .with(jwt().jwt(j -> j.subject(userId)).authorities(new SimpleGrantedAuthority("user:read:own")))
-                        .with(req -> { req.setRemoteAddr("10.5.0.6"); return req; })
+                        .with(req -> {
+                            req.setRemoteAddr("10.5.0.6");
+                            return req;
+                        })
         ).andExpect(status().isTooManyRequests());
     }
 
@@ -144,7 +167,10 @@ class RateLimitFilterTest extends IntegrationTest {
                     MockMvcRequestBuilders.get(ACCOUNT_URL)
                             .with(jwt().jwt(j -> j.subject(userId)).authorities(new SimpleGrantedAuthority("user:read:own")))
                             .header("X-Device-ID", "device-A")
-                            .with(req -> { req.setRemoteAddr("10.6.0." + idx); return req; })
+                            .with(req -> {
+                                req.setRemoteAddr("10.6.0." + idx);
+                                return req;
+                            })
             ).andExpect(status().isOk());
         }
         // 3 requests with device-B (uses 3 of 5 permits for device-B, independent)
@@ -154,7 +180,10 @@ class RateLimitFilterTest extends IntegrationTest {
                     MockMvcRequestBuilders.get(ACCOUNT_URL)
                             .with(jwt().jwt(j -> j.subject(userId)).authorities(new SimpleGrantedAuthority("user:read:own")))
                             .header("X-Device-ID", "device-B")
-                            .with(req -> { req.setRemoteAddr("10.6.0." + idx); return req; })
+                            .with(req -> {
+                                req.setRemoteAddr("10.6.0." + idx);
+                                return req;
+                            })
             ).andExpect(status().isOk());
         }
     }
@@ -170,15 +199,21 @@ class RateLimitFilterTest extends IntegrationTest {
                     MockMvcRequestBuilders.post(LOGIN_URL)
                             .contentType(APPLICATION_JSON_VALUE)
                             .content(NO_USER_LOGIN_BODY)
-                            .with(req -> { req.setRemoteAddr("10.8.8.8"); return req; })
+                            .with(req -> {
+                                req.setRemoteAddr("10.8.8.8");
+                                return req;
+                            })
             ).andExpect(status().isUnauthorized()); // allowed
         }
         mockMvc.perform(
-                MockMvcRequestBuilders.post(LOGIN_URL)
-                        .contentType(APPLICATION_JSON_VALUE)
-                        .content(NO_USER_LOGIN_BODY)
-                        .with(req -> { req.setRemoteAddr("10.8.8.8"); return req; })
-        ).andExpect(status().isTooManyRequests())
+                        MockMvcRequestBuilders.post(LOGIN_URL)
+                                .contentType(APPLICATION_JSON_VALUE)
+                                .content(NO_USER_LOGIN_BODY)
+                                .with(req -> {
+                                    req.setRemoteAddr("10.8.8.8");
+                                    return req;
+                                })
+                ).andExpect(status().isTooManyRequests())
                 .andExpect(header().exists("Retry-After"));
     }
 
@@ -198,7 +233,10 @@ class RateLimitFilterTest extends IntegrationTest {
                         MockMvcRequestBuilders.post(LOGIN_URL)
                                 .contentType(APPLICATION_JSON_VALUE)
                                 .content(NO_USER_LOGIN_BODY)
-                                .with(req -> { req.setRemoteAddr("10.9.9.9"); return req; })
+                                .with(req -> {
+                                    req.setRemoteAddr("10.9.9.9");
+                                    return req;
+                                })
                 ).andExpect(status().isUnauthorized()); // 401 = passed rate limiter, login failed
             }
         }

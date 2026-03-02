@@ -1,5 +1,6 @@
 package com.maitrisetcf.integration.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.maitrisetcf.domain.enumerations.UserGender;
 import com.maitrisetcf.domain.enumerations.UserGroupConstants;
 import com.maitrisetcf.domain.enumerations.UserStatus;
@@ -13,7 +14,6 @@ import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.UserEntity;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.PermissionRepository;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.RoleGroupRepository;
 import com.maitrisetcf.integration.IntegrationTest;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
