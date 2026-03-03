@@ -2,6 +2,16 @@ package com.maitrisetcf.infrastructure.adapter.out.notification;
 
 import static com.maitrisetcf.domain.constants.DomainConstants.DEFAULT_LANGUAGE;
 
+/**
+ * Value object carrying recipient information used when sending notification emails.
+ *
+ * @param firstName      given name of the recipient
+ * @param activationCode account activation code (may be {@code null})
+ * @param resetCode      password-reset code (may be {@code null})
+ * @param email          recipient's email address
+ * @param phoneNumber    optional phone number
+ * @param languageKey    preferred locale key; defaults to the application default language
+ */
 public record NotificationRecipient(
         String firstName,
         String activationCode,

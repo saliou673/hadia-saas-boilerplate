@@ -5,6 +5,9 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 
+/**
+ * Filter class for {@link AppConfigurationCategory} enum attributes.
+ */
 @NoArgsConstructor
 public class AppConfigurationCategoryFilter extends EnumFilter<AppConfigurationCategory> {
 

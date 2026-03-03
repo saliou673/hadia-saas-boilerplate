@@ -12,13 +12,35 @@ import java.util.List;
 @Setter
 @Configuration
 @ConfigurationProperties(prefix = "app")
+/** Strongly-typed configuration properties bound to the {@code app.*} namespace. */
 public class ApplicationProperties {
+    /**
+     * Security and JWT configuration.
+     */
     private Security security;
+    /**
+     * Default admin user creation settings.
+     */
     private DefaultUser defaultUser;
+    /**
+     * Account lifecycle configuration (cleanup cron, retention periods, invitation codes).
+     */
     private Account account;
+    /**
+     * Email notification settings.
+     */
     private Mail mail;
+    /**
+     * Two-factor authentication configuration.
+     */
     private TwoFactor twoFactor;
+    /**
+     * Rate-limiting configuration.
+     */
     private RateLimit rateLimit;
+    /**
+     * Contact form configuration.
+     */
     private Contact contact;
 
     public Jwt getJwt() {

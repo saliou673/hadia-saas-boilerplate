@@ -12,9 +12,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * The app user.
+ * JPA entity mapping the {@code app_user} table.
  */
-
 @Entity
 @Table(name = "app_user")
 @AllArgsConstructor
@@ -28,16 +27,20 @@ public class UserEntity extends AuditableEntity<Long> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    /** Surrogate primary key. */
     private Long id;
 
     @Embedded
+    /** Embedded profile information. */
     private EmbeddableUserInfo userInfo;
 
     @Embedded
+    /** Embedded authentication credentials. */
     private EmbeddableCredentials userCredentials;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
+    /** Current account lifecycle status. */
     private UserStatus status;
 
     @ManyToMany(fetch = FetchType.EAGER)

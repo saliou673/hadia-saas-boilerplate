@@ -5,7 +5,10 @@ import com.maitrisetcf.domain.models.rbac.RoleGroup;
 import com.maitrisetcf.domain.models.user.User;
 import com.maitrisetcf.domain.models.user.UserCredentials;
 import com.maitrisetcf.domain.models.user.UserInfo;
-import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.*;
+import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.EmbeddableCredentials;
+import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.EmbeddableUserInfo;
+import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.RoleGroupEntity;
+import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -18,6 +21,7 @@ import java.util.Set;
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         uses = {RoleGroupMapper.class}
 )
+/** MapStruct mapper between {@link com.maitrisetcf.infrastructure.adapter.out.persistence.entity.UserEntity} and the {@link com.maitrisetcf.domain.models.user.User} domain model. */
 public interface UserMapper {
 
     @Mapping(target = "creationDate", ignore = true)

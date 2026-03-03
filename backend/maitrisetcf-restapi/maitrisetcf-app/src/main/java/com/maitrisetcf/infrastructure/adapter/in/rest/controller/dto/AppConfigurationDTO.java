@@ -10,13 +10,32 @@ import java.time.Instant;
 @Schema(name = "AppConfiguration")
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Getter
+/** Response DTO representing an application configuration (reference data) entry. */
 public class AppConfigurationDTO extends AuditableDTO {
 
+    /**
+     * Unique identifier of the configuration entry.
+     */
     private Long id;
+    /**
+     * Functional category of the entry.
+     */
     private AppConfigurationCategory category;
+    /**
+     * Short unique code within the category.
+     */
     private String code;
+    /**
+     * Display label.
+     */
     private String label;
+    /**
+     * Optional description.
+     */
     private String description;
+    /**
+     * Whether the entry is currently active.
+     */
     private boolean active;
 
     public AppConfigurationDTO(

@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Adapter implementing {@link PasswordHasherPort} using Spring Security's {@link org.springframework.security.crypto.password.PasswordEncoder}.
+ */
 @Service
 @RequiredArgsConstructor
 public class PasswordHasherAdapter implements PasswordHasherPort {

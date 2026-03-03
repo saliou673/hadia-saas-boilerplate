@@ -8,11 +8,23 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Aggregate representing a named role group that bundles a set of permissions.
+ */
 @Getter
 public class RoleGroup extends Auditable<Long> {
 
+    /**
+     * Unique display name for this role group.
+     */
     private String name;
+    /**
+     * Optional description of the role group's purpose.
+     */
     private String description;
+    /**
+     * Set of permissions granted to members of this group.
+     */
     private final Set<Permission> permissions;
 
     private RoleGroup(

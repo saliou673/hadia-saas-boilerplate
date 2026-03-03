@@ -10,6 +10,10 @@ import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
 
+/**
+ * Filter criteria for querying {@link com.maitrisetcf.domain.models.appconfiguration.AppConfiguration} entries.
+ * Null fields mean no constraint on that attribute.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,10 +24,25 @@ public final class AppConfigurationFilter extends AuditableFilter implements Ser
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Filter on the surrogate identifier.
+     */
     private LongFilter id;
+    /**
+     * Filter on the configuration category.
+     */
     private AppConfigurationCategoryFilter category;
+    /**
+     * Filter on the short code.
+     */
     private StringFilter code;
+    /**
+     * Filter on the display label.
+     */
     private StringFilter label;
+    /**
+     * Filter on the active flag.
+     */
     private BooleanFilter active;
 
     public AppConfigurationFilter(AppConfigurationFilter other) {

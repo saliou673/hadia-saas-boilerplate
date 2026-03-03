@@ -26,39 +26,55 @@ import static com.maitrisetcf.domain.constants.DomainConstants.EMAIL_REGEX_PATTE
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class UserDetailsDTO extends AuditableDTO {
+    /**
+     * Unique identifier of the user.
+     */
     private Long id;
 
     @Pattern(regexp = EMAIL_REGEX_PATTERN)
     @NotBlank
+    /** Validated email address. */
     private String email;
 
     @Nullable
+    /** Optional phone number. */
     private String phoneNumber;
 
     @NotBlank
+    /** Given name. */
     private String firstName;
 
     @NotBlank
+    /** Family name. */
     private String lastName;
 
     @NotNull
+    /** Date of birth. */
     private LocalDate birthDate;
 
     @NotNull
+    /** Biological gender. */
     private UserGender gender;
 
     @Nullable
+    /** Optional postal address. */
     private String address;
 
     @Nullable
+    /** Current account lifecycle status. */
     private UserStatus status;
 
+    /**
+     * Preferred locale key (e.g. {@code "fr"}).
+     */
     private String languageKey;
 
     @Nullable
+    /** Profile picture URL. */
     private String imageUrl;
 
     @NotNull
+    /** Flat list of permission codes resolved from the user's role groups. */
     private List<String> permissions;
 
     public UserDetailsDTO(Long id, String email, String firstName, String lastName, @Nullable String phoneNumber, LocalDate birthDate, UserGender gender, @Nullable String address, @Nonnull UserStatus status, String languageKey, @Nullable String imageUrl, @NotNull List<String> permissions, Instant creationDate, Instant lastUpdateDate, String lastUpdatedBy) {

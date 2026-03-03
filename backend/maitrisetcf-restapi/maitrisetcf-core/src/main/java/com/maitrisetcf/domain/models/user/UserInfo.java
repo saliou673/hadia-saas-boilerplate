@@ -5,6 +5,18 @@ import com.maitrisetcf.domain.models.DomainValidation;
 
 import java.time.LocalDate;
 
+/**
+ * Immutable value object holding a user's personal profile information.
+ *
+ * @param firstName   given name (required)
+ * @param lastName    family name (required)
+ * @param phoneNumber optional phone number
+ * @param birthDate   date of birth
+ * @param gender      biological gender
+ * @param address     postal address
+ * @param languageKey preferred locale key (e.g. {@code "fr"})
+ * @param imageUrl    profile picture URL
+ */
 public record UserInfo(
         String firstName,
         String lastName,

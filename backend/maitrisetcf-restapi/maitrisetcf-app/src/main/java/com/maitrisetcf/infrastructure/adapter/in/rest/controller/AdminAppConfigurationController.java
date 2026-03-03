@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.maitrisetcf.util.PaginationConstants.DEFAULT_PAGE_SIZE_INT;
 
 @Validated
+/** REST controller for admin application configuration management. */
 @RestController
 @Tag(name = "Admin configuration management")
 @PreAuthorize("hasAuthority('config:manage')")

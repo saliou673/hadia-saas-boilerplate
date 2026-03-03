@@ -18,15 +18,39 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Aggregate root representing an application user.
+ */
 @Getter
 public class User extends Auditable<Long> {
 
+    /**
+     * Profile information (name, contact, locale).
+     */
     private UserInfo userInfo;
+    /**
+     * Authentication credentials (email, password hash, codes).
+     */
     private final UserCredentials userCredentials;
+    /**
+     * Current account lifecycle status.
+     */
     private UserStatus status;
+    /**
+     * Role groups assigned to this user.
+     */
     private final Set<RoleGroup> roleGroups;
+    /**
+     * Whether two-factor authentication is active.
+     */
     private boolean twoFactorEnabled;
+    /**
+     * The 2FA method currently configured ({@code null} if 2FA is disabled).
+     */
     private TwoFactorMethodType twoFactorMethod;
+    /**
+     * TOTP shared secret ({@code null} unless method is TOTP).
+     */
     private String totpSecret;
 
     private User(

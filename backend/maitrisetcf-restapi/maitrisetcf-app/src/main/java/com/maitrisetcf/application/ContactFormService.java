@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+/** Application service implementing {@link ContactFormUseCase}: dispatches contact form submissions via notifications. */
 public class ContactFormService implements ContactFormUseCase {
 
     private final NotificationSenderPort notificationSenderPort;

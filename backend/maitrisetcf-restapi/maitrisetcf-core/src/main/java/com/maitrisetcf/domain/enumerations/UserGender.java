@@ -1,5 +1,15 @@
 package com.maitrisetcf.domain.enumerations;
 
+/**
+ * Biological gender of a user.
+ */
 public enum UserGender {
-    MALE, FEMALE
+    /**
+     * Male gender.
+     */
+    MALE,
+    /**
+     * Female gender.
+     */
+    FEMALE
 }

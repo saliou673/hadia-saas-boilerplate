@@ -8,16 +8,6 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
-      file: 00005-refresh-token-create-table.sql
-      relativeToChangelogFile: true
-
-
-  - include:
-      file: 00007-two-factor-challenge-create-table.sql
-      relativeToChangelogFile: true
-
-
-  - include:
       file: 00006-app-configuration-create-table.sql
       relativeToChangelogFile: true
 
@@ -31,4 +21,16 @@ databaseChangeLog:
 
   - include:
       file: 00004-app-user-role-group-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00005-refresh-token-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00007-two-factor-challenge-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00008-subscription-plan-create-table.sql
       relativeToChangelogFile: true

@@ -6,6 +6,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
+/**
+ * MapStruct mapper extracting fields from a {@link com.maitrisetcf.infrastructure.adapter.in.rest.controller.requests.CreateAppConfigurationRequest} for use in service calls.
+ */
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.ERROR

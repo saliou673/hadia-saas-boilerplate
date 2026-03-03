@@ -9,6 +9,9 @@ import org.mapstruct.ReportingPolicy;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * MapStruct mapper between {@link com.maitrisetcf.infrastructure.adapter.out.persistence.entity.PermissionEntity} and {@link com.maitrisetcf.domain.models.rbac.Permission}.
+ */
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface PermissionMapper {
 

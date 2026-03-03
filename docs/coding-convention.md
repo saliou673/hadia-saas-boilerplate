@@ -11,6 +11,7 @@ Refer to the [Angular Style Guide](https://angular.dev/style-guide) for naming c
 #### Type Definitions
 
 For interfaces, types and enums use the PascalCase convention, as described below.
+
 - **Interfaces**: `User`, `UserProfile`
 - **Types**: `UserRole`, `ApiResponse<T>`
 - **Enums**: `UserStatus`, `OrderType`
@@ -47,8 +48,8 @@ export enum UserStatus {
 - **Configurations**: Suffix with `Configuration` - `SecurityConfiguration.java`, `DatabaseConfiguration.java`
 - **Exceptions**: Suffix with `Exception` - `UserNotFoundException.java`, `InvalidTokenException.java`
 
-
 ### Code Structure
+
 - **Classes**: PascalCase - `UserService`, `OrderEntity`
 - **Methods**: camelCase - `findUserById()`, `createOrder()`
 - **Variables**: camelCase - `userId`, `orderTotal`
@@ -56,6 +57,7 @@ export enum UserStatus {
 - **Package names**: lowercase - `com.company.userservice`
 
 ### REST API Endpoints
+
 - Use kebab-case for URLs
 - Plural nouns for collections
 - Version prefix (optional)
@@ -72,6 +74,7 @@ GET    /api/v1/orders/{id}/items  # Get order items
 ```
 
 ### Exception Handling
+
 - Create custom exceptions extending `RuntimeException`
 - Use `@ControllerAdvice` for global exception handling
 - Return appropriate HTTP status codes
@@ -86,6 +89,7 @@ public class UserNotFoundException extends RuntimeException {
 ```
 
 ### Testing
+
 - **Unit tests**: `UserServiceTest.java`, `OrderMapperTest.java`
 - **Integration tests**: `UserControllerIT.java`
 - Use `@SpringBootTest` for integration tests
@@ -97,11 +101,13 @@ public class UserNotFoundException extends RuntimeException {
 ## 3. Database
 
 ### Table Naming
+
 - **lowercase with underscores** (snake_case)
 - **Singular nouns** for tables - `user`, `order`, `product`
 - **Junction tables**: combine table names - `order_item`, `user_role`
 
 ### Column Naming
+
 - **lowercase with underscores** (snake_case)
 - **Primary keys**: `id` or `{table_name}_id`
 - **Foreign keys**: `{referenced_table}_id` - `user_id`, `order_id`
@@ -119,6 +125,7 @@ CREATE TABLE user (
 ```
 
 ### Index Naming
+
 ```
 idx_{table_name}_{column_names}    # Standard index
 uk_{table_name}_{column_names}     # Unique index
@@ -126,6 +133,7 @@ fk_{table_name}_{referenced_table} # Foreign key
 ```
 
 **Examples:**
+
 ```sql
 -- Single column index
 CREATE INDEX idx_users_email ON user(email);
@@ -142,6 +150,7 @@ ALTER TABLE order ADD CONSTRAINT fk_order_user
 ```
 
 ### Constraint Naming
+
 ```
 pk_{table_name}          # Primary key
 fk_{table}_{ref_table}   # Foreign key
@@ -150,6 +159,7 @@ uc_{table}_{column}      # Unique constraint
 ```
 
 ### Migration Files
+
 - Use versioned migration files with timestamps
 - **Format**: `{version}-{table name}-{description}.sql`
 - **Examples**:
@@ -158,6 +168,7 @@ uc_{table}_{column}      # Unique constraint
     - `00003-user-rename-indexes.sql`
 
 ### Database Best Practices
+
 - Always use transactions for data modifications
 - Add indexes on foreign keys and frequently queried columns
 - Use appropriate data types (avoid oversized VARCHAR)
@@ -170,6 +181,7 @@ uc_{table}_{column}      # Unique constraint
 ## 4. Git & Version Control
 
 ### Commit Message Format
+
 ```
 <type>(<scope>): <subject>
 
@@ -179,6 +191,7 @@ uc_{table}_{column}      # Unique constraint
 ```
 
 ### Commit Types
+
 - **feat**: New feature
 - **fix**: Bug fix
 - **docs**: Documentation changes
@@ -190,6 +203,7 @@ uc_{table}_{column}      # Unique constraint
 - **ci**: CI/CD configuration changes
 
 ### Examples
+
 ```
 feat(auth): add JWT token refresh mechanism
 
@@ -201,6 +215,7 @@ refactor(payment): extract validation logic into separate service
 ```
 
 ### Branch Naming
+
 - **feature/{issue number}-** - New features (`feature/1-user-authentication`)
 - **bugfix/{issue number}-** - Bug fixes (`bugfix/2-login-error`)
 - **hotfix/{issue number}-** - Production hotfixes (`hotfix/3-critical-security-patch`)
@@ -208,6 +223,7 @@ refactor(payment): extract validation logic into separate service
 - **release/** - Release preparation (`release/v1.2.0`)
 
 ### Version Control Best Practices
+
 - Never commit sensitive data (credentials, keys, tokens, .env files)
 - Keep commits atomic and focused
 - Write descriptive commit messages
@@ -219,6 +235,7 @@ refactor(payment): extract validation logic into separate service
 ## 5. General Best Practices
 
 ### Code Quality
+
 - Use ESLint for TypeScript and Checkstyle/SpotBugs for Java
 - Use meaningful variable and function names
 - Write self-documenting code with clear naming. **Code is poetry, make it readable as such**.
@@ -227,18 +244,21 @@ refactor(payment): extract validation logic into separate service
 - Write small, focused methods/functions
 
 ### Documentation
+
 - Use JSDoc for TypeScript functions
 - Use Javadoc for public APIs in Spring Boot
 - Document all DTOs with field descriptions
 - Maintain up-to-date README.md with setup instructions
 
 ### Version Control
+
 - Never commit sensitive data (credentials, keys, tokens)
 - Keep commits atomic and focused
 - Write descriptive commit messages
 - Review code before merging to main branches
 
 ### Pull requests best practices
+
 - Each branch should be related to an issue
 - Set labels for the pull request
 - Assign the pull request to the appropriate reviewer

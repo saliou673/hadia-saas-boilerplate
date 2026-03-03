@@ -53,5 +53,14 @@ resources; codes with the `:own` suffix (e.g. `user:read:own`) grant access only
 
 | Permission      | Description                                          | Sysadmin | Admin | User | Anonymous |
 |-----------------|------------------------------------------------------|:--------:|:-----:|:----:|:---------:|
-| `config:read`   | View application configurations                      |   ✅      |   ✅   |  ❌   |     ❌     |
+| `config:read`   | View application configurations                      |    ✅     |   ✅   |  ❌   |     ❌     |
 | `config:manage` | Create, update and delete application configurations |    ✅     |   ❌   |  ❌   |     ❌     |
+
+### Subscription plans
+
+| Permission    | Description                    | Sysadmin | Admin | User | Anonymous |
+|---------------|--------------------------------|:--------:|:-----:|:----:|:---------:|
+| `plan:read`   | View subscription plan details |    ✅     |   ✅   |  ❌   |     ❌     |
+| `plan:create` | Create subscription plans      |    ✅     |   ❌   |  ❌   |     ❌     |
+| `plan:update` | Update subscription plans      |    ✅     |   ❌   |  ❌   |     ❌     |
+| `plan:delete` | Delete subscription plans      |    ✅     |   ❌   |  ❌   |     ❌     |

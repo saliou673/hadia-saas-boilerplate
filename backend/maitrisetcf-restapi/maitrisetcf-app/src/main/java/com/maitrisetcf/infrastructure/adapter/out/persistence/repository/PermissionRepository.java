@@ -7,6 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 import java.util.Set;
 
+/**
+ * Spring Data JPA repository for {@link PermissionEntity}.
+ */
 @Transactional(readOnly = true)
 public interface PermissionRepository extends JpaRepository<PermissionEntity, String> {
 

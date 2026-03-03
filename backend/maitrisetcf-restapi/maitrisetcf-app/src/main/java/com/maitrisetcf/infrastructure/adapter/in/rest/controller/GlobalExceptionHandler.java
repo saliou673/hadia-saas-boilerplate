@@ -18,6 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * Translates domain and validation exceptions into structured HTTP error responses.
+ */
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {

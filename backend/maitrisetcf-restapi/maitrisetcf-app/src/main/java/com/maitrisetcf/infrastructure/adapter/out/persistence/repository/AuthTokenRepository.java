@@ -6,6 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+/**
+ * Spring Data JPA repository for {@link AuthTokenEntity}.
+ */
 @Transactional(readOnly = true)
 public interface AuthTokenRepository extends JpaRepository<AuthTokenEntity, Long> {
     Optional<AuthTokenEntity> findByRefreshToken(String refreshToken);

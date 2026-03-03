@@ -23,6 +23,9 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 
+/**
+ * Filter class for {@link UserGender} enum attributes.
+ */
 @NoArgsConstructor
 public class UserGenderFilter extends EnumFilter<UserGender> {
 

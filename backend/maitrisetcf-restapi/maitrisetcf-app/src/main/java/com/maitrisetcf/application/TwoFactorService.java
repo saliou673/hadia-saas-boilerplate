@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @Transactional
+/** Application service implementing {@link TwoFactorUseCase}: 2FA setup, confirmation, disable, and login verification. */
 public class TwoFactorService implements TwoFactorUseCase {
 
     private final Map<TwoFactorMethodType, TwoFactorProviderPort> providers;

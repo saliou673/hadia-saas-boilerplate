@@ -6,6 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
+/**
+ * Spring Data JPA repository for {@link TwoFactorChallengeEntity}.
+ */
 public interface TwoFactorChallengeJpaRepository extends JpaRepository<TwoFactorChallengeEntity, String> {
 
     Optional<TwoFactorChallengeEntity> findByUserIdAndPurpose(Long userId, TwoFactorChallengePurpose purpose);

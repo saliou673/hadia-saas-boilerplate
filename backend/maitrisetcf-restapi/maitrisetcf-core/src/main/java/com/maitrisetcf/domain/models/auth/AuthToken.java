@@ -10,14 +10,38 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.time.Instant;
 
+/**
+ * Domain aggregate representing a persisted authentication token pair (access + refresh).
+ */
 @Getter
 public class AuthToken {
+    /**
+     * Surrogate database identifier ({@code null} for new tokens).
+     */
     private final Long id;
+    /**
+     * Short-lived JWT access token.
+     */
     private String accessToken;
+    /**
+     * Long-lived opaque refresh token.
+     */
     private final String refreshToken;
+    /**
+     * Whether a long-lived session was requested at login time.
+     */
     private final boolean rememberMe;
+    /**
+     * Expiry date of the refresh token.
+     */
     private Instant expiryDate;
+    /**
+     * The user this token belongs to.
+     */
     private final User user;
+    /**
+     * Timestamp when this token pair was created.
+     */
     private final Instant creationDate;
 
     private AuthToken(Long id, String accessToken, String refreshToken, Boolean rememberMe, Instant expiryDate, User user, Instant creationDate) {

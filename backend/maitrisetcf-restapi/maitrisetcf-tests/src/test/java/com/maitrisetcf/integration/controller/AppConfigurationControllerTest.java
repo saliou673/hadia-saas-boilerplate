@@ -1,12 +1,12 @@
 package com.maitrisetcf.integration.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.maitrisetcf.domain.enumerations.AppConfigurationCategory;
 import com.maitrisetcf.infrastructure.adapter.in.rest.controller.dto.AppConfigurationDTO;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.AppConfigurationEntity;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.AppConfigurationRepository;
 import com.maitrisetcf.infrastructure.adapter.out.query.PaginatedResult;
 import com.maitrisetcf.integration.IntegrationTest;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;

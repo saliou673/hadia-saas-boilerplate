@@ -1,7 +1,7 @@
 package com.maitrisetcf.infrastructure.adapter.in.rest.filter;
 
-import com.maitrisetcf.config.ApplicationProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maitrisetcf.config.ApplicationProperties;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
 import jakarta.annotation.Nonnull;
@@ -25,6 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+/**
+ * Servlet filter that applies per-IP and per-user rate limiting using Resilience4j.
+ */
 @Component
 @RequiredArgsConstructor
 @Order(-99) // Runs just after Spring Security's filter chain (which is at -100)

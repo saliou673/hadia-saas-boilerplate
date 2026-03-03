@@ -11,6 +11,9 @@ import org.apache.commons.lang3.Strings;
 
 import java.util.Objects;
 
+/**
+ * JPA entity mapping the {@code permission} table.
+ */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+/** Scheduled job that periodically removes stale user accounts (not activated and soft-deleted). */
 public class UserCleanupScheduler {
 
     private final AccountUseCase accountUseCase;

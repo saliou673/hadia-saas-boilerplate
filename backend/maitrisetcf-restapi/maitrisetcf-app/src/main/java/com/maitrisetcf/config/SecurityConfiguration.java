@@ -24,6 +24,9 @@ import java.util.List;
 import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.Customizer.withDefaults;
 
+/**
+ * Spring Security configuration: HTTP security, CSRF, session management, and password encoder bean.
+ */
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
@@ -41,7 +44,8 @@ public class SecurityConfiguration {
             new PublicRoute(POST, "/api/*/accounts/reset-password/finish"),
             new PublicRoute(POST, "/api/*/accounts/invitation/complete"),
             new PublicRoute(POST, "/api/*/auth/2fa/verify"),
-            new PublicRoute(POST, "/api/*/contact")
+            new PublicRoute(POST, "/api/*/contact"),
+            new PublicRoute(GET, "/api/*/plans")
     );
 
     @Bean

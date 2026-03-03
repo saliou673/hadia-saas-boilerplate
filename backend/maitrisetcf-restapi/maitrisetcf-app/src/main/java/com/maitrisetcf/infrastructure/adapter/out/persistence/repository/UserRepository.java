@@ -10,6 +10,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Spring Data JPA repository for {@link UserEntity}.
+ */
 public interface UserRepository extends JpaRepository<UserEntity, Long>, JpaSpecificationExecutor<UserEntity> {
 
     Optional<UserEntity> findOneWithAuthoritiesByUserCredentialsEmailIgnoreCase(String email);

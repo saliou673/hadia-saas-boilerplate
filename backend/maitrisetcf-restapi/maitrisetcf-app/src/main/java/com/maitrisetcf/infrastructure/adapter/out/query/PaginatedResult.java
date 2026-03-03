@@ -12,12 +12,28 @@ import java.util.function.Function;
 
 @Setter
 @Getter
+/** Generic paginated HTTP response wrapper that maps domain {@link com.maitrisetcf.domain.models.query.PagedResult} items to DTOs. */
 public class PaginatedResult<T> {
+    /**
+     * Current page items mapped to the target DTO type.
+     */
     @Nonnull
     private final List<T> items;
+    /**
+     * Zero-based page index.
+     */
     private final int page;
+    /**
+     * Maximum items per page.
+     */
     private final int size;
+    /**
+     * Total number of pages.
+     */
     private final int totalPages;
+    /**
+     * Total number of matching items.
+     */
     private final long totalItems;
 
 

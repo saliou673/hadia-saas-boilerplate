@@ -7,6 +7,9 @@ import lombok.*;
 
 import java.time.Instant;
 
+/**
+ * JPA entity mapping the {@code two_factor_challenge} table.
+ */
 @Entity
 @Table(name = "two_factor_challenge")
 @AllArgsConstructor

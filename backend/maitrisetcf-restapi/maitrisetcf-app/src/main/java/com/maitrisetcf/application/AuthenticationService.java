@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
+/** Application service implementing {@link AuthenticationUseCase}: login, token refresh, and logout. */
 public class AuthenticationService implements AuthenticationUseCase {
 
     private final JwtTokenPort jwtTokenPort;

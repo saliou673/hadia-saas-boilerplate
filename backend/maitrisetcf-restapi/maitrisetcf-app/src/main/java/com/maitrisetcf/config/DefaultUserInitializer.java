@@ -21,6 +21,9 @@ import java.time.LocalDate;
 import java.util.Set;
 
 
+/**
+ * Creates the default sysadmin user on startup when running outside the test profile.
+ */
 @Profile("!test")
 @Component
 @RequiredArgsConstructor

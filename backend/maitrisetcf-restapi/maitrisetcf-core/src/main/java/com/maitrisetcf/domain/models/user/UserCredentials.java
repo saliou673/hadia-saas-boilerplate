@@ -9,14 +9,36 @@ import java.time.Instant;
 
 import static com.maitrisetcf.domain.models.DomainValidation.checkRequiredField;
 
+/**
+ * Holds the authentication credentials for a user account.
+ * Mutated only through {@link User} domain methods.
+ */
 @Getter
 public class UserCredentials {
 
+    /**
+     * Validated lowercase email address.
+     */
     private final Email email;
+    /**
+     * BCrypt hash of the user's password.
+     */
     private String passwordHash;
+    /**
+     * One-time code used to activate the account ({@code null} after activation).
+     */
     private String activationCode;
+    /**
+     * Timestamp when the account was activated ({@code null} until activation).
+     */
     private Instant activationDate;
+    /**
+     * One-time code used to reset the password ({@code null} when not in a reset flow).
+     */
     private String resetCode;
+    /**
+     * Timestamp of the last password-reset request.
+     */
     private Instant resetDate;
 
     public UserCredentials(

@@ -9,6 +9,7 @@ import org.mapstruct.*;
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         uses = UserMapper.class
 )
+/** MapStruct mapper between {@link com.maitrisetcf.infrastructure.adapter.out.persistence.entity.AuthTokenEntity} and {@link com.maitrisetcf.domain.models.auth.AuthToken}. */
 public interface AuthTokenMapper {
 
     default AuthToken toDomain(AuthTokenEntity entity, @Context UserMapper userMapper) {
