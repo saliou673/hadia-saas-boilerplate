@@ -8,7 +8,7 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
 /**
- * MapStruct mapper between {@link com.maitrisetcf.infrastructure.adapter.out.persistence.entity.SubscriptionPlanEntity} and {@link com.maitrisetcf.domain.models.subscriptionplan.SubscriptionPlan}.
+ * MapStruct mapper between {@link SubscriptionPlanEntity} and {@link SubscriptionPlan}.
  */
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
@@ -29,10 +29,13 @@ public interface SubscriptionPlanMapper {
                 entity.getId(),
                 entity.getTitle(),
                 entity.getDescription(),
+                entity.getMonthlyPrice(),
+                entity.getYearlyPrice(),
+                entity.getLifetimePrice(),
                 entity.getPrice(),
+                entity.getDurationDays(),
                 entity.getCurrencyCode(),
                 entity.getFeatures(),
-                entity.getDurationDays(),
                 entity.isActive(),
                 entity.getType(),
                 entity.getCreationDate(),

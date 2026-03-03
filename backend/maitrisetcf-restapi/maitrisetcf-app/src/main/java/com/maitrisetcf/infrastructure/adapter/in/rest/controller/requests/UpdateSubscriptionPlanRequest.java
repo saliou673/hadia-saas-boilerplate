@@ -11,15 +11,8 @@ import java.util.List;
 @Schema(name = "UpdateSubscriptionPlanRequest")
 /**
  * Request to update an existing subscription plan.
- *
- * @param title        new display title
- * @param description  new optional description
- * @param price        new non-negative price
- * @param currencyCode new ISO currency code (must be an active CURRENCY entry)
- * @param features     new ordered list of feature bullet points
- * @param durationDays new duration in days ({@code -1} for lifetime)
- * @param active       new active flag
- * @param type         new training delivery mode
+ * At least one price field must be non-null.
+ * {@code price} and {@code durationDays} must be provided together for a custom billing cycle.
  */
 public record UpdateSubscriptionPlanRequest(
         @NotBlank(message = "title is required")
@@ -28,9 +21,25 @@ public record UpdateSubscriptionPlanRequest(
         @Nullable
         String description,
 
-        @NotNull(message = "price is required")
+        @Nullable
+        @DecimalMin(value = "0.0", inclusive = true, message = "monthlyPrice must be non-negative")
+        BigDecimal monthlyPrice,
+
+        @Nullable
+        @DecimalMin(value = "0.0", inclusive = true, message = "yearlyPrice must be non-negative")
+        BigDecimal yearlyPrice,
+
+        @Nullable
+        @DecimalMin(value = "0.0", inclusive = true, message = "lifetimePrice must be non-negative")
+        BigDecimal lifetimePrice,
+
+        @Nullable
         @DecimalMin(value = "0.0", inclusive = true, message = "price must be non-negative")
         BigDecimal price,
+
+        @Nullable
+        @Min(value = 1, message = "durationDays must be at least 1")
+        Integer durationDays,
 
         @NotBlank(message = "currencyCode is required")
         @Size(max = 10, message = "currencyCode must not exceed 10 characters")
@@ -38,10 +47,6 @@ public record UpdateSubscriptionPlanRequest(
 
         @Nullable
         List<String> features,
-
-        @NotNull(message = "durationDays is required")
-        @Min(value = -1, message = "durationDays must be -1 (lifetime) or a positive number of days")
-        Integer durationDays,
 
         @NotNull(message = "active is required")
         Boolean active,

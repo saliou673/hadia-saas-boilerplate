@@ -2,7 +2,6 @@ package com.maitrisetcf.domain.ports.out.persistenceport;
 
 import com.maitrisetcf.domain.models.subscriptionplan.SubscriptionPlan;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -26,12 +25,6 @@ public interface SubscriptionPlanPersistencePort {
      */
     Optional<SubscriptionPlan> findById(Long id);
 
-    /**
-     * Returns all active subscription plans sorted by price ascending.
-     *
-     * @return list of active plans
-     */
-    List<SubscriptionPlan> findAllActive();
 
     /**
      * Removes a subscription plan.

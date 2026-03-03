@@ -36,19 +36,22 @@ public class SubscriptionPlanQueryService extends QueryService<SubscriptionPlanE
         log.debug("Finding subscription plans by filter: {}", filter);
         Page<SubscriptionPlanEntity> entityPage = subscriptionPlanRepository.findAll(
                 createSpecification(filter),
-                PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "price"))
+                PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "monthlyPrice"))
         );
         List<SubscriptionPlan> items = entityPage.getContent().stream().map(subscriptionPlanMapper::toDomain).toList();
         return new PagedResult<>(items, entityPage.getTotalElements(), page, size, entityPage.getTotalPages());
     }
 
     @Override
-    public List<SubscriptionPlan> findAllActive() {
-        log.debug("Finding all active subscription plans");
-        return subscriptionPlanRepository.findAllByActiveTrueOrderByPriceAsc()
-                .stream()
-                .map(subscriptionPlanMapper::toDomain)
-                .toList();
+    public PagedResult<SubscriptionPlan> findAllActive(int page, int size) {
+        log.debug("Finding all active subscription plans, page={}, size={}", page, size);
+        Specification<SubscriptionPlanEntity> spec = (root, query, cb) -> cb.isTrue(root.get(SubscriptionPlanEntity_.active));
+        Page<SubscriptionPlanEntity> entityPage = subscriptionPlanRepository.findAll(
+                spec,
+                PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "monthlyPrice"))
+        );
+        List<SubscriptionPlan> items = entityPage.getContent().stream().map(subscriptionPlanMapper::toDomain).toList();
+        return new PagedResult<>(items, entityPage.getTotalElements(), page, size, entityPage.getTotalPages());
     }
 
     @Override
@@ -72,16 +75,8 @@ public class SubscriptionPlanQueryService extends QueryService<SubscriptionPlanE
             spec = spec.and(buildStringSpecification(filter.getTitle(), SubscriptionPlanEntity_.title));
         }
 
-        if (filter.getPrice() != null) {
-            spec = spec.and(buildRangeSpecification(filter.getPrice(), SubscriptionPlanEntity_.price));
-        }
-
         if (filter.getCurrencyCode() != null) {
             spec = spec.and(buildStringSpecification(filter.getCurrencyCode(), SubscriptionPlanEntity_.currencyCode));
-        }
-
-        if (filter.getDurationDays() != null) {
-            spec = spec.and(buildRangeSpecification(filter.getDurationDays(), SubscriptionPlanEntity_.durationDays));
         }
 
         if (filter.getActive() != null) {

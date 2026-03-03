@@ -34,8 +34,26 @@ public class SubscriptionPlanEntity extends AuditableEntity<Long> implements Ser
     @Column(name = "description")
     private String description;
 
-    @Column(name = "price", nullable = false, precision = 19, scale = 4)
+    @Column(name = "monthly_price", precision = 19, scale = 4)
+    private BigDecimal monthlyPrice;
+
+    @Column(name = "yearly_price", precision = 19, scale = 4)
+    private BigDecimal yearlyPrice;
+
+    @Column(name = "lifetime_price", precision = 19, scale = 4)
+    private BigDecimal lifetimePrice;
+
+    /**
+     * Price for the custom billing cycle; {@code null} if no custom cycle is offered.
+     */
+    @Column(name = "price", precision = 19, scale = 4)
     private BigDecimal price;
+
+    /**
+     * Duration in days for the custom billing cycle; {@code null} if no custom cycle is offered.
+     */
+    @Column(name = "duration_days")
+    private Integer durationDays;
 
     @Column(name = "currency_code", nullable = false, length = 10)
     private String currencyCode;
@@ -48,9 +66,6 @@ public class SubscriptionPlanEntity extends AuditableEntity<Long> implements Ser
     @OrderColumn(name = "position")
     @Column(name = "feature", nullable = false)
     private List<String> features = new ArrayList<>();
-
-    @Column(name = "duration_days", nullable = false)
-    private int durationDays;
 
     @Column(name = "active", nullable = false)
     private boolean active;

@@ -24,9 +24,25 @@ public class SubscriptionPlan extends Auditable<Long> {
      */
     private String description;
     /**
-     * Plan price in the given currency.
+     * Price for a monthly billing cycle; {@code null} if not offered.
+     */
+    private BigDecimal monthlyPrice;
+    /**
+     * Price for a yearly billing cycle; {@code null} if not offered.
+     */
+    private BigDecimal yearlyPrice;
+    /**
+     * Price for lifetime access; {@code null} if not offered.
+     */
+    private BigDecimal lifetimePrice;
+    /**
+     * Price for a custom billing cycle; {@code null} if not offered. Paired with {@link #durationDays}.
      */
     private BigDecimal price;
+    /**
+     * Duration in days for the custom billing cycle; {@code null} when no custom cycle is offered.
+     */
+    private Integer durationDays;
     /**
      * ISO currency code (must be an active CURRENCY configuration entry).
      */
@@ -35,10 +51,6 @@ public class SubscriptionPlan extends Auditable<Long> {
      * Ordered list of feature bullet points.
      */
     private List<String> features;
-    /**
-     * Plan duration in days; {@code -1} means lifetime access.
-     */
-    private int durationDays;
     /**
      * Whether this plan is currently available for purchase.
      */
@@ -52,10 +64,13 @@ public class SubscriptionPlan extends Auditable<Long> {
             Long id,
             String title,
             String description,
+            BigDecimal monthlyPrice,
+            BigDecimal yearlyPrice,
+            BigDecimal lifetimePrice,
             BigDecimal price,
+            Integer durationDays,
             String currencyCode,
             List<String> features,
-            int durationDays,
             boolean active,
             SubscriptionPlanType type,
             Instant creationDate,
@@ -65,10 +80,13 @@ public class SubscriptionPlan extends Auditable<Long> {
         super(id, creationDate, lastUpdateDate, lastUpdatedBy);
         this.title = title;
         this.description = description;
+        this.monthlyPrice = monthlyPrice;
+        this.yearlyPrice = yearlyPrice;
+        this.lifetimePrice = lifetimePrice;
         this.price = price;
+        this.durationDays = durationDays;
         this.currencyCode = currencyCode;
         this.features = features != null ? new ArrayList<>(features) : new ArrayList<>();
-        this.durationDays = durationDays;
         this.active = active;
         this.type = type;
     }
@@ -76,49 +94,61 @@ public class SubscriptionPlan extends Auditable<Long> {
     public static SubscriptionPlan create(
             String title,
             String description,
+            BigDecimal monthlyPrice,
+            BigDecimal yearlyPrice,
+            BigDecimal lifetimePrice,
             BigDecimal price,
+            Integer durationDays,
             String currencyCode,
             List<String> features,
-            int durationDays,
             boolean active,
             SubscriptionPlanType type
     ) {
-        return new SubscriptionPlan(null, title, description, price, currencyCode, features, durationDays, active, type, null, null, null);
+        return new SubscriptionPlan(null, title, description, monthlyPrice, yearlyPrice, lifetimePrice, price, durationDays, currencyCode, features, active, type, null, null, null);
     }
 
     public static SubscriptionPlan rehydrate(
             Long id,
             String title,
             String description,
+            BigDecimal monthlyPrice,
+            BigDecimal yearlyPrice,
+            BigDecimal lifetimePrice,
             BigDecimal price,
+            Integer durationDays,
             String currencyCode,
             List<String> features,
-            int durationDays,
             boolean active,
             SubscriptionPlanType type,
             Instant creationDate,
             Instant lastUpdateDate,
             String lastUpdatedBy
     ) {
-        return new SubscriptionPlan(id, title, description, price, currencyCode, features, durationDays, active, type, creationDate, lastUpdateDate, lastUpdatedBy);
+        return new SubscriptionPlan(id, title, description, monthlyPrice, yearlyPrice, lifetimePrice, price, durationDays, currencyCode, features, active, type, creationDate, lastUpdateDate, lastUpdatedBy);
     }
 
     public void update(
             String title,
             String description,
+            BigDecimal monthlyPrice,
+            BigDecimal yearlyPrice,
+            BigDecimal lifetimePrice,
             BigDecimal price,
+            Integer durationDays,
             String currencyCode,
             List<String> features,
-            int durationDays,
             boolean active,
             SubscriptionPlanType type
     ) {
         this.title = title;
         this.description = description;
+        this.monthlyPrice = monthlyPrice;
+        this.yearlyPrice = yearlyPrice;
+        this.lifetimePrice = lifetimePrice;
         this.price = price;
+        this.durationDays = durationDays;
         this.currencyCode = currencyCode;
         this.features = features != null ? new ArrayList<>(features) : new ArrayList<>();
-        this.durationDays = durationDays;
         this.active = active;
         this.type = type;
     }

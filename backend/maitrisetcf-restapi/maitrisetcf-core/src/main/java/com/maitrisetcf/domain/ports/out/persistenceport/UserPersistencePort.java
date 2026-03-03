@@ -4,7 +4,6 @@ import com.maitrisetcf.domain.enumerations.UserStatus;
 import com.maitrisetcf.domain.models.user.User;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -35,13 +34,6 @@ public interface UserPersistencePort {
      * @return the matching user, or empty if not found
      */
     Optional<User> findWithAuthoritiesById(Long id);
-
-    /**
-     * Returns all users with their full authority sets loaded.
-     *
-     * @return list of all users
-     */
-    List<User> findAllWithAuthorities();
 
     /**
      * Find a user by their activation code.

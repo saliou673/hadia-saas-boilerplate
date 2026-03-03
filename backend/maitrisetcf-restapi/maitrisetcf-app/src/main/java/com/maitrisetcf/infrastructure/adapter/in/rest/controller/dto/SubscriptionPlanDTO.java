@@ -15,51 +15,45 @@ import java.util.List;
 /** Response DTO representing a subscription plan. */
 public class SubscriptionPlanDTO extends AuditableDTO {
 
-    /**
-     * Unique identifier of the plan.
-     */
     private Long id;
-    /**
-     * Display title of the plan.
-     */
     private String title;
-    /**
-     * Optional longer description.
-     */
     private String description;
     /**
-     * Plan price.
+     * Price for a monthly billing cycle; {@code null} if not offered.
+     */
+    private BigDecimal monthlyPrice;
+    /**
+     * Price for a yearly billing cycle; {@code null} if not offered.
+     */
+    private BigDecimal yearlyPrice;
+    /**
+     * Price for lifetime access; {@code null} if not offered.
+     */
+    private BigDecimal lifetimePrice;
+    /**
+     * Price for a custom billing cycle; {@code null} if not offered. Paired with {@link #durationDays}.
      */
     private BigDecimal price;
     /**
-     * ISO currency code for the price.
+     * Duration in days for the custom billing cycle; {@code null} if no custom cycle.
      */
+    private Integer durationDays;
     private String currencyCode;
-    /**
-     * Ordered list of feature bullet points.
-     */
     private List<String> features;
-    /**
-     * Plan duration in days; {@code -1} means lifetime access.
-     */
-    private int durationDays;
-    /**
-     * Whether this plan is publicly available.
-     */
     private boolean active;
-    /**
-     * Training delivery mode.
-     */
     private SubscriptionPlanType type;
 
     public SubscriptionPlanDTO(
             Long id,
             String title,
             String description,
+            BigDecimal monthlyPrice,
+            BigDecimal yearlyPrice,
+            BigDecimal lifetimePrice,
             BigDecimal price,
+            Integer durationDays,
             String currencyCode,
             List<String> features,
-            int durationDays,
             boolean active,
             SubscriptionPlanType type,
             Instant creationDate,
@@ -70,10 +64,13 @@ public class SubscriptionPlanDTO extends AuditableDTO {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.monthlyPrice = monthlyPrice;
+        this.yearlyPrice = yearlyPrice;
+        this.lifetimePrice = lifetimePrice;
         this.price = price;
+        this.durationDays = durationDays;
         this.currencyCode = currencyCode;
         this.features = features;
-        this.durationDays = durationDays;
         this.active = active;
         this.type = type;
     }

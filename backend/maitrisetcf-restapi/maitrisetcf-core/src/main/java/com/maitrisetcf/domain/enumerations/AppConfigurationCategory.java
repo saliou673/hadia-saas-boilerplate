@@ -11,5 +11,9 @@ public enum AppConfigurationCategory {
     /**
      * Two-factor authentication provider settings.
      */
-    TWO_FACTOR
+    TWO_FACTOR,
+    /**
+     * Supported payment modes (e.g. STRIPE, PAYPAL).
+     */
+    PAYMENT_MODE
 }

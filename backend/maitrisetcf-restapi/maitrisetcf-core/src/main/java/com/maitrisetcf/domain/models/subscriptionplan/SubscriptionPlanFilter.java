@@ -1,7 +1,10 @@
 package com.maitrisetcf.domain.models.subscriptionplan;
 
 import com.maitrisetcf.domain.models.query.AuditableFilter;
-import com.maitrisetcf.domain.models.query.filter.*;
+import com.maitrisetcf.domain.models.query.filter.BooleanFilter;
+import com.maitrisetcf.domain.models.query.filter.LongFilter;
+import com.maitrisetcf.domain.models.query.filter.StringFilter;
+import com.maitrisetcf.domain.models.query.filter.SubscriptionPlanTypeFilter;
 import lombok.*;
 
 import java.io.Serial;
@@ -30,17 +33,9 @@ public final class SubscriptionPlanFilter extends AuditableFilter implements Ser
      */
     private StringFilter title;
     /**
-     * Filter on the price.
-     */
-    private BigDecimalFilter price;
-    /**
      * Filter on the currency code.
      */
     private StringFilter currencyCode;
-    /**
-     * Filter on the duration in days.
-     */
-    private IntegerFilter durationDays;
     /**
      * Filter on the active flag.
      */
@@ -53,9 +48,7 @@ public final class SubscriptionPlanFilter extends AuditableFilter implements Ser
     public SubscriptionPlanFilter(SubscriptionPlanFilter other) {
         this.id = other.id == null ? null : other.id.copy();
         this.title = other.title == null ? null : other.title.copy();
-        this.price = other.price == null ? null : other.price.copy();
         this.currencyCode = other.currencyCode == null ? null : other.currencyCode.copy();
-        this.durationDays = other.durationDays == null ? null : other.durationDays.copy();
         this.active = other.active == null ? null : other.active.copy();
         this.type = other.type == null ? null : other.type.copy();
         this.setCreationDate(other.getCreationDate() == null ? null : other.getCreationDate().copy());

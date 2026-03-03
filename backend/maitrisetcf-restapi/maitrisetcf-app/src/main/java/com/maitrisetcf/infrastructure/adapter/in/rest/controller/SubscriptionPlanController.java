@@ -3,13 +3,14 @@ package com.maitrisetcf.infrastructure.adapter.in.rest.controller;
 import com.maitrisetcf.domain.ports.in.SubscriptionPlanQueryUseCase;
 import com.maitrisetcf.infrastructure.adapter.in.rest.controller.dto.SubscriptionPlanDTO;
 import com.maitrisetcf.infrastructure.adapter.in.rest.controller.mapper.SubscriptionPlanDtoMapper;
+import com.maitrisetcf.infrastructure.adapter.out.query.PaginatedResult;
+import com.maitrisetcf.util.PaginationConstants;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * REST controller for public subscription plan listing.
@@ -24,10 +25,9 @@ public class SubscriptionPlanController {
     private final SubscriptionPlanDtoMapper subscriptionPlanDtoMapper;
 
     @GetMapping
-    public List<SubscriptionPlanDTO> getAll() {
-        return subscriptionPlanQueryUseCase.findAllActive()
-                .stream()
-                .map(subscriptionPlanDtoMapper::toDTO)
-                .toList();
+    public PaginatedResult<SubscriptionPlanDTO> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = PaginationConstants.DEFAULT_PAGE_SIZE_INT + "") int size) {
+        return new PaginatedResult<>(subscriptionPlanQueryUseCase.findAllActive(page, size), subscriptionPlanDtoMapper::toDTO);
     }
 }
