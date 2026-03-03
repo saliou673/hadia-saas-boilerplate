@@ -4,8 +4,6 @@ import com.maitrisetcf.domain.models.query.PagedResult;
 import com.maitrisetcf.domain.models.subscription.UserSubscription;
 import com.maitrisetcf.domain.models.subscription.UserSubscriptionFilter;
 
-import java.util.List;
-
 /**
  * Input port for read-only subscription queries.
  */
@@ -17,9 +15,9 @@ public interface UserSubscriptionQueryUseCase {
     PagedResult<UserSubscription> findAll(UserSubscriptionFilter filter, int page, int size);
 
     /**
-     * Returns all subscriptions belonging to the current authenticated user.
+     * Returns a paginated list of subscriptions belonging to the current authenticated user.
      */
-    List<UserSubscription> findMySubscriptions();
+    PagedResult<UserSubscription> findMySubscriptions(int page, int size);
 
     /**
      * Counts subscriptions matching the given filter.

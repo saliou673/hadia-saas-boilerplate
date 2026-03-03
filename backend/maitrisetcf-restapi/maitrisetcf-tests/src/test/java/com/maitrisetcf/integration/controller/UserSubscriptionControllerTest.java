@@ -13,6 +13,7 @@ import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.UserSubscri
 import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.AppConfigurationRepository;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.SubscriptionPlanRepository;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.UserSubscriptionRepository;
+import com.maitrisetcf.infrastructure.adapter.out.query.PaginatedResult;
 import com.maitrisetcf.integration.IntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -200,9 +201,10 @@ class UserSubscriptionControllerTest extends IntegrationTest {
         post(API, new SubscribeRequest(plan1.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY), UserSubscriptionDTO.class, status().isCreated());
         post(API, new SubscribeRequest(plan2.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.YEARLY), UserSubscriptionDTO.class, status().isCreated());
 
-        List<UserSubscriptionDTO> result = get(API + "/me", new TypeReference<>() {}, status().isOk());
+        PaginatedResult<UserSubscriptionDTO> result = get(API + "/me", new TypeReference<>() {}, status().isOk());
 
-        assertThat(result).hasSize(2);
+        assertThat(result.getTotalItems()).isEqualTo(2);
+        assertThat(result.getItems()).hasSize(2);
     }
 
     @Test
@@ -210,9 +212,10 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     void shouldReturnEmptyListWhenNoSubscriptions() throws Exception {
         createDefaultUser();
 
-        List<UserSubscriptionDTO> result = get(API + "/me", new TypeReference<>() {}, status().isOk());
+        PaginatedResult<UserSubscriptionDTO> result = get(API + "/me", new TypeReference<>() {}, status().isOk());
 
-        assertThat(result).isEmpty();
+        assertThat(result.getTotalItems()).isEqualTo(0);
+        assertThat(result.getItems()).isEmpty();
     }
 
     @Test

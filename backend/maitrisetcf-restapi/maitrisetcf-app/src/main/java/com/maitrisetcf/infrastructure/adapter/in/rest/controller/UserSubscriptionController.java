@@ -6,6 +6,8 @@ import com.maitrisetcf.domain.ports.in.UserSubscriptionQueryUseCase;
 import com.maitrisetcf.infrastructure.adapter.in.rest.controller.dto.UserSubscriptionDTO;
 import com.maitrisetcf.infrastructure.adapter.in.rest.controller.mapper.UserSubscriptionDtoMapper;
 import com.maitrisetcf.infrastructure.adapter.in.rest.controller.requests.SubscribeRequest;
+import com.maitrisetcf.infrastructure.adapter.out.query.PaginatedResult;
+import com.maitrisetcf.util.PaginationConstants;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * REST controller for user subscription operations.
@@ -39,11 +39,10 @@ public class UserSubscriptionController {
     }
 
     @GetMapping("/me")
-    public List<UserSubscriptionDTO> getMySubscriptions() {
-        return userSubscriptionQueryUseCase.findMySubscriptions()
-                .stream()
-                .map(userSubscriptionDtoMapper::toDTO)
-                .toList();
+    public PaginatedResult<UserSubscriptionDTO> getMySubscriptions(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = PaginationConstants.DEFAULT_PAGE_SIZE_INT + "") int size) {
+        return new PaginatedResult<>(userSubscriptionQueryUseCase.findMySubscriptions(page, size), userSubscriptionDtoMapper::toDTO);
     }
 
     @PostMapping("/{id}/renew")

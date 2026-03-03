@@ -49,15 +49,16 @@ public class UserSubscriptionQueryService extends QueryService<UserSubscriptionE
     }
 
     @Override
-    public List<UserSubscription> findMySubscriptions() {
+    public PagedResult<UserSubscription> findMySubscriptions(int page, int size) {
         String email = currentUserEmailPort.getCurrentUserEmail();
         User user = userPersistencePort.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
         log.debug("Finding subscriptions for userId={}", user.getId());
-        return userSubscriptionRepository.findByUserIdOrderByCreationDateDesc(user.getId())
-                .stream()
-                .map(userSubscriptionMapper::toDomain)
-                .toList();
+        Page<UserSubscriptionEntity> entityPage = userSubscriptionRepository.findByUserIdOrderByCreationDateDesc(
+                user.getId(), PageRequest.of(page, size)
+        );
+        List<UserSubscription> items = entityPage.getContent().stream().map(userSubscriptionMapper::toDomain).toList();
+        return new PagedResult<>(items, entityPage.getTotalElements(), page, size, entityPage.getTotalPages());
     }
 
     @Override
