@@ -4,6 +4,14 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+/**
+ * Request carrying the data submitted via the public contact form.
+ *
+ * @param name    sender's full name
+ * @param email   sender's email address
+ * @param subject message subject
+ * @param message message body
+ */
 public record ContactFormRequest(
         @NotBlank
         @Size(max = 100)

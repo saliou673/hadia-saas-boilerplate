@@ -26,6 +26,9 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
+/**
+ * Email adapter implementing {@link NotificationSenderPort} using Jakarta Mail and Thymeleaf templates.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor

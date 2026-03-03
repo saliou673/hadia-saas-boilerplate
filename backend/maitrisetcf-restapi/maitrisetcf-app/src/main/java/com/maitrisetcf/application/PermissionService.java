@@ -12,6 +12,7 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+/** Application service implementing {@link PermissionUseCase}: read-only permission queries. */
 public class PermissionService implements PermissionUseCase {
 
     private final PermissionPersistencePort permissionPersistencePort;

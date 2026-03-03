@@ -24,6 +24,9 @@ import java.util.List;
 import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.Customizer.withDefaults;
 
+/**
+ * Spring Security configuration: HTTP security, CSRF, session management, and password encoder bean.
+ */
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {

@@ -4,6 +4,9 @@ import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.stereotype.Service;
 
+/**
+ * Micrometer-based service that tracks counts of invalid JWT token validation events by failure cause.
+ */
 @Service
 public class SecurityMetersService {
 

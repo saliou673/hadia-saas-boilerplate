@@ -11,6 +11,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * JPA adapter implementing {@link PermissionPersistencePort}.
+ */
 @Service
 @RequiredArgsConstructor
 public class PermissionPersistenceAdapter implements PermissionPersistencePort {

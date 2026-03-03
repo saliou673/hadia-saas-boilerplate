@@ -21,6 +21,7 @@ import java.util.Set;
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         uses = {RoleGroupMapper.class}
 )
+/** MapStruct mapper between {@link com.maitrisetcf.infrastructure.adapter.out.persistence.entity.UserEntity} and the {@link com.maitrisetcf.domain.models.user.User} domain model. */
 public interface UserMapper {
 
     @Mapping(target = "creationDate", ignore = true)

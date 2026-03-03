@@ -7,6 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 import java.util.Set;
 
+/**
+ * Spring Data JPA repository for {@link RoleGroupEntity}.
+ */
 @Transactional(readOnly = true)
 public interface RoleGroupRepository extends JpaRepository<RoleGroupEntity, Long> {
 

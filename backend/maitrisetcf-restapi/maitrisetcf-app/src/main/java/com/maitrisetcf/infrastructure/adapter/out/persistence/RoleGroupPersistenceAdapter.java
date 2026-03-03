@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * JPA adapter implementing {@link RoleGroupPersistencePort}.
+ */
 @Service
 @RequiredArgsConstructor
 public class RoleGroupPersistenceAdapter implements RoleGroupPersistencePort {

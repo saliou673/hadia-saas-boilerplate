@@ -11,6 +11,9 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.Set;
 
+/**
+ * MapStruct mapper converting a {@link com.maitrisetcf.infrastructure.adapter.in.rest.controller.requests.CreateAdminUserRequest} to domain objects.
+ */
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.ERROR

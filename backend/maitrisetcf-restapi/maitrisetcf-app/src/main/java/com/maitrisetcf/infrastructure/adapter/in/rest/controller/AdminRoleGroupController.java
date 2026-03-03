@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Validated
+/** REST controller for admin role group management. */
 @RestController
 @Tag(name = "Role group management")
 @PreAuthorize("hasAuthority('role-group:read')")

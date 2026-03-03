@@ -7,6 +7,12 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Schema(name = "PasswordChangeRequest")
+/**
+ * Request to change the authenticated user's password.
+ *
+ * @param currentPassword the user's current password for verification
+ * @param newPassword     the new password to set
+ */
 public record PasswordChangeRequest(
         @NotBlank(message = "current password is required")
         String currentPassword,

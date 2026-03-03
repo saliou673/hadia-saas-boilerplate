@@ -6,6 +6,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
+/**
+ * MapStruct mapper converting {@link com.maitrisetcf.domain.models.subscriptionplan.SubscriptionPlan} to {@link com.maitrisetcf.infrastructure.adapter.in.rest.controller.dto.SubscriptionPlanDTO}.
+ */
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.ERROR

@@ -36,6 +36,9 @@ import java.util.List;
 
 import static com.maitrisetcf.util.PaginationConstants.DEFAULT_PAGE_SIZE_INT;
 
+/**
+ * REST controller for admin user management.
+ */
 @Validated
 @RestController
 @Tag(name = "Admin user management")

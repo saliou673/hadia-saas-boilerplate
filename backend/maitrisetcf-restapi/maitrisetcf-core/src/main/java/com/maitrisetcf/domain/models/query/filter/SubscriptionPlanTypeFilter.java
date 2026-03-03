@@ -5,6 +5,9 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 
+/**
+ * Filter class for {@link SubscriptionPlanType} enum attributes.
+ */
 @NoArgsConstructor
 public class SubscriptionPlanTypeFilter extends EnumFilter<SubscriptionPlanType> {
 

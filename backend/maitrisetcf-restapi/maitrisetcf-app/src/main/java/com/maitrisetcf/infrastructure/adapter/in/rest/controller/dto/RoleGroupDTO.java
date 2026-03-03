@@ -11,11 +11,24 @@ import java.util.List;
 @Schema(name = "RoleGroup")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+/** Response DTO representing a role group with its assigned permissions. */
 public class RoleGroupDTO extends AuditableDTO {
 
+    /**
+     * Unique identifier of the role group.
+     */
     private Long id;
+    /**
+     * Display name of the role group.
+     */
     private String name;
+    /**
+     * Optional description of the role group's purpose.
+     */
     private String description;
+    /**
+     * Permissions assigned to this role group.
+     */
     private List<PermissionDTO> permissions;
 
     public RoleGroupDTO(

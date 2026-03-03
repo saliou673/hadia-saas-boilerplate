@@ -25,6 +25,9 @@ import java.util.Collections;
 
 import static com.maitrisetcf.util.PaginationConstants.DEFAULT_PAGE_SIZE_INT;
 
+/**
+ * REST controller for admin subscription plan management.
+ */
 @Validated
 @RestController
 @Tag(name = "Admin subscription plan management")

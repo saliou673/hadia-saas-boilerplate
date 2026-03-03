@@ -26,6 +26,10 @@ import java.util.List;
  * Translates domain {@link UserFilter} into JPA {@link Specification} predicates.
  * All filter operators (equals, contains, in, range, etc.) are fully supported.
  */
+
+/**
+ * Query service implementing {@link com.maitrisetcf.domain.ports.in.UserQueryUseCase} with JPA Specification-based filtering.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor

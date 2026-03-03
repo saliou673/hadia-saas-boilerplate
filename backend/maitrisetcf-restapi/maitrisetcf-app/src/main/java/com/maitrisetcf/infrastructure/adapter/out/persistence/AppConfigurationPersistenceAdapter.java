@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+/**
+ * JPA adapter implementing {@link AppConfigurationPersistencePort}.
+ */
 @Service
 @Transactional
 @RequiredArgsConstructor

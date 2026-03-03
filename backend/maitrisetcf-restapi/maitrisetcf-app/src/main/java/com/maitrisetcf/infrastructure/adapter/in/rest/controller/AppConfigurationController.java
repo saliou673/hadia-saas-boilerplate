@@ -25,6 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.maitrisetcf.util.PaginationConstants.DEFAULT_PAGE_SIZE_INT;
 
+/**
+ * REST controller for querying application configuration values.
+ */
 @Validated
 @RestController
 @Tag(name = "Configuration management")

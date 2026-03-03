@@ -17,6 +17,7 @@ import java.util.Optional;
 @Service
 @Transactional
 @RequiredArgsConstructor
+/** Application service implementing {@link AppConfigurationUseCase}: CRUD for configuration reference data. */
 public class AppConfigurationService implements AppConfigurationUseCase {
 
     private final AppConfigurationPersistencePort appConfigurationPersistencePort;

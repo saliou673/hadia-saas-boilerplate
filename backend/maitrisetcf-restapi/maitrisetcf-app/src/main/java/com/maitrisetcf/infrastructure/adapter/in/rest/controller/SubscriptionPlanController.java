@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * REST controller for public subscription plan listing.
+ */
 @RestController
 @Tag(name = "Subscription plans")
 @RequestMapping("/api/v1/plans")

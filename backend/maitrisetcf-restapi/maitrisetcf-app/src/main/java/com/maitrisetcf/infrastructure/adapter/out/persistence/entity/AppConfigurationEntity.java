@@ -7,6 +7,9 @@ import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
 
+/**
+ * JPA entity mapping the {@code app_configuration} table.
+ */
 @Entity
 @Table(
         name = "app_configuration",

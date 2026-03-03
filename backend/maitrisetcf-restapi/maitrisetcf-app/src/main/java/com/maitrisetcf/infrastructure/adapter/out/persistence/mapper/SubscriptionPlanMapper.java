@@ -7,6 +7,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
+/**
+ * MapStruct mapper between {@link com.maitrisetcf.infrastructure.adapter.out.persistence.entity.SubscriptionPlanEntity} and {@link com.maitrisetcf.domain.models.subscriptionplan.SubscriptionPlan}.
+ */
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.ERROR

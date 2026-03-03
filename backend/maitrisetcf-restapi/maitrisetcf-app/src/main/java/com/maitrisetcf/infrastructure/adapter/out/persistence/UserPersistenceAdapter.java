@@ -20,6 +20,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * JPA adapter implementing {@link UserPersistencePort} and {@link UserDetailsPersistencePort}.
+ */
 @Service
 @Transactional
 @RequiredArgsConstructor

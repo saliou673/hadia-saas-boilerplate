@@ -27,6 +27,9 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
+/**
+ * Adapter implementing {@link com.maitrisetcf.domain.ports.out.JwtTokenPort} using Spring Security OAuth2 JWT.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor

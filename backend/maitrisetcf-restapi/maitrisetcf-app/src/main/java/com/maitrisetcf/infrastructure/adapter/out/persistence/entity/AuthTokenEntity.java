@@ -7,6 +7,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
+/**
+ * JPA entity mapping the {@code auth_token} table.
+ */
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "auth_token")

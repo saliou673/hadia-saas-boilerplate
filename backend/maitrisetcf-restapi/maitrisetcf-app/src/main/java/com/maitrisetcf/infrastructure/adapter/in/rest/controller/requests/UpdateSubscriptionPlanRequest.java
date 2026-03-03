@@ -9,6 +9,18 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Schema(name = "UpdateSubscriptionPlanRequest")
+/**
+ * Request to update an existing subscription plan.
+ *
+ * @param title        new display title
+ * @param description  new optional description
+ * @param price        new non-negative price
+ * @param currencyCode new ISO currency code (must be an active CURRENCY entry)
+ * @param features     new ordered list of feature bullet points
+ * @param durationDays new duration in days ({@code -1} for lifetime)
+ * @param active       new active flag
+ * @param type         new training delivery mode
+ */
 public record UpdateSubscriptionPlanRequest(
         @NotBlank(message = "title is required")
         String title,

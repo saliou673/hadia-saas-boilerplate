@@ -8,6 +8,7 @@ import org.springframework.dao.DataAccessException;
 import java.util.function.Supplier;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+/** Utility class that wraps JPA operations and converts {@link org.springframework.dao.DataAccessException} into {@link com.maitrisetcf.domain.exceptions.DataBaseException}. */
 public final class AdapterPersistenceUtils {
 
     public static <T> T executeDbOperation(Supplier<T> operation, String errorMessage) {

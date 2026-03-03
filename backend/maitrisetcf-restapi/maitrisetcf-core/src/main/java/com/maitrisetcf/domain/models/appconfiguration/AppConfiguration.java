@@ -6,13 +6,31 @@ import lombok.Getter;
 
 import java.time.Instant;
 
+/**
+ * Domain entity representing a configurable reference-data entry (e.g. a supported currency).
+ */
 @Getter
 public class AppConfiguration extends Auditable<Long> {
 
+    /**
+     * Functional category this entry belongs to (e.g. CURRENCY, TWO_FACTOR).
+     */
     private final AppConfigurationCategory category;
+    /**
+     * Short unique code within the category (e.g. {@code "EUR"}).
+     */
     private String code;
+    /**
+     * Human-readable label displayed in the UI.
+     */
     private String label;
+    /**
+     * Optional longer description.
+     */
     private String description;
+    /**
+     * Whether this entry is currently enabled.
+     */
     private boolean active;
 
     private AppConfiguration(

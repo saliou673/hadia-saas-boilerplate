@@ -8,6 +8,9 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
+/**
+ * MapStruct mapper converting {@link com.maitrisetcf.domain.models.rbac.Permission} to {@link com.maitrisetcf.infrastructure.adapter.in.rest.controller.dto.PermissionDTO}.
+ */
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface PermissionDtoMapper {
 

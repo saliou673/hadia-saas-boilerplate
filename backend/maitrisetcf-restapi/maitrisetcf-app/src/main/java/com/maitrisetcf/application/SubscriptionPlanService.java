@@ -20,6 +20,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
+/** Application service implementing {@link SubscriptionPlanUseCase}: CRUD for subscription plans with currency validation. */
 public class SubscriptionPlanService implements SubscriptionPlanUseCase {
 
     private final SubscriptionPlanPersistencePort subscriptionPlanPersistencePort;

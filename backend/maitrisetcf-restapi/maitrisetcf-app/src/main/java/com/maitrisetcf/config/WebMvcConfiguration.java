@@ -7,6 +7,9 @@ import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * MVC configuration that registers ISO-8601 date/time formatters.
+ */
 @Component
 @RequiredArgsConstructor
 public class WebMvcConfiguration implements WebMvcConfigurer {

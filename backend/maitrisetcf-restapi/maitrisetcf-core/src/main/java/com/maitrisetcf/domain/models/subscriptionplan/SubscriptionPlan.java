@@ -9,16 +9,43 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Domain entity representing a purchasable subscription plan.
+ */
 @Getter
 public class SubscriptionPlan extends Auditable<Long> {
 
+    /**
+     * Short display name shown to the user.
+     */
     private String title;
+    /**
+     * Optional longer description of what the plan includes.
+     */
     private String description;
+    /**
+     * Plan price in the given currency.
+     */
     private BigDecimal price;
+    /**
+     * ISO currency code (must be an active CURRENCY configuration entry).
+     */
     private String currencyCode;
+    /**
+     * Ordered list of feature bullet points.
+     */
     private List<String> features;
+    /**
+     * Plan duration in days; {@code -1} means lifetime access.
+     */
     private int durationDays;
+    /**
+     * Whether this plan is currently available for purchase.
+     */
     private boolean active;
+    /**
+     * Training delivery mode (online or on-site).
+     */
     private SubscriptionPlanType type;
 
     private SubscriptionPlan(

@@ -8,6 +8,9 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
+/**
+ * MapStruct mapper converting {@link com.maitrisetcf.domain.models.rbac.RoleGroup} to {@link com.maitrisetcf.infrastructure.adapter.in.rest.controller.dto.RoleGroupDTO}.
+ */
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.ERROR,

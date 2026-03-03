@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import java.time.Duration;
 import java.util.Map;
 
+/**
+ * Configures Resilience4j rate-limiter instances from {@link ApplicationProperties}.
+ */
 @Configuration
 public class RateLimitConfiguration {
 

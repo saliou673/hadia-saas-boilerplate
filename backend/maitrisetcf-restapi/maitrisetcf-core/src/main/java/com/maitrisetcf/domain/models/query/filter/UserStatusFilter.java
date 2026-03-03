@@ -5,6 +5,9 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 
+/**
+ * Filter class for {@link UserStatus} enum attributes.
+ */
 @NoArgsConstructor
 public class UserStatusFilter extends EnumFilter<UserStatus> {
 

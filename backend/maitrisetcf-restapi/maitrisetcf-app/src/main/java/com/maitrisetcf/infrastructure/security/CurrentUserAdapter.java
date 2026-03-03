@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+/**
+ * Adapter implementing {@link CurrentUserEmailPort} by resolving the email from the Spring Security context.
+ */
 @Component
 public class CurrentUserAdapter implements CurrentUserEmailPort {
 

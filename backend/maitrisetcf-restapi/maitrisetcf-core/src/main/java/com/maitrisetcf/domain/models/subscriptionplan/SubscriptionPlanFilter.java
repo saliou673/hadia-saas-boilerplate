@@ -7,6 +7,10 @@ import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
 
+/**
+ * Filter criteria for querying {@link SubscriptionPlan} entities.
+ * Null fields mean no constraint on that attribute.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,12 +21,33 @@ public final class SubscriptionPlanFilter extends AuditableFilter implements Ser
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Filter on the surrogate identifier.
+     */
     private LongFilter id;
+    /**
+     * Filter on the plan title.
+     */
     private StringFilter title;
+    /**
+     * Filter on the price.
+     */
     private BigDecimalFilter price;
+    /**
+     * Filter on the currency code.
+     */
     private StringFilter currencyCode;
+    /**
+     * Filter on the duration in days.
+     */
     private IntegerFilter durationDays;
+    /**
+     * Filter on the active flag.
+     */
     private BooleanFilter active;
+    /**
+     * Filter on the plan type.
+     */
     private SubscriptionPlanTypeFilter type;
 
     public SubscriptionPlanFilter(SubscriptionPlanFilter other) {

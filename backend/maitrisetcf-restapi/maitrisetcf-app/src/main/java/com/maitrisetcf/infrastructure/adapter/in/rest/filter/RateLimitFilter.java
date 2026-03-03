@@ -25,6 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+/**
+ * Servlet filter that applies per-IP and per-user rate limiting using Resilience4j.
+ */
 @Component
 @RequiredArgsConstructor
 @Order(-99) // Runs just after Spring Security's filter chain (which is at -100)

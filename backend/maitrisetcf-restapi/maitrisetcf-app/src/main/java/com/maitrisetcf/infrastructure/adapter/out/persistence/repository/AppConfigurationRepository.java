@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * Spring Data JPA repository for {@link AppConfigurationEntity}.
+ */
 @Repository
 public interface AppConfigurationRepository extends JpaRepository<AppConfigurationEntity, Long>, JpaSpecificationExecutor<AppConfigurationEntity> {
 

@@ -5,6 +5,9 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * Utility class for common domain-level validation checks.
+ */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public final class DomainValidation {
 

@@ -7,6 +7,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Persistence port for users.
+ */
 public interface UserPersistencePort {
 
     /**
@@ -25,8 +28,19 @@ public interface UserPersistencePort {
      */
     Optional<User> findWithAuthoritiesByEmail(String email);
 
+    /**
+     * Finds a user along with their authorities by identifier.
+     *
+     * @param id the user identifier
+     * @return the matching user, or empty if not found
+     */
     Optional<User> findWithAuthoritiesById(Long id);
 
+    /**
+     * Returns all users with their full authority sets loaded.
+     *
+     * @return list of all users
+     */
     List<User> findAllWithAuthorities();
 
     /**

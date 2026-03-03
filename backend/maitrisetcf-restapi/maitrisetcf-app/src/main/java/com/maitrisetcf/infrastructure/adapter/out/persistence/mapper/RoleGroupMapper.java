@@ -17,6 +17,7 @@ import java.util.Set;
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         uses = PermissionMapper.class
 )
+/** MapStruct mapper between {@link com.maitrisetcf.infrastructure.adapter.out.persistence.entity.RoleGroupEntity} and {@link com.maitrisetcf.domain.models.rbac.RoleGroup}. */
 public interface RoleGroupMapper {
 
     default RoleGroup toDomain(RoleGroupEntity entity) {

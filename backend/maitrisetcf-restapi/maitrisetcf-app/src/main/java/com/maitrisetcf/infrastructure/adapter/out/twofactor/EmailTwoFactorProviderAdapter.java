@@ -23,6 +23,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.Locale;
 
+/**
+ * Email-based two-factor authentication provider implementing {@link TwoFactorProviderPort}.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor

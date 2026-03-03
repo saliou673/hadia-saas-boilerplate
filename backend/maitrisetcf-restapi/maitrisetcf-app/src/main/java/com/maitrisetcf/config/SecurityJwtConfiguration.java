@@ -17,6 +17,9 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+/**
+ * Spring configuration providing JWT encoder, decoder, and authentication converter beans.
+ */
 @Slf4j
 @Configuration
 public class SecurityJwtConfiguration {

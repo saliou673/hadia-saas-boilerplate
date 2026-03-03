@@ -19,6 +19,7 @@ import java.util.Set;
 @Service
 @Transactional
 @RequiredArgsConstructor
+/** Application service implementing {@link RoleGroupUseCase}: CRUD and user assignment for role groups. */
 public class RoleGroupService implements RoleGroupUseCase {
 
     private final RoleGroupPersistencePort roleGroupPersistencePort;

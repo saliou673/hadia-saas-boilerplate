@@ -9,6 +9,18 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Schema(name = "CreateSubscriptionPlanRequest")
+/**
+ * Request to create a new subscription plan.
+ *
+ * @param title        display title
+ * @param description  optional description
+ * @param price        non-negative price
+ * @param currencyCode ISO currency code (must be an active CURRENCY entry)
+ * @param features     optional ordered list of feature bullet points
+ * @param durationDays duration in days ({@code -1} for lifetime)
+ * @param active       whether the plan is immediately available
+ * @param type         training delivery mode
+ */
 public record CreateSubscriptionPlanRequest(
         @NotBlank(message = "title is required")
         String title,

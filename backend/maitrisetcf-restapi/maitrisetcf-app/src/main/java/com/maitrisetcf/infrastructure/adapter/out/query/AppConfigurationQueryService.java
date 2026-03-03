@@ -19,6 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Query service implementing {@link AppConfigurationQueryUseCase} with JPA Specification-based filtering.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor

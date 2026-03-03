@@ -28,6 +28,9 @@ import java.time.temporal.TemporalAmount;
 import java.util.*;
 import java.util.function.Predicate;
 
+/**
+ * Application service implementing {@link AccountUseCase}: user registration, activation, profile, and account recovery.
+ */
 @Slf4j
 @Service
 @Transactional

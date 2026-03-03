@@ -13,13 +13,37 @@ import java.util.Objects;
 @Getter
 public class TwoFactorChallenge {
 
+    /**
+     * Unique UUID string identifier.
+     */
     private final String id;
+    /**
+     * The user this challenge was issued for.
+     */
     private final User user;
+    /**
+     * The OTP code (or TOTP secret for setup challenges).
+     */
     private final String code;
+    /**
+     * The 2FA method used to deliver or verify the code.
+     */
     private final TwoFactorMethodType type;
+    /**
+     * Whether this challenge completes a login or a 2FA setup.
+     */
     private final TwoFactorChallengePurpose purpose;
+    /**
+     * Whether a long-lived session should be created upon verification.
+     */
     private final boolean rememberMe;
+    /**
+     * Timestamp after which this challenge is no longer valid.
+     */
     private final Instant expiryDate;
+    /**
+     * Timestamp when this challenge was created.
+     */
     private final Instant creationDate;
 
     private TwoFactorChallenge(

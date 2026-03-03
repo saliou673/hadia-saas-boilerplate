@@ -10,6 +10,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * JPA entity mapping the {@code subscription_plan} table (features stored in {@code subscription_plan_feature}).
+ */
 @Entity
 @Table(name = "subscription_plan")
 @AllArgsConstructor
