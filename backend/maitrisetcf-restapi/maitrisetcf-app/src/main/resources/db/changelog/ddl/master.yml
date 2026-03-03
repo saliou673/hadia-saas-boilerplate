@@ -34,3 +34,7 @@ databaseChangeLog:
   - include:
       file: 00008-subscription-plan-create-table.sql
       relativeToChangelogFile: true
+
+  - include:
+      file: 00009-billing-frequency-and-user-subscription.sql
+      relativeToChangelogFile: true

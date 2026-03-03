@@ -13,5 +13,5 @@ import java.util.List;
 @Repository
 public interface SubscriptionPlanRepository extends JpaRepository<SubscriptionPlanEntity, Long>, JpaSpecificationExecutor<SubscriptionPlanEntity> {
 
-    List<SubscriptionPlanEntity> findAllByActiveTrueOrderByPriceAsc();
+    List<SubscriptionPlanEntity> findAllByActiveTrueOrderByMonthlyPriceAsc();
 }

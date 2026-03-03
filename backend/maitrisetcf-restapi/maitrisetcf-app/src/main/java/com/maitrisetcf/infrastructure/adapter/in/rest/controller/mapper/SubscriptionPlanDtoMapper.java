@@ -7,7 +7,7 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
 /**
- * MapStruct mapper converting {@link com.maitrisetcf.domain.models.subscriptionplan.SubscriptionPlan} to {@link com.maitrisetcf.infrastructure.adapter.in.rest.controller.dto.SubscriptionPlanDTO}.
+ * MapStruct mapper converting {@link SubscriptionPlan} to {@link SubscriptionPlanDTO}.
  */
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
@@ -15,5 +15,26 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface SubscriptionPlanDtoMapper {
 
-    SubscriptionPlanDTO toDTO(SubscriptionPlan plan);
+    default SubscriptionPlanDTO toDTO(SubscriptionPlan plan) {
+        if (plan == null) {
+            return null;
+        }
+        return new SubscriptionPlanDTO(
+                plan.getId(),
+                plan.getTitle(),
+                plan.getDescription(),
+                plan.getMonthlyPrice(),
+                plan.getYearlyPrice(),
+                plan.getLifetimePrice(),
+                plan.getPrice(),
+                plan.getDurationDays(),
+                plan.getCurrencyCode(),
+                plan.getFeatures(),
+                plan.isActive(),
+                plan.getType(),
+                plan.getCreationDate(),
+                plan.getLastUpdateDate(),
+                plan.getLastUpdatedBy()
+        );
+    }
 }

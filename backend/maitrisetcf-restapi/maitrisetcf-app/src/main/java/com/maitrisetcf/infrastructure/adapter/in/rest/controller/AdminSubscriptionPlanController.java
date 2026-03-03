@@ -47,10 +47,13 @@ public class AdminSubscriptionPlanController {
                 subscriptionPlanUseCase.create(
                         request.title(),
                         request.description(),
+                        request.monthlyPrice(),
+                        request.yearlyPrice(),
+                        request.lifetimePrice(),
                         request.price(),
+                        request.durationDays(),
                         request.currencyCode(),
                         request.features() != null ? request.features() : Collections.emptyList(),
-                        request.durationDays(),
                         Boolean.TRUE.equals(request.active()),
                         request.type()
                 )
@@ -67,7 +70,7 @@ public class AdminSubscriptionPlanController {
     @PreAuthorize("hasAuthority('plan:read')")
     public PaginatedResult<SubscriptionPlanDTO> getAll(
             SubscriptionPlanFilter filter,
-            @PageableDefault(size = DEFAULT_PAGE_SIZE_INT, sort = "price", direction = Sort.Direction.ASC) Pageable pageable
+            @PageableDefault(size = DEFAULT_PAGE_SIZE_INT, sort = "monthlyPrice", direction = Sort.Direction.ASC) Pageable pageable
     ) {
         PagedResult<SubscriptionPlan> result = subscriptionPlanQueryUseCase.findAll(filter, pageable.getPageNumber(), pageable.getPageSize());
         return new PaginatedResult<>(result, subscriptionPlanDtoMapper::toDTO);
@@ -81,10 +84,13 @@ public class AdminSubscriptionPlanController {
                         id,
                         request.title(),
                         request.description(),
+                        request.monthlyPrice(),
+                        request.yearlyPrice(),
+                        request.lifetimePrice(),
                         request.price(),
+                        request.durationDays(),
                         request.currencyCode(),
                         request.features() != null ? request.features() : Collections.emptyList(),
-                        request.durationDays(),
                         Boolean.TRUE.equals(request.active()),
                         request.type()
                 )

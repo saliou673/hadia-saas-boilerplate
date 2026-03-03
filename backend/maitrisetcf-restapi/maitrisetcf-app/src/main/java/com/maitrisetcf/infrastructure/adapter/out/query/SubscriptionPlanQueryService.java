@@ -36,7 +36,7 @@ public class SubscriptionPlanQueryService extends QueryService<SubscriptionPlanE
         log.debug("Finding subscription plans by filter: {}", filter);
         Page<SubscriptionPlanEntity> entityPage = subscriptionPlanRepository.findAll(
                 createSpecification(filter),
-                PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "price"))
+                PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "monthlyPrice"))
         );
         List<SubscriptionPlan> items = entityPage.getContent().stream().map(subscriptionPlanMapper::toDomain).toList();
         return new PagedResult<>(items, entityPage.getTotalElements(), page, size, entityPage.getTotalPages());
@@ -45,7 +45,7 @@ public class SubscriptionPlanQueryService extends QueryService<SubscriptionPlanE
     @Override
     public List<SubscriptionPlan> findAllActive() {
         log.debug("Finding all active subscription plans");
-        return subscriptionPlanRepository.findAllByActiveTrueOrderByPriceAsc()
+        return subscriptionPlanRepository.findAllByActiveTrueOrderByMonthlyPriceAsc()
                 .stream()
                 .map(subscriptionPlanMapper::toDomain)
                 .toList();
@@ -72,16 +72,8 @@ public class SubscriptionPlanQueryService extends QueryService<SubscriptionPlanE
             spec = spec.and(buildStringSpecification(filter.getTitle(), SubscriptionPlanEntity_.title));
         }
 
-        if (filter.getPrice() != null) {
-            spec = spec.and(buildRangeSpecification(filter.getPrice(), SubscriptionPlanEntity_.price));
-        }
-
         if (filter.getCurrencyCode() != null) {
             spec = spec.and(buildStringSpecification(filter.getCurrencyCode(), SubscriptionPlanEntity_.currencyCode));
-        }
-
-        if (filter.getDurationDays() != null) {
-            spec = spec.and(buildRangeSpecification(filter.getDurationDays(), SubscriptionPlanEntity_.durationDays));
         }
 
         if (filter.getActive() != null) {

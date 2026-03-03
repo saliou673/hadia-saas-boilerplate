@@ -41,7 +41,7 @@ public class SubscriptionPlanPersistenceAdapter implements SubscriptionPlanPersi
     @Override
     public List<SubscriptionPlan> findAllActive() {
         return AdapterPersistenceUtils.executeDbOperation(
-                () -> subscriptionPlanRepository.findAllByActiveTrueOrderByPriceAsc()
+                () -> subscriptionPlanRepository.findAllByActiveTrueOrderByMonthlyPriceAsc()
                         .stream()
                         .map(subscriptionPlanMapper::toDomain)
                         .toList(),
