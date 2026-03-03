@@ -4,7 +4,6 @@
 ALTER TABLE subscription_plan
     ALTER COLUMN price DROP NOT NULL,
     ALTER COLUMN duration_days DROP NOT NULL,
-    ADD COLUMN IF NOT EXISTS billing_frequency VARCHAR(20) NOT NULL,
     ADD COLUMN IF NOT EXISTS monthly_price     NUMERIC(19, 4),
     ADD COLUMN IF NOT EXISTS yearly_price      NUMERIC(19, 4),
     ADD COLUMN IF NOT EXISTS lifetime_price    NUMERIC(19, 4);

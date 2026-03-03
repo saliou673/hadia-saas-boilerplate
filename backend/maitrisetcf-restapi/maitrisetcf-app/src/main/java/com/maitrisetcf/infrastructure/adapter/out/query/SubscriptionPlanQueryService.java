@@ -43,12 +43,15 @@ public class SubscriptionPlanQueryService extends QueryService<SubscriptionPlanE
     }
 
     @Override
-    public List<SubscriptionPlan> findAllActive() {
-        log.debug("Finding all active subscription plans");
-        return subscriptionPlanRepository.findAllByActiveTrueOrderByMonthlyPriceAsc()
-                .stream()
-                .map(subscriptionPlanMapper::toDomain)
-                .toList();
+    public PagedResult<SubscriptionPlan> findAllActive(int page, int size) {
+        log.debug("Finding all active subscription plans, page={}, size={}", page, size);
+        Specification<SubscriptionPlanEntity> spec = (root, query, cb) -> cb.isTrue(root.get(SubscriptionPlanEntity_.active));
+        Page<SubscriptionPlanEntity> entityPage = subscriptionPlanRepository.findAll(
+                spec,
+                PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "monthlyPrice"))
+        );
+        List<SubscriptionPlan> items = entityPage.getContent().stream().map(subscriptionPlanMapper::toDomain).toList();
+        return new PagedResult<>(items, entityPage.getTotalElements(), page, size, entityPage.getTotalPages());
     }
 
     @Override

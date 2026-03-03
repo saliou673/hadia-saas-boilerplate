@@ -31,37 +31,53 @@ public class UserDetailsDTO extends AuditableDTO {
      */
     private Long id;
 
+    /**
+     * Validated email address.
+     */
     @Pattern(regexp = EMAIL_REGEX_PATTERN)
     @NotBlank
-    /** Validated email address. */
     private String email;
 
+    /**
+     * Optional phone number.
+     */
     @Nullable
-    /** Optional phone number. */
     private String phoneNumber;
 
+    /**
+     * Given name.
+     */
     @NotBlank
-    /** Given name. */
     private String firstName;
 
+    /**
+     * Family name.
+     */
     @NotBlank
-    /** Family name. */
     private String lastName;
 
+    /**
+     * Date of birth.
+     */
     @NotNull
-    /** Date of birth. */
     private LocalDate birthDate;
 
+    /**
+     * Biological gender.
+     */
     @NotNull
-    /** Biological gender. */
     private UserGender gender;
 
+    /**
+     * Optional postal address.
+     */
     @Nullable
-    /** Optional postal address. */
     private String address;
 
+    /**
+     * Current account lifecycle status.
+     */
     @Nullable
-    /** Current account lifecycle status. */
     private UserStatus status;
 
     /**
@@ -69,12 +85,16 @@ public class UserDetailsDTO extends AuditableDTO {
      */
     private String languageKey;
 
+    /**
+     * Profile picture URL.
+     */
     @Nullable
-    /** Profile picture URL. */
     private String imageUrl;
 
+    /**
+     * Flat list of permission codes resolved from the user's role groups.
+     */
     @NotNull
-    /** Flat list of permission codes resolved from the user's role groups. */
     private List<String> permissions;
 
     public UserDetailsDTO(Long id, String email, String firstName, String lastName, @Nullable String phoneNumber, LocalDate birthDate, UserGender gender, @Nullable String address, @Nonnull UserStatus status, String languageKey, @Nullable String imageUrl, @NotNull List<String> permissions, Instant creationDate, Instant lastUpdateDate, String lastUpdatedBy) {

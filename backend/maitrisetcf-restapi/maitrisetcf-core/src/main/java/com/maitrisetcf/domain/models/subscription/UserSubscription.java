@@ -16,6 +16,7 @@ import java.time.LocalDate;
 public class UserSubscription extends Auditable<Long> {
 
     private Long userId;
+
     private Long planId;
     /**
      * Snapshot of the plan title at subscription time.
@@ -25,7 +26,9 @@ public class UserSubscription extends Auditable<Long> {
      * Snapshot of the price paid.
      */
     private BigDecimal pricePaid;
+
     private String currencyCode;
+
     private SubscriptionBillingFrequency billingFrequency;
     /**
      * Payment mode used (e.g. STRIPE, PAYPAL).
@@ -35,12 +38,15 @@ public class UserSubscription extends Auditable<Long> {
      * External transaction ID returned by the payment gateway.
      */
     private String externalPaymentId;
+
     private UserSubscriptionStatus status;
+
     private LocalDate startDate;
     /**
      * Null for lifetime subscriptions.
      */
     private LocalDate endDate;
+
     private boolean autoRenew;
 
     private UserSubscription(

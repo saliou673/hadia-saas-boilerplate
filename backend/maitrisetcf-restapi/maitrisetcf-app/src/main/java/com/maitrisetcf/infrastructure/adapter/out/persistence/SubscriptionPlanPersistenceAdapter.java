@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -35,17 +34,6 @@ public class SubscriptionPlanPersistenceAdapter implements SubscriptionPlanPersi
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> subscriptionPlanRepository.findById(id).map(subscriptionPlanMapper::toDomain),
                 "Error fetching subscription plan by id: " + id
-        );
-    }
-
-    @Override
-    public List<SubscriptionPlan> findAllActive() {
-        return AdapterPersistenceUtils.executeDbOperation(
-                () -> subscriptionPlanRepository.findAllByActiveTrueOrderByMonthlyPriceAsc()
-                        .stream()
-                        .map(subscriptionPlanMapper::toDomain)
-                        .toList(),
-                "Error fetching active subscription plans"
         );
     }
 

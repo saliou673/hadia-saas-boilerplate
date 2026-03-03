@@ -5,6 +5,7 @@ import com.maitrisetcf.domain.enumerations.SubscriptionPlanType;
 import com.maitrisetcf.infrastructure.adapter.in.rest.controller.dto.SubscriptionPlanDTO;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.SubscriptionPlanEntity;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.SubscriptionPlanRepository;
+import com.maitrisetcf.infrastructure.adapter.out.query.PaginatedResult;
 import com.maitrisetcf.integration.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,16 +34,16 @@ class SubscriptionPlanControllerTest extends IntegrationTest {
         createPlan("Online Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
         createPlan("On-Site Workshop", null, new BigDecimal("99.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ON_SITE_TRAINING);
 
-        List<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
+        PaginatedResult<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
-        assertThat(result).hasSize(2);
+        assertThat(result.getItems()).hasSize(2);
     }
 
     @Test
     void shouldReturnEmptyListWhenNoActivePlans() throws Exception {
-        List<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
+        PaginatedResult<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
-        assertThat(result).isEmpty();
+        assertThat(result.getItems()).isEmpty();
     }
 
     @Test
@@ -50,11 +51,11 @@ class SubscriptionPlanControllerTest extends IntegrationTest {
         createPlan("Active Online", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
         createPlan("Inactive On-Site", null, new BigDecimal("99.99"), null, null, null, CURRENCY_CODE, false, SubscriptionPlanType.ON_SITE_TRAINING);
 
-        List<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
+        PaginatedResult<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
-        assertThat(result).hasSize(1);
-        assertThat(result.getFirst().isActive()).isTrue();
-        assertThat(result.getFirst().getType()).isEqualTo(SubscriptionPlanType.ONLINE_TRAINING);
+        assertThat(result.getItems()).hasSize(1);
+        assertThat(result.getItems().getFirst().isActive()).isTrue();
+        assertThat(result.getItems().getFirst().getType()).isEqualTo(SubscriptionPlanType.ONLINE_TRAINING);
     }
 
     @Test
@@ -63,9 +64,9 @@ class SubscriptionPlanControllerTest extends IntegrationTest {
         createPlan("Cheap Online", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
         createPlan("Mid Online", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
 
-        List<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
+        PaginatedResult<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
-        assertThat(result).extracting(SubscriptionPlanDTO::getTitle)
+        assertThat(result.getItems()).extracting(SubscriptionPlanDTO::getTitle)
                 .containsExactly("Cheap Online", "Mid Online", "Expensive On-Site");
     }
 
@@ -74,10 +75,10 @@ class SubscriptionPlanControllerTest extends IntegrationTest {
         createPlan("Online Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
         createPlan("On-Site Plan", null, new BigDecimal("99.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ON_SITE_TRAINING);
 
-        List<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
+        PaginatedResult<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
-        assertThat(result).hasSize(2);
-        assertThat(result).extracting(SubscriptionPlanDTO::getType)
+        assertThat(result.getItems()).hasSize(2);
+        assertThat(result.getItems()).extracting(SubscriptionPlanDTO::getType)
                 .containsExactlyInAnyOrder(SubscriptionPlanType.ONLINE_TRAINING, SubscriptionPlanType.ON_SITE_TRAINING);
     }
 
@@ -90,10 +91,10 @@ class SubscriptionPlanControllerTest extends IntegrationTest {
                 List.of("Unlimited access", "Priority support")
         );
 
-        List<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
+        PaginatedResult<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
-        assertThat(result).hasSize(1);
-        SubscriptionPlanDTO dto = result.getFirst();
+        assertThat(result.getItems()).hasSize(1);
+        SubscriptionPlanDTO dto = result.getItems().getFirst();
         assertThat(dto.getId()).isEqualTo(entity.getId());
         assertThat(dto.getTitle()).isEqualTo("Premium Online");
         assertThat(dto.getMonthlyPrice()).isEqualByComparingTo("9.99");
@@ -109,23 +110,36 @@ class SubscriptionPlanControllerTest extends IntegrationTest {
     void shouldReturnCustomCyclePlan() throws Exception {
         createPlan("Trial", null, null, null, new BigDecimal("4.99"), 14, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
 
-        List<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
+        PaginatedResult<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
-        assertThat(result).hasSize(1);
-        assertThat(result.getFirst().getPrice()).isEqualByComparingTo("4.99");
-        assertThat(result.getFirst().getDurationDays()).isEqualTo(14);
-        assertThat(result.getFirst().getMonthlyPrice()).isNull();
+        assertThat(result.getItems()).hasSize(1);
+        assertThat(result.getItems().getFirst().getPrice()).isEqualByComparingTo("4.99");
+        assertThat(result.getItems().getFirst().getDurationDays()).isEqualTo(14);
+        assertThat(result.getItems().getFirst().getMonthlyPrice()).isNull();
     }
 
     @Test
     void shouldReturnLifetimePlan() throws Exception {
         createPlan("Lifetime Online", null, null, new BigDecimal("199.99"), null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
 
-        List<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
+        PaginatedResult<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
-        assertThat(result).hasSize(1);
-        assertThat(result.getFirst().getLifetimePrice()).isEqualByComparingTo("199.99");
-        assertThat(result.getFirst().getMonthlyPrice()).isNull();
+        assertThat(result.getItems()).hasSize(1);
+        assertThat(result.getItems().getFirst().getLifetimePrice()).isEqualByComparingTo("199.99");
+        assertThat(result.getItems().getFirst().getMonthlyPrice()).isNull();
+    }
+
+    @Test
+    void shouldSupportPagination() throws Exception {
+        for (int i = 1; i <= 5; i++) {
+            createPlan("Plan " + i, new BigDecimal(i * 10), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        }
+
+        PaginatedResult<SubscriptionPlanDTO> firstPage = get(API + "?page=0&size=2", new TypeReference<>() {}, status().isOk());
+
+        assertThat(firstPage.getItems()).hasSize(2);
+        assertThat(firstPage.getTotalItems()).isEqualTo(5);
+        assertThat(firstPage.getTotalPages()).isEqualTo(3);
     }
 
     // endregion
