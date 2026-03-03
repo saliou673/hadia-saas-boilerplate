@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -18,8 +17,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>, JpaSpec
     Optional<UserEntity> findOneWithAuthoritiesByUserCredentialsEmailIgnoreCase(String email);
 
     Optional<UserEntity> findOneWithAuthoritiesById(Long id);
-
-    List<UserEntity> findAllByOrderByIdAsc();
 
     Optional<UserEntity> findOneByUserCredentialsActivationCode(String activationCode);
 

@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -65,17 +64,6 @@ public class UserPersistenceAdapter implements UserPersistencePort, UserDetailsP
                 () -> userRepository.findOneWithAuthoritiesById(id)
                         .map(userMapper::toDomain),
                 "Error fetching user with authorities by id: " + id
-        );
-    }
-
-    @Override
-    public List<User> findAllWithAuthorities() {
-        return AdapterPersistenceUtils.executeDbOperation(
-                () -> userRepository.findAllByOrderByIdAsc()
-                        .stream()
-                        .map(userMapper::toDomain)
-                        .toList(),
-                "Error fetching users with authorities"
         );
     }
 

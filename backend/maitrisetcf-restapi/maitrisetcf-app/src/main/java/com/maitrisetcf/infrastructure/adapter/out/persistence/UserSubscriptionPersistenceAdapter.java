@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -36,17 +35,6 @@ public class UserSubscriptionPersistenceAdapter implements UserSubscriptionPersi
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> userSubscriptionRepository.findById(id).map(userSubscriptionMapper::toDomain),
                 "Error fetching user subscription by id=" + id
-        );
-    }
-
-    @Override
-    public List<UserSubscription> findByUserId(Long userId) {
-        return AdapterPersistenceUtils.executeDbOperation(
-                () -> userSubscriptionRepository.findByUserIdOrderByCreationDateDesc(userId)
-                        .stream()
-                        .map(userSubscriptionMapper::toDomain)
-                        .toList(),
-                "Error fetching subscriptions for userId=" + userId
         );
     }
 
