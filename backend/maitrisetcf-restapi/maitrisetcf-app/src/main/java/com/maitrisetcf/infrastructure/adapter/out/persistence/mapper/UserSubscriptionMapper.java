@@ -33,6 +33,8 @@ public interface UserSubscriptionMapper {
                 entity.getPricePaid(),
                 entity.getDiscountCodeUsed(),
                 entity.getDiscountAmount(),
+                entity.getTaxRate(),
+                entity.getTaxAmount(),
                 entity.getCurrencyCode(),
                 entity.getBillingFrequency(),
                 entity.getPaymentMode(),

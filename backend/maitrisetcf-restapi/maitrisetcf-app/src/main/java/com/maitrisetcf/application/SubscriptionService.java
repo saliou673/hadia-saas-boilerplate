@@ -15,6 +15,7 @@ import com.maitrisetcf.domain.ports.in.SubscribeUseCase;
 import com.maitrisetcf.domain.ports.out.CurrentUserEmailPort;
 import com.maitrisetcf.domain.ports.out.NotificationSenderPort;
 import com.maitrisetcf.domain.ports.out.PaymentGatewayPort;
+import com.maitrisetcf.domain.ports.out.SubscriptionBillPort;
 import com.maitrisetcf.domain.ports.out.persistenceport.*;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +48,7 @@ public class SubscriptionService implements SubscribeUseCase {
     private final UserPersistencePort userPersistencePort;
     private final CurrentUserEmailPort currentUserEmailPort;
     private final NotificationSenderPort notificationSenderPort;
+    private final SubscriptionBillPort subscriptionBillPort;
     private final List<PaymentGatewayPort> paymentGateways;
 
     @Override
@@ -70,7 +72,8 @@ public class SubscriptionService implements SubscribeUseCase {
 
         BigDecimal originalPrice = resolvePrice(plan, billingFrequency);
         AppliedDiscount appliedDiscount = applyDiscountIfPresent(plan, originalPrice, discountCode);
-        PaymentResult result = processPayment(plan, appliedDiscount.finalPrice(), billingFrequency, currentUser.getId(), paymentMode);
+        AppliedTax appliedTax = applyTax(appliedDiscount.finalPrice());
+        PaymentResult result = processPayment(plan, appliedTax.totalPrice(), billingFrequency, currentUser.getId(), paymentMode);
 
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = computeEndDate(billingFrequency, startDate, plan.getDurationDays());
@@ -80,9 +83,11 @@ public class SubscriptionService implements SubscribeUseCase {
                 currentUser.getId(),
                 planId,
                 plan.getTitle(),
-                appliedDiscount.finalPrice(),
+                appliedTax.totalPrice(),
                 appliedDiscount.discountCodeUsed(),
                 appliedDiscount.discountAmount(),
+                appliedTax.taxRate(),
+                appliedTax.taxAmount(),
                 plan.getCurrencyCode(),
                 billingFrequency,
                 paymentMode,
@@ -99,7 +104,9 @@ public class SubscriptionService implements SubscribeUseCase {
             throw new PaymentProcessingException("Payment failed: " + result.getErrorMessage());
         }
 
-        return userSubscriptionPersistencePort.save(subscription);
+        UserSubscription savedSubscription = userSubscriptionPersistencePort.save(subscription);
+        sendSubscriptionBill(currentUser, savedSubscription);
+        return savedSubscription;
     }
 
     @Override
@@ -138,6 +145,8 @@ public class SubscriptionService implements SubscribeUseCase {
                 existing.getPricePaid(),
                 existing.getDiscountCodeUsed(),
                 existing.getDiscountAmount(),
+                existing.getTaxRate(),
+                existing.getTaxAmount(),
                 existing.getCurrencyCode(),
                 existing.getBillingFrequency(),
                 existing.getPaymentMode(),
@@ -218,6 +227,27 @@ public class SubscriptionService implements SubscribeUseCase {
         }
     }
 
+    private AppliedTax applyTax(BigDecimal priceBeforeTax) {
+        BigDecimal taxRate = appConfigurationPersistencePort.findByCategoryAndCode(AppConfigurationCategory.TAX, "RATE")
+                .filter(config -> config.isActive() && StringUtils.isNotBlank(config.getLabel()))
+                .map(config -> new BigDecimal(config.getLabel()))
+                .orElse(BigDecimal.ZERO);
+
+        BigDecimal taxAmount = priceBeforeTax.multiply(taxRate)
+                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+
+        return new AppliedTax(taxRate, taxAmount, priceBeforeTax.add(taxAmount));
+    }
+
+    private void sendSubscriptionBill(User currentUser, UserSubscription savedSubscription) {
+        try {
+            String billRelativePath = subscriptionBillPort.generateSubscriptionBill(currentUser, savedSubscription);
+            notificationSenderPort.sendSubscriptionPaymentSucceededNotification(currentUser, savedSubscription, billRelativePath);
+        } catch (RuntimeException e) {
+            log.warn("Could not generate or send bill for subscriptionId={}", savedSubscription.getId(), e);
+        }
+    }
+
     private User resolveCurrentUser() {
         String email = currentUserEmailPort.getCurrentUserEmail();
         return userPersistencePort.findByEmail(email)
@@ -262,4 +292,6 @@ public class SubscriptionService implements SubscribeUseCase {
 
     private record AppliedDiscount(BigDecimal finalPrice, @Nullable String discountCodeUsed,
                                    @Nullable BigDecimal discountAmount) {}
+
+    private record AppliedTax(BigDecimal taxRate, BigDecimal taxAmount, BigDecimal totalPrice) {}
 }

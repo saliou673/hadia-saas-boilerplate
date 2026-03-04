@@ -40,6 +40,7 @@
         <apache.commons.lang3.version>3.19.0</apache.commons.lang3.version>
         <apache.commons.collections4.version>4.5.0</apache.commons.collections4.version>
         <apache.commons.codecs.version>1.21.0</apache.commons.codecs.version>
+        <pdfbox.version>3.0.6</pdfbox.version>
 
         <!-- Database and persistence -->
         <postgresql.version>42.7.8</postgresql.version>

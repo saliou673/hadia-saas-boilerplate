@@ -27,6 +27,8 @@ public interface UserSubscriptionDtoMapper {
                 subscription.getPricePaid(),
                 subscription.getDiscountCodeUsed(),
                 subscription.getDiscountAmount(),
+                subscription.getTaxRate(),
+                subscription.getTaxAmount(),
                 subscription.getCurrencyCode(),
                 subscription.getBillingFrequency(),
                 subscription.getPaymentMode(),

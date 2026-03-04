@@ -2,9 +2,11 @@ package com.maitrisetcf.infrastructure.adapter.out.notification;
 
 import com.maitrisetcf.config.ApplicationProperties;
 import com.maitrisetcf.domain.models.contact.ContactForm;
+import com.maitrisetcf.domain.models.subscription.UserSubscription;
 import com.maitrisetcf.domain.models.user.User;
 import com.maitrisetcf.domain.models.user.UserCredentials;
 import com.maitrisetcf.domain.models.user.UserInfo;
+import com.maitrisetcf.domain.ports.out.FileStoragePort;
 import com.maitrisetcf.domain.ports.out.NotificationSenderPort;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -21,9 +23,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.core.io.FileSystemResource;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import java.nio.file.Path;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
@@ -45,8 +49,10 @@ public class EmailNotificationAdapterPort implements NotificationSenderPort {
     private static final String MANAGED_USER_INVITATION_ROUTE = "managedUserInvitationRoute";
     private static final String CONTACT_FORM = "contactForm";
     private static final String PLAN_TITLE = "planTitle";
+    private static final String SUBSCRIPTION = "subscription";
 
     private final ApplicationProperties applicationProperties;
+    private final FileStoragePort fileStoragePort;
     private final JavaMailSender javaMailSender;
     private final MessageSource messageSource;
     private final SpringTemplateEngine templateEngine;
@@ -134,6 +140,28 @@ public class EmailNotificationAdapterPort implements NotificationSenderPort {
 
     @Override
     @Async
+    public void sendSubscriptionPaymentSucceededNotification(User user, UserSubscription subscription, String billRelativePath) {
+        NotificationRecipient notificationRecipient = getNotificationRecipient(user);
+        String email = notificationRecipient.email();
+
+        if (StringUtils.isBlank(email)) {
+            return;
+        }
+
+        Locale locale = resolveLocale(notificationRecipient.languageKey());
+        Context context = new Context(locale);
+        context.setVariable(USER, notificationRecipient);
+        context.setVariable(SUBSCRIPTION, subscription);
+        context.setVariable(BASE_URL, getBaseUrl());
+
+        String content = templateEngine.process("mail/subscriptionPaymentSucceededEmail", context);
+        String subject = messageSource.getMessage("email.subscription-payment-succeeded.title", null, locale);
+        Path billPath = fileStoragePort.resolve(billRelativePath);
+        this.sendEmailSync(email, subject, content, billPath, billPath.getFileName().toString());
+    }
+
+    @Override
+    @Async
     public void sendSubscriptionPaymentFailedNotification(User user, String planTitle) {
         NotificationRecipient notificationRecipient = getNotificationRecipient(user);
         String email = notificationRecipient.email();
@@ -154,15 +182,20 @@ public class EmailNotificationAdapterPort implements NotificationSenderPort {
     }
 
     private void sendEmailSync(String to, String subject, String content) {
+        this.sendEmailSync(to, subject, content, null, null);
+    }
 
-        // Prepare the message using a Spring helper
+    private void sendEmailSync(String to, String subject, String content, Path attachmentPath, String attachmentFilename) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         try {
-            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, false, StandardCharsets.UTF_8.name());
+            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, attachmentPath != null, StandardCharsets.UTF_8.name());
             message.setTo(to);
             message.setFrom(applicationProperties.getMail().from());
             message.setSubject(subject);
             message.setText(content, true);
+            if (attachmentPath != null && attachmentFilename != null) {
+                message.addAttachment(attachmentFilename, new FileSystemResource(attachmentPath));
+            }
             javaMailSender.send(mimeMessage);
         } catch (MailException | MessagingException e) {
             log.warn("Email could not be sent to user '{}'", to, e);

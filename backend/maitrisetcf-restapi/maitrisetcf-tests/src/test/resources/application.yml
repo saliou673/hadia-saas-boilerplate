@@ -91,3 +91,5 @@ app:
       limit-refresh-period: 60s
   contact:
     recipient-emails: support@maitrisetcf.test,admin@maitrisetcf.test
+  storage:
+    upload-dir: ./test-uploads
