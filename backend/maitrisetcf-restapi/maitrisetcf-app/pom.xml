@@ -156,6 +156,12 @@
             <version>${apache.commons.codecs.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>${pdfbox.version}</version>
+        </dependency>
+
         <!-- Database version management -->
         <dependency>
             <groupId>org.liquibase</groupId>

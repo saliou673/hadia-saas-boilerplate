@@ -15,5 +15,9 @@ public enum AppConfigurationCategory {
     /**
      * Supported payment modes (e.g. STRIPE, PAYPAL).
      */
-    PAYMENT_MODE
+    PAYMENT_MODE,
+    /**
+     * Enterprise information used in generated business documents.
+     */
+    ENTERPRISE
 }

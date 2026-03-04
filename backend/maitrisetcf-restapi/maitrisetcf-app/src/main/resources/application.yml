@@ -86,3 +86,5 @@ app:
       limit-refresh-period: ${RATE_LIMIT_API_REFRESH_PERIOD:1m}
   contact:
     recipient-emails: ${CONTACT_FORM_RECIPIENT_EMAILS}
+  storage:
+    upload-dir: ${UPLOAD_DIR:./uploads}

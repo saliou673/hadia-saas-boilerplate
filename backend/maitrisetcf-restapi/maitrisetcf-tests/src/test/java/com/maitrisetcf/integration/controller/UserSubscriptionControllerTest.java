@@ -24,13 +24,21 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -62,9 +70,27 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     private StripePaymentGatewayAdapter stripePaymentGatewayAdapter;
 
     @BeforeEach
+    void cleanUploadDirectory() throws IOException {
+        Path uploadDir = Paths.get("./test-uploads");
+        if (!Files.exists(uploadDir)) {
+            return;
+        }
+
+        try (Stream<Path> stream = Files.walk(uploadDir)) {
+            stream.sorted(Comparator.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(java.io.File::delete);
+        }
+    }
+
+    @BeforeEach
     void seedData() {
         createCurrency(CURRENCY_CODE);
         createPaymentMode(PAYMENT_MODE);
+        createEnterpriseConfiguration("NAME", "Maitrise TCF");
+        createEnterpriseConfiguration("ADDRESS", "10 Rue de Paris, 75000 Paris");
+        createEnterpriseConfiguration("PHONE_NUMBER", "+33 1 23 45 67 89");
+        createEnterpriseConfiguration("EMAIL", "contact@maitrisetcf.com");
         when(stripePaymentGatewayAdapter.getModeCode()).thenReturn(PAYMENT_MODE);
         when(stripePaymentGatewayAdapter.process(any())).thenReturn(PaymentResult.success("stripe_test_payment"));
     }
@@ -89,6 +115,15 @@ class UserSubscriptionControllerTest extends IntegrationTest {
         assertThat(result.getEndDate()).isEqualTo(LocalDate.now().plusMonths(1));
         assertThat(result.isAutoRenew()).isTrue();
         assertThat(result.getExternalPaymentId()).isNotBlank();
+        Path billsDirectory = Paths.get("./test-uploads/bills");
+        assertThat(billsDirectory).exists().isDirectory();
+        try (var billFiles = Files.list(billsDirectory)) {
+            Path billPath = billFiles.findFirst().orElseThrow();
+            assertThat(billPath.getFileName().toString()).endsWith(".pdf");
+            byte[] header = Files.readAllBytes(billPath);
+            assertThat(new String(header, 0, 5, StandardCharsets.US_ASCII)).isEqualTo("%PDF-");
+        }
+        verify(notificationSenderPort).sendSubscriptionPaymentSucceededNotification(any(), any(), argThat(path -> path.startsWith("bills/") && path.endsWith(".pdf")));
     }
 
     @Test
@@ -354,6 +389,14 @@ class UserSubscriptionControllerTest extends IntegrationTest {
 
     private void createPaymentMode(String code) {
         AppConfigurationEntity entity = new AppConfigurationEntity(null, AppConfigurationCategory.PAYMENT_MODE, code, code, null, true);
+        entity.setCreationDate(Instant.now());
+        entity.setLastUpdateDate(Instant.now());
+        entity.setLastUpdatedBy("test");
+        appConfigurationRepository.save(entity);
+    }
+
+    private void createEnterpriseConfiguration(String code, String value) {
+        AppConfigurationEntity entity = new AppConfigurationEntity(null, AppConfigurationCategory.ENTERPRISE, code, value, null, true);
         entity.setCreationDate(Instant.now());
         entity.setLastUpdateDate(Instant.now());
         entity.setLastUpdatedBy("test");

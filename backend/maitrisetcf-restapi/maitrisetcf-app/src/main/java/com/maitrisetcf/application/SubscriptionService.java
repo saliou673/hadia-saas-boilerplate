@@ -15,6 +15,7 @@ import com.maitrisetcf.domain.ports.in.SubscribeUseCase;
 import com.maitrisetcf.domain.ports.out.CurrentUserEmailPort;
 import com.maitrisetcf.domain.ports.out.NotificationSenderPort;
 import com.maitrisetcf.domain.ports.out.PaymentGatewayPort;
+import com.maitrisetcf.domain.ports.out.SubscriptionBillPort;
 import com.maitrisetcf.domain.ports.out.persistenceport.*;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +48,7 @@ public class SubscriptionService implements SubscribeUseCase {
     private final UserPersistencePort userPersistencePort;
     private final CurrentUserEmailPort currentUserEmailPort;
     private final NotificationSenderPort notificationSenderPort;
+    private final SubscriptionBillPort subscriptionBillPort;
     private final List<PaymentGatewayPort> paymentGateways;
 
     @Override
@@ -99,7 +101,9 @@ public class SubscriptionService implements SubscribeUseCase {
             throw new PaymentProcessingException("Payment failed: " + result.getErrorMessage());
         }
 
-        return userSubscriptionPersistencePort.save(subscription);
+        UserSubscription savedSubscription = userSubscriptionPersistencePort.save(subscription);
+        sendSubscriptionBill(currentUser, savedSubscription);
+        return savedSubscription;
     }
 
     @Override
@@ -215,6 +219,15 @@ public class SubscriptionService implements SubscribeUseCase {
         discountCode.validateForUse(LocalDate.now());
         if (discountCode.getDiscountType() == DiscountType.FIXED_AMOUNT && !planCurrencyCode.equals(discountCode.getCurrencyCode())) {
             throw new InvalidDiscountCodeException("Discount code currency does not match the plan currency");
+        }
+    }
+
+    private void sendSubscriptionBill(User currentUser, UserSubscription savedSubscription) {
+        try {
+            String billRelativePath = subscriptionBillPort.generateSubscriptionBill(currentUser, savedSubscription);
+            notificationSenderPort.sendSubscriptionPaymentSucceededNotification(currentUser, savedSubscription, billRelativePath);
+        } catch (RuntimeException e) {
+            log.warn("Could not generate or send bill for subscriptionId={}", savedSubscription.getId(), e);
         }
     }
 

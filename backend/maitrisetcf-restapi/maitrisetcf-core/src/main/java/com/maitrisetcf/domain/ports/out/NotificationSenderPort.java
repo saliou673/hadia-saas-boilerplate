@@ -1,6 +1,7 @@
 package com.maitrisetcf.domain.ports.out;
 
 import com.maitrisetcf.domain.models.contact.ContactForm;
+import com.maitrisetcf.domain.models.subscription.UserSubscription;
 import com.maitrisetcf.domain.models.user.User;
 
 /**
@@ -60,6 +61,15 @@ public interface NotificationSenderPort {
      * @param user the managed user to invite
      */
     void sendManagedUserInvitationNotification(User user);
+
+    /**
+     * Sends a confirmation to the user when a subscription payment succeeds, with the generated bill attached.
+     *
+     * @param user             the user to notify
+     * @param subscription     the newly created subscription
+     * @param billRelativePath relative bill path inside the upload directory
+     */
+    void sendSubscriptionPaymentSucceededNotification(User user, UserSubscription subscription, String billRelativePath);
 
     /**
      * Sends a notification to the user when a subscription payment fails.
