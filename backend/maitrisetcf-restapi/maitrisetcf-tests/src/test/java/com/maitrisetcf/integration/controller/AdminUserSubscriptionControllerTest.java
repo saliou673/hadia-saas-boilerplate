@@ -191,7 +191,7 @@ class AdminUserSubscriptionControllerTest extends IntegrationTest {
                 frequency == SubscriptionBillingFrequency.MONTHLY ? startDate.plusMonths(1) : startDate.plusYears(1);
 
         UserSubscriptionEntity entity = new UserSubscriptionEntity(
-                null, userId, seedPlanId, "Test Plan", new BigDecimal("9.99"), CURRENCY_CODE,
+                null, userId, seedPlanId, "Test Plan", new BigDecimal("9.99"), null, null, BigDecimal.ZERO, BigDecimal.ZERO, CURRENCY_CODE,
                 frequency, PAYMENT_MODE, "ext_" + System.nanoTime(), status,
                 startDate, endDate, true
         );

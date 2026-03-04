@@ -16,7 +16,7 @@ public class OpenApiConfiguration {
     public OpenAPI fullOpenAPIConfig(@Value("${app.version}") String version,
                                      @Value("${app.description}") String description) {
         Info info = new Info()
-                .title("E-Timbre REST API")
+                .title("Maitrise TCF REST API")
                 .version(description)
                 .description(version)
                 .termsOfService("https://maitrisetcf.com/terms/")

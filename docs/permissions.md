@@ -1,6 +1,7 @@
 # Permissions & Role Groups
 
-E-Timbre uses a fine-grained Role-Based Access Control (RBAC) system. Users are assigned one or more **role groups**,
+Maitrise TCF uses a fine-grained Role-Based Access Control (RBAC) system. Users are assigned one or more **role groups
+**,
 and each role group holds a set of **permissions**. Spring Security enforces permissions at the method level via
 `@PreAuthorize("hasAuthority('permission:code')")`.
 
@@ -64,3 +65,12 @@ resources; codes with the `:own` suffix (e.g. `user:read:own`) grant access only
 | `plan:create` | Create subscription plans      |    ✅     |   ❌   |  ❌   |     ❌     |
 | `plan:update` | Update subscription plans      |    ✅     |   ❌   |  ❌   |     ❌     |
 | `plan:delete` | Delete subscription plans      |    ✅     |   ❌   |  ❌   |     ❌     |
+
+### Discount codes
+
+| Permission             | Description                | Sysadmin | Admin | User | Anonymous |
+|------------------------|----------------------------|:--------:|:-----:|:----:|:---------:|
+| `discount-code:read`   | View discount code details |    ✅     |   ❌   |  ❌   |     ❌     |
+| `discount-code:create` | Create discount codes      |    ✅     |   ❌   |  ❌   |     ❌     |
+| `discount-code:update` | Update discount codes      |    ✅     |   ❌   |  ❌   |     ❌     |
+| `discount-code:delete` | Delete discount codes      |    ✅     |   ❌   |  ❌   |     ❌     |

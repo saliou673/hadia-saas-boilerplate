@@ -26,6 +26,10 @@ public class UserSubscription extends Auditable<Long> {
      * Snapshot of the price paid.
      */
     private BigDecimal pricePaid;
+    private String discountCodeUsed;
+    private BigDecimal discountAmount;
+    private BigDecimal taxRate;
+    private BigDecimal taxAmount;
 
     private String currencyCode;
 
@@ -55,6 +59,10 @@ public class UserSubscription extends Auditable<Long> {
             Long planId,
             String planTitle,
             BigDecimal pricePaid,
+            String discountCodeUsed,
+            BigDecimal discountAmount,
+            BigDecimal taxRate,
+            BigDecimal taxAmount,
             String currencyCode,
             SubscriptionBillingFrequency billingFrequency,
             String paymentMode,
@@ -72,6 +80,10 @@ public class UserSubscription extends Auditable<Long> {
         this.planId = planId;
         this.planTitle = planTitle;
         this.pricePaid = pricePaid;
+        this.discountCodeUsed = discountCodeUsed;
+        this.discountAmount = discountAmount;
+        this.taxRate = taxRate;
+        this.taxAmount = taxAmount;
         this.currencyCode = currencyCode;
         this.billingFrequency = billingFrequency;
         this.paymentMode = paymentMode;
@@ -87,6 +99,10 @@ public class UserSubscription extends Auditable<Long> {
             Long planId,
             String planTitle,
             BigDecimal pricePaid,
+            String discountCodeUsed,
+            BigDecimal discountAmount,
+            BigDecimal taxRate,
+            BigDecimal taxAmount,
             String currencyCode,
             SubscriptionBillingFrequency billingFrequency,
             String paymentMode,
@@ -96,7 +112,7 @@ public class UserSubscription extends Auditable<Long> {
             LocalDate endDate,
             boolean autoRenew
     ) {
-        return new UserSubscription(null, userId, planId, planTitle, pricePaid, currencyCode,
+        return new UserSubscription(null, userId, planId, planTitle, pricePaid, discountCodeUsed, discountAmount, taxRate, taxAmount, currencyCode,
                                     billingFrequency, paymentMode, externalPaymentId, status, startDate, endDate, autoRenew,
                                     null, null, null);
     }
@@ -107,6 +123,10 @@ public class UserSubscription extends Auditable<Long> {
             Long planId,
             String planTitle,
             BigDecimal pricePaid,
+            String discountCodeUsed,
+            BigDecimal discountAmount,
+            BigDecimal taxRate,
+            BigDecimal taxAmount,
             String currencyCode,
             SubscriptionBillingFrequency billingFrequency,
             String paymentMode,
@@ -119,7 +139,7 @@ public class UserSubscription extends Auditable<Long> {
             Instant lastUpdateDate,
             String lastUpdatedBy
     ) {
-        return new UserSubscription(id, userId, planId, planTitle, pricePaid, currencyCode,
+        return new UserSubscription(id, userId, planId, planTitle, pricePaid, discountCodeUsed, discountAmount, taxRate, taxAmount, currencyCode,
                                     billingFrequency, paymentMode, externalPaymentId, status, startDate, endDate, autoRenew,
                                     creationDate, lastUpdateDate, lastUpdatedBy);
     }

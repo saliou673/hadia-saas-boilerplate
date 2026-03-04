@@ -8,12 +8,18 @@ import org.springframework.context.annotation.Configuration;
 import java.time.Duration;
 import java.util.List;
 
+/**
+ * Strongly-typed configuration properties bound to the {@code app.*} namespace.
+ */
 @Getter
 @Setter
 @Configuration
 @ConfigurationProperties(prefix = "app")
-/** Strongly-typed configuration properties bound to the {@code app.*} namespace. */
 public class ApplicationProperties {
+    /**
+     * Public origin of the web application used in email links.
+     */
+    private String webAppOrigin;
     /**
      * Security and JWT configuration.
      */
@@ -42,6 +48,10 @@ public class ApplicationProperties {
      * Contact form configuration.
      */
     private Contact contact;
+    /**
+     * File storage configuration.
+     */
+    private Storage storage;
 
     public Jwt getJwt() {
         return this.security.authentication().jwt();
@@ -80,4 +90,12 @@ public class ApplicationProperties {
     }
 
     public record Contact(List<String> recipientEmails) {}
+
+    public record Storage(String uploadDir) {
+        public Storage {
+            if (uploadDir == null || uploadDir.isBlank()) {
+                uploadDir = "./uploads";
+            }
+        }
+    }
 }
