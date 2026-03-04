@@ -91,6 +91,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
         createEnterpriseConfiguration("ADDRESS", "10 Rue de Paris, 75000 Paris");
         createEnterpriseConfiguration("PHONE_NUMBER", "+33 1 23 45 67 89");
         createEnterpriseConfiguration("EMAIL", "contact@maitrisetcf.com");
+        createTaxConfiguration("20");
         when(stripePaymentGatewayAdapter.getModeCode()).thenReturn(PAYMENT_MODE);
         when(stripePaymentGatewayAdapter.process(any())).thenReturn(PaymentResult.success("stripe_test_payment"));
     }
@@ -115,6 +116,9 @@ class UserSubscriptionControllerTest extends IntegrationTest {
         assertThat(result.getEndDate()).isEqualTo(LocalDate.now().plusMonths(1));
         assertThat(result.isAutoRenew()).isTrue();
         assertThat(result.getExternalPaymentId()).isNotBlank();
+        assertThat(result.getTaxRate()).isEqualByComparingTo("20");
+        assertThat(result.getTaxAmount()).isEqualByComparingTo("2.00");
+        assertThat(result.getPricePaid()).isEqualByComparingTo("11.99");
         Path billsDirectory = Paths.get("./test-uploads/bills");
         assertThat(billsDirectory).exists().isDirectory();
         try (var billFiles = Files.list(billsDirectory)) {
@@ -137,6 +141,21 @@ class UserSubscriptionControllerTest extends IntegrationTest {
         assertThat(result.getStatus()).isEqualTo(UserSubscriptionStatus.ACTIVE);
         assertThat(result.getBillingFrequency()).isEqualTo(SubscriptionBillingFrequency.YEARLY);
         assertThat(result.getEndDate()).isEqualTo(LocalDate.now().plusYears(1));
+    }
+
+    @Test
+    @WithMockUser(username = DEFAULT_USER_EMAIL)
+    void shouldApplyZeroTaxWhenTaxConfigurationIsMissing() throws Exception {
+        createDefaultUser();
+        appConfigurationRepository.findByCategoryAndCode(AppConfigurationCategory.TAX, "RATE")
+                .ifPresent(appConfigurationRepository::delete);
+        SubscriptionPlanEntity plan = createPlan("No Tax Plan", new BigDecimal("10.00"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+
+        UserSubscriptionDTO result = post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), UserSubscriptionDTO.class, status().isCreated());
+
+        assertThat(result.getTaxRate()).isEqualByComparingTo("0");
+        assertThat(result.getTaxAmount()).isEqualByComparingTo("0.00");
+        assertThat(result.getPricePaid()).isEqualByComparingTo("10.00");
     }
 
     @Test
@@ -403,9 +422,17 @@ class UserSubscriptionControllerTest extends IntegrationTest {
         appConfigurationRepository.save(entity);
     }
 
+    private void createTaxConfiguration(String taxRate) {
+        AppConfigurationEntity entity = new AppConfigurationEntity(null, AppConfigurationCategory.TAX, "RATE", taxRate, null, true);
+        entity.setCreationDate(Instant.now());
+        entity.setLastUpdateDate(Instant.now());
+        entity.setLastUpdatedBy("test");
+        appConfigurationRepository.save(entity);
+    }
+
     private UserSubscriptionEntity createSubscriptionDirectly(Long userId, Long planId, SubscriptionBillingFrequency frequency) {
         UserSubscriptionEntity entity = new UserSubscriptionEntity(
-                null, userId, planId, "Some Plan", new BigDecimal("9.99"), null, null, CURRENCY_CODE,
+                null, userId, planId, "Some Plan", new BigDecimal("9.99"), null, null, BigDecimal.ZERO, BigDecimal.ZERO, CURRENCY_CODE,
                 frequency, PAYMENT_MODE, "ext_123", UserSubscriptionStatus.ACTIVE,
                 LocalDate.now(), LocalDate.now().plusMonths(1), true
         );

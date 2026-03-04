@@ -303,9 +303,10 @@ public class PdfBoxSubscriptionBillAdapter implements SubscriptionBillPort {
         LocalDate paidDate = subscription.getCreationDate() == null
                 ? LocalDate.now()
                 : subscription.getCreationDate().atZone(ZoneId.systemDefault()).toLocalDate();
-        BigDecimal subtotal = subscription.getPricePaid() == null ? BigDecimal.ZERO : subscription.getPricePaid();
-        BigDecimal taxAmount = BigDecimal.ZERO;
-        BigDecimal total = subtotal.add(taxAmount);
+        BigDecimal total = subscription.getPricePaid() == null ? BigDecimal.ZERO : subscription.getPricePaid();
+        BigDecimal taxAmount = subscription.getTaxAmount() == null ? BigDecimal.ZERO : subscription.getTaxAmount();
+        BigDecimal subtotal = total.subtract(taxAmount);
+        BigDecimal taxRate = subscription.getTaxRate() == null ? BigDecimal.ZERO : subscription.getTaxRate();
 
         return new ReceiptData(
                 "SUB-" + subscription.getId(),
@@ -318,8 +319,8 @@ public class PdfBoxSubscriptionBillAdapter implements SubscriptionBillPort {
                 subscription.getPlanTitle(),
                 formatPeriod(subscription.getStartDate(), subscription.getEndDate()),
                 formatMoney(subtotal, subscription.getCurrencyCode()),
-                "0%",
-                "Tax (0% on " + formatMoney(subtotal, subscription.getCurrencyCode()) + ")",
+                formatTaxRate(taxRate),
+                "Tax (" + formatTaxRate(taxRate) + " on " + formatMoney(subtotal, subscription.getCurrencyCode()) + ")",
                 formatMoney(taxAmount, subscription.getCurrencyCode()),
                 formatMoney(total, subscription.getCurrencyCode()),
                 prettifyPaymentMode(subscription.getPaymentMode())
@@ -354,6 +355,11 @@ public class PdfBoxSubscriptionBillAdapter implements SubscriptionBillPort {
             case "PAYPAL" -> "PayPal";
             default -> emptyIfNull(paymentMode);
         };
+    }
+
+    private String formatTaxRate(BigDecimal taxRate) {
+        BigDecimal normalized = taxRate == null ? BigDecimal.ZERO : taxRate.stripTrailingZeros();
+        return normalized.toPlainString() + "%";
     }
 
     private List<String> wrapText(String text, int maxLength) {

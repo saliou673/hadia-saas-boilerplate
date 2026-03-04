@@ -17,6 +17,10 @@ public enum AppConfigurationCategory {
      */
     PAYMENT_MODE,
     /**
+     * Tax configuration values used during billing.
+     */
+    TAX,
+    /**
      * Enterprise information used in generated business documents.
      */
     ENTERPRISE

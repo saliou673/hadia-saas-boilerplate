@@ -72,7 +72,8 @@ public class SubscriptionService implements SubscribeUseCase {
 
         BigDecimal originalPrice = resolvePrice(plan, billingFrequency);
         AppliedDiscount appliedDiscount = applyDiscountIfPresent(plan, originalPrice, discountCode);
-        PaymentResult result = processPayment(plan, appliedDiscount.finalPrice(), billingFrequency, currentUser.getId(), paymentMode);
+        AppliedTax appliedTax = applyTax(appliedDiscount.finalPrice());
+        PaymentResult result = processPayment(plan, appliedTax.totalPrice(), billingFrequency, currentUser.getId(), paymentMode);
 
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = computeEndDate(billingFrequency, startDate, plan.getDurationDays());
@@ -82,9 +83,11 @@ public class SubscriptionService implements SubscribeUseCase {
                 currentUser.getId(),
                 planId,
                 plan.getTitle(),
-                appliedDiscount.finalPrice(),
+                appliedTax.totalPrice(),
                 appliedDiscount.discountCodeUsed(),
                 appliedDiscount.discountAmount(),
+                appliedTax.taxRate(),
+                appliedTax.taxAmount(),
                 plan.getCurrencyCode(),
                 billingFrequency,
                 paymentMode,
@@ -142,6 +145,8 @@ public class SubscriptionService implements SubscribeUseCase {
                 existing.getPricePaid(),
                 existing.getDiscountCodeUsed(),
                 existing.getDiscountAmount(),
+                existing.getTaxRate(),
+                existing.getTaxAmount(),
                 existing.getCurrencyCode(),
                 existing.getBillingFrequency(),
                 existing.getPaymentMode(),
@@ -222,6 +227,18 @@ public class SubscriptionService implements SubscribeUseCase {
         }
     }
 
+    private AppliedTax applyTax(BigDecimal priceBeforeTax) {
+        BigDecimal taxRate = appConfigurationPersistencePort.findByCategoryAndCode(AppConfigurationCategory.TAX, "RATE")
+                .filter(config -> config.isActive() && StringUtils.isNotBlank(config.getLabel()))
+                .map(config -> new BigDecimal(config.getLabel()))
+                .orElse(BigDecimal.ZERO);
+
+        BigDecimal taxAmount = priceBeforeTax.multiply(taxRate)
+                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+
+        return new AppliedTax(taxRate, taxAmount, priceBeforeTax.add(taxAmount));
+    }
+
     private void sendSubscriptionBill(User currentUser, UserSubscription savedSubscription) {
         try {
             String billRelativePath = subscriptionBillPort.generateSubscriptionBill(currentUser, savedSubscription);
@@ -275,4 +292,6 @@ public class SubscriptionService implements SubscribeUseCase {
 
     private record AppliedDiscount(BigDecimal finalPrice, @Nullable String discountCodeUsed,
                                    @Nullable BigDecimal discountAmount) {}
+
+    private record AppliedTax(BigDecimal taxRate, BigDecimal taxAmount, BigDecimal totalPrice) {}
 }
