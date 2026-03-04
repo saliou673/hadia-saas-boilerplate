@@ -93,3 +93,8 @@ app:
     recipient-emails: support@maitrisetcf.test,admin@maitrisetcf.test
   storage:
     upload-dir: ./test-uploads
+    aws:
+      bucket: test-bucket
+      region: eu-west-3
+      endpoint:
+      path-style-access-enabled: false

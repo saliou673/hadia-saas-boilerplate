@@ -88,3 +88,8 @@ app:
     recipient-emails: ${CONTACT_FORM_RECIPIENT_EMAILS}
   storage:
     upload-dir: ${UPLOAD_DIR:./uploads}
+    aws:
+      bucket: ${AWS_STORAGE_BUCKET:}
+      region: ${AWS_STORAGE_REGION:}
+      endpoint: ${AWS_STORAGE_ENDPOINT:}
+      path-style-access-enabled: ${AWS_STORAGE_PATH_STYLE_ACCESS_ENABLED:false}
