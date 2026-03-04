@@ -1,6 +1,7 @@
 # Permissions & Role Groups
 
-E-Timbre uses a fine-grained Role-Based Access Control (RBAC) system. Users are assigned one or more **role groups**,
+Maitrise TCF uses a fine-grained Role-Based Access Control (RBAC) system. Users are assigned one or more **role groups
+**,
 and each role group holds a set of **permissions**. Spring Security enforces permissions at the method level via
 `@PreAuthorize("hasAuthority('permission:code')")`.
 

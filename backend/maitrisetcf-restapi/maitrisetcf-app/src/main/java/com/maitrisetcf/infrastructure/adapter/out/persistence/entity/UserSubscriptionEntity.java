@@ -48,6 +48,12 @@ public class UserSubscriptionEntity extends AuditableEntity<Long> implements Ser
     @Column(name = "discount_amount", precision = 19, scale = 4)
     private BigDecimal discountAmount;
 
+    @Column(name = "tax_rate", precision = 8, scale = 4)
+    private BigDecimal taxRate;
+
+    @Column(name = "tax_amount", precision = 19, scale = 4)
+    private BigDecimal taxAmount;
+
     @Column(name = "currency_code", nullable = false, length = 10)
     private String currencyCode;
 

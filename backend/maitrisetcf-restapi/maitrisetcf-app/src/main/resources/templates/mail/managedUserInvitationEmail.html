@@ -1,7 +1,7 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head>
-    <title th:text="#{email.invitation.title}">E-Timbre invitation</title>
+    <title th:text="#{email.invitation.title}">Maitrise TCF invitation</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="icon" th:href="@{|${baseUrl}/favicon.ico|}"/>
     <style>
@@ -43,7 +43,8 @@
 </head>
 <body>
 <p th:text="#{email.invitation.greeting(${user.firstName})}">Dear</p>
-<p th:text="#{email.invitation.text1}">An E-Timbre account has been created for you by an administrator. Click the link
+<p th:text="#{email.invitation.text1}">An Maitrise TCF account has been created for you by an administrator. Click the
+    link
     below to set your password and access your account:</p>
 <p>
     <a class="invitation-link"
@@ -56,7 +57,7 @@
 <p class="signature">
     <span th:text="#{email.invitation.text2}">Regards, </span>
     <br/>
-    <em th:text="#{email.signature}">E-Timbre.</em>
+    <em th:text="#{email.signature}">Maitrise TCF.</em>
 </p>
 </body>
 </html>

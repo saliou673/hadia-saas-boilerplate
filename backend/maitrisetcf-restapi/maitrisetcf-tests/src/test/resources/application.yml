@@ -51,7 +51,8 @@ spring:
 
 app:
   version: v1.0
-  description: "E-Timbre REST API"
+  description: "Maitrise TCF REST API"
+  web-app-origin: http://localhost:4200
   security:
     authentication:
       jwt:
@@ -79,7 +80,7 @@ app:
   two-factor:
     code-validity-period: 5m
     code-length: 6
-    totp-issuer: E-Timbre-Test
+    totp-issuer: Maitrise TCF-Test
   rate-limit:
     enabled: true
     auth:
@@ -90,3 +91,5 @@ app:
       limit-refresh-period: 60s
   contact:
     recipient-emails: support@maitrisetcf.test,admin@maitrisetcf.test
+  storage:
+    upload-dir: ./test-uploads

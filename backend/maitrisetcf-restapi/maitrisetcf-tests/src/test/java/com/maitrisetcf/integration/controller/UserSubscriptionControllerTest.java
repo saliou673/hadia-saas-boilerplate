@@ -2,11 +2,16 @@ package com.maitrisetcf.integration.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.maitrisetcf.domain.enumerations.*;
+import com.maitrisetcf.domain.models.subscription.PaymentResult;
+import com.maitrisetcf.domain.ports.out.NotificationSenderPort;
 import com.maitrisetcf.infrastructure.adapter.in.rest.controller.dto.UserSubscriptionDTO;
 import com.maitrisetcf.infrastructure.adapter.in.rest.controller.requests.SubscribeRequest;
+import com.maitrisetcf.infrastructure.adapter.out.payment.StripePaymentGatewayAdapter;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.AppConfigurationEntity;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.DiscountCodeEntity;
+import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.EmbeddableUserInfo;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.SubscriptionPlanEntity;
+import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.UserEntity;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.UserSubscriptionEntity;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.AppConfigurationRepository;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.DiscountCodeRepository;
@@ -14,18 +19,35 @@ import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.Subscri
 import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.UserSubscriptionRepository;
 import com.maitrisetcf.infrastructure.adapter.out.query.PaginatedResult;
 import com.maitrisetcf.integration.IntegrationTest;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DirtiesContext
@@ -47,10 +69,37 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @Autowired
     private UserSubscriptionRepository userSubscriptionRepository;
 
+    @MockitoBean
+    private NotificationSenderPort notificationSenderPort;
+
+    @MockitoBean
+    private StripePaymentGatewayAdapter stripePaymentGatewayAdapter;
+
+    @BeforeEach
+    void cleanUploadDirectory() throws IOException {
+        Path uploadDir = Paths.get("./test-uploads");
+        if (!Files.exists(uploadDir)) {
+            return;
+        }
+
+        try (Stream<Path> stream = Files.walk(uploadDir)) {
+            stream.sorted(Comparator.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(java.io.File::delete);
+        }
+    }
+
     @BeforeEach
     void seedData() {
         createCurrency(CURRENCY_CODE);
         createPaymentMode(PAYMENT_MODE);
+        createEnterpriseConfiguration("NAME", "Maitrise TCF");
+        createEnterpriseConfiguration("ADDRESS", "10 Rue de Paris, 75000 Paris");
+        createEnterpriseConfiguration("PHONE_NUMBER", "+33 1 23 45 67 89");
+        createEnterpriseConfiguration("EMAIL", "contact@maitrisetcf.com");
+        createTaxConfiguration("20");
+        when(stripePaymentGatewayAdapter.getModeCode()).thenReturn(PAYMENT_MODE);
+        when(stripePaymentGatewayAdapter.process(any())).thenReturn(PaymentResult.success("stripe_test_payment"));
     }
 
     // region subscribe
@@ -73,6 +122,33 @@ class UserSubscriptionControllerTest extends IntegrationTest {
         assertThat(result.getEndDate()).isEqualTo(LocalDate.now().plusMonths(1));
         assertThat(result.isAutoRenew()).isTrue();
         assertThat(result.getExternalPaymentId()).isNotBlank();
+        assertThat(result.getTaxRate()).isEqualByComparingTo("20");
+        assertThat(result.getTaxAmount()).isEqualByComparingTo("2.00");
+        assertThat(result.getPricePaid()).isEqualByComparingTo("11.99");
+        Path billPath = assertAndGetGeneratedBill();
+        assertThat(extractPdfText(billPath))
+                .contains("reçu")
+                .contains("numéro de facture")
+                .contains("moyen de paiement")
+                .contains("carte bancaire");
+        verify(notificationSenderPort).sendSubscriptionPaymentSucceededNotification(any(), any(), argThat(path -> path.startsWith("bills/") && path.endsWith(".pdf")));
+    }
+
+    @Test
+    @WithMockUser(username = DEFAULT_USER_EMAIL)
+    void shouldGenerateBillInEnglishWhenUserLanguageKeyIsNull() throws Exception {
+        UserEntity user = createDefaultUser();
+        updateUserLanguage(user, null);
+        SubscriptionPlanEntity plan = createPlan("Multi Plan", new BigDecimal("9.99"), new BigDecimal("89.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+
+        post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), UserSubscriptionDTO.class, status().isCreated());
+
+        Path billPath = assertAndGetGeneratedBill();
+        assertThat(extractPdfText(billPath))
+                .contains("receipt")
+                .contains("invoice number")
+                .contains("payment method")
+                .contains("bank card");
     }
 
     @Test
@@ -86,6 +162,21 @@ class UserSubscriptionControllerTest extends IntegrationTest {
         assertThat(result.getStatus()).isEqualTo(UserSubscriptionStatus.ACTIVE);
         assertThat(result.getBillingFrequency()).isEqualTo(SubscriptionBillingFrequency.YEARLY);
         assertThat(result.getEndDate()).isEqualTo(LocalDate.now().plusYears(1));
+    }
+
+    @Test
+    @WithMockUser(username = DEFAULT_USER_EMAIL)
+    void shouldApplyZeroTaxWhenTaxConfigurationIsMissing() throws Exception {
+        createDefaultUser();
+        appConfigurationRepository.findByCategoryAndCode(AppConfigurationCategory.TAX, "RATE")
+                .ifPresent(appConfigurationRepository::delete);
+        SubscriptionPlanEntity plan = createPlan("No Tax Plan", new BigDecimal("10.00"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+
+        UserSubscriptionDTO result = post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), UserSubscriptionDTO.class, status().isCreated());
+
+        assertThat(result.getTaxRate()).isEqualByComparingTo("0");
+        assertThat(result.getTaxAmount()).isEqualByComparingTo("0.00");
+        assertThat(result.getPricePaid()).isEqualByComparingTo("10.00");
     }
 
     @Test
@@ -185,6 +276,19 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     }
 
     @Test
+    @WithMockUser(username = DEFAULT_USER_EMAIL)
+    void shouldNotifyUserWhenSubscriptionPaymentFails() throws Exception {
+        createDefaultUser();
+        SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        when(stripePaymentGatewayAdapter.process(any())).thenReturn(PaymentResult.failure("Card declined"));
+
+        post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), status().isBadRequest());
+
+        verify(notificationSenderPort).sendSubscriptionPaymentFailedNotification(any(), eq("Monthly Plan"));
+        assertThat(userSubscriptionRepository.count()).isZero();
+    }
+
+    @Test
     void shouldRejectUnauthenticatedSubscribe() throws Exception {
         post(API, new SubscribeRequest(1L, PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), status().isUnauthorized());
     }
@@ -203,9 +307,11 @@ class UserSubscriptionControllerTest extends IntegrationTest {
                 status().isCreated()
         );
 
-        assertThat(result.getPricePaid()).isEqualByComparingTo("90.00");
+        assertThat(result.getPricePaid()).isEqualByComparingTo("108.00");
         assertThat(result.getDiscountCodeUsed()).isEqualTo("WELCOME10");
         assertThat(result.getDiscountAmount()).isEqualByComparingTo("10.00");
+        assertThat(result.getTaxRate()).isEqualByComparingTo("20");
+        assertThat(result.getTaxAmount()).isEqualByComparingTo("18.00");
         assertThat(discountCodeRepository.findById(discountCode.getId()).orElseThrow().getUsageCount()).isEqualTo(1);
     }
 
@@ -331,9 +437,53 @@ class UserSubscriptionControllerTest extends IntegrationTest {
         appConfigurationRepository.save(entity);
     }
 
+    private void createEnterpriseConfiguration(String code, String value) {
+        AppConfigurationEntity entity = new AppConfigurationEntity(null, AppConfigurationCategory.ENTERPRISE, code, value, null, true);
+        entity.setCreationDate(Instant.now());
+        entity.setLastUpdateDate(Instant.now());
+        entity.setLastUpdatedBy("test");
+        appConfigurationRepository.save(entity);
+    }
+
+    private void createTaxConfiguration(String taxRate) {
+        AppConfigurationEntity entity = new AppConfigurationEntity(null, AppConfigurationCategory.TAX, "RATE", taxRate, null, true);
+        entity.setCreationDate(Instant.now());
+        entity.setLastUpdateDate(Instant.now());
+        entity.setLastUpdatedBy("test");
+        appConfigurationRepository.save(entity);
+    }
+
+    private void updateUserLanguage(UserEntity user, String languageKey) {
+        EmbeddableUserInfo userInfo = user.getUserInfo();
+        userInfo.setLanguageKey(languageKey);
+        user.setUserInfo(userInfo);
+        userRepository.save(user);
+    }
+
+    private Path assertAndGetGeneratedBill() throws IOException {
+        Path billsDirectory = Paths.get("./test-uploads/bills");
+        assertThat(billsDirectory).exists().isDirectory();
+        try (var billFiles = Files.list(billsDirectory)) {
+            Path billPath = billFiles.findFirst().orElseThrow();
+            assertThat(billPath.getFileName().toString()).endsWith(".pdf");
+            byte[] header = Files.readAllBytes(billPath);
+            assertThat(new String(header, 0, 5, StandardCharsets.US_ASCII)).isEqualTo("%PDF-");
+            return billPath;
+        }
+    }
+
+    private String extractPdfText(Path billPath) throws IOException {
+        try (PDDocument document = Loader.loadPDF(billPath.toFile())) {
+            return new PDFTextStripper().getText(document)
+                    .replace('\u00A0', ' ')
+                    .replace("\r", "")
+                    .toLowerCase(Locale.ROOT);
+        }
+    }
+
     private UserSubscriptionEntity createSubscriptionDirectly(Long userId, Long planId, SubscriptionBillingFrequency frequency) {
         UserSubscriptionEntity entity = new UserSubscriptionEntity(
-                null, userId, planId, "Some Plan", new BigDecimal("9.99"), null, null, CURRENCY_CODE,
+                null, userId, planId, "Some Plan", new BigDecimal("9.99"), null, null, BigDecimal.ZERO, BigDecimal.ZERO, CURRENCY_CODE,
                 frequency, PAYMENT_MODE, "ext_123", UserSubscriptionStatus.ACTIVE,
                 LocalDate.now(), LocalDate.now().plusMonths(1), true
         );
