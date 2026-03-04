@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.mail.MailException;
@@ -43,12 +44,13 @@ public class EmailNotificationAdapterPort implements NotificationSenderPort {
     private static final String CODE_LIFETIME_UNIT = "codeLifetimeUnit";
     private static final String MANAGED_USER_INVITATION_ROUTE = "managedUserInvitationRoute";
     private static final String CONTACT_FORM = "contactForm";
+    private static final String PLAN_TITLE = "planTitle";
 
     private final ApplicationProperties applicationProperties;
     private final JavaMailSender javaMailSender;
     private final MessageSource messageSource;
     private final SpringTemplateEngine templateEngine;
-    private final HttpServletRequest request;
+    private final ObjectProvider<HttpServletRequest> requestProvider;
 
     @Override
     @Async
@@ -127,6 +129,27 @@ public class EmailNotificationAdapterPort implements NotificationSenderPort {
         setInvitationCodeLifetimeVariables(context, locale);
         String content = templateEngine.process("mail/managedUserInvitationEmail", context);
         String subject = messageSource.getMessage("email.invitation.title", null, locale);
+        this.sendEmailSync(email, subject, content);
+    }
+
+    @Override
+    @Async
+    public void sendSubscriptionPaymentFailedNotification(User user, String planTitle) {
+        NotificationRecipient notificationRecipient = getNotificationRecipient(user);
+        String email = notificationRecipient.email();
+
+        if (StringUtils.isBlank(email)) {
+            return;
+        }
+
+        Locale locale = resolveLocale(notificationRecipient.languageKey());
+        Context context = new Context(locale);
+        context.setVariable(USER, notificationRecipient);
+        context.setVariable(PLAN_TITLE, planTitle);
+        context.setVariable(BASE_URL, getBaseUrl());
+
+        String content = templateEngine.process("mail/subscriptionPaymentFailedEmail", context);
+        String subject = messageSource.getMessage("email.subscription-payment-failed.title", null, locale);
         this.sendEmailSync(email, subject, content);
     }
 
@@ -239,6 +262,15 @@ public class EmailNotificationAdapterPort implements NotificationSenderPort {
     }
 
     public String getBaseUrl() {
-        return ObjectUtils.firstNonNull(request.getHeader(HttpHeaders.ORIGIN), "");
+        if (StringUtils.isNotBlank(applicationProperties.getWebAppOrigin())) {
+            return applicationProperties.getWebAppOrigin();
+        }
+
+        HttpServletRequest request = requestProvider.getIfAvailable();
+        return request == null ? "" : ObjectUtils.firstNonNull(request.getHeader(HttpHeaders.ORIGIN), "");
+    }
+
+    private Locale resolveLocale(String languageKey) {
+        return StringUtils.isBlank(languageKey) ? Locale.forLanguageTag("fr") : Locale.forLanguageTag(languageKey);
     }
 }

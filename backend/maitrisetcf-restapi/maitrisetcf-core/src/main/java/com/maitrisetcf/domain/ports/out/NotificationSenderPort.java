@@ -62,6 +62,14 @@ public interface NotificationSenderPort {
     void sendManagedUserInvitationNotification(User user);
 
     /**
+     * Sends a notification to the user when a subscription payment fails.
+     *
+     * @param user      the user to notify
+     * @param planTitle the title of the subscription plan whose payment failed
+     */
+    void sendSubscriptionPaymentFailedNotification(User user, String planTitle);
+
+    /**
      * Sends the contact form content to the configured support/admin email address.
      *
      * @param contactForm the submitted contact form
@@ -76,4 +84,3 @@ public interface NotificationSenderPort {
      */
     void sendContactFormConfirmationToUser(ContactForm contactForm);
 }
-

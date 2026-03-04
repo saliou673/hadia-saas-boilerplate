@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: E-Timbre REST API
+    name: Maitrise TCF REST API
   datasource:
     url: jdbc:postgresql://${POSTGRESQL_HOST}:${POSTGRESQL_PORT}/${POSTGRESQL_DATABASE_NAME}
     username: ${POSTGRESQL_USERNAME}
@@ -45,7 +45,8 @@ springdoc:
 # Custom properties
 app:
   version: v1.0
-  description: "E-Timbre REST API"
+  description: "Maitrise TCF REST API"
+  web-app-origin: ${WEB_APP_ORIGIN:}
   security:
     authentication:
       jwt:
@@ -74,7 +75,7 @@ app:
   two-factor:
     code-validity-period: ${TWO_FACTOR_CODE_VALIDITY_PERIOD:5m}
     code-length: ${TWO_FACTOR_CODE_LENGTH:6}
-    totp-issuer: ${TOTP_ISSUER:E-Timbre}
+    totp-issuer: ${TOTP_ISSUER:Maitrise TCF}
   rate-limit:
     enabled: ${RATE_LIMIT_ENABLED:true}
     auth:

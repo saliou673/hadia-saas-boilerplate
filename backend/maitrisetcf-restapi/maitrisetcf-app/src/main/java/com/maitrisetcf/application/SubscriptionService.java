@@ -13,6 +13,7 @@ import com.maitrisetcf.domain.models.subscriptionplan.SubscriptionPlan;
 import com.maitrisetcf.domain.models.user.User;
 import com.maitrisetcf.domain.ports.in.SubscribeUseCase;
 import com.maitrisetcf.domain.ports.out.CurrentUserEmailPort;
+import com.maitrisetcf.domain.ports.out.NotificationSenderPort;
 import com.maitrisetcf.domain.ports.out.PaymentGatewayPort;
 import com.maitrisetcf.domain.ports.out.persistenceport.*;
 import jakarta.annotation.Nullable;
@@ -45,6 +46,7 @@ public class SubscriptionService implements SubscribeUseCase {
     private final DiscountCodePersistencePort discountCodePersistencePort;
     private final UserPersistencePort userPersistencePort;
     private final CurrentUserEmailPort currentUserEmailPort;
+    private final NotificationSenderPort notificationSenderPort;
     private final List<PaymentGatewayPort> paymentGateways;
 
     @Override
@@ -93,6 +95,7 @@ public class SubscriptionService implements SubscribeUseCase {
 
         if (!result.isSuccess()) {
             log.warn("Payment failed for userId={}, planId={}: {}", currentUser.getId(), planId, result.getErrorMessage());
+            notificationSenderPort.sendSubscriptionPaymentFailedNotification(currentUser, plan.getTitle());
             throw new PaymentProcessingException("Payment failed: " + result.getErrorMessage());
         }
 

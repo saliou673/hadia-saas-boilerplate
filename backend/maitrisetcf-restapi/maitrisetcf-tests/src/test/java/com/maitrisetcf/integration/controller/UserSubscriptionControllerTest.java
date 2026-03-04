@@ -2,8 +2,11 @@ package com.maitrisetcf.integration.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.maitrisetcf.domain.enumerations.*;
+import com.maitrisetcf.domain.models.subscription.PaymentResult;
+import com.maitrisetcf.domain.ports.out.NotificationSenderPort;
 import com.maitrisetcf.infrastructure.adapter.in.rest.controller.dto.UserSubscriptionDTO;
 import com.maitrisetcf.infrastructure.adapter.in.rest.controller.requests.SubscribeRequest;
+import com.maitrisetcf.infrastructure.adapter.out.payment.StripePaymentGatewayAdapter;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.AppConfigurationEntity;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.DiscountCodeEntity;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.SubscriptionPlanEntity;
@@ -19,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -26,6 +30,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DirtiesContext
@@ -47,10 +55,18 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @Autowired
     private UserSubscriptionRepository userSubscriptionRepository;
 
+    @MockitoBean
+    private NotificationSenderPort notificationSenderPort;
+
+    @MockitoBean
+    private StripePaymentGatewayAdapter stripePaymentGatewayAdapter;
+
     @BeforeEach
     void seedData() {
         createCurrency(CURRENCY_CODE);
         createPaymentMode(PAYMENT_MODE);
+        when(stripePaymentGatewayAdapter.getModeCode()).thenReturn(PAYMENT_MODE);
+        when(stripePaymentGatewayAdapter.process(any())).thenReturn(PaymentResult.success("stripe_test_payment"));
     }
 
     // region subscribe
@@ -182,6 +198,19 @@ class UserSubscriptionControllerTest extends IntegrationTest {
         SubscribeRequest request = new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null);
         post(API, request, UserSubscriptionDTO.class, status().isCreated());
         post(API, request, status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username = DEFAULT_USER_EMAIL)
+    void shouldNotifyUserWhenSubscriptionPaymentFails() throws Exception {
+        createDefaultUser();
+        SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        when(stripePaymentGatewayAdapter.process(any())).thenReturn(PaymentResult.failure("Card declined"));
+
+        post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), status().isBadRequest());
+
+        verify(notificationSenderPort).sendSubscriptionPaymentFailedNotification(any(), eq("Monthly Plan"));
+        assertThat(userSubscriptionRepository.count()).isZero();
     }
 
     @Test
