@@ -40,3 +40,7 @@ build/
 
 *.env
 .DS_Store
+
+# OTHER
+/generated
+/node_modules

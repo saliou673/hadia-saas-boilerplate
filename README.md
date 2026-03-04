@@ -1,82 +1,73 @@
-# Maitrise TCF Project
+# SaaS App Boilerplate Template Generator
 
-## Description
+This repository provides CLI-powered boilerplate to generate a production-ready Spring Boot SaaS application (hexagonal architecture) with batteries-included backend features, Docker support, OpenAPI docs, and integration-tested modules.
 
-A modern web-based platform for managing and selling electronic stamps securely and efficiently.
 
-## Technologies Used
+## Prerequisites
 
-- **Backend**: Spring boot 3+
-- **Frontend**: NextJS 16+
-- **Database**: PostgreSQL
+- Node.js 18+
+- npm
 
-## Development Setup
-
-1. Install java using [sdkman](https://sdkman.io/install)
-    - Install [sdkman](https://sdkman.io/install)
-    - Install maven using `sdk install maven 3.9.9`
-    - Install java using `sdk install java 21.0.8-tem`
-2. Install node using [nvm](https://github.com/nvm-sh/nvm)
-3. Install pnpm using [pnpm](https://pnpm.io/installation)
-
-## Running the project
-
-### 1. Clone the repository
+## Install
 
 ```bash
-git clone git@github.com:maitrice-tcf/maitrisetcf.git
-cd maitrisetcf
+npm install
 ```
 
-##### 2. Create the backend environment variables
-
-Copy the `.env.example` in to `.env` in `backend/etimbre-api` module fill it.
-
-##### 3. Docker container
-
-- Start the database container
+## Generate a New App
 
 ```bash
-    docker compose -f docker/docker-compose.yml up -d
+npm run template:init -- --name "My Cool App"
 ```
 
-- Stop the database container
+Optional flags:
+
+- `--output ./generated/my-cool-app` to control the output directory
+- `--dry-run` to preview without writing files
+- `--force` to overwrite an existing output directory
+
+## Validate Template Drift
 
 ```bash
-    docker compose -f docker/docker-compose.yml down
+npm run template:check-source-drift
 ```
 
-##### 4. Installer les dépendances backend
+## Run CLI Tests
 
 ```bash
-cd backend/maitrisetcf-restapi
-mvn clean install
+npm run template:test
 ```
 
-## Swagger and actuator endpoints
+## Backend Features (Template)
 
-- Swagger UI: http://localhost:8080/api/swagger-ui/index.html
-- Swagger JSON: http://localhost:8080/api/docs
-- Actuator health: http://localhost:8080/actuator/health
+The generated backend is a Spring Boot hexagonal architecture REST API with:
 
-```bash
-cd frontend
-pnpm install
-```
+- Authentication (login, JWT, password reset/change, account recovery)
+- Two-factor authentication (email/TOTP setup, verify, disable)
+- User account management (profile, activation, account lifecycle)
+- User subscription management
+- Subscription plan catalog and management
+- Discount code management and validation
+- Contact form handling
+- App configuration management
+- RBAC (permissions and role groups)
+- Admin APIs for users, subscriptions, plans, role groups, discount codes, and app configuration
+- Database migrations via Liquibase
+- Email notifications/templates
+- Rate limiting for auth and API routes
+- Metrics/observability with Spring Actuator + Prometheus registry
+- File storage abstraction (local/AWS S3 strategy support)
 
-##### 5. Install frontend dependencies:
+All backend features listed above are covered by integration tests in the template test module.
 
-## Documentation
+### API Docs and Health Endpoints
 
-### 1. [Coding convention](./docs/coding-convention.md)
+- Swagger UI: `http://localhost:8080/api/swagger-ui/index.html`
+- OpenAPI JSON: `http://localhost:8080/api/docs`
+- Actuator health: `http://localhost:8080/actuator/health`
 
-### 2. [Architecture](./docs/architecture.md)
+## Where to Read About the App Itself
 
-### 3. [How to configure SMTP](./docs/how-to-configure-smtp.md)
+For backend setup, how to run the app, architecture, and project details, read:
 
-### 4. [Permissions & Role Groups](./docs/permissions.md)
-
-## License
-
-This project is private and the property of **Maitrise TCF**.
-
+- [`app/README.md`](./app/README.md)
