@@ -23,5 +23,9 @@ public interface AppConfigurationRepository extends JpaRepository<AppConfigurati
 
     boolean existsByCategoryAndCodeAndActiveTrue(AppConfigurationCategory category, String code);
 
+    boolean existsByCategoryAndActiveTrue(AppConfigurationCategory category);
+
+    boolean existsByCategoryAndActiveTrueAndIdNot(AppConfigurationCategory category, Long id);
+
     List<AppConfigurationEntity> findAllByCategoryAndActiveTrue(AppConfigurationCategory category);
 }

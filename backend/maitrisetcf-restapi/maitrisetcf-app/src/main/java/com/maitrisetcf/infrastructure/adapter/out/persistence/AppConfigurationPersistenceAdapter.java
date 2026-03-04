@@ -63,6 +63,22 @@ public class AppConfigurationPersistenceAdapter implements AppConfigurationPersi
     }
 
     @Override
+    public boolean existsActiveByCategory(AppConfigurationCategory category) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> appConfigurationRepository.existsByCategoryAndActiveTrue(category),
+                "Error checking active reference data existence for category " + category
+        );
+    }
+
+    @Override
+    public boolean existsActiveByCategoryAndIdNot(AppConfigurationCategory category, Long excludeId) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> appConfigurationRepository.existsByCategoryAndActiveTrueAndIdNot(category, excludeId),
+                "Error checking active reference data existence for category " + category + " excluding id: " + excludeId
+        );
+    }
+
+    @Override
     public Optional<AppConfiguration> findByCategoryAndCode(AppConfigurationCategory category, String code) {
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> appConfigurationRepository.findByCategoryAndCode(category, code).map(appConfigurationMapper::toDomain),
