@@ -91,11 +91,16 @@ public class ApplicationProperties {
 
     public record Contact(List<String> recipientEmails) {}
 
-    public record Storage(String uploadDir) {
+    public record Storage(String uploadDir, Aws aws) {
         public Storage {
             if (uploadDir == null || uploadDir.isBlank()) {
                 uploadDir = "./uploads";
             }
+            if (aws == null) {
+                aws = new Aws(null, null, null, false);
+            }
         }
+
+        public record Aws(String bucket, String region, String endpoint, boolean pathStyleAccessEnabled) {}
     }
 }

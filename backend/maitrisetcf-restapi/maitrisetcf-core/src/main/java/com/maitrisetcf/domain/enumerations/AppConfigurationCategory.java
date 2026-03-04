@@ -17,6 +17,10 @@ public enum AppConfigurationCategory {
      */
     PAYMENT_MODE,
     /**
+     * File storage backend selection (e.g. LOCAL, AWS).
+     */
+    STORAGE,
+    /**
      * Tax configuration values used during billing.
      */
     TAX,

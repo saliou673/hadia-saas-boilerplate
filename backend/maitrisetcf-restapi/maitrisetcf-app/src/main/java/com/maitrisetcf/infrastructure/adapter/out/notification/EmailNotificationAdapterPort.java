@@ -17,18 +17,18 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.MessageSource;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.core.io.FileSystemResource;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import java.nio.file.Path;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.Locale;
 
 /**
@@ -156,8 +156,8 @@ public class EmailNotificationAdapterPort implements NotificationSenderPort {
 
         String content = templateEngine.process("mail/subscriptionPaymentSucceededEmail", context);
         String subject = messageSource.getMessage("email.subscription-payment-succeeded.title", null, locale);
-        Path billPath = fileStoragePort.resolve(billRelativePath);
-        this.sendEmailSync(email, subject, content, billPath, billPath.getFileName().toString());
+        byte[] billContent = fileStoragePort.read(billRelativePath);
+        this.sendEmailSync(email, subject, content, billContent, Paths.get(billRelativePath).getFileName().toString());
     }
 
     @Override
@@ -185,16 +185,16 @@ public class EmailNotificationAdapterPort implements NotificationSenderPort {
         this.sendEmailSync(to, subject, content, null, null);
     }
 
-    private void sendEmailSync(String to, String subject, String content, Path attachmentPath, String attachmentFilename) {
+    private void sendEmailSync(String to, String subject, String content, byte[] attachmentContent, String attachmentFilename) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         try {
-            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, attachmentPath != null, StandardCharsets.UTF_8.name());
+            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, attachmentContent != null, StandardCharsets.UTF_8.name());
             message.setTo(to);
             message.setFrom(applicationProperties.getMail().from());
             message.setSubject(subject);
             message.setText(content, true);
-            if (attachmentPath != null && attachmentFilename != null) {
-                message.addAttachment(attachmentFilename, new FileSystemResource(attachmentPath));
+            if (attachmentContent != null && attachmentFilename != null) {
+                message.addAttachment(attachmentFilename, new ByteArrayResource(attachmentContent));
             }
             javaMailSender.send(mimeMessage);
         } catch (MailException | MessagingException e) {

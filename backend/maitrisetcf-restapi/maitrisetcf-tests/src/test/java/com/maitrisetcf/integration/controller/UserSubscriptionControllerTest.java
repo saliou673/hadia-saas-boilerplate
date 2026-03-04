@@ -28,6 +28,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -75,6 +79,9 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @MockitoBean
     private StripePaymentGatewayAdapter stripePaymentGatewayAdapter;
 
+    @MockitoBean
+    private S3Client s3Client;
+
     @BeforeEach
     void cleanUploadDirectory() throws IOException {
         Path uploadDir = Paths.get("./test-uploads");
@@ -100,6 +107,8 @@ class UserSubscriptionControllerTest extends IntegrationTest {
         createTaxConfiguration("20");
         when(stripePaymentGatewayAdapter.getModeCode()).thenReturn(PAYMENT_MODE);
         when(stripePaymentGatewayAdapter.process(any())).thenReturn(PaymentResult.success("stripe_test_payment"));
+        when(s3Client.putObject(org.mockito.ArgumentMatchers.<PutObjectRequest>any(), org.mockito.ArgumentMatchers.<RequestBody>any()))
+                .thenReturn(PutObjectResponse.builder().build());
     }
 
     // region subscribe
@@ -149,6 +158,23 @@ class UserSubscriptionControllerTest extends IntegrationTest {
                 .contains("invoice number")
                 .contains("payment method")
                 .contains("bank card");
+    }
+
+    @Test
+    @WithMockUser(username = DEFAULT_USER_EMAIL)
+    void shouldStoreBillInAwsWhenAwsStrategyIsConfigured() throws Exception {
+        createDefaultUser();
+        createStorageConfiguration("AWS", true);
+        SubscriptionPlanEntity plan = createPlan("Multi Plan", new BigDecimal("9.99"), new BigDecimal("89.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+
+        post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), UserSubscriptionDTO.class, status().isCreated());
+
+        verify(s3Client).putObject(
+                org.mockito.ArgumentMatchers.<PutObjectRequest>argThat(request -> "test-bucket".equals(request.bucket()) && request.key().startsWith("bills/") && request.key().endsWith(".pdf")),
+                org.mockito.ArgumentMatchers.<RequestBody>any()
+        );
+        assertThat(Paths.get("./test-uploads/bills")).doesNotExist();
+        verify(notificationSenderPort).sendSubscriptionPaymentSucceededNotification(any(), any(), argThat(path -> path.startsWith("bills/") && path.endsWith(".pdf")));
     }
 
     @Test
@@ -431,6 +457,14 @@ class UserSubscriptionControllerTest extends IntegrationTest {
 
     private void createPaymentMode(String code) {
         AppConfigurationEntity entity = new AppConfigurationEntity(null, AppConfigurationCategory.PAYMENT_MODE, code, code, null, true);
+        entity.setCreationDate(Instant.now());
+        entity.setLastUpdateDate(Instant.now());
+        entity.setLastUpdatedBy("test");
+        appConfigurationRepository.save(entity);
+    }
+
+    private void createStorageConfiguration(String code, boolean active) {
+        AppConfigurationEntity entity = new AppConfigurationEntity(null, AppConfigurationCategory.STORAGE, code, code, null, active);
         entity.setCreationDate(Instant.now());
         entity.setLastUpdateDate(Instant.now());
         entity.setLastUpdatedBy("test");

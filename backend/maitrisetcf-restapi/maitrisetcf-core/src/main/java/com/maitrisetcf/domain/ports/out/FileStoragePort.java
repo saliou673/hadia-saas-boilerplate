@@ -1,7 +1,5 @@
 package com.maitrisetcf.domain.ports.out;
 
-import java.nio.file.Path;
-
 /**
  * Outbound port for storing and resolving files under the configured upload directory.
  */
@@ -11,9 +9,9 @@ public interface FileStoragePort {
      * Ensures a subdirectory exists under the upload root.
      *
      * @param subdirectory subdirectory under the upload root
-     * @return the resolved directory path
+     * @return a provider-specific directory handle, if any
      */
-    Path ensureDirectory(String subdirectory);
+    java.nio.file.Path ensureDirectory(String subdirectory);
 
     /**
      * Stores binary content in a subdirectory of the upload directory.
@@ -26,10 +24,10 @@ public interface FileStoragePort {
     String store(String subdirectory, String filename, byte[] content);
 
     /**
-     * Resolves a stored path relative to the upload directory.
+     * Reads a previously stored file.
      *
      * @param relativePath stored relative path
-     * @return the resolved absolute path
+     * @return the binary file content
      */
-    Path resolve(String relativePath);
+    byte[] read(String relativePath);
 }

@@ -162,6 +162,11 @@
             <version>${pdfbox.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+        </dependency>
+
         <!-- Database version management -->
         <dependency>
             <groupId>org.liquibase</groupId>
