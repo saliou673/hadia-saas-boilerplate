@@ -22,6 +22,8 @@ public class UserSubscriptionDTO extends AuditableDTO {
     private Long planId;
     private String planTitle;
     private BigDecimal pricePaid;
+    private String discountCodeUsed;
+    private BigDecimal discountAmount;
     private String currencyCode;
     private SubscriptionBillingFrequency billingFrequency;
     private String paymentMode;
@@ -37,6 +39,8 @@ public class UserSubscriptionDTO extends AuditableDTO {
             Long planId,
             String planTitle,
             BigDecimal pricePaid,
+            String discountCodeUsed,
+            BigDecimal discountAmount,
             String currencyCode,
             SubscriptionBillingFrequency billingFrequency,
             String paymentMode,
@@ -55,6 +59,8 @@ public class UserSubscriptionDTO extends AuditableDTO {
         this.planId = planId;
         this.planTitle = planTitle;
         this.pricePaid = pricePaid;
+        this.discountCodeUsed = discountCodeUsed;
+        this.discountAmount = discountAmount;
         this.currencyCode = currencyCode;
         this.billingFrequency = billingFrequency;
         this.paymentMode = paymentMode;

@@ -1,9 +1,11 @@
 package com.maitrisetcf.application;
 
 import com.maitrisetcf.domain.enumerations.AppConfigurationCategory;
+import com.maitrisetcf.domain.enumerations.DiscountType;
 import com.maitrisetcf.domain.enumerations.SubscriptionBillingFrequency;
 import com.maitrisetcf.domain.enumerations.UserSubscriptionStatus;
 import com.maitrisetcf.domain.exceptions.*;
+import com.maitrisetcf.domain.models.discountcode.DiscountCode;
 import com.maitrisetcf.domain.models.subscription.PaymentRequest;
 import com.maitrisetcf.domain.models.subscription.PaymentResult;
 import com.maitrisetcf.domain.models.subscription.UserSubscription;
@@ -12,16 +14,16 @@ import com.maitrisetcf.domain.models.user.User;
 import com.maitrisetcf.domain.ports.in.SubscribeUseCase;
 import com.maitrisetcf.domain.ports.out.CurrentUserEmailPort;
 import com.maitrisetcf.domain.ports.out.PaymentGatewayPort;
-import com.maitrisetcf.domain.ports.out.persistenceport.AppConfigurationPersistencePort;
-import com.maitrisetcf.domain.ports.out.persistenceport.SubscriptionPlanPersistencePort;
-import com.maitrisetcf.domain.ports.out.persistenceport.UserPersistencePort;
-import com.maitrisetcf.domain.ports.out.persistenceport.UserSubscriptionPersistencePort;
+import com.maitrisetcf.domain.ports.out.persistenceport.*;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -40,14 +42,16 @@ public class SubscriptionService implements SubscribeUseCase {
     private final SubscriptionPlanPersistencePort subscriptionPlanPersistencePort;
     private final UserSubscriptionPersistencePort userSubscriptionPersistencePort;
     private final AppConfigurationPersistencePort appConfigurationPersistencePort;
+    private final DiscountCodePersistencePort discountCodePersistencePort;
     private final UserPersistencePort userPersistencePort;
     private final CurrentUserEmailPort currentUserEmailPort;
     private final List<PaymentGatewayPort> paymentGateways;
 
     @Override
-    public UserSubscription subscribe(Long planId, String paymentMode, SubscriptionBillingFrequency billingFrequency) {
+    public UserSubscription subscribe(Long planId, String paymentMode, SubscriptionBillingFrequency billingFrequency, @Nullable String discountCode) {
         User currentUser = resolveCurrentUser();
-        log.debug("Subscribing userId={} to planId={} via paymentMode={}, billingFrequency={}", currentUser.getId(), planId, paymentMode, billingFrequency);
+        log.debug("Subscribing userId={} to planId={} via paymentMode={}, billingFrequency={}, discountCode={}",
+                  currentUser.getId(), planId, paymentMode, billingFrequency, discountCode);
 
         SubscriptionPlan plan = subscriptionPlanPersistencePort.findById(planId)
                 .orElseThrow(() -> new SubscriptionPlanNotFoundException("Subscription plan not found with id: " + planId));
@@ -62,8 +66,9 @@ public class SubscriptionService implements SubscribeUseCase {
             throw new ActiveSubscriptionAlreadyExistsException("You already have an active subscription for plan '" + plan.getTitle() + "'");
         }
 
-        BigDecimal price = resolvePrice(plan, billingFrequency);
-        PaymentResult result = processPayment(plan, price, billingFrequency, currentUser.getId(), paymentMode);
+        BigDecimal originalPrice = resolvePrice(plan, billingFrequency);
+        AppliedDiscount appliedDiscount = applyDiscountIfPresent(plan, originalPrice, discountCode);
+        PaymentResult result = processPayment(plan, appliedDiscount.finalPrice(), billingFrequency, currentUser.getId(), paymentMode);
 
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = computeEndDate(billingFrequency, startDate, plan.getDurationDays());
@@ -73,7 +78,9 @@ public class SubscriptionService implements SubscribeUseCase {
                 currentUser.getId(),
                 planId,
                 plan.getTitle(),
-                price,
+                appliedDiscount.finalPrice(),
+                appliedDiscount.discountCodeUsed(),
+                appliedDiscount.discountAmount(),
                 plan.getCurrencyCode(),
                 billingFrequency,
                 paymentMode,
@@ -126,6 +133,8 @@ public class SubscriptionService implements SubscribeUseCase {
                 existing.getPlanId(),
                 existing.getPlanTitle(),
                 existing.getPricePaid(),
+                existing.getDiscountCodeUsed(),
+                existing.getDiscountAmount(),
                 existing.getCurrencyCode(),
                 existing.getBillingFrequency(),
                 existing.getPaymentMode(),
@@ -177,6 +186,35 @@ public class SubscriptionService implements SubscribeUseCase {
         return price;
     }
 
+    private AppliedDiscount applyDiscountIfPresent(SubscriptionPlan plan, BigDecimal originalPrice, @Nullable String discountCode) {
+        if (StringUtils.isBlank(discountCode)) {
+            return new AppliedDiscount(originalPrice, null, null);
+        }
+
+        DiscountCode code = discountCodePersistencePort.findByCode(discountCode)
+                .orElseThrow(() -> new InvalidDiscountCodeException("Discount code is invalid"));
+        validateDiscountCode(code, plan.getCurrencyCode());
+
+        BigDecimal discountAmount = switch (code.getDiscountType()) {
+            case PERCENTAGE ->
+                    originalPrice.multiply(code.getDiscountValue()).divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
+            case FIXED_AMOUNT -> code.getDiscountValue();
+        };
+        BigDecimal finalPrice = originalPrice.subtract(discountAmount).max(BigDecimal.ZERO);
+
+        code.incrementUsage();
+        discountCodePersistencePort.save(code);
+
+        return new AppliedDiscount(finalPrice, code.getCode(), discountAmount);
+    }
+
+    private void validateDiscountCode(DiscountCode discountCode, String planCurrencyCode) {
+        discountCode.validateForUse(LocalDate.now());
+        if (discountCode.getDiscountType() == DiscountType.FIXED_AMOUNT && !planCurrencyCode.equals(discountCode.getCurrencyCode())) {
+            throw new InvalidDiscountCodeException("Discount code currency does not match the plan currency");
+        }
+    }
+
     private User resolveCurrentUser() {
         String email = currentUserEmailPort.getCurrentUserEmail();
         return userPersistencePort.findByEmail(email)
@@ -189,7 +227,11 @@ public class SubscriptionService implements SubscribeUseCase {
         }
     }
 
-    private PaymentResult processPayment(SubscriptionPlan plan, BigDecimal price, SubscriptionBillingFrequency billingFrequency, Long userId, String paymentMode) {
+    private PaymentResult processPayment(SubscriptionPlan plan,
+                                         BigDecimal price,
+                                         SubscriptionBillingFrequency billingFrequency,
+                                         Long userId,
+                                         String paymentMode) {
         Map<String, PaymentGatewayPort> gatewayMap = paymentGateways.stream()
                 .collect(Collectors.toMap(PaymentGatewayPort::getModeCode, Function.identity()));
 
@@ -214,4 +256,7 @@ public class SubscriptionService implements SubscribeUseCase {
             case CUSTOM -> startDate.plusDays(durationDays);
         };
     }
+
+    private record AppliedDiscount(BigDecimal finalPrice, @Nullable String discountCodeUsed,
+                                   @Nullable BigDecimal discountAmount) {}
 }

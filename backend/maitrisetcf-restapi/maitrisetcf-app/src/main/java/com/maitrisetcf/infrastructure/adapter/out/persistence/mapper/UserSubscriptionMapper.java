@@ -31,6 +31,8 @@ public interface UserSubscriptionMapper {
                 entity.getPlanId(),
                 entity.getPlanTitle(),
                 entity.getPricePaid(),
+                entity.getDiscountCodeUsed(),
+                entity.getDiscountAmount(),
                 entity.getCurrencyCode(),
                 entity.getBillingFrequency(),
                 entity.getPaymentMode(),

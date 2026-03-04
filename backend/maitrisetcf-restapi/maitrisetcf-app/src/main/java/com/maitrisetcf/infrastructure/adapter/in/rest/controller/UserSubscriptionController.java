@@ -34,7 +34,12 @@ public class UserSubscriptionController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserSubscriptionDTO subscribe(@Valid @RequestBody SubscribeRequest request) {
-        UserSubscription subscription = subscribeUseCase.subscribe(request.planId(), request.paymentMode(), request.billingFrequency());
+        UserSubscription subscription = subscribeUseCase.subscribe(
+                request.planId(),
+                request.paymentMode(),
+                request.billingFrequency(),
+                request.discountCode()
+        );
         return userSubscriptionDtoMapper.toDTO(subscription);
     }
 

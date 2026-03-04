@@ -2,6 +2,7 @@ package com.maitrisetcf.infrastructure.adapter.in.rest.controller.requests;
 
 import com.maitrisetcf.domain.enumerations.SubscriptionBillingFrequency;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,6 +14,7 @@ import jakarta.validation.constraints.Size;
  * @param planId           ID of the plan to subscribe to
  * @param paymentMode      payment mode code (e.g. STRIPE, PAYPAL)
  * @param billingFrequency chosen billing cycle (MONTHLY, YEARLY, or LIFETIME)
+ * @param discountCode     optional discount code applied at checkout
  */
 public record SubscribeRequest(
         @NotNull(message = "planId is required")
@@ -23,6 +25,10 @@ public record SubscribeRequest(
         String paymentMode,
 
         @NotNull(message = "billingFrequency is required")
-        SubscriptionBillingFrequency billingFrequency
+        SubscriptionBillingFrequency billingFrequency,
+
+        @Nullable
+        @Size(max = 50, message = "discountCode must not exceed 50 characters")
+        String discountCode
 ) {
 }

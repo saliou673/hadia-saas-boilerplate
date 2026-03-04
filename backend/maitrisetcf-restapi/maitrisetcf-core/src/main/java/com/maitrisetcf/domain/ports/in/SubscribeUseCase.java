@@ -16,7 +16,7 @@ public interface SubscribeUseCase {
      * @param billingFrequency chosen billing cycle (MONTHLY, YEARLY, or LIFETIME)
      * @return the created subscription
      */
-    UserSubscription subscribe(Long planId, String paymentMode, SubscriptionBillingFrequency billingFrequency);
+    UserSubscription subscribe(Long planId, String paymentMode, SubscriptionBillingFrequency billingFrequency, String discountCode);
 
     /**
      * Renew an existing subscription (creates a new subscription record for the next period).
