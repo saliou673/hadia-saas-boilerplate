@@ -9,7 +9,9 @@ import com.maitrisetcf.infrastructure.adapter.in.rest.controller.requests.Subscr
 import com.maitrisetcf.infrastructure.adapter.out.payment.StripePaymentGatewayAdapter;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.AppConfigurationEntity;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.DiscountCodeEntity;
+import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.EmbeddableUserInfo;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.SubscriptionPlanEntity;
+import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.UserEntity;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.entity.UserSubscriptionEntity;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.AppConfigurationRepository;
 import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.DiscountCodeRepository;
@@ -17,6 +19,9 @@ import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.Subscri
 import com.maitrisetcf.infrastructure.adapter.out.persistence.repository.UserSubscriptionRepository;
 import com.maitrisetcf.infrastructure.adapter.out.query.PaginatedResult;
 import com.maitrisetcf.integration.IntegrationTest;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +39,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -119,15 +125,30 @@ class UserSubscriptionControllerTest extends IntegrationTest {
         assertThat(result.getTaxRate()).isEqualByComparingTo("20");
         assertThat(result.getTaxAmount()).isEqualByComparingTo("2.00");
         assertThat(result.getPricePaid()).isEqualByComparingTo("11.99");
-        Path billsDirectory = Paths.get("./test-uploads/bills");
-        assertThat(billsDirectory).exists().isDirectory();
-        try (var billFiles = Files.list(billsDirectory)) {
-            Path billPath = billFiles.findFirst().orElseThrow();
-            assertThat(billPath.getFileName().toString()).endsWith(".pdf");
-            byte[] header = Files.readAllBytes(billPath);
-            assertThat(new String(header, 0, 5, StandardCharsets.US_ASCII)).isEqualTo("%PDF-");
-        }
+        Path billPath = assertAndGetGeneratedBill();
+        assertThat(extractPdfText(billPath))
+                .contains("reçu")
+                .contains("numéro de facture")
+                .contains("moyen de paiement")
+                .contains("carte bancaire");
         verify(notificationSenderPort).sendSubscriptionPaymentSucceededNotification(any(), any(), argThat(path -> path.startsWith("bills/") && path.endsWith(".pdf")));
+    }
+
+    @Test
+    @WithMockUser(username = DEFAULT_USER_EMAIL)
+    void shouldGenerateBillInEnglishWhenUserLanguageKeyIsNull() throws Exception {
+        UserEntity user = createDefaultUser();
+        updateUserLanguage(user, null);
+        SubscriptionPlanEntity plan = createPlan("Multi Plan", new BigDecimal("9.99"), new BigDecimal("89.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+
+        post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), UserSubscriptionDTO.class, status().isCreated());
+
+        Path billPath = assertAndGetGeneratedBill();
+        assertThat(extractPdfText(billPath))
+                .contains("receipt")
+                .contains("invoice number")
+                .contains("payment method")
+                .contains("bank card");
     }
 
     @Test
@@ -286,9 +307,11 @@ class UserSubscriptionControllerTest extends IntegrationTest {
                 status().isCreated()
         );
 
-        assertThat(result.getPricePaid()).isEqualByComparingTo("90.00");
+        assertThat(result.getPricePaid()).isEqualByComparingTo("108.00");
         assertThat(result.getDiscountCodeUsed()).isEqualTo("WELCOME10");
         assertThat(result.getDiscountAmount()).isEqualByComparingTo("10.00");
+        assertThat(result.getTaxRate()).isEqualByComparingTo("20");
+        assertThat(result.getTaxAmount()).isEqualByComparingTo("18.00");
         assertThat(discountCodeRepository.findById(discountCode.getId()).orElseThrow().getUsageCount()).isEqualTo(1);
     }
 
@@ -428,6 +451,34 @@ class UserSubscriptionControllerTest extends IntegrationTest {
         entity.setLastUpdateDate(Instant.now());
         entity.setLastUpdatedBy("test");
         appConfigurationRepository.save(entity);
+    }
+
+    private void updateUserLanguage(UserEntity user, String languageKey) {
+        EmbeddableUserInfo userInfo = user.getUserInfo();
+        userInfo.setLanguageKey(languageKey);
+        user.setUserInfo(userInfo);
+        userRepository.save(user);
+    }
+
+    private Path assertAndGetGeneratedBill() throws IOException {
+        Path billsDirectory = Paths.get("./test-uploads/bills");
+        assertThat(billsDirectory).exists().isDirectory();
+        try (var billFiles = Files.list(billsDirectory)) {
+            Path billPath = billFiles.findFirst().orElseThrow();
+            assertThat(billPath.getFileName().toString()).endsWith(".pdf");
+            byte[] header = Files.readAllBytes(billPath);
+            assertThat(new String(header, 0, 5, StandardCharsets.US_ASCII)).isEqualTo("%PDF-");
+            return billPath;
+        }
+    }
+
+    private String extractPdfText(Path billPath) throws IOException {
+        try (PDDocument document = Loader.loadPDF(billPath.toFile())) {
+            return new PDFTextStripper().getText(document)
+                    .replace('\u00A0', ' ')
+                    .replace("\r", "")
+                    .toLowerCase(Locale.ROOT);
+        }
     }
 
     private UserSubscriptionEntity createSubscriptionDirectly(Long userId, Long planId, SubscriptionBillingFrequency frequency) {
