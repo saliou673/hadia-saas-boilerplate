@@ -1,0 +1,1 @@
+{"type":"object","properties":{"planId":{"type":"integer","format":"int64"},"paymentMode":{"type":"string","maxLength":20,"minLength":0},"billingFrequency":{"type":"string","enum":["MONTHLY","YEARLY","LIFETIME","CUSTOM"]},"discountCode":{"type":"string","maxLength":50,"minLength":0}},"required":["billingFrequency","paymentMode","planId"],"x-readme-ref-name":"SubscribeRequest"}

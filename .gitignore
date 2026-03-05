@@ -43,4 +43,4 @@ build/
 
 # OTHER
 /generated
-/node_modules
+**/node_modules
