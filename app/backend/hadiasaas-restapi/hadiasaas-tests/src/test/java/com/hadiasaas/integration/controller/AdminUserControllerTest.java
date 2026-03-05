@@ -65,7 +65,7 @@ class AdminUserControllerTest extends IntegrationTest {
     // regions AdminUserController.createUser
     @Test
     @WithMockUser(authorities = {"user:read", "user:create", "user:update", "user:deactivate"})
-    void shouldCreateUserSuccessfully() throws Exception {
+    void shouldCreateUserAsAdminSuccessfully() throws Exception {
         CreateAdminUserRequest request = createValidCreateRequest("new-admin@example.com");
 
         UserDetailsDTO result = post(API_ADMIN_USERS, request, UserDetailsDTO.class, status().isCreated());
@@ -86,7 +86,7 @@ class AdminUserControllerTest extends IntegrationTest {
     // region AdminUserController.getUser
     @Test
     @WithMockUser(authorities = {"user:read", "user:create", "user:update", "user:deactivate"})
-    void shouldGetUserByIdSuccessfully() throws Exception {
+    void shouldGetUserAsAdminByIdSuccessfully() throws Exception {
         UserEntity user = createUser("admin-get@example.com", Set.of(UserGroupConstants.SYS_ADMIN));
 
         UserDetailsDTO result = get(API_ADMIN_USERS + "/" + user.getId(), new TypeReference<>() {}, status().isOk());
@@ -99,7 +99,7 @@ class AdminUserControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"user:read", "user:create", "user:update", "user:deactivate"})
-    void shouldFailToGetUserWhenNotFound() throws Exception {
+    void shouldFailToGetUserAsAdminWhenNotFound() throws Exception {
         get(API_ADMIN_USERS + "/99999", status().isBadRequest());
     }
 
@@ -108,7 +108,7 @@ class AdminUserControllerTest extends IntegrationTest {
     // region AdminUserController.updateUser
     @Test
     @WithMockUser(authorities = {"user:read", "user:create", "user:update", "user:deactivate"})
-    void shouldUpdateUserSuccessfully() throws Exception {
+    void shouldUpdateUserAsAdminSuccessfully() throws Exception {
         UserEntity user = createUser("admin-update@example.com", Set.of(UserGroupConstants.SYS_ADMIN));
         UpdateUserRequest request = new UpdateUserRequest("Updated", "Admin", "123456789", "Conakry", "fr", null);
 
@@ -128,7 +128,7 @@ class AdminUserControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"user:read", "user:create", "user:update", "user:deactivate"})
-    void shouldDeleteUserSuccessfully() throws Exception {
+    void shouldDeleteUserAsAdminSuccessfully() throws Exception {
         UserEntity user = createUser("admin-delete@example.com", Set.of(UserGroupConstants.SYS_ADMIN));
 
         delete(API_ADMIN_USERS + "/" + user.getId(), status().isNoContent());
@@ -450,7 +450,7 @@ class AdminUserControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"user:read", "user:update"})
-    void shouldAssignRoleGroupToUserSuccessfully() throws Exception {
+    void shouldAssignRoleGroupAsAdminToUserSuccessfully() throws Exception {
         UserEntity user = createUserWithoutRole("assign-role@example.com");
         RoleGroupEntity roleGroup = createRoleGroupForTest("Editors", "Can edit content");
 
@@ -465,7 +465,7 @@ class AdminUserControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"user:read", "user:update"})
-    void shouldFailToAssignRoleGroupWhenRoleGroupNotFound() throws Exception {
+    void shouldFailToAssignRoleGroupWhenRoleGroupAsAdminNotFound() throws Exception {
         UserEntity user = createUser("assign-missing-role@example.com");
 
         post(API_ADMIN_USERS + "/" + user.getId() + "/role-groups",
@@ -474,7 +474,7 @@ class AdminUserControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"user:read", "user:update"})
-    void shouldRevokeRoleGroupFromUserSuccessfully() throws Exception {
+    void shouldRevokeRoleGroupAsAdminFromUserSuccessfully() throws Exception {
         UserEntity user = createUserWithoutRole("revoke-role@example.com");
         RoleGroupEntity roleGroup = createRoleGroupForTest("Viewers", "Read-only access");
 
@@ -502,7 +502,7 @@ class AdminUserControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"user:read"})
-    void shouldGetUserPermissionsSuccessfully() throws Exception {
+    void shouldGetUserAsAdminPermissionsSuccessfully() throws Exception {
         UserEntity user = createUser("perm-user@example.com");
         RoleGroupEntity roleGroup = createRoleGroupForTest("PermGroup", "Permission test group");
         user.getRoleGroups().add(roleGroup);

@@ -27,7 +27,7 @@ class AppConfigurationControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "ROLE_USER")
-    void shouldGetAllAppConfigurationForAuthenticatedUser() throws Exception {
+    void shouldGetAppConfigurationsAppConfigurationForAuthenticatedUser() throws Exception {
         createAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
         createAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
 

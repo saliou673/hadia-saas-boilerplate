@@ -2,6 +2,7 @@ package com.hadiasaas.application;
 
 import com.hadiasaas.domain.exceptions.RoleGroupNameAlreadyExistsException;
 import com.hadiasaas.domain.exceptions.RoleGroupNotFoundException;
+import com.hadiasaas.domain.models.query.PagedResult;
 import com.hadiasaas.domain.models.rbac.Permission;
 import com.hadiasaas.domain.models.rbac.RoleGroup;
 import com.hadiasaas.domain.ports.in.RoleGroupUseCase;
@@ -29,6 +30,12 @@ public class RoleGroupService implements RoleGroupUseCase {
     @Transactional(readOnly = true)
     public List<RoleGroup> findAll() {
         return roleGroupPersistencePort.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PagedResult<RoleGroup> findAll(int page, int size) {
+        return roleGroupPersistencePort.findAll(page, size);
     }
 
     @Override

@@ -36,7 +36,7 @@ public class AdminUserSubscriptionController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('subscription:read')")
-    public PaginatedResult<UserSubscriptionDTO> getAll(
+    public PaginatedResult<UserSubscriptionDTO> getUserSubscriptionAsAdmin(
             UserSubscriptionFilter filter,
             @PageableDefault(size = DEFAULT_PAGE_SIZE_INT, sort = "creationDate", direction = Sort.Direction.DESC) Pageable pageable
     ) {
@@ -46,20 +46,20 @@ public class AdminUserSubscriptionController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('subscription:read')")
-    public UserSubscriptionDTO getById(@PathVariable Long id) {
+    public UserSubscriptionDTO getUserSubscriptionByIdAsAdmin(@PathVariable Long id) {
         return userSubscriptionDtoMapper.toDTO(subscribeUseCase.getById(id));
     }
 
     @PutMapping("/{id}/cancel")
     @PreAuthorize("hasAuthority('subscription:manage')")
-    public UserSubscriptionDTO cancel(@PathVariable Long id) {
+    public UserSubscriptionDTO cancelUserSubscriptionAsAdmin(@PathVariable Long id) {
         return userSubscriptionDtoMapper.toDTO(subscribeUseCase.cancel(id, true));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('subscription:manage')")
-    public void delete(@PathVariable Long id) {
+    public void deleteUserSubscriptionAsAdmin(@PathVariable Long id) {
         UserSubscription subscription = subscribeUseCase.getById(id);
         subscribeUseCase.cancel(subscription.getId(), true);
     }

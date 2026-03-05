@@ -40,7 +40,7 @@ class TwoFactorControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = TEST_EMAIL)
-    void shouldInitSetupSuccessfully() throws Exception {
+    void shouldInit2FactorSetupSuccessfully() throws Exception {
         createUser(TEST_EMAIL);
 
         post(API_2FA_SETUP, new TwoFactorSetupRequest(TwoFactorMethodType.EMAIL), status().isNoContent());
@@ -53,7 +53,7 @@ class TwoFactorControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = TEST_EMAIL)
-    void shouldFailInitSetupWhenTwoFactorAlreadyEnabled() throws Exception {
+    void shouldFailInit2FactorSetupWhenTwoFactorAlreadyEnabled() throws Exception {
         createUserWithTwoFactor(TEST_EMAIL, TwoFactorMethodType.EMAIL);
 
         post(API_2FA_SETUP, new TwoFactorSetupRequest(TwoFactorMethodType.EMAIL), status().isConflict());
@@ -92,7 +92,7 @@ class TwoFactorControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = TEST_EMAIL)
-    void shouldConfirmSetupSuccessfully() throws Exception {
+    void shouldConfirm2FactorSetupSuccessfully() throws Exception {
         UserEntity user = createUser(TEST_EMAIL);
 
         // Init setup to create a challenge
@@ -119,7 +119,7 @@ class TwoFactorControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = TEST_EMAIL)
-    void shouldFailConfirmSetupWithWrongCode() throws Exception {
+    void shouldFailConfirm2FactorSetupWithWrongCode() throws Exception {
         UserEntity user = createUser(TEST_EMAIL);
         post(API_2FA_SETUP, new TwoFactorSetupRequest(TwoFactorMethodType.EMAIL), status().isNoContent());
 
@@ -132,7 +132,7 @@ class TwoFactorControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = TEST_EMAIL)
-    void shouldFailConfirmSetupWithExpiredChallenge() throws Exception {
+    void shouldFailConfirm2FactorSetupWithExpiredChallenge() throws Exception {
         UserEntity user = createUser(TEST_EMAIL);
 
         // Create an expired SETUP challenge directly in the DB
@@ -156,7 +156,7 @@ class TwoFactorControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = TEST_EMAIL)
-    void shouldFailConfirmSetupWithNoChallenge() throws Exception {
+    void shouldFailConfirm2FactorSetupWithNoChallenge() throws Exception {
         createUser(TEST_EMAIL);
 
         post(API_2FA_SETUP_CONFIRM, new TwoFactorSetupConfirmRequest("123456"), status().isBadRequest());
@@ -173,7 +173,7 @@ class TwoFactorControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = TEST_EMAIL)
-    void shouldDisableTwoFactorSuccessfully() throws Exception {
+    void shouldDisable2FactorTwoFactorSuccessfully() throws Exception {
         UserEntity user = createUserWithTwoFactor(TEST_EMAIL, TwoFactorMethodType.EMAIL);
 
         delete(API_2FA_DISABLE, new TwoFactorDisableRequest(DEFAULT_USER_PASSWORD), status().isNoContent());
@@ -185,7 +185,7 @@ class TwoFactorControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = TEST_EMAIL)
-    void shouldFailDisableTwoFactorWithWrongPassword() throws Exception {
+    void shouldFailDisable2FactorTwoFactorWithWrongPassword() throws Exception {
         UserEntity user = createUserWithTwoFactor(TEST_EMAIL, TwoFactorMethodType.EMAIL);
 
         delete(API_2FA_DISABLE, new TwoFactorDisableRequest("WrongPassword123!"), status().isBadRequest());
@@ -196,14 +196,14 @@ class TwoFactorControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = TEST_EMAIL)
-    void shouldFailDisableTwoFactorWhenNotEnabled() throws Exception {
+    void shouldFailDisable2FactorTwoFactorWhenNotEnabled() throws Exception {
         createUser(TEST_EMAIL);
 
         delete(API_2FA_DISABLE, new TwoFactorDisableRequest(DEFAULT_USER_PASSWORD), status().isBadRequest());
     }
 
     @Test
-    void shouldRejectDisableTwoFactorWithoutAuthentication() throws Exception {
+    void shouldRejectDisable2FactorTwoFactorWithoutAuthentication() throws Exception {
         delete(API_2FA_DISABLE, new TwoFactorDisableRequest(DEFAULT_USER_PASSWORD), status().isUnauthorized());
     }
 
@@ -383,7 +383,7 @@ class TwoFactorControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = TEST_EMAIL)
-    void shouldPerformCompleteSetupAndDisableFlow() throws Exception {
+    void shouldPerformCompleteSetupAndDisable2FactorFlow() throws Exception {
         UserEntity user = createUser(TEST_EMAIL);
 
         // 1. Enable 2FA
@@ -409,7 +409,7 @@ class TwoFactorControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = TEST_EMAIL)
-    void shouldReturnTotpSetupDataOnInitSetup() throws Exception {
+    void shouldReturnTotpSetupDataOnInit2FactorSetup() throws Exception {
         createUser(TEST_EMAIL);
 
         TotpSetupResponse response = post(
@@ -434,7 +434,7 @@ class TwoFactorControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = TEST_EMAIL)
-    void shouldEnableTotpAfterConfirmSetup() throws Exception {
+    void shouldEnableTotpAfterConfirm2FactorSetup() throws Exception {
         UserEntity user = createUser(TEST_EMAIL);
 
         // Init TOTP setup — returns secret + QR URI

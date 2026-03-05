@@ -1,5 +1,6 @@
 package com.hadiasaas.domain.ports.in;
 
+import com.hadiasaas.domain.models.query.PagedResult;
 import com.hadiasaas.domain.models.rbac.RoleGroup;
 
 import java.util.List;
@@ -16,6 +17,15 @@ public interface RoleGroupUseCase {
      * @return list of all role groups
      */
     List<RoleGroup> findAll();
+
+    /**
+     * Returns role groups using pagination.
+     *
+     * @param page zero-based page index
+     * @param size maximum items per page
+     * @return paginated role groups
+     */
+    PagedResult<RoleGroup> findAll(int page, int size);
 
     /**
      * Returns a role group by its identifier.

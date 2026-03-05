@@ -40,7 +40,7 @@ public class AdminDiscountCodeController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('discount-code:create')")
-    public DiscountCodeDTO create(@Valid @RequestBody CreateDiscountCodeRequest request) {
+    public DiscountCodeDTO createDiscountCodeAsAdmin(@Valid @RequestBody CreateDiscountCodeRequest request) {
         return discountCodeDtoMapper.toDTO(discountCodeUseCase.create(
                 request.code(),
                 request.discountType(),
@@ -54,7 +54,7 @@ public class AdminDiscountCodeController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('discount-code:read')")
-    public PaginatedResult<DiscountCodeDTO> getAll(
+    public PaginatedResult<DiscountCodeDTO> getDiscountCodesAsAdmin(
             DiscountCodeFilter filter,
             @PageableDefault(size = DEFAULT_PAGE_SIZE_INT, sort = "creationDate", direction = Sort.Direction.DESC) Pageable pageable
     ) {
@@ -64,13 +64,13 @@ public class AdminDiscountCodeController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('discount-code:read')")
-    public DiscountCodeDTO getById(@PathVariable Long id) {
+    public DiscountCodeDTO getDiscountCodesByIdAsAdmin(@PathVariable Long id) {
         return discountCodeDtoMapper.toDTO(discountCodeUseCase.getById(id));
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('discount-code:update')")
-    public DiscountCodeDTO update(@PathVariable Long id, @Valid @RequestBody UpdateDiscountCodeRequest request) {
+    public DiscountCodeDTO updateDiscountCodeAsAdmin(@PathVariable Long id, @Valid @RequestBody UpdateDiscountCodeRequest request) {
         return discountCodeDtoMapper.toDTO(discountCodeUseCase.update(
                 id,
                 request.code(),
@@ -86,7 +86,7 @@ public class AdminDiscountCodeController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('discount-code:delete')")
-    public void delete(@PathVariable Long id) {
+    public void deleteDiscountCodeAsAdmin(@PathVariable Long id) {
         discountCodeUseCase.delete(id);
     }
 }

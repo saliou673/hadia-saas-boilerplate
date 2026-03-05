@@ -25,7 +25,7 @@ public class SubscriptionPlanController {
     private final SubscriptionPlanDtoMapper subscriptionPlanDtoMapper;
 
     @GetMapping
-    public PaginatedResult<SubscriptionPlanDTO> getAll(
+    public PaginatedResult<SubscriptionPlanDTO> getSubscriptionPlans(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = PaginationConstants.DEFAULT_PAGE_SIZE_INT + "") int size) {
         return new PaginatedResult<>(subscriptionPlanQueryUseCase.findAllActive(page, size), subscriptionPlanDtoMapper::toDTO);

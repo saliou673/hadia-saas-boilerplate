@@ -9,6 +9,7 @@ import com.hadiasaas.infrastructure.adapter.out.persistence.entity.PermissionEnt
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.RoleGroupEntity;
 import com.hadiasaas.infrastructure.adapter.out.persistence.repository.PermissionRepository;
 import com.hadiasaas.infrastructure.adapter.out.persistence.repository.RoleGroupRepository;
+import com.hadiasaas.infrastructure.adapter.out.query.PaginatedResult;
 import com.hadiasaas.integration.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import java.time.Instant;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,7 +36,7 @@ class AdminRoleGroupControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"role-group:read", "role-group:manage"})
-    void shouldCreateRoleGroupSuccessfully() throws Exception {
+    void shouldCreateRoleGroupAsAdminRoleGroupSuccessfully() throws Exception {
         CreateRoleGroupRequest request = new CreateRoleGroupRequest(
                 "Editors", "Can edit content", Set.of("user:read")
         );
@@ -55,8 +55,8 @@ class AdminRoleGroupControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"role-group:read", "role-group:manage"})
-    void shouldFailToCreateWithDuplicateName() throws Exception {
-        createRoleGroup("Editors", "First group");
+    void shouldFailToCreateRoleGroupAsAdminWithDuplicateName() throws Exception {
+        createRoleGroupAsAdminRoleGroup("Editors", "First group");
 
         CreateRoleGroupRequest request = new CreateRoleGroupRequest(
                 "Editors", "Second group", Set.of("user:read")
@@ -67,7 +67,7 @@ class AdminRoleGroupControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"role-group:read", "role-group:manage"})
-    void shouldFailToCreateWithBlankName() throws Exception {
+    void shouldFailToCreateRoleGroupAsAdminWithBlankName() throws Exception {
         CreateRoleGroupRequest request = new CreateRoleGroupRequest(
                 "", "Description", Set.of("user:read")
         );
@@ -76,7 +76,7 @@ class AdminRoleGroupControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"role-group:read", "role-group:manage"})
-    void shouldFailToCreateWithBlankDescription() throws Exception {
+    void shouldFailToCreateRoleGroupAsAdminWithBlankDescription() throws Exception {
         CreateRoleGroupRequest request = new CreateRoleGroupRequest(
                 "Name", "", Set.of("user:read")
         );
@@ -85,7 +85,7 @@ class AdminRoleGroupControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"role-group:read", "role-group:manage"})
-    void shouldFailToCreateWithEmptyPermissions() throws Exception {
+    void shouldFailToCreateRoleGroupAsAdminWithEmptyPermissions() throws Exception {
         CreateRoleGroupRequest request = new CreateRoleGroupRequest(
                 "Name", "Description", Set.of()
         );
@@ -99,7 +99,7 @@ class AdminRoleGroupControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "role-group:read")
     void shouldGetRoleGroupByIdSuccessfully() throws Exception {
-        RoleGroupEntity entity = createRoleGroup("Editors", "Can edit content");
+        RoleGroupEntity entity = createRoleGroupAsAdminRoleGroup("Editors", "Can edit content");
 
         RoleGroupDTO result = get(API + "/" + entity.getId(), new TypeReference<>() {}, status().isOk());
 
@@ -121,23 +121,23 @@ class AdminRoleGroupControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "role-group:read")
-    void shouldFindAllRoleGroupsSuccessfully() throws Exception {
-        createRoleGroup("Group A", "First group");
-        createRoleGroup("Group B", "Second group");
+    void shouldGetRoleGroupsAsAdminRoleGroupsSuccessfully() throws Exception {
+        createRoleGroupAsAdminRoleGroup("Group A", "First group");
+        createRoleGroupAsAdminRoleGroup("Group B", "Second group");
 
-        List<RoleGroupDTO> result = get(API, new TypeReference<>() {}, status().isOk());
+        PaginatedResult<RoleGroupDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
-        assertThat(result).extracting(RoleGroupDTO::getName)
+        assertThat(result.getItems()).extracting(RoleGroupDTO::getName)
                 .contains("Group A", "Group B");
     }
 
     @Test
     @WithMockUser(authorities = "role-group:read")
     void shouldReturnSeededRoleGroupsByDefault() throws Exception {
-        List<RoleGroupDTO> result = get(API, new TypeReference<>() {}, status().isOk());
+        PaginatedResult<RoleGroupDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
         // 6 default role groups are seeded by DML migrations
-        assertThat(result).hasSize(4);
+        assertThat(result.getItems()).hasSize(4);
     }
 
     // endregion
@@ -146,8 +146,8 @@ class AdminRoleGroupControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"role-group:read", "role-group:manage"})
-    void shouldUpdateRoleGroupSuccessfully() throws Exception {
-        RoleGroupEntity entity = createRoleGroup("Old Name", "Old description");
+    void shouldUpdateRoleGroupAsAdminRoleGroupSuccessfully() throws Exception {
+        RoleGroupEntity entity = createRoleGroupAsAdminRoleGroup("Old Name", "Old description");
 
         UpdateRoleGroupRequest request = new UpdateRoleGroupRequest(
                 "New Name", "New description", Set.of("role-group:manage")
@@ -167,8 +167,8 @@ class AdminRoleGroupControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"role-group:read", "role-group:manage"})
-    void shouldAllowUpdateWithSameName() throws Exception {
-        RoleGroupEntity entity = createRoleGroup("Same Name", "Description");
+    void shouldAllowUpdateRoleGroupAsAdminWithSameName() throws Exception {
+        RoleGroupEntity entity = createRoleGroupAsAdminRoleGroup("Same Name", "Description");
 
         UpdateRoleGroupRequest request = new UpdateRoleGroupRequest(
                 "Same Name", "Updated description", Set.of("user:read")
@@ -182,9 +182,9 @@ class AdminRoleGroupControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"role-group:read", "role-group:manage"})
-    void shouldFailToUpdateWithDuplicateName() throws Exception {
-        createRoleGroup("Existing Name", "Group 1");
-        RoleGroupEntity second = createRoleGroup("Second Group", "Group 2");
+    void shouldFailToUpdateRoleGroupAsAdminWithDuplicateName() throws Exception {
+        createRoleGroupAsAdminRoleGroup("Existing Name", "Group 1");
+        RoleGroupEntity second = createRoleGroupAsAdminRoleGroup("Second Group", "Group 2");
 
         UpdateRoleGroupRequest request = new UpdateRoleGroupRequest(
                 "Existing Name", "Updated description", Set.of("user:read")
@@ -195,7 +195,7 @@ class AdminRoleGroupControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"role-group:read", "role-group:manage"})
-    void shouldFailToUpdateWhenNotFound() throws Exception {
+    void shouldFailToUpdateRoleGroupAsAdminWhenNotFound() throws Exception {
         UpdateRoleGroupRequest request = new UpdateRoleGroupRequest(
                 "Name", "Description", Set.of("user:read")
         );
@@ -209,8 +209,8 @@ class AdminRoleGroupControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"role-group:read", "role-group:manage"})
-    void shouldDeleteRoleGroupSuccessfully() throws Exception {
-        RoleGroupEntity entity = createRoleGroup("To Delete", "Will be deleted");
+    void shouldDeleteRoleGroupAsAdminRoleGroupSuccessfully() throws Exception {
+        RoleGroupEntity entity = createRoleGroupAsAdminRoleGroup("To Delete", "Will be deleted");
 
         delete(API + "/" + entity.getId(), status().isNoContent());
 
@@ -219,7 +219,7 @@ class AdminRoleGroupControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"role-group:read", "role-group:manage"})
-    void shouldFailToDeleteWhenNotFound() throws Exception {
+    void shouldFailToDeleteRoleGroupAsAdminWhenNotFound() throws Exception {
         delete(API + "/99999", status().isNotFound());
     }
 
@@ -230,10 +230,10 @@ class AdminRoleGroupControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "role-group:read")
     void shouldListAllPermissionsSuccessfully() throws Exception {
-        List<PermissionDTO> result = get(API + "/permissions", new TypeReference<>() {}, status().isOk());
+        PaginatedResult<PermissionDTO> result = get(API + "/permissions", new TypeReference<>() {}, status().isOk());
 
-        assertThat(result).isNotEmpty();
-        assertThat(result).extracting(PermissionDTO::code)
+        assertThat(result.getItems()).isNotEmpty();
+        assertThat(result.getItems()).extracting(PermissionDTO::code)
                 .contains("role-group:read", "role-group:manage", "user:read", "config:manage");
     }
 
@@ -249,7 +249,7 @@ class AdminRoleGroupControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "role-group:read")
-    void shouldForbidCreateForUserWithReadOnlyPermission() throws Exception {
+    void shouldForbidCreateRoleGroupAsAdminForUserWithReadOnlyPermission() throws Exception {
         CreateRoleGroupRequest request = new CreateRoleGroupRequest(
                 "Name", "Description", Set.of("user:read")
         );
@@ -258,15 +258,15 @@ class AdminRoleGroupControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "role-group:read")
-    void shouldForbidDeleteForUserWithReadOnlyPermission() throws Exception {
-        RoleGroupEntity entity = createRoleGroup("Group", "Description");
+    void shouldForbidDeleteRoleGroupAsAdminForUserWithReadOnlyPermission() throws Exception {
+        RoleGroupEntity entity = createRoleGroupAsAdminRoleGroup("Group", "Description");
 
         delete(API + "/" + entity.getId(), status().isForbidden());
     }
 
     // endregion
 
-    private RoleGroupEntity createRoleGroup(String name, String description) {
+    private RoleGroupEntity createRoleGroupAsAdminRoleGroup(String name, String description) {
         PermissionEntity permission = permissionRepository.findById("user:read").orElseThrow();
         RoleGroupEntity entity = new RoleGroupEntity(null, name, description, new HashSet<>(Set.of(permission)));
         entity.setCreationDate(Instant.now());

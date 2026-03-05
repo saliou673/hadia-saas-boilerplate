@@ -57,7 +57,7 @@ public class AdminUserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('user:create')")
-    public UserDetailsDTO createUser(@Valid @RequestBody CreateAdminUserRequest request) {
+    public UserDetailsDTO createUserAsAdmin(@Valid @RequestBody CreateAdminUserRequest request) {
         return userDtoMapper.toDetailsDTO(
                 accountUseCase.createManagedUser(
                         createAdminUserRequestMapper.toDomain(request),
@@ -68,13 +68,13 @@ public class AdminUserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('user:read')")
-    public UserDetailsDTO getUser(@PathVariable Long id) {
+    public UserDetailsDTO getUserAsAdmin(@PathVariable Long id) {
         return userDtoMapper.toDetailsDTO(accountUseCase.getUserWithAuthoritiesById(id));
     }
 
     @GetMapping
     @PreAuthorize("hasAuthority('user:read')")
-    public PaginatedResult<UserDetailsDTO> getUsers(
+    public PaginatedResult<UserDetailsDTO> getUsersAsAdmin(
             UserFilter filter,
             @PageableDefault(size = DEFAULT_PAGE_SIZE_INT, sort = AuditableEntity_.CREATION_DATE, direction = Sort.Direction.DESC) Pageable pageable
     ) {
@@ -84,7 +84,7 @@ public class AdminUserController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('user:update')")
-    public UserDetailsDTO updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserRequest request) {
+    public UserDetailsDTO updateUserAsAdmin(@PathVariable Long id, @Valid @RequestBody UpdateUserRequest request) {
         UserInfoUpdate infoUpdate = updateUserRequestMapper.toDomain(request);
         return userDtoMapper.toDetailsDTO(accountUseCase.updateUserById(id, infoUpdate));
     }
@@ -92,27 +92,27 @@ public class AdminUserController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('user:deactivate')")
-    public void deleteUser(@PathVariable Long id) {
+    public void deleteUserAsAdmin(@PathVariable Long id) {
         accountUseCase.deleteUserById(id);
     }
 
     @PostMapping("/{id}/role-groups")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('user:update')")
-    public void assignRoleGroup(@PathVariable Long id, @Valid @RequestBody AssignRoleGroupRequest request) {
+    public void assignRoleGroupAsAdmin(@PathVariable Long id, @Valid @RequestBody AssignRoleGroupRequest request) {
         roleGroupUseCase.assignToUser(id, request.roleGroupId());
     }
 
     @DeleteMapping("/{id}/role-groups/{roleGroupId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('user:update')")
-    public void revokeRoleGroup(@PathVariable Long id, @PathVariable Long roleGroupId) {
+    public void revokeRoleGroupAsAdmin(@PathVariable Long id, @PathVariable Long roleGroupId) {
         roleGroupUseCase.revokeFromUser(id, roleGroupId);
     }
 
     @GetMapping("/{id}/permissions")
     @PreAuthorize("hasAuthority('user:read')")
-    public List<PermissionDTO> getUserPermissions(@PathVariable Long id) {
+    public List<PermissionDTO> getUserPermissionsAsAdmin(@PathVariable Long id) {
         return accountUseCase.getUserWithAuthoritiesById(id)
                 .resolvePermissions()
                 .stream()
@@ -123,7 +123,7 @@ public class AdminUserController {
 
     @GetMapping("/{id}/permissions/check")
     @PreAuthorize("hasAuthority('user:read')")
-    public PermissionCheckResponse checkUserPermission(@PathVariable Long id, @RequestParam String code) {
+    public PermissionCheckResponse checkUserPermissionAsAdmin(@PathVariable Long id, @RequestParam String code) {
         boolean hasPermission = accountUseCase.getUserWithAuthoritiesById(id)
                 .resolvePermissions()
                 .stream()

@@ -38,12 +38,12 @@ class AdminDiscountCodeControllerTest extends IntegrationTest {
 
     @BeforeEach
     void seedCurrency() {
-        createCurrency(CURRENCY_CODE);
+        createDiscountCodeAsAdminCurrency(CURRENCY_CODE);
     }
 
     @Test
     @WithMockUser(authorities = "discount-code:create")
-    void shouldCreatePercentageDiscountCodeSuccessfully() throws Exception {
+    void shouldCreateDiscountCodeAsAdminPercentageDiscountCodeSuccessfully() throws Exception {
         CreateDiscountCodeRequest request = new CreateDiscountCodeRequest(
                 "WELCOME10",
                 DiscountType.PERCENTAGE,
@@ -66,7 +66,7 @@ class AdminDiscountCodeControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "discount-code:create")
-    void shouldCreateFixedAmountDiscountCodeSuccessfully() throws Exception {
+    void shouldCreateDiscountCodeAsAdminFixedAmountDiscountCodeSuccessfully() throws Exception {
         CreateDiscountCodeRequest request = new CreateDiscountCodeRequest(
                 "SAVE15",
                 DiscountType.FIXED_AMOUNT,
@@ -86,8 +86,8 @@ class AdminDiscountCodeControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "discount-code:read")
     void shouldListDiscountCodesSuccessfully() throws Exception {
-        createDiscountCodeCurrency("SAVE5", DiscountType.FIXED_AMOUNT, new BigDecimal("5.00"), CURRENCY_CODE, true, null, null, 0);
-        createDiscountCodeCurrency("WELCOME10", DiscountType.PERCENTAGE, new BigDecimal("10.00"), null, true, null, null, 0);
+        createDiscountCodeAsAdminDiscountCodeCurrency("SAVE5", DiscountType.FIXED_AMOUNT, new BigDecimal("5.00"), CURRENCY_CODE, true, null, null, 0);
+        createDiscountCodeAsAdminDiscountCodeCurrency("WELCOME10", DiscountType.PERCENTAGE, new BigDecimal("10.00"), null, true, null, null, 0);
 
         PaginatedResult<DiscountCodeDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
@@ -98,7 +98,7 @@ class AdminDiscountCodeControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "discount-code:read")
     void shouldGetDiscountCodeByIdSuccessfully() throws Exception {
-        Long id = createDiscountCodeCurrency("WELCOME10", DiscountType.PERCENTAGE, new BigDecimal("10.00"), null, true, null, null, 0).getId();
+        Long id = createDiscountCodeAsAdminDiscountCodeCurrency("WELCOME10", DiscountType.PERCENTAGE, new BigDecimal("10.00"), null, true, null, null, 0).getId();
 
         DiscountCodeDTO result = get(API + "/" + id, new TypeReference<>() {}, status().isOk());
 
@@ -108,8 +108,8 @@ class AdminDiscountCodeControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "discount-code:update")
-    void shouldUpdateDiscountCodeSuccessfully() throws Exception {
-        Long id = createDiscountCodeCurrency("WELCOME10", DiscountType.PERCENTAGE, new BigDecimal("10.00"), null, true, null, 10, 0).getId();
+    void shouldUpdateDiscountCodeAsAdminDiscountCodeSuccessfully() throws Exception {
+        Long id = createDiscountCodeAsAdminDiscountCodeCurrency("WELCOME10", DiscountType.PERCENTAGE, new BigDecimal("10.00"), null, true, null, 10, 0).getId();
 
         UpdateDiscountCodeRequest request = new UpdateDiscountCodeRequest(
                 "WELCOME20",
@@ -132,15 +132,15 @@ class AdminDiscountCodeControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "discount-code:delete")
-    void shouldDeleteDiscountCodeSuccessfully() throws Exception {
-        Long id = createDiscountCodeCurrency("WELCOME10", DiscountType.PERCENTAGE, new BigDecimal("10.00"), null, true, null, null, 0).getId();
+    void shouldDeleteDiscountCodeAsAdminDiscountCodeSuccessfully() throws Exception {
+        Long id = createDiscountCodeAsAdminDiscountCodeCurrency("WELCOME10", DiscountType.PERCENTAGE, new BigDecimal("10.00"), null, true, null, null, 0).getId();
 
         delete(API + "/" + id, status().isNoContent());
 
         assertThat(discountCodeRepository.findById(id)).isEmpty();
     }
 
-    private com.hadiasaas.infrastructure.adapter.out.persistence.entity.DiscountCodeEntity createDiscountCodeCurrency(
+    private com.hadiasaas.infrastructure.adapter.out.persistence.entity.DiscountCodeEntity createDiscountCodeAsAdminDiscountCodeCurrency(
             String code,
             DiscountType discountType,
             BigDecimal discountValue,
@@ -167,7 +167,7 @@ class AdminDiscountCodeControllerTest extends IntegrationTest {
         return discountCodeRepository.save(entity);
     }
 
-    private void createCurrency(String code) {
+    private void createDiscountCodeAsAdminCurrency(String code) {
         AppConfigurationEntity entity = new AppConfigurationEntity(null, AppConfigurationCategory.CURRENCY, code, code, null, true);
         entity.setCreationDate(Instant.now());
         entity.setLastUpdateDate(Instant.now());

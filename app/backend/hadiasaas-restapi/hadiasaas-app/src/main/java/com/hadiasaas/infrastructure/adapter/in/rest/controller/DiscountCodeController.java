@@ -29,7 +29,7 @@ public class DiscountCodeController {
     private final DiscountCodeQueryUseCase discountCodeQueryUseCase;
 
     @GetMapping("/{code}/status")
-    public DiscountCodeStatusResponse getStatus(@PathVariable String code) {
+    public DiscountCodeStatusResponse getDiscountCodeStatus(@PathVariable String code) {
         try {
             DiscountCode discountCode = discountCodeQueryUseCase.getByCode(code);
             discountCode.validateForUse(LocalDate.now());

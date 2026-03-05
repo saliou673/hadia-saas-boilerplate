@@ -1,5 +1,6 @@
 package com.hadiasaas.domain.ports.out.persistenceport;
 
+import com.hadiasaas.domain.models.query.PagedResult;
 import com.hadiasaas.domain.models.rbac.Permission;
 
 import java.util.Collection;
@@ -17,6 +18,15 @@ public interface PermissionPersistencePort {
      * @return list of all permissions
      */
     List<Permission> findAll();
+
+    /**
+     * Returns permissions using pagination.
+     *
+     * @param page zero-based page index
+     * @param size maximum items per page
+     * @return paginated permissions
+     */
+    PagedResult<Permission> findAll(int page, int size);
 
     /**
      * Returns the permissions matching the given codes.

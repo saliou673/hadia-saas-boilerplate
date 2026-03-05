@@ -33,7 +33,7 @@ public class UserSubscriptionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserSubscriptionDTO subscribe(@Valid @RequestBody SubscribeRequest request) {
+    public UserSubscriptionDTO subscribeToPlan(@Valid @RequestBody SubscribeRequest request) {
         UserSubscription subscription = subscribeUseCase.subscribe(
                 request.planId(),
                 request.paymentMode(),
@@ -52,12 +52,12 @@ public class UserSubscriptionController {
 
     @PostMapping("/{id}/renew")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserSubscriptionDTO renew(@PathVariable Long id) {
+    public UserSubscriptionDTO renewSubscription(@PathVariable Long id) {
         return userSubscriptionDtoMapper.toDTO(subscribeUseCase.renew(id));
     }
 
     @PutMapping("/{id}/cancel")
-    public UserSubscriptionDTO cancel(@PathVariable Long id) {
+    public UserSubscriptionDTO cancelSubscription(@PathVariable Long id) {
         return userSubscriptionDtoMapper.toDTO(subscribeUseCase.cancel(id, false));
     }
 }

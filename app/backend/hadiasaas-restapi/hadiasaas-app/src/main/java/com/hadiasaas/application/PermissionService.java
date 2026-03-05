@@ -1,5 +1,6 @@
 package com.hadiasaas.application;
 
+import com.hadiasaas.domain.models.query.PagedResult;
 import com.hadiasaas.domain.models.rbac.Permission;
 import com.hadiasaas.domain.ports.in.PermissionUseCase;
 import com.hadiasaas.domain.ports.out.persistenceport.PermissionPersistencePort;
@@ -20,5 +21,10 @@ public class PermissionService implements PermissionUseCase {
     @Override
     public List<Permission> findAll() {
         return permissionPersistencePort.findAll();
+    }
+
+    @Override
+    public PagedResult<Permission> findAll(int page, int size) {
+        return permissionPersistencePort.findAll(page, size);
     }
 }

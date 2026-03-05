@@ -41,7 +41,7 @@ public class AppConfigurationController {
     private final AppConfigurationDtoMapper appConfigurationDtoMapper;
 
     @GetMapping
-    public PaginatedResult<AppConfigurationDTO> getAll(
+    public PaginatedResult<AppConfigurationDTO> getAppConfigurations(
             AppConfigurationFilter filter,
             @PageableDefault(size = DEFAULT_PAGE_SIZE_INT, sort = AuditableEntity_.CREATION_DATE, direction = Sort.Direction.DESC) Pageable pageable
     ) {
@@ -50,7 +50,7 @@ public class AppConfigurationController {
     }
 
     @GetMapping("/{category}/{code}")
-    public ResponseEntity<AppConfigurationDTO> getByCategoryAndCode(
+    public ResponseEntity<AppConfigurationDTO> getAppConfigurationByCategoryAndCode(
             @PathVariable AppConfigurationCategory category,
             @PathVariable String code
     ) {

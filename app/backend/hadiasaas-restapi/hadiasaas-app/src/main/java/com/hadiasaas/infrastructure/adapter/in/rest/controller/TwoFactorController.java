@@ -49,7 +49,7 @@ public class TwoFactorController {
      * </ul>
      */
     @PostMapping("/api/v1/accounts/me/2fa/setup")
-    public ResponseEntity<?> initSetup(@Valid @RequestBody TwoFactorSetupRequest request) {
+    public ResponseEntity<?> init2FactorSetup(@Valid @RequestBody TwoFactorSetupRequest request) {
         return twoFactorUseCase.initSetup(request.type())
                 .map(data -> ResponseEntity.ok((Object) new TotpSetupResponse(data.secret(), data.otpAuthUri())))
                 .orElseGet(() -> ResponseEntity.noContent().build());
@@ -60,7 +60,7 @@ public class TwoFactorController {
      */
     @PostMapping("/api/v1/accounts/me/2fa/setup/confirm")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void confirmSetup(@Valid @RequestBody TwoFactorSetupConfirmRequest request) {
+    public void confirm2FactorSetup(@Valid @RequestBody TwoFactorSetupConfirmRequest request) {
         twoFactorUseCase.confirmSetup(request.code());
     }
 
@@ -71,7 +71,7 @@ public class TwoFactorController {
     @DeleteMapping("/api/v1/accounts/me/2fa")
     @ResponseStatus(HttpStatus.NO_CONTENT)
 
-    public void disable(@Valid @RequestBody TwoFactorDisableRequest request) {
+    public void disable2Factor(@Valid @RequestBody TwoFactorDisableRequest request) {
         twoFactorUseCase.disable(request.currentPassword());
     }
 }

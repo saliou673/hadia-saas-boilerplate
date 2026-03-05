@@ -2,6 +2,7 @@ package com.hadiasaas.infrastructure.adapter.out.persistence;
 
 import com.hadiasaas.domain.exceptions.RoleGroupNotFoundException;
 import com.hadiasaas.domain.exceptions.UserNotFoundException;
+import com.hadiasaas.domain.models.query.PagedResult;
 import com.hadiasaas.domain.models.rbac.RoleGroup;
 import com.hadiasaas.domain.ports.out.persistenceport.RoleGroupPersistencePort;
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.RoleGroupEntity;
@@ -10,6 +11,9 @@ import com.hadiasaas.infrastructure.adapter.out.persistence.mapper.RoleGroupMapp
 import com.hadiasaas.infrastructure.adapter.out.persistence.repository.RoleGroupRepository;
 import com.hadiasaas.infrastructure.adapter.out.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +39,17 @@ public class RoleGroupPersistenceAdapter implements RoleGroupPersistencePort {
                 () -> roleGroupMapper.toDomain(roleGroupRepository.findAll()),
                 "Error fetching all role groups"
         );
+    }
+
+    @Override
+    public PagedResult<RoleGroup> findAll(int page, int size) {
+        return AdapterPersistenceUtils.executeDbOperation(() -> {
+            Page<RoleGroupEntity> entityPage = roleGroupRepository.findAll(
+                    PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "creationDate"))
+            );
+            List<RoleGroup> items = roleGroupMapper.toDomain(entityPage.getContent());
+            return new PagedResult<>(items, entityPage.getTotalElements(), page, size, entityPage.getTotalPages());
+        }, "Error fetching paginated role groups");
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.hadiasaas.domain.ports.out.persistenceport;
 
+import com.hadiasaas.domain.models.query.PagedResult;
 import com.hadiasaas.domain.models.rbac.RoleGroup;
 
 import java.util.Collection;
@@ -18,6 +19,15 @@ public interface RoleGroupPersistencePort {
      * @return list of all role groups
      */
     List<RoleGroup> findAll();
+
+    /**
+     * Returns role groups using pagination.
+     *
+     * @param page zero-based page index
+     * @param size maximum items per page
+     * @return paginated role groups
+     */
+    PagedResult<RoleGroup> findAll(int page, int size);
 
     /**
      * Returns the role groups matching the given names.

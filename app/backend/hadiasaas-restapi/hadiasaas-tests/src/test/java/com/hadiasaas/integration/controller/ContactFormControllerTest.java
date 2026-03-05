@@ -22,7 +22,7 @@ class ContactFormControllerTest extends IntegrationTest {
     private NotificationSenderPort notificationSenderPort;
 
     @Test
-    void shouldSubmitContactFormSuccessfully() throws Exception {
+    void shouldSendContactFormSuccessfully() throws Exception {
         ContactFormRequest request = new ContactFormRequest(
                 "John Doe",
                 "john.doe@example.com",

@@ -25,8 +25,10 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.hadiasaas.util.PaginationConstants.DEFAULT_PAGE_SIZE_INT;
 
+/**
+ * REST controller for admin application configuration management.
+ */
 @Validated
-/** REST controller for admin application configuration management. */
 @RestController
 @Tag(name = "Admin configuration management")
 @PreAuthorize("hasAuthority('config:manage')")
@@ -40,19 +42,19 @@ public class AdminAppConfigurationController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AppConfigurationDTO create(@Valid @RequestBody CreateAppConfigurationRequest request) {
+    public AppConfigurationDTO createAppConfigurationAsAdmin(@Valid @RequestBody CreateAppConfigurationRequest request) {
         return appConfigurationDtoMapper.toDTO(
                 appConfigurationUseCase.create(request.category(), request.code(), request.label(), request.description())
         );
     }
 
     @GetMapping("/{id}")
-    public AppConfigurationDTO getById(@PathVariable Long id) {
+    public AppConfigurationDTO getAppConfigurationByIdAsAdmin(@PathVariable Long id) {
         return appConfigurationDtoMapper.toDTO(appConfigurationUseCase.getById(id));
     }
 
     @GetMapping
-    public PaginatedResult<AppConfigurationDTO> getAll(
+    public PaginatedResult<AppConfigurationDTO> getAppConfigurationsAsAdmin(
             AppConfigurationFilter filter,
             @PageableDefault(size = DEFAULT_PAGE_SIZE_INT, sort = AuditableEntity_.CREATION_DATE, direction = Sort.Direction.DESC) Pageable pageable
     ) {
@@ -61,7 +63,7 @@ public class AdminAppConfigurationController {
     }
 
     @PutMapping("/{id}")
-    public AppConfigurationDTO update(@PathVariable Long id, @Valid @RequestBody UpdateAppConfigurationRequest request) {
+    public AppConfigurationDTO updateAppConfigurationAsAdmin(@PathVariable Long id, @Valid @RequestBody UpdateAppConfigurationRequest request) {
         return appConfigurationDtoMapper.toDTO(
                 appConfigurationUseCase.update(id, request.code(), request.label(), request.description(), Boolean.TRUE.equals(request.active()))
         );

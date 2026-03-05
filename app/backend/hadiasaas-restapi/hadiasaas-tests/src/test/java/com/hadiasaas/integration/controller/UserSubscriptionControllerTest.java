@@ -115,7 +115,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = DEFAULT_USER_EMAIL)
-    void shouldSubscribeMonthlySuccessfully() throws Exception {
+    void shouldSubscribeToPlanMonthlySuccessfully() throws Exception {
         createDefaultUser();
         SubscriptionPlanEntity plan = createPlan("Multi Plan", new BigDecimal("9.99"), new BigDecimal("89.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
 
@@ -179,7 +179,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = DEFAULT_USER_EMAIL)
-    void shouldSubscribeYearlySuccessfully() throws Exception {
+    void shouldSubscribeToPlanYearlySuccessfully() throws Exception {
         createDefaultUser();
         SubscriptionPlanEntity plan = createPlan("Multi Plan", new BigDecimal("9.99"), new BigDecimal("89.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
 
@@ -207,7 +207,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = DEFAULT_USER_EMAIL)
-    void shouldSubscribeLifetimeSuccessfully() throws Exception {
+    void shouldSubscribeToPlanLifetimeSuccessfully() throws Exception {
         createDefaultUser();
         SubscriptionPlanEntity plan = createPlan("Full Plan", null, null, new BigDecimal("299.99"), null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
 
@@ -220,7 +220,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = DEFAULT_USER_EMAIL)
-    void shouldSubscribeCustomCycleSuccessfully() throws Exception {
+    void shouldSubscribeToPlanCustomCycleSuccessfully() throws Exception {
         createDefaultUser();
         SubscriptionPlanEntity plan = createPlan("14-Day Trial", null, null, null, new BigDecimal("4.99"), 14, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
 
@@ -233,7 +233,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = DEFAULT_USER_EMAIL)
-    void shouldSubscribeWithPaypalSuccessfully() throws Exception {
+    void shouldSubscribeToPlanWithPaypalSuccessfully() throws Exception {
         createDefaultUser();
         createPaymentMode("PAYPAL");
         SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
@@ -246,7 +246,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = DEFAULT_USER_EMAIL)
-    void shouldFailToSubscribeToInactivePlan() throws Exception {
+    void shouldFailToSubscribeToPlanToInactivePlan() throws Exception {
         createDefaultUser();
         SubscriptionPlanEntity plan = createPlan("Inactive Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, false, SubscriptionPlanType.ONLINE_TRAINING);
 
@@ -255,7 +255,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = DEFAULT_USER_EMAIL)
-    void shouldFailToSubscribeWhenBillingFrequencyNotSupported() throws Exception {
+    void shouldFailToSubscribeToPlanWhenBillingFrequencyNotSupported() throws Exception {
         createDefaultUser();
         // Plan only offers monthly; requesting YEARLY should fail
         SubscriptionPlanEntity plan = createPlan("Monthly Only", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
@@ -265,7 +265,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = DEFAULT_USER_EMAIL)
-    void shouldFailToSubscribeCustomWhenNoPriceSet() throws Exception {
+    void shouldFailToSubscribeToPlanCustomWhenNoPriceSet() throws Exception {
         createDefaultUser();
         // Plan has no custom price
         SubscriptionPlanEntity plan = createPlan("Monthly Only", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
@@ -275,7 +275,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = DEFAULT_USER_EMAIL)
-    void shouldFailToSubscribeWithInvalidPaymentMode() throws Exception {
+    void shouldFailToSubscribeToPlanWithInvalidPaymentMode() throws Exception {
         createDefaultUser();
         SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
 
@@ -284,7 +284,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = DEFAULT_USER_EMAIL)
-    void shouldFailToSubscribeToNonExistentPlan() throws Exception {
+    void shouldFailToSubscribeToPlanToNonExistentPlan() throws Exception {
         createDefaultUser();
 
         post(API, new SubscribeRequest(99999L, PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), status().isBadRequest());
@@ -292,7 +292,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = DEFAULT_USER_EMAIL)
-    void shouldFailToSubscribeWhenAlreadyActiveSubscription() throws Exception {
+    void shouldFailToSubscribeToPlanWhenAlreadyActiveSubscription() throws Exception {
         createDefaultUser();
         SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
 
@@ -315,13 +315,13 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     }
 
     @Test
-    void shouldRejectUnauthenticatedSubscribe() throws Exception {
+    void shouldRejectUnauthenticatedSubscribeToPlan() throws Exception {
         post(API, new SubscribeRequest(1L, PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), status().isUnauthorized());
     }
 
     @Test
     @WithMockUser(username = DEFAULT_USER_EMAIL)
-    void shouldSubscribeWithPercentageDiscountSuccessfully() throws Exception {
+    void shouldSubscribeToPlanWithPercentageDiscountSuccessfully() throws Exception {
         createDefaultUser();
         SubscriptionPlanEntity plan = createPlan("Discounted Plan", new BigDecimal("100.00"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
         DiscountCodeEntity discountCode = createDiscountCode("WELCOME10", DiscountType.PERCENTAGE, new BigDecimal("10.00"), null, true, LocalDate.now().plusDays(5), 10, 0);
@@ -343,7 +343,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = DEFAULT_USER_EMAIL)
-    void shouldFailToSubscribeWhenFixedDiscountCurrencyDoesNotMatch() throws Exception {
+    void shouldFailToSubscribeToPlanWhenFixedDiscountCurrencyDoesNotMatch() throws Exception {
         createDefaultUser();
         SubscriptionPlanEntity plan = createPlan("EUR Plan", new BigDecimal("50.00"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
         createCurrency("USD");
@@ -394,7 +394,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = DEFAULT_USER_EMAIL)
-    void shouldRenewSubscriptionSuccessfully() throws Exception {
+    void shouldRenewSubscriptionSubscriptionSuccessfully() throws Exception {
         createDefaultUser();
         SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
 
@@ -408,7 +408,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = DEFAULT_USER_EMAIL)
-    void shouldFailToRenewNonOwnedSubscription() throws Exception {
+    void shouldFailToRenewSubscriptionNonOwnedSubscription() throws Exception {
         createDefaultUser();
         SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
         UserSubscriptionEntity other = createSubscriptionDirectly(createUser("other@sub-test.com").getId(), plan.getId(), SubscriptionBillingFrequency.MONTHLY);
@@ -422,7 +422,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(username = DEFAULT_USER_EMAIL)
-    void shouldCancelSubscriptionSuccessfully() throws Exception {
+    void shouldCancelSubscriptionSubscriptionSuccessfully() throws Exception {
         createDefaultUser();
         SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
 

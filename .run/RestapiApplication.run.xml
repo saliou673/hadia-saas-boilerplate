@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
     <configuration default="false" name="RestapiApplication" type="SpringBootApplicationConfigurationType"
                    factoryName="Spring Boot" nameIsGenerated="true">
-        <module name="maitrisetcf-app"/>
-        <option name="SPRING_BOOT_MAIN_CLASS" value="com.maitrisetcf.RestapiApplication"/>
+        <module name="hadiasaas-app"/>
+        <option name="SPRING_BOOT_MAIN_CLASS" value="com.hadiasaas.RestapiApplication"/>
         <method v="2">
             <option name="Make" enabled="true"/>
         </method>

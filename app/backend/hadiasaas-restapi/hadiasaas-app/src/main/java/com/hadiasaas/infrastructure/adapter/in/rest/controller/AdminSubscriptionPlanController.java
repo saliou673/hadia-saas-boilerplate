@@ -42,7 +42,7 @@ public class AdminSubscriptionPlanController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('plan:create')")
-    public SubscriptionPlanDTO create(@Valid @RequestBody CreateSubscriptionPlanRequest request) {
+    public SubscriptionPlanDTO createSubscriptionPlanAsAdmin(@Valid @RequestBody CreateSubscriptionPlanRequest request) {
         return subscriptionPlanDtoMapper.toDTO(
                 subscriptionPlanUseCase.create(
                         request.title(),
@@ -62,13 +62,13 @@ public class AdminSubscriptionPlanController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('plan:read')")
-    public SubscriptionPlanDTO getById(@PathVariable Long id) {
+    public SubscriptionPlanDTO getSubscriptionPlanByIdAsAdmin(@PathVariable Long id) {
         return subscriptionPlanDtoMapper.toDTO(subscriptionPlanUseCase.getById(id));
     }
 
     @GetMapping
     @PreAuthorize("hasAuthority('plan:read')")
-    public PaginatedResult<SubscriptionPlanDTO> getAll(
+    public PaginatedResult<SubscriptionPlanDTO> getSubscriptionPlansAsAdmin(
             SubscriptionPlanFilter filter,
             @PageableDefault(size = DEFAULT_PAGE_SIZE_INT, sort = "monthlyPrice", direction = Sort.Direction.ASC) Pageable pageable
     ) {
@@ -78,7 +78,7 @@ public class AdminSubscriptionPlanController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('plan:update')")
-    public SubscriptionPlanDTO update(@PathVariable Long id, @Valid @RequestBody UpdateSubscriptionPlanRequest request) {
+    public SubscriptionPlanDTO updateSubscriptionPlanAsAdmin(@PathVariable Long id, @Valid @RequestBody UpdateSubscriptionPlanRequest request) {
         return subscriptionPlanDtoMapper.toDTO(
                 subscriptionPlanUseCase.update(
                         id,
@@ -100,7 +100,7 @@ public class AdminSubscriptionPlanController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('plan:delete')")
-    public void delete(@PathVariable Long id) {
+    public void deleteSubscriptionPlanAsAdmin(@PathVariable Long id) {
         subscriptionPlanUseCase.delete(id);
     }
 }

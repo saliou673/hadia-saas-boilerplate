@@ -33,7 +33,7 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "config:manage")
-    void shouldCreateAppConfigurationSuccessfully() throws Exception {
+    void shouldCreateAppConfigurationAsAdminAppConfigurationSuccessfully() throws Exception {
         CreateAppConfigurationRequest request = new CreateAppConfigurationRequest(
                 AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", "West African CFA franc"
         );
@@ -54,7 +54,7 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "config:manage")
-    void shouldFailToCreateWithMissingCategory() throws Exception {
+    void shouldFailToCreateAppConfigurationAsAdminWithMissingCategory() throws Exception {
         CreateAppConfigurationRequest request = new CreateAppConfigurationRequest(
                 null, "XOF", "Franc CFA", null
         );
@@ -63,7 +63,7 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "config:manage")
-    void shouldFailToCreateWithBlankCode() throws Exception {
+    void shouldFailToCreateAppConfigurationAsAdminWithBlankCode() throws Exception {
         CreateAppConfigurationRequest request = new CreateAppConfigurationRequest(
                 AppConfigurationCategory.CURRENCY, "", "Franc CFA", null
         );
@@ -72,7 +72,7 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "config:manage")
-    void shouldFailToCreateWithBlankLabel() throws Exception {
+    void shouldFailToCreateAppConfigurationAsAdminWithBlankLabel() throws Exception {
         CreateAppConfigurationRequest request = new CreateAppConfigurationRequest(
                 AppConfigurationCategory.CURRENCY, "XOF", "", null
         );
@@ -81,8 +81,8 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "config:manage")
-    void shouldFailToCreateWithDuplicateCategoryAndCode() throws Exception {
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
+    void shouldFailToCreateAppConfigurationAsAdminWithDuplicateCategoryAndCode() throws Exception {
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
 
         CreateAppConfigurationRequest request = new CreateAppConfigurationRequest(
                 AppConfigurationCategory.CURRENCY, "XOF", "Another Franc CFA", null
@@ -93,7 +93,7 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "config:manage")
     void shouldAllowSameCodeForDifferentCategories() throws Exception {
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
 
         // Same code "EUR" but if another CURRENCY category with same code already exists → should fail
         // Testing here that same code in same category fails
@@ -107,8 +107,8 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "config:manage")
-    void shouldFailToCreateSecondActiveStorageConfiguration() throws Exception {
-        createAppConfiguration(AppConfigurationCategory.STORAGE, "LOCAL", "Local storage", true);
+    void shouldFailToCreateAppConfigurationAsAdminSecondActiveStorageConfiguration() throws Exception {
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.STORAGE, "LOCAL", "Local storage", true);
 
         CreateAppConfigurationRequest request = new CreateAppConfigurationRequest(
                 AppConfigurationCategory.STORAGE, "AWS", "AWS S3", "Remote storage"
@@ -128,7 +128,7 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "config:manage")
     void shouldGetAppConfigurationByIdSuccessfully() throws Exception {
-        AppConfigurationEntity entity = createAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
+        AppConfigurationEntity entity = createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
 
         AppConfigurationDTO result = get(API + "/" + entity.getId(), new TypeReference<>() {}, status().isOk());
 
@@ -151,8 +151,8 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "config:manage")
-    void shouldUpdateAppConfigurationSuccessfully() throws Exception {
-        AppConfigurationEntity entity = createAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
+    void shouldUpdateAppConfigurationAsAdminAppConfigurationSuccessfully() throws Exception {
+        AppConfigurationEntity entity = createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
         UpdateAppConfigurationRequest request = new UpdateAppConfigurationRequest("XOF", "Franc CFA BCEAO", "Updated description", false);
 
         AppConfigurationDTO result = put(API + "/" + entity.getId(), request, AppConfigurationDTO.class, status().isOk());
@@ -169,16 +169,16 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "config:manage")
-    void shouldFailToUpdateWhenNotFound() throws Exception {
+    void shouldFailToUpdateAppConfigurationAsAdminWhenNotFound() throws Exception {
         UpdateAppConfigurationRequest request = new UpdateAppConfigurationRequest("XOF", "Franc CFA", null, true);
         put(API + "/99999", request, status().isBadRequest());
     }
 
     @Test
     @WithMockUser(authorities = "config:manage")
-    void shouldFailToUpdateWithDuplicateCode() throws Exception {
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
-        AppConfigurationEntity second = createAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
+    void shouldFailToUpdateAppConfigurationAsAdminWithDuplicateCode() throws Exception {
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
+        AppConfigurationEntity second = createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
 
         UpdateAppConfigurationRequest request = new UpdateAppConfigurationRequest("XOF", "Renamed", null, true);
         put(API + "/" + second.getId(), request, status().isBadRequest());
@@ -186,8 +186,8 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "config:manage")
-    void shouldAllowUpdateWithSameCode() throws Exception {
-        AppConfigurationEntity entity = createAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
+    void shouldAllowUpdateAppConfigurationAsAdminWithSameCode() throws Exception {
+        AppConfigurationEntity entity = createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
         UpdateAppConfigurationRequest request = new UpdateAppConfigurationRequest("XOF", "Updated Franc CFA", null, true);
 
         AppConfigurationDTO result = put(API + "/" + entity.getId(), request, AppConfigurationDTO.class, status().isOk());
@@ -199,8 +199,8 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "config:manage")
     void shouldFailToActivateSecondStorageConfiguration() throws Exception {
-        createAppConfiguration(AppConfigurationCategory.STORAGE, "LOCAL", "Local storage", true);
-        AppConfigurationEntity aws = createAppConfiguration(AppConfigurationCategory.STORAGE, "AWS", "AWS S3", false);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.STORAGE, "LOCAL", "Local storage", true);
+        AppConfigurationEntity aws = createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.STORAGE, "AWS", "AWS S3", false);
 
         UpdateAppConfigurationRequest request = new UpdateAppConfigurationRequest("AWS", "AWS S3", "Remote storage", true);
 
@@ -222,7 +222,7 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "config:manage")
     void shouldDeleteAppConfigurationSuccessfully() throws Exception {
-        AppConfigurationEntity entity = createAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
+        AppConfigurationEntity entity = createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
 
         delete(API + "/" + entity.getId(), status().isNoContent());
 
@@ -241,9 +241,9 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "config:manage")
-    void shouldGetAllAppConfigurationSuccessfully() throws Exception {
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
+    void shouldGetAppConfigurationsAsAdminAppConfigurationSuccessfully() throws Exception {
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
 
         PaginatedResult<AppConfigurationDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
@@ -263,8 +263,8 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "config:manage")
     void shouldFilterByCategoryEquals() throws Exception {
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
 
         PaginatedResult<AppConfigurationDTO> result = get(
                 API + "?category.equals=CURRENCY",
@@ -279,8 +279,8 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "config:manage")
     void shouldFilterByCodeEquals() throws Exception {
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
 
         PaginatedResult<AppConfigurationDTO> result = get(
                 API + "?code.equals=XOF",
@@ -294,9 +294,9 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "config:manage")
     void shouldFilterByCodeContains() throws Exception {
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "XAF", "CFA Franc BEAC", true);
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "XAF", "CFA Franc BEAC", true);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
 
         PaginatedResult<AppConfigurationDTO> result = get(
                 API + "?code.contains=X",
@@ -311,9 +311,9 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "config:manage")
     void shouldFilterByActiveEquals() throws Exception {
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", false);
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "USD", "US Dollar", false);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", false);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "USD", "US Dollar", false);
 
         PaginatedResult<AppConfigurationDTO> result = get(
                 API + "?active.equals=false",
@@ -327,9 +327,9 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "config:manage")
     void shouldFilterByLabelContains() throws Exception {
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "XAF", "CFA Franc BEAC", true);
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "XAF", "CFA Franc BEAC", true);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
 
         PaginatedResult<AppConfigurationDTO> result = get(
                 API + "?label.contains=CFA",
@@ -342,8 +342,8 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "config:manage")
     void shouldFilterByCombinedCategoryAndActive() throws Exception {
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", false);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", false);
 
         PaginatedResult<AppConfigurationDTO> result = get(
                 API + "?category.equals=CURRENCY&active.equals=true",
@@ -357,7 +357,7 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "config:manage")
     void shouldReturnEmptyWhenNoFilterMatch() throws Exception {
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
 
         PaginatedResult<AppConfigurationDTO> result = get(
                 API + "?code.equals=NONEXISTENT",
@@ -376,7 +376,7 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
     @WithMockUser(authorities = "config:manage")
     void shouldSupportPagination() throws Exception {
         for (int i = 1; i <= 5; i++) {
-            createAppConfiguration(AppConfigurationCategory.CURRENCY, "CUR" + i, "Currency " + i, true);
+            createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "CUR" + i, "Currency " + i, true);
         }
 
         PaginatedResult<AppConfigurationDTO> firstPage = get(
@@ -407,9 +407,9 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
     @WithMockUser(authorities = "config:manage")
     void shouldSupportPaginationWithFilter() throws Exception {
         for (int i = 1; i <= 4; i++) {
-            createAppConfiguration(AppConfigurationCategory.CURRENCY, "XCU" + i, "X Currency " + i, true);
+            createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "XCU" + i, "X Currency " + i, true);
         }
-        createAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
 
         PaginatedResult<AppConfigurationDTO> firstPage = get(
                 API + "?code.contains=XCU&page=0&size=2",
@@ -438,8 +438,8 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "config:manage")
-    void shouldUpdateByCategoryAndCodeSuccessfully() throws Exception {
-        createAppConfiguration(AppConfigurationCategory.TWO_FACTOR, "ENABLED", "Two-Factor Authentication", false);
+    void shouldUpdateAppConfigurationAsAdminByCategoryAndCodeSuccessfully() throws Exception {
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.TWO_FACTOR, "ENABLED", "Two-Factor Authentication", false);
         UpdateAppConfigurationRequest request = new UpdateAppConfigurationRequest("ENABLED", "Two-Factor Authentication", null, true);
 
         AppConfigurationDTO result = put(API + "/TWO_FACTOR/ENABLED", request, AppConfigurationDTO.class, status().isOk());
@@ -457,24 +457,24 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "config:manage")
-    void shouldFailUpdateByCategoryAndCodeWhenNotFound() throws Exception {
+    void shouldFailUpdateAppConfigurationAsAdminByCategoryAndCodeWhenNotFound() throws Exception {
         UpdateAppConfigurationRequest request = new UpdateAppConfigurationRequest("ENABLED", "Two-Factor Authentication", null, true);
         put(API + "/TWO_FACTOR/NONEXISTENT", request, status().isBadRequest());
     }
 
     @Test
     @WithMockUser(authorities = "config:manage")
-    void shouldFailUpdateByCategoryAndCodeWithBlankLabel() throws Exception {
-        createAppConfiguration(AppConfigurationCategory.TWO_FACTOR, "ENABLED", "Two-Factor Authentication", false);
+    void shouldFailUpdateAppConfigurationAsAdminByCategoryAndCodeWithBlankLabel() throws Exception {
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.TWO_FACTOR, "ENABLED", "Two-Factor Authentication", false);
         UpdateAppConfigurationRequest request = new UpdateAppConfigurationRequest("ENABLED", "", null, true);
         put(API + "/TWO_FACTOR/ENABLED", request, status().isBadRequest());
     }
 
     @Test
     @WithMockUser(authorities = "config:manage")
-    void shouldFailUpdateByCategoryAndCodeWhenNewCodeConflicts() throws Exception {
-        createAppConfiguration(AppConfigurationCategory.TWO_FACTOR, "ENABLED", "Two-Factor Authentication", false);
-        createAppConfiguration(AppConfigurationCategory.TWO_FACTOR, "OTHER", "Other Config", true);
+    void shouldFailUpdateAppConfigurationAsAdminByCategoryAndCodeWhenNewCodeConflicts() throws Exception {
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.TWO_FACTOR, "ENABLED", "Two-Factor Authentication", false);
+        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.TWO_FACTOR, "OTHER", "Other Config", true);
 
         UpdateAppConfigurationRequest request = new UpdateAppConfigurationRequest("OTHER", "Two-Factor Authentication", null, false);
         put(API + "/TWO_FACTOR/ENABLED", request, status().isBadRequest());
@@ -498,7 +498,7 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
 
     // endregion
 
-    private AppConfigurationEntity createAppConfiguration(AppConfigurationCategory category, String code, String label, boolean active) {
+    private AppConfigurationEntity createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory category, String code, String label, boolean active) {
         AppConfigurationEntity entity = new AppConfigurationEntity(null, category, code, label, null, active);
         entity.setCreationDate(Instant.now());
         entity.setLastUpdateDate(Instant.now());

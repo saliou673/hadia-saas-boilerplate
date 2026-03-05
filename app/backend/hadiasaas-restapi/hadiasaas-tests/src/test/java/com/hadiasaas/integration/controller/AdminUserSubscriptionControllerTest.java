@@ -57,7 +57,7 @@ class AdminUserSubscriptionControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "subscription:read")
-    void shouldGetAllSubscriptionsSuccessfully() throws Exception {
+    void shouldGetUserSubscriptionAsAdminSubscriptionsSuccessfully() throws Exception {
         createSubscription(UserSubscriptionStatus.ACTIVE, SubscriptionBillingFrequency.MONTHLY);
         createSubscription(UserSubscriptionStatus.EXPIRED, SubscriptionBillingFrequency.YEARLY);
 
@@ -137,7 +137,7 @@ class AdminUserSubscriptionControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "subscription:manage")
-    void shouldCancelSubscriptionSuccessfully() throws Exception {
+    void shouldCancelSubscriptionUserSubscriptionAsAdminSubscriptionSuccessfully() throws Exception {
         UserSubscriptionEntity entity = createSubscription(UserSubscriptionStatus.ACTIVE, SubscriptionBillingFrequency.MONTHLY);
 
         UserSubscriptionDTO result = put(API + "/" + entity.getId() + "/cancel", null, UserSubscriptionDTO.class, status().isOk());
@@ -150,7 +150,7 @@ class AdminUserSubscriptionControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "subscription:manage")
-    void shouldFailToCancelNonExistentSubscription() throws Exception {
+    void shouldFailToCancelSubscriptionUserSubscriptionAsAdminNonExistentSubscription() throws Exception {
         put(API + "/99999/cancel", null, status().isBadRequest());
     }
 
@@ -159,19 +159,19 @@ class AdminUserSubscriptionControllerTest extends IntegrationTest {
     // region security
 
     @Test
-    void shouldRejectUnauthenticatedGetAll() throws Exception {
+    void shouldRejectUnauthenticatedGetUserSubscriptionAsAdmin() throws Exception {
         get(API, status().isUnauthorized());
     }
 
     @Test
     @WithMockUser(authorities = "ROLE_USER")
-    void shouldForbidGetAllForWrongPermission() throws Exception {
+    void shouldForbidGetUserSubscriptionAsAdminForWrongPermission() throws Exception {
         get(API, status().isForbidden());
     }
 
     @Test
     @WithMockUser(authorities = "subscription:read")
-    void shouldForbidCancelWithReadPermissionOnly() throws Exception {
+    void shouldForbidCancelSubscriptionUserSubscriptionAsAdminWithReadPermissionOnly() throws Exception {
         UserSubscriptionEntity entity = createSubscription(UserSubscriptionStatus.ACTIVE, SubscriptionBillingFrequency.MONTHLY);
         put(API + "/" + entity.getId() + "/cancel", null, status().isForbidden());
     }
