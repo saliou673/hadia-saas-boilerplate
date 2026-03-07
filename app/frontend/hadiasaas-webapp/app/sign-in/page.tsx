@@ -2,51 +2,28 @@
 
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
-import { useMemo } from "react";
+import { useSearchParams } from "next/navigation";
+import { signIn } from "next-auth/react";
 import * as Yup from "yup";
-import { useAuthenticate, type LoginRequest } from "@apiclient";
 
-type LoginResponseShape = {
-  accessToken?: string;
-  refreshToken?: string;
-  challengeId?: string;
+type SignInFormValues = {
+  email: string;
+  password: string;
+  rememberMe: boolean;
 };
 
-function readApiError(error: unknown): string {
-  const maybeAxiosError = error as {
-    response?: {
-      data?: {
-        message?: string;
-        errors?: Record<string, string>;
-      };
-    };
-  };
-
-  const data = maybeAxiosError.response?.data;
-  if (data?.message) return data.message;
-  if (data?.errors) {
-    const firstError = Object.values(data.errors)[0];
-    if (firstError) return firstError;
-  }
-
-  return "Authentication failed. Please check your credentials.";
+function sanitizeRedirect(redirect: string | null): string {
+  if (!redirect) return "/dashboard";
+  if (!redirect.startsWith("/")) return "/dashboard";
+  if (redirect.startsWith("//")) return "/dashboard";
+  return redirect;
 }
 
 export default function SignInPage() {
   const router = useRouter();
-  const apiBaseUrl = useMemo(
-    () => process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080",
-    [],
-  );
+  const searchParams = useSearchParams();
 
-  const authenticateMutation = useAuthenticate({
-    client: {
-      baseURL: apiBaseUrl,
-      headers: { "Content-Type": "application/json" },
-    },
-  });
-
-  const formik = useFormik<LoginRequest>({
+  const formik = useFormik<SignInFormValues>({
     initialValues: {
       email: "",
       password: "",
@@ -61,25 +38,23 @@ export default function SignInPage() {
       helpers.setStatus(undefined);
 
       try {
-        const response = (await authenticateMutation.mutateAsync({
-          data: values,
-        })) as LoginResponseShape;
+        const redirectTarget = sanitizeRedirect(searchParams.get("redirect"));
+        const result = await signIn("credentials", {
+          email: values.email,
+          password: values.password,
+          rememberMe: values.rememberMe ? "true" : "false",
+          redirect: false,
+          callbackUrl: redirectTarget,
+        });
 
-        if (response.accessToken) {
-          localStorage.setItem("accessToken", response.accessToken);
-        }
-        if (response.refreshToken) {
-          localStorage.setItem("refreshToken", response.refreshToken);
-        }
-
-        if (response.challengeId) {
-          router.push(`/otp?challengeId=${encodeURIComponent(response.challengeId)}`);
+        if (!result || result.error) {
+          helpers.setStatus("Authentication failed. Please check your credentials.");
           return;
         }
 
-        router.push("/dashboard");
-      } catch (error) {
-        helpers.setStatus(readApiError(error));
+        router.push(result.url ?? redirectTarget);
+      } catch {
+        helpers.setStatus("Authentication failed. Please check your credentials.");
       }
     },
   });
@@ -101,10 +76,10 @@ export default function SignInPage() {
             strokeLinejoin="round"
             className="me-2 size-6"
           >
-            <title>Shadcn-Admin</title>
+            <title>Hadia SaaS</title>
             <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
           </svg>
-          <h1 className="text-xl font-medium">Shadcn Admin</h1>
+          <h1 className="text-xl font-medium">Hadia SaaS</h1>
         </div>
 
         <div className="flex flex-col gap-4 rounded-xl border bg-card py-6 text-card-foreground shadow-sm">
@@ -177,10 +152,10 @@ export default function SignInPage() {
 
               <button
                 type="submit"
-                disabled={authenticateMutation.isPending}
+                disabled={formik.isSubmitting}
                 className="mt-2 inline-flex h-9 items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-60"
               >
-                {authenticateMutation.isPending ? "Signing in..." : "Sign in"}
+                {formik.isSubmitting ? "Signing in..." : "Sign in"}
               </button>
 
               <div className="relative my-2">
