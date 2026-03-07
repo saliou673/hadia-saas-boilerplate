@@ -44,3 +44,5 @@ build/
 # OTHER
 /generated
 **/node_modules
+/adminTemplate
+/.pnpm-store

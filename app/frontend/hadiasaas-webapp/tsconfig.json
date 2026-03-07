@@ -19,7 +19,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@apiclient": ["../hadiasaas-apiclient/src/index.ts"],
+      "@apiclient/*": ["../hadiasaas-apiclient/src/*"]
     }
   },
   "include": [

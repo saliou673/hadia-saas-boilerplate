@@ -44,7 +44,7 @@ public class EnvironmentFileLoader {
         candidates.add(cwd.resolve(".env"));
 
         // Legacy path (when running from other directories)
-        candidates.add(cwd.resolve("backend").resolve("hadiasaas-restapi").resolve(".env"));
+        candidates.add(cwd.resolve("app").resolve("backend").resolve("hadiasaas-restapi").resolve(".env"));
 
         // Walk up a few levels to find project root .env (multi-module safe)
         Path current = cwd.getParent();
