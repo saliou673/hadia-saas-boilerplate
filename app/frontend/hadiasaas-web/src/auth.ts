@@ -57,6 +57,14 @@ function extractChallengeId(error: unknown): string | undefined {
   return undefined
 }
 
+function extractErrorMessage(error: unknown): string | undefined {
+  if (error instanceof Error) {
+    return error.message
+  }
+
+  return undefined
+}
+
 async function refreshAccessToken(token: JWT): Promise<JWT> {
   if (!token.refreshToken) {
     return { ...token, error: 'RefreshAccessTokenError' }
@@ -163,6 +171,12 @@ export const authOptions: NextAuthOptions = {
             accessTokenExpires: decodeJwtExpiration(result.accessToken),
           }
         } catch (error: unknown) {
+          const message = extractErrorMessage(error)
+
+          if (message?.startsWith('MFA_REQUIRED')) {
+            throw error
+          }
+
           const status =
             typeof error === 'object' &&
             error !== null &&
