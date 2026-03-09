@@ -85,8 +85,7 @@ export function SignInForm({
       callbackUrl,
     })
 
-    setIsLoading(false)
-
+    setIsLoading(false);
     const challengeId = getMfaChallengeId(result?.error)
     if (challengeId) {
       router.push(
