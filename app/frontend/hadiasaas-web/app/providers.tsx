@@ -1,16 +1,20 @@
 'use client'
 
-import { useState, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
+import { configureApiClient } from '@api-client'
 import { AxiosError } from 'axios'
 import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { SessionProvider } from 'next-auth/react'
+import { SessionProvider, signOut, useSession } from 'next-auth/react'
 import { toast } from 'sonner'
 import { DirectionProvider } from '@/context/direction-provider'
 import { FontProvider } from '@/context/font-provider'
 import { ThemeProvider } from '@/context/theme-provider'
 import { handleServerError } from '@/lib/handle-server-error'
-import { useAuthStore } from '@/stores/auth-store'
+import {
+  setApiAccessToken,
+  setupApiClientInterceptors,
+} from '@/lib/apiclient-interceptors'
 import { Toaster } from '@/components/ui/sonner'
 
 function makeQueryClient() {
@@ -47,8 +51,12 @@ function makeQueryClient() {
 
         if (error.response?.status === 401) {
           toast.error('Session expired!')
-          useAuthStore.getState().auth.reset()
-          window.location.assign('/sign-in')
+          void signOut({ redirect: false }).finally(() => {
+            const currentPath = `${window.location.pathname}${window.location.search}`
+            window.location.assign(
+              `/sign-in?redirect=${encodeURIComponent(currentPath)}`
+            )
+          })
           return
         }
 
@@ -65,12 +73,28 @@ type ProvidersProps = {
   children: ReactNode
 }
 
+function ApiClientAuthSync() {
+  const { data: session } = useSession()
+
+  useEffect(() => {
+    const baseURL =
+      process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8080'
+
+    configureApiClient({ baseURL, accessToken: session?.accessToken })
+    setupApiClientInterceptors(baseURL)
+    setApiAccessToken(session?.accessToken)
+  }, [session?.accessToken])
+
+  return null
+}
+
 export function Providers({ children }: ProvidersProps) {
   const [queryClient] = useState(makeQueryClient)
 
   return (
-    <SessionProvider>
+    <SessionProvider refetchInterval={60}>
       <QueryClientProvider client={queryClient}>
+        <ApiClientAuthSync />
         <ThemeProvider>
           <FontProvider>
             <DirectionProvider>

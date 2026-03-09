@@ -1,6 +1,19 @@
-import NextAuth from 'next-auth'
+import NextAuth, { type NextAuthOptions } from 'next-auth'
+import type { JWT } from 'next-auth/jwt'
 import Credentials from 'next-auth/providers/credentials'
-import { z } from 'zod'
+import {
+  authenticate,
+  refreshToken,
+  type JwtToken,
+  verifyLoginChallenge,
+} from '@api-client'
+
+type LoginResponse = JwtToken & {
+  challengeId?: string
+}
+
+const apiBaseUrl =
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8080'
 
 const authSecret =
   process.env.AUTH_SECRET ??
@@ -9,36 +22,197 @@ const authSecret =
     ? 'dev-only-secret-change-me'
     : undefined)
 
-const credentialsSchema = z.object({
-  email: z.email(),
-  password: z.string().min(7),
-})
+function decodeJwtExpiration(accessToken: string): number {
+  try {
+    const payload = JSON.parse(
+      Buffer.from(accessToken.split('.')[1], 'base64').toString('utf8')
+    ) as { exp?: number }
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+    if (!payload.exp) {
+      return Date.now() + 5 * 60 * 1000
+    }
+
+    return payload.exp * 1000
+  } catch {
+    return Date.now() + 5 * 60 * 1000
+  }
+}
+
+function extractChallengeId(error: unknown): string | undefined {
+  if (
+    typeof error === 'object' &&
+    error !== null &&
+    'response' in error &&
+    typeof error.response === 'object' &&
+    error.response !== null &&
+    'data' in error.response &&
+    typeof error.response.data === 'object' &&
+    error.response.data !== null &&
+    'challengeId' in error.response.data &&
+    typeof error.response.data.challengeId === 'string'
+  ) {
+    return error.response.data.challengeId
+  }
+
+  return undefined
+}
+
+async function refreshAccessToken(token: JWT): Promise<JWT> {
+  if (!token.refreshToken) {
+    return { ...token, error: 'RefreshAccessTokenError' }
+  }
+
+  try {
+    const refreshed = await refreshToken(token.refreshToken, {
+      baseURL: apiBaseUrl,
+    })
+
+    if (!refreshed.accessToken) {
+      throw new Error('Refresh response did not include access token')
+    }
+
+    return {
+      ...token,
+      accessToken: refreshed.accessToken,
+      refreshToken: refreshed.refreshToken ?? token.refreshToken,
+      accessTokenExpires: decodeJwtExpiration(refreshed.accessToken),
+      error: undefined,
+    }
+  } catch {
+    return { ...token, error: 'RefreshAccessTokenError' }
+  }
+}
+
+export const authOptions: NextAuthOptions = {
   secret: authSecret,
   session: { strategy: 'jwt' },
+  pages: {
+    signIn: '/sign-in',
+  },
   providers: [
     Credentials({
       name: 'Credentials',
       credentials: {
+        mode: { label: 'Mode', type: 'text' },
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
+        rememberMe: { label: 'Remember me', type: 'text' },
+        challengeId: { label: 'Challenge ID', type: 'text' },
+        code: { label: 'Code', type: 'text' },
       },
-      async authorize(rawCredentials) {
-        const parsed = credentialsSchema.safeParse(rawCredentials)
-        if (!parsed.success) return null
+      async authorize(credentials) {
+        const mode = String(credentials?.mode ?? 'password')
 
-        const { email } = parsed.data
+        if (mode === 'otp') {
+          const challengeId = String(credentials?.challengeId ?? '').trim()
+          const code = String(credentials?.code ?? '').trim()
 
-        return {
-          id: email,
-          email,
-          name: email.split('@')[0],
+          if (!challengeId || !code) {
+            return null
+          }
+
+          try {
+            const result = await verifyLoginChallenge(
+              { challengeId, code },
+              { baseURL: apiBaseUrl }
+            )
+
+            if (!result.accessToken || !result.refreshToken) {
+              return null
+            }
+
+            return {
+              id: challengeId,
+              accessToken: result.accessToken,
+              refreshToken: result.refreshToken,
+              accessTokenExpires: decodeJwtExpiration(result.accessToken),
+            }
+          } catch {
+            return null
+          }
+        }
+
+        const email = String(credentials?.email ?? '').trim()
+        const password = String(credentials?.password ?? '')
+        const rememberMe = String(credentials?.rememberMe ?? 'false') === 'true'
+
+        if (!email || !password) {
+          return null
+        }
+
+        try {
+          const result = (await authenticate(
+            { email, password, rememberMe },
+            { baseURL: apiBaseUrl }
+          )) as LoginResponse
+
+          if (!result.accessToken || !result.refreshToken) {
+            return null
+          }
+
+          return {
+            id: email,
+            email,
+            name: email.split('@')[0],
+            accessToken: result.accessToken,
+            refreshToken: result.refreshToken,
+            accessTokenExpires: decodeJwtExpiration(result.accessToken),
+          }
+        } catch (error: unknown) {
+          const status =
+            typeof error === 'object' &&
+            error !== null &&
+            'response' in error &&
+            typeof error.response === 'object' &&
+            error.response !== null &&
+            'status' in error.response
+              ? error.response.status
+              : undefined
+
+          if (status === 202) {
+            const challengeId = extractChallengeId(error)
+
+            if (challengeId) {
+              throw new Error(`MFA_REQUIRED:${challengeId}`)
+            }
+
+            throw new Error('MFA_REQUIRED')
+          }
+
+          return null
         }
       },
     }),
   ],
-  pages: {
-    signIn: '/sign-in',
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        return {
+          ...token,
+          accessToken: user.accessToken,
+          refreshToken: user.refreshToken,
+          accessTokenExpires: user.accessTokenExpires,
+          error: undefined,
+        }
+      }
+
+      if (
+        token.accessToken &&
+        token.accessTokenExpires &&
+        Date.now() < token.accessTokenExpires
+      ) {
+        return token
+      }
+
+      return refreshAccessToken(token)
+    },
+    async session({ session, token }) {
+      session.error = token.error
+      session.accessToken = token.accessToken
+      session.accessTokenExpires = token.accessTokenExpires
+      return session
+    },
   },
-})
+}
+
+export default NextAuth(authOptions)
