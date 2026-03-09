@@ -1,8 +1,8 @@
-import React from "react"
-import { ArrowRight, ChevronRight, Laptop, Moon, Sun } from "lucide-react"
-import { useRouter } from "next/navigation"
-import { useSearch } from "@/context/search-provider"
-import { useTheme } from "@/context/theme-provider"
+import React from "react";
+import { ArrowRight, ChevronRight, Laptop, Moon, Sun } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useSearch } from "@/context/search-provider";
+import { useTheme } from "@/context/theme-provider";
 import {
     CommandDialog,
     CommandEmpty,
@@ -11,22 +11,22 @@ import {
     CommandItem,
     CommandList,
     CommandSeparator,
-} from "@/components/ui/command"
-import { sidebarData } from "./layout/data/sidebar-data"
-import { ScrollArea } from "./ui/scroll-area"
+} from "@/components/ui/command";
+import { sidebarData } from "./layout/data/sidebar-data";
+import { ScrollArea } from "./ui/scroll-area";
 
 export function CommandMenu() {
-    const router = useRouter()
-    const { setTheme } = useTheme()
-    const { open, setOpen } = useSearch()
+    const router = useRouter();
+    const { setTheme } = useTheme();
+    const { open, setOpen } = useSearch();
 
     const runCommand = React.useCallback(
         (command: () => unknown) => {
-            setOpen(false)
-            command()
+            setOpen(false);
+            command();
         },
         [setOpen]
-    )
+    );
 
     return (
         <CommandDialog modal open={open} onOpenChange={setOpen}>
@@ -45,7 +45,7 @@ export function CommandMenu() {
                                             onSelect={() => {
                                                 runCommand(() =>
                                                     router.push(navItem.url)
-                                                )
+                                                );
                                             }}
                                         >
                                             <div className="flex size-4 items-center justify-center">
@@ -53,7 +53,7 @@ export function CommandMenu() {
                                             </div>
                                             {navItem.title}
                                         </CommandItem>
-                                    )
+                                    );
 
                                 return navItem.items?.map((subItem, i) => (
                                     <CommandItem
@@ -62,7 +62,7 @@ export function CommandMenu() {
                                         onSelect={() => {
                                             runCommand(() =>
                                                 router.push(subItem.url)
-                                            )
+                                            );
                                         }}
                                     >
                                         <div className="flex size-4 items-center justify-center">
@@ -71,7 +71,7 @@ export function CommandMenu() {
                                         {navItem.title} <ChevronRight />{" "}
                                         {subItem.title}
                                     </CommandItem>
-                                ))
+                                ));
                             })}
                         </CommandGroup>
                     ))}
@@ -100,5 +100,5 @@ export function CommandMenu() {
                 </ScrollArea>
             </CommandList>
         </CommandDialog>
-    )
+    );
 }

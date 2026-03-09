@@ -1,12 +1,12 @@
-import { useState } from "react"
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowRight, Loader2 } from "lucide-react"
-import { useRouter } from "next/navigation"
-import { toast } from "sonner"
-import { sleep, cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowRight, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { sleep, cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -14,43 +14,43 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
     email: z.email({
         error: (iss) =>
             iss.input === "" ? "Please enter your email" : undefined,
     }),
-})
+});
 
 export function ForgotPasswordForm({
     className,
     ...props
 }: React.HTMLAttributes<HTMLFormElement>) {
-    const router = useRouter()
-    const [isLoading, setIsLoading] = useState(false)
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: { email: "" },
-    })
+    });
 
     function onSubmit(data: z.infer<typeof formSchema>) {
-        setIsLoading(true)
+        setIsLoading(true);
         // eslint-disable-next-line no-console
-        console.log(data)
+        console.log(data);
 
         toast.promise(sleep(2000), {
             loading: "Sending email...",
             success: () => {
-                setIsLoading(false)
-                form.reset()
-                router.push("/otp")
-                return `Email sent to ${data.email}`
+                setIsLoading(false);
+                form.reset();
+                router.push("/otp");
+                return `Email sent to ${data.email}`;
             },
             error: "Error",
-        })
+        });
     }
 
     return (
@@ -86,5 +86,5 @@ export function ForgotPasswordForm({
                 </Button>
             </form>
         </Form>
-    )
+    );
 }

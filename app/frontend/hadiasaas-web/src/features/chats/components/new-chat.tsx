@@ -1,8 +1,8 @@
-import { useState } from "react"
-import { Check, X } from "lucide-react"
-import { showSubmittedData } from "@/lib/show-submitted-data"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { Check, X } from "lucide-react";
+import { showSubmittedData } from "@/lib/show-submitted-data";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
     Command,
     CommandEmpty,
@@ -10,44 +10,44 @@ import {
     CommandInput,
     CommandItem,
     CommandList,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
-} from "@/components/ui/dialog"
-import { type ChatUser } from "../data/chat-types"
+} from "@/components/ui/dialog";
+import { type ChatUser } from "../data/chat-types";
 
-type User = Omit<ChatUser, "messages">
+type User = Omit<ChatUser, "messages">;
 
 type NewChatProps = {
-    users: User[]
-    open: boolean
-    onOpenChange: (open: boolean) => void
-}
+    users: User[];
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+};
 export function NewChat({ users, onOpenChange, open }: NewChatProps) {
-    const [selectedUsers, setSelectedUsers] = useState<User[]>([])
+    const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
 
     const handleSelectUser = (user: User) => {
         if (!selectedUsers.find((u) => u.id === user.id)) {
-            setSelectedUsers([...selectedUsers, user])
+            setSelectedUsers([...selectedUsers, user]);
         } else {
-            handleRemoveUser(user.id)
+            handleRemoveUser(user.id);
         }
-    }
+    };
 
     const handleRemoveUser = (userId: string) => {
-        setSelectedUsers(selectedUsers.filter((user) => user.id !== userId))
-    }
+        setSelectedUsers(selectedUsers.filter((user) => user.id !== userId));
+    };
 
     const handleOpenChange = (newOpen: boolean) => {
-        onOpenChange(newOpen)
+        onOpenChange(newOpen);
         // Reset selected users when dialog closes
         if (!newOpen) {
-            setSelectedUsers([])
+            setSelectedUsers([]);
         }
-    }
+    };
 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -67,7 +67,7 @@ export function NewChat({ users, onOpenChange, open }: NewChatProps) {
                                     className="ms-1 rounded-full ring-offset-background outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2"
                                     onKeyDown={(e) => {
                                         if (e.key === "Enter") {
-                                            handleRemoveUser(user.id)
+                                            handleRemoveUser(user.id);
                                         }
                                     }}
                                     onClick={() => handleRemoveUser(user.id)}
@@ -128,5 +128,5 @@ export function NewChat({ users, onOpenChange, open }: NewChatProps) {
                 </div>
             </DialogContent>
         </Dialog>
-    )
+    );
 }

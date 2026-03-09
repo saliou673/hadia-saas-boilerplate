@@ -1,9 +1,9 @@
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { showSubmittedData } from "@/lib/show-submitted-data"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { showSubmittedData } from "@/lib/show-submitted-data";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
     Form,
     FormControl,
@@ -12,7 +12,7 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 
 const items = [
     {
@@ -39,26 +39,26 @@ const items = [
         id: "documents",
         label: "Documents",
     },
-] as const
+] as const;
 
 const displayFormSchema = z.object({
     items: z.array(z.string()).refine((value) => value.some((item) => item), {
         message: "You have to select at least one item.",
     }),
-})
+});
 
-type DisplayFormValues = z.infer<typeof displayFormSchema>
+type DisplayFormValues = z.infer<typeof displayFormSchema>;
 
 // This can come from your database or API.
 const defaultValues: Partial<DisplayFormValues> = {
     items: ["recents", "home"],
-}
+};
 
 export function DisplayForm() {
     const form = useForm<DisplayFormValues>({
         resolver: zodResolver(displayFormSchema),
         defaultValues,
-    })
+    });
 
     return (
         <Form {...form}>
@@ -114,7 +114,7 @@ export function DisplayForm() {
                                                                               value !==
                                                                               item.id
                                                                       )
-                                                                  )
+                                                                  );
                                                         }}
                                                     />
                                                 </FormControl>
@@ -122,7 +122,7 @@ export function DisplayForm() {
                                                     {item.label}
                                                 </FormLabel>
                                             </FormItem>
-                                        )
+                                        );
                                     }}
                                 />
                             ))}
@@ -133,5 +133,5 @@ export function DisplayForm() {
                 <Button type="submit">Update display</Button>
             </form>
         </Form>
-    )
+    );
 }

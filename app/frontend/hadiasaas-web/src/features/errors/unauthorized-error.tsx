@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export function UnauthorisedError() {
-    const router = useRouter()
+    const router = useRouter();
     return (
         <div className="h-svh">
             <div className="m-auto flex h-full w-full flex-col items-center justify-center gap-2">
@@ -27,5 +27,5 @@ export function UnauthorisedError() {
                 </div>
             </div>
         </div>
-    )
+    );
 }

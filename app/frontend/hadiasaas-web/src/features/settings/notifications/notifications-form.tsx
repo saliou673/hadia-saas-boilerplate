@@ -1,10 +1,10 @@
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import Link from "next/link"
-import { showSubmittedData } from "@/lib/show-submitted-data"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { showSubmittedData } from "@/lib/show-submitted-data";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
     Form,
     FormControl,
@@ -13,9 +13,9 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Switch } from "@/components/ui/switch"
+} from "@/components/ui/form";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Switch } from "@/components/ui/switch";
 
 const notificationsFormSchema = z.object({
     type: z.enum(["all", "mentions", "none"], {
@@ -29,9 +29,9 @@ const notificationsFormSchema = z.object({
     social_emails: z.boolean().default(false).optional(),
     marketing_emails: z.boolean().default(false).optional(),
     security_emails: z.boolean(),
-})
+});
 
-type NotificationsFormValues = z.infer<typeof notificationsFormSchema>
+type NotificationsFormValues = z.infer<typeof notificationsFormSchema>;
 
 // This can come from your database or API.
 const defaultValues: Partial<NotificationsFormValues> = {
@@ -39,13 +39,13 @@ const defaultValues: Partial<NotificationsFormValues> = {
     marketing_emails: false,
     social_emails: true,
     security_emails: true,
-}
+};
 
 export function NotificationsForm() {
     const form = useForm<NotificationsFormValues>({
         resolver: zodResolver(notificationsFormSchema),
         defaultValues,
-    })
+    });
 
     return (
         <Form {...form}>
@@ -229,5 +229,5 @@ export function NotificationsForm() {
                 <Button type="submit">Update notifications</Button>
             </form>
         </Form>
-    )
+    );
 }

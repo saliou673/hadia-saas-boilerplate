@@ -1,52 +1,52 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { type Table } from "@tanstack/react-table"
-import { AlertTriangle } from "lucide-react"
-import { toast } from "sonner"
-import { sleep } from "@/lib/utils"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { ConfirmDialog } from "@/components/confirm-dialog"
+import { useState } from "react";
+import { type Table } from "@tanstack/react-table";
+import { AlertTriangle } from "lucide-react";
+import { toast } from "sonner";
+import { sleep } from "@/lib/utils";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 
 type UserMultiDeleteDialogProps<TData> = {
-    open: boolean
-    onOpenChange: (open: boolean) => void
-    table: Table<TData>
-}
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    table: Table<TData>;
+};
 
-const CONFIRM_WORD = "DELETE"
+const CONFIRM_WORD = "DELETE";
 
 export function UsersMultiDeleteDialog<TData>({
     open,
     onOpenChange,
     table,
 }: UserMultiDeleteDialogProps<TData>) {
-    const [value, setValue] = useState("")
+    const [value, setValue] = useState("");
 
-    const selectedRows = table.getFilteredSelectedRowModel().rows
+    const selectedRows = table.getFilteredSelectedRowModel().rows;
 
     const handleDelete = () => {
         if (value.trim() !== CONFIRM_WORD) {
-            toast.error(`Please type "${CONFIRM_WORD}" to confirm.`)
-            return
+            toast.error(`Please type "${CONFIRM_WORD}" to confirm.`);
+            return;
         }
 
-        onOpenChange(false)
+        onOpenChange(false);
 
         toast.promise(sleep(2000), {
             loading: "Deleting users...",
             success: () => {
-                setValue("")
-                table.resetRowSelection()
+                setValue("");
+                table.resetRowSelection();
                 return `Deleted ${selectedRows.length} ${
                     selectedRows.length > 1 ? "users" : "user"
-                }`
+                }`;
             },
             error: "Error",
-        })
-    }
+        });
+    };
 
     return (
         <ConfirmDialog
@@ -95,5 +95,5 @@ export function UsersMultiDeleteDialog<TData>({
             confirmText="Delete"
             destructive
         />
-    )
+    );
 }

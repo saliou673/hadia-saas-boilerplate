@@ -1,34 +1,34 @@
-import { useState, type JSX } from "react"
-import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { useState, type JSX } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 type SidebarNavProps = React.HTMLAttributes<HTMLElement> & {
     items: {
-        href: string
-        title: string
-        icon: JSX.Element
-    }[]
-}
+        href: string;
+        title: string;
+        icon: JSX.Element;
+    }[];
+};
 
 export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
-    const pathname = usePathname()
-    const router = useRouter()
-    const [val, setVal] = useState(pathname ?? "/settings")
+    const pathname = usePathname();
+    const router = useRouter();
+    const [val, setVal] = useState(pathname ?? "/settings");
 
     const handleSelect = (e: string) => {
-        setVal(e)
-        router.push(e)
-    }
+        setVal(e);
+        router.push(e);
+    };
 
     return (
         <>
@@ -85,5 +85,5 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
                 </nav>
             </ScrollArea>
         </>
-    )
+    );
 }

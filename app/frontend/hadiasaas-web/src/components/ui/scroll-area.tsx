@@ -1,11 +1,11 @@
-import * as React from "react"
-import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
+import { cn } from "@/lib/utils";
 
 interface ScrollAreaProps extends React.ComponentProps<
     typeof ScrollAreaPrimitive.Root
 > {
-    orientation?: "vertical" | "horizontal"
+    orientation?: "vertical" | "horizontal";
 }
 
 function ScrollArea({
@@ -32,7 +32,7 @@ function ScrollArea({
             <ScrollBar orientation={orientation} />
             <ScrollAreaPrimitive.Corner />
         </ScrollAreaPrimitive.Root>
-    )
+    );
 }
 
 function ScrollBar({
@@ -59,7 +59,7 @@ function ScrollBar({
                 className="relative flex-1 rounded-full bg-border"
             />
         </ScrollAreaPrimitive.ScrollAreaScrollbar>
-    )
+    );
 }
 
-export { ScrollArea, ScrollBar }
+export { ScrollArea, ScrollBar };

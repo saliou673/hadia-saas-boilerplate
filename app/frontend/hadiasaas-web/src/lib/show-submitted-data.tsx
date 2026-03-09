@@ -1,4 +1,4 @@
-import { toast } from "sonner"
+import { toast } from "sonner";
 
 export function showSubmittedData(
     data: unknown,
@@ -13,5 +13,5 @@ export function showSubmittedData(
                 </code>
             </pre>
         ),
-    })
+    });
 }

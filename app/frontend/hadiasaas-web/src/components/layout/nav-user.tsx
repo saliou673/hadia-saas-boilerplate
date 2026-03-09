@@ -5,11 +5,11 @@ import {
     CreditCard,
     LogOut,
     Sparkles,
-} from "lucide-react"
-import Link from "next/link"
-import { useCurrentUser } from "@/hooks/use-current-user"
-import useDialogState from "@/hooks/use-dialog-state"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+} from "lucide-react";
+import Link from "next/link";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import useDialogState from "@/hooks/use-dialog-state";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -18,19 +18,19 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
     useSidebar,
-} from "@/components/ui/sidebar"
-import { SignOutDialog } from "@/components/sign-out-dialog"
+} from "@/components/ui/sidebar";
+import { SignOutDialog } from "@/components/sign-out-dialog";
 
 export function NavUser() {
-    const { isMobile } = useSidebar()
-    const [open, setOpen] = useDialogState()
-    const { user } = useCurrentUser()
+    const { isMobile } = useSidebar();
+    const [open, setOpen] = useDialogState();
+    const { user } = useCurrentUser();
 
     return (
         <>
@@ -132,5 +132,5 @@ export function NavUser() {
 
             <SignOutDialog open={!!open} onOpenChange={setOpen} />
         </>
-    )
+    );
 }

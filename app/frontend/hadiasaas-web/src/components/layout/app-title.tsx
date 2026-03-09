@@ -1,16 +1,16 @@
-import { Menu, X } from "lucide-react"
-import Link from "next/link"
-import { cn } from "@/lib/utils"
+import { Menu, X } from "lucide-react";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
     useSidebar,
-} from "@/components/ui/sidebar"
-import { Button } from "../ui/button"
+} from "@/components/ui/sidebar";
+import { Button } from "../ui/button";
 
 export function AppTitle() {
-    const { setOpenMobile } = useSidebar()
+    const { setOpenMobile } = useSidebar();
     return (
         <SidebarMenu>
             <SidebarMenuItem>
@@ -37,7 +37,7 @@ export function AppTitle() {
                 </SidebarMenuButton>
             </SidebarMenuItem>
         </SidebarMenu>
-    )
+    );
 }
 
 function ToggleSidebar({
@@ -45,7 +45,7 @@ function ToggleSidebar({
     onClick,
     ...props
 }: React.ComponentProps<typeof Button>) {
-    const { toggleSidebar } = useSidebar()
+    const { toggleSidebar } = useSidebar();
 
     return (
         <Button
@@ -55,8 +55,8 @@ function ToggleSidebar({
             size="icon"
             className={cn("aspect-square size-8 max-md:scale-125", className)}
             onClick={(event) => {
-                onClick?.(event)
-                toggleSidebar()
+                onClick?.(event);
+                toggleSidebar();
             }}
             {...props}
         >
@@ -64,5 +64,5 @@ function ToggleSidebar({
             <Menu className="max-md:hidden" />
             <span className="sr-only">Toggle Sidebar</span>
         </Button>
-    )
+    );
 }

@@ -1,7 +1,7 @@
-import { faker } from "@faker-js/faker"
+import { faker } from "@faker-js/faker";
 
 // Set a fixed seed for consistent data generation
-faker.seed(12345)
+faker.seed(12345);
 
 export const tasks = Array.from({ length: 100 }, () => {
     const statuses = [
@@ -10,9 +10,9 @@ export const tasks = Array.from({ length: 100 }, () => {
         "done",
         "canceled",
         "backlog",
-    ] as const
-    const labels = ["bug", "feature", "documentation"] as const
-    const priorities = ["low", "medium", "high"] as const
+    ] as const;
+    const labels = ["bug", "feature", "documentation"] as const;
+    const priorities = ["low", "medium", "high"] as const;
 
     return {
         id: `TASK-${faker.number.int({ min: 1000, max: 9999 })}`,
@@ -25,5 +25,5 @@ export const tasks = Array.from({ length: 100 }, () => {
         assignee: faker.person.fullName(),
         description: faker.lorem.paragraph({ min: 1, max: 3 }),
         dueDate: faker.date.future(),
-    }
-})
+    };
+});

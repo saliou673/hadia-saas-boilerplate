@@ -1,15 +1,15 @@
-import { useState } from "react"
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Loader2, LogIn } from "lucide-react"
-import { signIn } from "next-auth/react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { toast } from "sonner"
-import { IconFacebook, IconGithub } from "@/assets/brand-icons"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2, LogIn } from "lucide-react";
+import { signIn } from "next-auth/react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { IconFacebook, IconGithub } from "@/assets/brand-icons";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -17,9 +17,9 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { PasswordInput } from "@/components/password-input"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/password-input";
 
 const formSchema = z.object({
     email: z.email({
@@ -31,26 +31,26 @@ const formSchema = z.object({
         .min(1, "Please enter your password")
         .min(7, "Password must be at least 7 characters long"),
     rememberMe: z.boolean(),
-})
+});
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLFormElement> {
-    redirectTo?: string
+    redirectTo?: string;
 }
 
 function sanitizeRedirect(redirectTo?: string) {
     if (!redirectTo?.startsWith("/") || redirectTo.startsWith("//")) {
-        return "/dashboard"
+        return "/dashboard";
     }
 
-    return redirectTo
+    return redirectTo;
 }
 
 function getMfaChallengeId(error?: string | null) {
     if (!error?.startsWith("MFA_REQUIRED:")) {
-        return null
+        return null;
     }
 
-    return error.slice("MFA_REQUIRED:".length)
+    return error.slice("MFA_REQUIRED:".length);
 }
 
 export function UserAuthForm({
@@ -58,8 +58,8 @@ export function UserAuthForm({
     redirectTo,
     ...props
 }: UserAuthFormProps) {
-    const [isLoading, setIsLoading] = useState(false)
-    const router = useRouter()
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -68,38 +68,38 @@ export function UserAuthForm({
             password: "",
             rememberMe: false,
         },
-    })
+    });
 
     async function onSubmit(data: z.infer<typeof formSchema>) {
-        setIsLoading(true)
+        setIsLoading(true);
 
-        const callbackUrl = sanitizeRedirect(redirectTo)
+        const callbackUrl = sanitizeRedirect(redirectTo);
         const result = await signIn("credentials", {
             email: data.email,
             password: data.password,
             rememberMe: data.rememberMe ? "true" : "false",
             redirect: false,
             callbackUrl,
-        })
+        });
 
-        setIsLoading(false)
+        setIsLoading(false);
 
-        const challengeId = getMfaChallengeId(result?.error)
+        const challengeId = getMfaChallengeId(result?.error);
         if (challengeId) {
             router.push(
                 `/otp?challengeId=${encodeURIComponent(challengeId)}&redirect=${encodeURIComponent(callbackUrl)}`
-            )
-            return
+            );
+            return;
         }
 
         if (result?.error) {
-            toast.error("Invalid email or password")
-            return
+            toast.error("Invalid email or password");
+            return;
         }
 
-        toast.success(`Welcome back, ${data.email}!`)
-        router.push(result?.url || callbackUrl)
-        router.refresh()
+        toast.success(`Welcome back, ${data.email}!`);
+        router.push(result?.url || callbackUrl);
+        router.refresh();
     }
 
     return (
@@ -202,5 +202,5 @@ export function UserAuthForm({
                 </div>
             </form>
         </Form>
-    )
+    );
 }

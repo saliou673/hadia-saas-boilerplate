@@ -5,13 +5,13 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card"
-import { AuthLayout } from "../auth-layout"
-import { UserAuthForm } from "./components/user-auth-form"
+} from "@/components/ui/card";
+import { AuthLayout } from "../auth-layout";
+import { UserAuthForm } from "./components/user-auth-form";
 
 type SignInProps = {
-    redirect?: string
-}
+    redirect?: string;
+};
 
 export function SignIn({ redirect }: SignInProps) {
     return (
@@ -50,5 +50,5 @@ export function SignIn({ redirect }: SignInProps) {
                 </CardFooter>
             </Card>
         </AuthLayout>
-    )
+    );
 }

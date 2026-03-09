@@ -1,10 +1,10 @@
-import { type SVGProps } from "react"
-import { cn } from "@/lib/utils"
-import { type Direction } from "@/context/direction-provider"
+import { type SVGProps } from "react";
+import { cn } from "@/lib/utils";
+import { type Direction } from "@/context/direction-provider";
 
 type IconDirProps = SVGProps<SVGSVGElement> & {
-    dir: Direction
-}
+    dir: Direction;
+};
 
 export function IconDir({ dir, className, ...props }: IconDirProps) {
     return (
@@ -106,5 +106,5 @@ export function IconDir({ dir, className, ...props }: IconDirProps) {
                 strokeMiterlimit={10}
             />
         </svg>
-    )
+    );
 }

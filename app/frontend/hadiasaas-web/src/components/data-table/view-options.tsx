@@ -1,18 +1,18 @@
-import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
-import { MixerHorizontalIcon } from "@radix-ui/react-icons"
-import { type Table } from "@tanstack/react-table"
-import { Button } from "@/components/ui/button"
+import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { MixerHorizontalIcon } from "@radix-ui/react-icons";
+import { type Table } from "@tanstack/react-table";
+import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuLabel,
     DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 type DataTableViewOptionsProps<TData> = {
-    table: Table<TData>
-}
+    table: Table<TData>;
+};
 
 export function DataTableViewOptions<TData>({
     table,
@@ -51,9 +51,9 @@ export function DataTableViewOptions<TData>({
                             >
                                 {column.id}
                             </DropdownMenuCheckboxItem>
-                        )
+                        );
                     })}
             </DropdownMenuContent>
         </DropdownMenu>
-    )
+    );
 }

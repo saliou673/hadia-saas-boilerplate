@@ -1,21 +1,21 @@
-import { type SVGProps } from "react"
-import { Root as Radio, Item } from "@radix-ui/react-radio-group"
-import { CircleCheck, RotateCcw, Settings } from "lucide-react"
-import { IconDir } from "@/assets/custom/icon-dir"
-import { IconLayoutCompact } from "@/assets/custom/icon-layout-compact"
-import { IconLayoutDefault } from "@/assets/custom/icon-layout-default"
-import { IconLayoutFull } from "@/assets/custom/icon-layout-full"
-import { IconSidebarFloating } from "@/assets/custom/icon-sidebar-floating"
-import { IconSidebarInset } from "@/assets/custom/icon-sidebar-inset"
-import { IconSidebarSidebar } from "@/assets/custom/icon-sidebar-sidebar"
-import { IconThemeDark } from "@/assets/custom/icon-theme-dark"
-import { IconThemeLight } from "@/assets/custom/icon-theme-light"
-import { IconThemeSystem } from "@/assets/custom/icon-theme-system"
-import { cn } from "@/lib/utils"
-import { useDirection } from "@/context/direction-provider"
-import { type Collapsible, useLayout } from "@/context/layout-provider"
-import { useTheme } from "@/context/theme-provider"
-import { Button } from "@/components/ui/button"
+import { type SVGProps } from "react";
+import { Root as Radio, Item } from "@radix-ui/react-radio-group";
+import { CircleCheck, RotateCcw, Settings } from "lucide-react";
+import { IconDir } from "@/assets/custom/icon-dir";
+import { IconLayoutCompact } from "@/assets/custom/icon-layout-compact";
+import { IconLayoutDefault } from "@/assets/custom/icon-layout-default";
+import { IconLayoutFull } from "@/assets/custom/icon-layout-full";
+import { IconSidebarFloating } from "@/assets/custom/icon-sidebar-floating";
+import { IconSidebarInset } from "@/assets/custom/icon-sidebar-inset";
+import { IconSidebarSidebar } from "@/assets/custom/icon-sidebar-sidebar";
+import { IconThemeDark } from "@/assets/custom/icon-theme-dark";
+import { IconThemeLight } from "@/assets/custom/icon-theme-light";
+import { IconThemeSystem } from "@/assets/custom/icon-theme-system";
+import { cn } from "@/lib/utils";
+import { useDirection } from "@/context/direction-provider";
+import { type Collapsible, useLayout } from "@/context/layout-provider";
+import { useTheme } from "@/context/theme-provider";
+import { Button } from "@/components/ui/button";
 import {
     Sheet,
     SheetContent,
@@ -24,21 +24,21 @@ import {
     SheetHeader,
     SheetTitle,
     SheetTrigger,
-} from "@/components/ui/sheet"
-import { useSidebar } from "./ui/sidebar"
+} from "@/components/ui/sheet";
+import { useSidebar } from "./ui/sidebar";
 
 export function ConfigDrawer() {
-    const { setOpen } = useSidebar()
-    const { resetDir } = useDirection()
-    const { resetTheme } = useTheme()
-    const { resetLayout } = useLayout()
+    const { setOpen } = useSidebar();
+    const { resetDir } = useDirection();
+    const { resetTheme } = useTheme();
+    const { resetLayout } = useLayout();
 
     const handleReset = () => {
-        setOpen(true)
-        resetDir()
-        resetTheme()
-        resetLayout()
-    }
+        setOpen(true);
+        resetDir();
+        resetTheme();
+        resetLayout();
+    };
 
     return (
         <Sheet>
@@ -78,7 +78,7 @@ export function ConfigDrawer() {
                 </SheetFooter>
             </SheetContent>
         </Sheet>
-    )
+    );
 }
 
 function SectionTitle({
@@ -87,10 +87,10 @@ function SectionTitle({
     onReset,
     className,
 }: {
-    title: string
-    showReset?: boolean
-    onReset?: () => void
-    className?: string
+    title: string;
+    showReset?: boolean;
+    onReset?: () => void;
+    className?: string;
 }) {
     return (
         <div
@@ -111,7 +111,7 @@ function SectionTitle({
                 </Button>
             )}
         </div>
-    )
+    );
 }
 
 function RadioGroupItem({
@@ -119,11 +119,11 @@ function RadioGroupItem({
     isTheme = false,
 }: {
     item: {
-        value: string
-        label: string
-        icon: (props: SVGProps<SVGSVGElement>) => React.ReactElement
-    }
-    isTheme?: boolean
+        value: string;
+        label: string;
+        icon: (props: SVGProps<SVGSVGElement>) => React.ReactElement;
+    };
+    isTheme?: boolean;
 }) {
     return (
         <Item
@@ -169,11 +169,11 @@ function RadioGroupItem({
                 {item.label}
             </div>
         </Item>
-    )
+    );
 }
 
 function ThemeConfig() {
-    const { defaultTheme, theme, setTheme } = useTheme()
+    const { defaultTheme, theme, setTheme } = useTheme();
     return (
         <div>
             <SectionTitle
@@ -212,11 +212,11 @@ function ThemeConfig() {
                 Choose between system preference, light mode, or dark mode
             </div>
         </div>
-    )
+    );
 }
 
 function SidebarConfig() {
-    const { defaultVariant, variant, setVariant } = useLayout()
+    const { defaultVariant, variant, setVariant } = useLayout();
     return (
         <div className="max-md:hidden">
             <SectionTitle
@@ -255,14 +255,14 @@ function SidebarConfig() {
                 Choose between inset, floating, or standard sidebar layout
             </div>
         </div>
-    )
+    );
 }
 
 function LayoutConfig() {
-    const { open, setOpen } = useSidebar()
-    const { defaultCollapsible, collapsible, setCollapsible } = useLayout()
+    const { open, setOpen } = useSidebar();
+    const { defaultCollapsible, collapsible, setCollapsible } = useLayout();
 
-    const radioState = open ? "default" : collapsible
+    const radioState = open ? "default" : collapsible;
 
     return (
         <div className="max-md:hidden">
@@ -270,19 +270,19 @@ function LayoutConfig() {
                 title="Layout"
                 showReset={radioState !== "default"}
                 onReset={() => {
-                    setOpen(true)
-                    setCollapsible(defaultCollapsible)
+                    setOpen(true);
+                    setCollapsible(defaultCollapsible);
                 }}
             />
             <Radio
                 value={radioState}
                 onValueChange={(v) => {
                     if (v === "default") {
-                        setOpen(true)
-                        return
+                        setOpen(true);
+                        return;
                     }
-                    setOpen(false)
-                    setCollapsible(v as Collapsible)
+                    setOpen(false);
+                    setCollapsible(v as Collapsible);
                 }}
                 className="grid w-full max-w-md grid-cols-3 gap-4"
                 aria-label="Select layout style"
@@ -313,11 +313,11 @@ function LayoutConfig() {
                 layout mode
             </div>
         </div>
-    )
+    );
 }
 
 function DirConfig() {
-    const { defaultDir, dir, setDir } = useDirection()
+    const { defaultDir, dir, setDir } = useDirection();
     return (
         <div>
             <SectionTitle
@@ -355,5 +355,5 @@ function DirConfig() {
                 Choose between left-to-right or right-to-left site direction
             </div>
         </div>
-    )
+    );
 }

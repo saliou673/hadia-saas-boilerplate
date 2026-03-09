@@ -1,4 +1,4 @@
-import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
+import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 const data = [
     {
@@ -36,7 +36,7 @@ const data = [
         clicks: Math.floor(Math.random() * 900) + 100,
         uniques: Math.floor(Math.random() * 700) + 80,
     },
-]
+];
 
 export function AnalyticsChart() {
     return (
@@ -73,5 +73,5 @@ export function AnalyticsChart() {
                 />
             </AreaChart>
         </ResponsiveContainer>
-    )
+    );
 }

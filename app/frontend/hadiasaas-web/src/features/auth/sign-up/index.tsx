@@ -1,4 +1,4 @@
-import Link from "next/link"
+import Link from "next/link";
 import {
     Card,
     CardContent,
@@ -6,9 +6,9 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card"
-import { AuthLayout } from "../auth-layout"
-import { SignUpForm } from "./components/sign-up-form"
+} from "@/components/ui/card";
+import { AuthLayout } from "../auth-layout";
+import { SignUpForm } from "./components/sign-up-form";
 
 export function SignUp() {
     return (
@@ -54,5 +54,5 @@ export function SignUp() {
                 </CardFooter>
             </Card>
         </AuthLayout>
-    )
+    );
 }

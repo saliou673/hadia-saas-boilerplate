@@ -1,53 +1,53 @@
-"use client"
+"use client";
 
-import { type ChangeEvent, useState } from "react"
-import { SlidersHorizontal, ArrowUpAZ, ArrowDownAZ } from "lucide-react"
+import { type ChangeEvent, useState } from "react";
+import { SlidersHorizontal, ArrowUpAZ, ArrowDownAZ } from "lucide-react";
 import {
     useNextNavigateSearch,
     useNextSearchObject,
-} from "@/hooks/use-next-search-state"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+} from "@/hooks/use-next-search-state";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"
-import { Separator } from "@/components/ui/separator"
-import { ConfigDrawer } from "@/components/config-drawer"
-import { Header } from "@/components/layout/header"
-import { Main } from "@/components/layout/main"
-import { ProfileDropdown } from "@/components/profile-dropdown"
-import { Search } from "@/components/search"
-import { ThemeSwitch } from "@/components/theme-switch"
-import { apps } from "./data/apps"
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { ConfigDrawer } from "@/components/config-drawer";
+import { Header } from "@/components/layout/header";
+import { Main } from "@/components/layout/main";
+import { ProfileDropdown } from "@/components/profile-dropdown";
+import { Search } from "@/components/search";
+import { ThemeSwitch } from "@/components/theme-switch";
+import { apps } from "./data/apps";
 
-type AppType = "all" | "connected" | "notConnected"
+type AppType = "all" | "connected" | "notConnected";
 
 const appText = new Map<AppType, string>([
     ["all", "All Apps"],
     ["connected", "Connected"],
     ["notConnected", "Not Connected"],
-])
+]);
 
 export function Apps() {
-    const search = useNextSearchObject()
+    const search = useNextSearchObject();
     const {
         filter = "",
         type = "all",
         sort: initSort = "asc",
     } = search as {
-        filter?: string
-        type?: AppType
-        sort?: "asc" | "desc"
-    }
-    const navigate = useNextNavigateSearch()
+        filter?: string;
+        type?: AppType;
+        sort?: "asc" | "desc";
+    };
+    const navigate = useNextNavigateSearch();
 
-    const [sort, setSort] = useState(initSort)
-    const [appType, setAppType] = useState(type)
-    const [searchTerm, setSearchTerm] = useState(filter)
+    const [sort, setSort] = useState(initSort);
+    const [appType, setAppType] = useState(type);
+    const [searchTerm, setSearchTerm] = useState(filter);
 
     const filteredApps = apps
         .sort((a, b) =>
@@ -64,32 +64,32 @@ export function Apps() {
         )
         .filter((app) =>
             app.name.toLowerCase().includes(searchTerm.toLowerCase())
-        )
+        );
 
     const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(e.target.value)
+        setSearchTerm(e.target.value);
         navigate({
             search: (prev) => ({
                 ...prev,
                 filter: e.target.value || undefined,
             }),
-        })
-    }
+        });
+    };
 
     const handleTypeChange = (value: AppType) => {
-        setAppType(value)
+        setAppType(value);
         navigate({
             search: (prev) => ({
                 ...prev,
                 type: value === "all" ? undefined : value,
             }),
-        })
-    }
+        });
+    };
 
     const handleSortChange = (sort: "asc" | "desc") => {
-        setSort(sort)
-        navigate({ search: (prev) => ({ ...prev, sort }) })
-    }
+        setSort(sort);
+        navigate({ search: (prev) => ({ ...prev, sort }) });
+    };
 
     return (
         <>
@@ -198,5 +198,5 @@ export function Apps() {
                 </ul>
             </Main>
         </>
-    )
+    );
 }

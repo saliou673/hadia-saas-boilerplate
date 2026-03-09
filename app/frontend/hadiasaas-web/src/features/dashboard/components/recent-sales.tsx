@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export function RecentSales() {
     return (
@@ -91,5 +91,5 @@ export function RecentSales() {
                 </div>
             </div>
         </div>
-    )
+    );
 }

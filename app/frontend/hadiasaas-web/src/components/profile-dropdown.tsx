@@ -1,8 +1,8 @@
-import Link from "next/link"
-import { useCurrentUser } from "@/hooks/use-current-user"
-import useDialogState from "@/hooks/use-dialog-state"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
+import Link from "next/link";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import useDialogState from "@/hooks/use-dialog-state";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -12,12 +12,12 @@ import {
     DropdownMenuSeparator,
     DropdownMenuShortcut,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { SignOutDialog } from "@/components/sign-out-dialog"
+} from "@/components/ui/dropdown-menu";
+import { SignOutDialog } from "@/components/sign-out-dialog";
 
 export function ProfileDropdown() {
-    const [open, setOpen] = useDialogState()
-    const { user } = useCurrentUser()
+    const [open, setOpen] = useDialogState();
+    const { user } = useCurrentUser();
 
     return (
         <>
@@ -81,5 +81,5 @@ export function ProfileDropdown() {
 
             <SignOutDialog open={!!open} onOpenChange={setOpen} />
         </>
-    )
+    );
 }

@@ -1,7 +1,7 @@
-import { DotsHorizontalIcon } from "@radix-ui/react-icons"
-import { type Row } from "@tanstack/react-table"
-import { Trash2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { type Row } from "@tanstack/react-table";
+import { Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -14,21 +14,21 @@ import {
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { labels } from "../data/data"
-import { taskSchema } from "../data/schema"
-import { useTasks } from "./tasks-provider"
+} from "@/components/ui/dropdown-menu";
+import { labels } from "../data/data";
+import { taskSchema } from "../data/schema";
+import { useTasks } from "./tasks-provider";
 
 type DataTableRowActionsProps<TData> = {
-    row: Row<TData>
-}
+    row: Row<TData>;
+};
 
 export function DataTableRowActions<TData>({
     row,
 }: DataTableRowActionsProps<TData>) {
-    const task = taskSchema.parse(row.original)
+    const task = taskSchema.parse(row.original);
 
-    const { setOpen, setCurrentRow } = useTasks()
+    const { setOpen, setCurrentRow } = useTasks();
 
     return (
         <DropdownMenu modal={false}>
@@ -44,8 +44,8 @@ export function DataTableRowActions<TData>({
             <DropdownMenuContent align="end" className="w-[160px]">
                 <DropdownMenuItem
                     onClick={() => {
-                        setCurrentRow(task)
-                        setOpen("update")
+                        setCurrentRow(task);
+                        setOpen("update");
                     }}
                 >
                     Edit
@@ -71,8 +71,8 @@ export function DataTableRowActions<TData>({
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                     onClick={() => {
-                        setCurrentRow(task)
-                        setOpen("delete")
+                        setCurrentRow(task);
+                        setOpen("delete");
                     }}
                 >
                     Delete
@@ -82,5 +82,5 @@ export function DataTableRowActions<TData>({
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
-    )
+    );
 }

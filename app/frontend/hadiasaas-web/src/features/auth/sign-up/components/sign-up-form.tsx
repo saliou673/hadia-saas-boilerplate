@@ -1,14 +1,14 @@
-import { useState } from "react"
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useCreatePublicUserAccount } from "@api-client"
-import { signIn } from "next-auth/react"
-import { useRouter } from "next/navigation"
-import { toast } from "sonner"
-import { IconFacebook, IconGithub } from "@/assets/brand-icons"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useCreatePublicUserAccount } from "@api-client";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { IconFacebook, IconGithub } from "@/assets/brand-icons";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -16,9 +16,9 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { PasswordInput } from "@/components/password-input"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/password-input";
 
 const formSchema = z
     .object({
@@ -41,15 +41,15 @@ const formSchema = z
     .refine((data) => data.password === data.confirmPassword, {
         message: "Passwords don't match.",
         path: ["confirmPassword"],
-    })
+    });
 
 export function SignUpForm({
     className,
     ...props
 }: React.HTMLAttributes<HTMLFormElement>) {
-    const [isLoading, setIsLoading] = useState(false)
-    const router = useRouter()
-    const createPublicUserAccount = useCreatePublicUserAccount()
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
+    const createPublicUserAccount = useCreatePublicUserAccount();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -60,10 +60,10 @@ export function SignUpForm({
             password: "",
             confirmPassword: "",
         },
-    })
+    });
 
     async function onSubmit(data: z.infer<typeof formSchema>) {
-        setIsLoading(true)
+        setIsLoading(true);
 
         try {
             await createPublicUserAccount.mutateAsync({
@@ -73,29 +73,29 @@ export function SignUpForm({
                     email: data.email,
                     password: data.password,
                 },
-            })
+            });
 
             const result = await signIn("credentials", {
                 email: data.email,
                 password: data.password,
                 redirect: false,
                 callbackUrl: "/dashboard",
-            })
+            });
 
             if (result?.error) {
-                toast.success("Account created successfully")
-                router.push("/sign-in")
-                router.refresh()
-                return
+                toast.success("Account created successfully");
+                router.push("/sign-in");
+                router.refresh();
+                return;
             }
 
-            toast.success("Account created successfully")
-            router.push(result?.url || "/dashboard")
-            router.refresh()
+            toast.success("Account created successfully");
+            router.push(result?.url || "/dashboard");
+            router.refresh();
         } catch {
-            toast.error("Unable to create account")
+            toast.error("Unable to create account");
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
     }
 
@@ -215,5 +215,5 @@ export function SignUpForm({
                 </div>
             </form>
         </Form>
-    )
+    );
 }

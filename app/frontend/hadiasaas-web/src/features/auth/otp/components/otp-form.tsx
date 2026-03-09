@@ -1,12 +1,12 @@
-import { useState } from "react"
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { signIn } from "next-auth/react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { toast } from "sonner"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -14,56 +14,56 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 import {
     InputOTP,
     InputOTPGroup,
     InputOTPSlot,
     InputOTPSeparator,
-} from "@/components/ui/input-otp"
+} from "@/components/ui/input-otp";
 
 const formSchema = z.object({
     otp: z
         .string()
         .min(6, "Please enter the 6-digit code.")
         .max(6, "Please enter the 6-digit code."),
-})
+});
 
-type OtpFormProps = React.HTMLAttributes<HTMLFormElement>
+type OtpFormProps = React.HTMLAttributes<HTMLFormElement>;
 
 function sanitizeRedirect(redirectTo: string | null) {
     if (!redirectTo?.startsWith("/") || redirectTo.startsWith("//")) {
-        return "/dashboard"
+        return "/dashboard";
     }
 
-    return redirectTo
+    return redirectTo;
 }
 
 export function OtpForm({ className, ...props }: OtpFormProps) {
-    const router = useRouter()
-    const searchParams = useSearchParams()
-    const [isLoading, setIsLoading] = useState(false)
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const [isLoading, setIsLoading] = useState(false);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: { otp: "" },
-    })
+    });
 
     // eslint-disable-next-line react-hooks/incompatible-library
-    const otp = form.watch("otp")
+    const otp = form.watch("otp");
 
     async function onSubmit(data: z.infer<typeof formSchema>) {
-        setIsLoading(true)
-        const challengeId = searchParams.get("challengeId")
-        const callbackUrl = sanitizeRedirect(searchParams.get("redirect"))
+        setIsLoading(true);
+        const challengeId = searchParams.get("challengeId");
+        const callbackUrl = sanitizeRedirect(searchParams.get("redirect"));
 
         if (!challengeId) {
             toast.error(
                 "Your verification session has expired. Please sign in again."
-            )
-            setIsLoading(false)
-            router.push("/sign-in")
-            return
+            );
+            setIsLoading(false);
+            router.push("/sign-in");
+            return;
         }
 
         const result = await signIn("credentials", {
@@ -72,18 +72,18 @@ export function OtpForm({ className, ...props }: OtpFormProps) {
             code: data.otp,
             redirect: false,
             callbackUrl,
-        })
+        });
 
         if (result?.error) {
-            toast.error("Invalid verification code")
-            setIsLoading(false)
-            return
+            toast.error("Invalid verification code");
+            setIsLoading(false);
+            return;
         }
 
-        setIsLoading(false)
-        toast.success("Verification successful")
-        router.push(result?.url || callbackUrl)
-        router.refresh()
+        setIsLoading(false);
+        toast.success("Verification successful");
+        router.push(result?.url || callbackUrl);
+        router.refresh();
     }
 
     return (
@@ -132,5 +132,5 @@ export function OtpForm({ className, ...props }: OtpFormProps) {
                 </Button>
             </form>
         </Form>
-    )
+    );
 }

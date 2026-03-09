@@ -1,22 +1,22 @@
-import { Menu } from "lucide-react"
-import Link from "next/link"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { Menu } from "lucide-react";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 type TopNavProps = React.HTMLAttributes<HTMLElement> & {
     links: {
-        title: string
-        href: string
-        isActive: boolean
-        disabled?: boolean
-    }[]
-}
+        title: string;
+        href: string;
+        isActive: boolean;
+        disabled?: boolean;
+    }[];
+};
 
 export function TopNav({ className, links, ...props }: TopNavProps) {
     return (
@@ -77,5 +77,5 @@ export function TopNav({ className, links, ...props }: TopNavProps) {
                 ))}
             </nav>
         </>
-    )
+    );
 }

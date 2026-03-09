@@ -14,7 +14,7 @@ import {
     IconGitlab,
     IconDiscord,
     IconWhatsapp,
-} from "@/assets/brand-icons"
+} from "@/assets/brand-icons";
 
 export const apps = [
     {
@@ -107,4 +107,4 @@ export const apps = [
         connected: false,
         desc: "Easily integrate WhatsApp for direct messaging.",
     },
-]
+];

@@ -21,8 +21,8 @@ import {
     AudioWaveform,
     Command,
     GalleryVerticalEnd,
-} from "lucide-react"
-import { type SidebarData } from "../types"
+} from "lucide-react";
+import { type SidebarData } from "../types";
 
 export const sidebarData: SidebarData = {
     teams: [
@@ -178,4 +178,4 @@ export const sidebarData: SidebarData = {
             ],
         },
     ],
-}
+};

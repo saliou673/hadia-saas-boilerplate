@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { showSubmittedData } from "@/lib/show-submitted-data"
-import { Button } from "@/components/ui/button"
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { showSubmittedData } from "@/lib/show-submitted-data";
+import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogContent,
@@ -12,7 +12,7 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
     Form,
     FormControl,
@@ -20,12 +20,12 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { PasswordInput } from "@/components/password-input"
-import { SelectDropdown } from "@/components/select-dropdown"
-import { roles } from "../data/data"
-import { type User } from "../data/schema"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/password-input";
+import { SelectDropdown } from "@/components/select-dropdown";
+import { roles } from "../data/data";
+import { type User } from "../data/schema";
 
 const formSchema = z
     .object({
@@ -44,8 +44,8 @@ const formSchema = z
     })
     .refine(
         (data) => {
-            if (data.isEdit && !data.password) return true
-            return data.password.length > 0
+            if (data.isEdit && !data.password) return true;
+            return data.password.length > 0;
         },
         {
             message: "Password is required.",
@@ -54,8 +54,8 @@ const formSchema = z
     )
     .refine(
         ({ isEdit, password }) => {
-            if (isEdit && !password) return true
-            return password.length >= 8
+            if (isEdit && !password) return true;
+            return password.length >= 8;
         },
         {
             message: "Password must be at least 8 characters long.",
@@ -64,8 +64,8 @@ const formSchema = z
     )
     .refine(
         ({ isEdit, password }) => {
-            if (isEdit && !password) return true
-            return /[a-z]/.test(password)
+            if (isEdit && !password) return true;
+            return /[a-z]/.test(password);
         },
         {
             message: "Password must contain at least one lowercase letter.",
@@ -74,8 +74,8 @@ const formSchema = z
     )
     .refine(
         ({ isEdit, password }) => {
-            if (isEdit && !password) return true
-            return /\d/.test(password)
+            if (isEdit && !password) return true;
+            return /\d/.test(password);
         },
         {
             message: "Password must contain at least one number.",
@@ -84,28 +84,28 @@ const formSchema = z
     )
     .refine(
         ({ isEdit, password, confirmPassword }) => {
-            if (isEdit && !password) return true
-            return password === confirmPassword
+            if (isEdit && !password) return true;
+            return password === confirmPassword;
         },
         {
             message: "Passwords don't match.",
             path: ["confirmPassword"],
         }
-    )
-type UserForm = z.infer<typeof formSchema>
+    );
+type UserForm = z.infer<typeof formSchema>;
 
 type UserActionDialogProps = {
-    currentRow?: User
-    open: boolean
-    onOpenChange: (open: boolean) => void
-}
+    currentRow?: User;
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+};
 
 export function UsersActionDialog({
     currentRow,
     open,
     onOpenChange,
 }: UserActionDialogProps) {
-    const isEdit = !!currentRow
+    const isEdit = !!currentRow;
     const form = useForm<UserForm>({
         resolver: zodResolver(formSchema),
         defaultValues: isEdit
@@ -126,22 +126,22 @@ export function UsersActionDialog({
                   confirmPassword: "",
                   isEdit,
               },
-    })
+    });
 
     const onSubmit = (values: UserForm) => {
-        form.reset()
-        showSubmittedData(values)
-        onOpenChange(false)
-    }
+        form.reset();
+        showSubmittedData(values);
+        onOpenChange(false);
+    };
 
-    const isPasswordTouched = !!form.formState.dirtyFields.password
+    const isPasswordTouched = !!form.formState.dirtyFields.password;
 
     return (
         <Dialog
             open={open}
             onOpenChange={(state) => {
-                form.reset()
-                onOpenChange(state)
+                form.reset();
+                onOpenChange(state);
             }}
         >
             <DialogContent className="sm:max-w-lg">
@@ -333,5 +333,5 @@ export function UsersActionDialog({
                 </DialogFooter>
             </DialogContent>
         </Dialog>
-    )
+    );
 }

@@ -1,12 +1,12 @@
-import { type ColumnDef } from "@tanstack/react-table"
-import { cn } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
-import { DataTableColumnHeader } from "@/components/data-table"
-import { LongText } from "@/components/long-text"
-import { callTypes, roles } from "../data/data"
-import { type User } from "../data/schema"
-import { DataTableRowActions } from "./data-table-row-actions"
+import { type ColumnDef } from "@tanstack/react-table";
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import { DataTableColumnHeader } from "@/components/data-table";
+import { LongText } from "@/components/long-text";
+import { callTypes, roles } from "../data/data";
+import { type User } from "../data/schema";
+import { DataTableRowActions } from "./data-table-row-actions";
 
 export const usersColumns: ColumnDef<User>[] = [
     {
@@ -62,9 +62,9 @@ export const usersColumns: ColumnDef<User>[] = [
             <DataTableColumnHeader column={column} title="Name" />
         ),
         cell: ({ row }) => {
-            const { firstName, lastName } = row.original
-            const fullName = `${firstName} ${lastName}`
-            return <LongText className="max-w-36">{fullName}</LongText>
+            const { firstName, lastName } = row.original;
+            const fullName = `${firstName} ${lastName}`;
+            return <LongText className="max-w-36">{fullName}</LongText>;
         },
         meta: { className: "w-36" },
     },
@@ -93,8 +93,8 @@ export const usersColumns: ColumnDef<User>[] = [
             <DataTableColumnHeader column={column} title="Status" />
         ),
         cell: ({ row }) => {
-            const { status } = row.original
-            const badgeColor = callTypes.get(status)
+            const { status } = row.original;
+            const badgeColor = callTypes.get(status);
             return (
                 <div className="flex space-x-2">
                     <Badge
@@ -104,10 +104,10 @@ export const usersColumns: ColumnDef<User>[] = [
                         {row.getValue("status")}
                     </Badge>
                 </div>
-            )
+            );
         },
         filterFn: (row, id, value) => {
-            return value.includes(row.getValue(id))
+            return value.includes(row.getValue(id));
         },
         enableHiding: false,
         enableSorting: false,
@@ -118,11 +118,11 @@ export const usersColumns: ColumnDef<User>[] = [
             <DataTableColumnHeader column={column} title="Role" />
         ),
         cell: ({ row }) => {
-            const { role } = row.original
-            const userType = roles.find(({ value }) => value === role)
+            const { role } = row.original;
+            const userType = roles.find(({ value }) => value === role);
 
             if (!userType) {
-                return null
+                return null;
             }
 
             return (
@@ -137,10 +137,10 @@ export const usersColumns: ColumnDef<User>[] = [
                         {row.getValue("role")}
                     </span>
                 </div>
-            )
+            );
         },
         filterFn: (row, id, value) => {
-            return value.includes(row.getValue(id))
+            return value.includes(row.getValue(id));
         },
         enableSorting: false,
         enableHiding: false,
@@ -149,4 +149,4 @@ export const usersColumns: ColumnDef<User>[] = [
         id: "actions",
         cell: DataTableRowActions,
     },
-]
+];

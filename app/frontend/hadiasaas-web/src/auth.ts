@@ -3,38 +3,38 @@ import {
     refreshToken,
     type JwtToken,
     verifyLoginChallenge,
-} from "@api-client"
-import NextAuth, { type NextAuthOptions } from "next-auth"
-import type { JWT } from "next-auth/jwt"
-import Credentials from "next-auth/providers/credentials"
+} from "@api-client";
+import NextAuth, { type NextAuthOptions } from "next-auth";
+import type { JWT } from "next-auth/jwt";
+import Credentials from "next-auth/providers/credentials";
 
 type LoginResponse = JwtToken & {
-    challengeId?: string
-}
+    challengeId?: string;
+};
 
 const apiBaseUrl =
-    process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080"
+    process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080";
 
 const authSecret =
     process.env.AUTH_SECRET ??
     process.env.NEXTAUTH_SECRET ??
     (process.env.NODE_ENV === "development"
         ? "dev-only-secret-change-me"
-        : undefined)
+        : undefined);
 
 function decodeJwtExpiration(accessToken: string): number {
     try {
         const payload = JSON.parse(
             Buffer.from(accessToken.split(".")[1], "base64").toString("utf8")
-        ) as { exp?: number }
+        ) as { exp?: number };
 
         if (!payload.exp) {
-            return Date.now() + 5 * 60 * 1000
+            return Date.now() + 5 * 60 * 1000;
         }
 
-        return payload.exp * 1000
+        return payload.exp * 1000;
     } catch {
-        return Date.now() + 5 * 60 * 1000
+        return Date.now() + 5 * 60 * 1000;
     }
 }
 
@@ -51,32 +51,32 @@ function extractChallengeId(error: unknown): string | undefined {
         "challengeId" in error.response.data &&
         typeof error.response.data.challengeId === "string"
     ) {
-        return error.response.data.challengeId
+        return error.response.data.challengeId;
     }
 
-    return undefined
+    return undefined;
 }
 
 function extractErrorMessage(error: unknown): string | undefined {
     if (error instanceof Error) {
-        return error.message
+        return error.message;
     }
 
-    return undefined
+    return undefined;
 }
 
 async function refreshAccessToken(token: JWT): Promise<JWT> {
     if (!token.refreshToken) {
-        return { ...token, error: "RefreshAccessTokenError" }
+        return { ...token, error: "RefreshAccessTokenError" };
     }
 
     try {
         const refreshed = await refreshToken(token.refreshToken, {
             baseURL: apiBaseUrl,
-        })
+        });
 
         if (!refreshed.accessToken) {
-            throw new Error("Refresh response did not include access token")
+            throw new Error("Refresh response did not include access token");
         }
 
         return {
@@ -85,9 +85,9 @@ async function refreshAccessToken(token: JWT): Promise<JWT> {
             refreshToken: refreshed.refreshToken ?? token.refreshToken,
             accessTokenExpires: decodeJwtExpiration(refreshed.accessToken),
             error: undefined,
-        }
+        };
     } catch {
-        return { ...token, error: "RefreshAccessTokenError" }
+        return { ...token, error: "RefreshAccessTokenError" };
     }
 }
 
@@ -109,26 +109,26 @@ export const authOptions: NextAuthOptions = {
                 code: { label: "Code", type: "text" },
             },
             async authorize(credentials) {
-                const mode = String(credentials?.mode ?? "password")
+                const mode = String(credentials?.mode ?? "password");
 
                 if (mode === "otp") {
                     const challengeId = String(
                         credentials?.challengeId ?? ""
-                    ).trim()
-                    const code = String(credentials?.code ?? "").trim()
+                    ).trim();
+                    const code = String(credentials?.code ?? "").trim();
 
                     if (!challengeId || !code) {
-                        return null
+                        return null;
                     }
 
                     try {
                         const result = await verifyLoginChallenge(
                             { challengeId, code },
                             { baseURL: apiBaseUrl }
-                        )
+                        );
 
                         if (!result.accessToken || !result.refreshToken) {
-                            return null
+                            return null;
                         }
 
                         return {
@@ -138,33 +138,33 @@ export const authOptions: NextAuthOptions = {
                             accessTokenExpires: decodeJwtExpiration(
                                 result.accessToken
                             ),
-                        }
+                        };
                     } catch {
-                        return null
+                        return null;
                     }
                 }
 
-                const email = String(credentials?.email ?? "").trim()
-                const password = String(credentials?.password ?? "")
+                const email = String(credentials?.email ?? "").trim();
+                const password = String(credentials?.password ?? "");
                 const rememberMe =
-                    String(credentials?.rememberMe ?? "false") === "true"
+                    String(credentials?.rememberMe ?? "false") === "true";
 
                 if (!email || !password) {
-                    return null
+                    return null;
                 }
 
                 try {
                     const result = (await authenticate(
                         { email, password, rememberMe },
                         { baseURL: apiBaseUrl }
-                    )) as LoginResponse
+                    )) as LoginResponse;
 
                     if (result.challengeId) {
-                        throw new Error(`MFA_REQUIRED:${result.challengeId}`)
+                        throw new Error(`MFA_REQUIRED:${result.challengeId}`);
                     }
 
                     if (!result.accessToken || !result.refreshToken) {
-                        return null
+                        return null;
                     }
 
                     return {
@@ -176,12 +176,12 @@ export const authOptions: NextAuthOptions = {
                         accessTokenExpires: decodeJwtExpiration(
                             result.accessToken
                         ),
-                    }
+                    };
                 } catch (error: unknown) {
-                    const message = extractErrorMessage(error)
+                    const message = extractErrorMessage(error);
 
                     if (message?.startsWith("MFA_REQUIRED")) {
-                        throw error
+                        throw error;
                     }
 
                     const status =
@@ -192,19 +192,19 @@ export const authOptions: NextAuthOptions = {
                         error.response !== null &&
                         "status" in error.response
                             ? error.response.status
-                            : undefined
+                            : undefined;
 
                     if (status === 202) {
-                        const challengeId = extractChallengeId(error)
+                        const challengeId = extractChallengeId(error);
 
                         if (challengeId) {
-                            throw new Error(`MFA_REQUIRED:${challengeId}`)
+                            throw new Error(`MFA_REQUIRED:${challengeId}`);
                         }
 
-                        throw new Error("MFA_REQUIRED")
+                        throw new Error("MFA_REQUIRED");
                     }
 
-                    return null
+                    return null;
                 }
             },
         }),
@@ -218,7 +218,7 @@ export const authOptions: NextAuthOptions = {
                     refreshToken: user.refreshToken,
                     accessTokenExpires: user.accessTokenExpires,
                     error: undefined,
-                }
+                };
             }
 
             if (
@@ -226,18 +226,18 @@ export const authOptions: NextAuthOptions = {
                 token.accessTokenExpires &&
                 Date.now() < token.accessTokenExpires
             ) {
-                return token
+                return token;
             }
 
-            return refreshAccessToken(token)
+            return refreshAccessToken(token);
         },
         async session({ session, token }) {
-            session.error = token.error
-            session.accessToken = token.accessToken
-            session.accessTokenExpires = token.accessTokenExpires
-            return session
+            session.error = token.error;
+            session.accessToken = token.accessToken;
+            session.accessTokenExpires = token.accessTokenExpires;
+            return session;
         },
     },
-}
+};
 
-export default NextAuth(authOptions)
+export default NextAuth(authOptions);

@@ -1,8 +1,8 @@
-import { Logo } from "@/assets/logo"
-import { cn } from "@/lib/utils"
-import dashboardDark from "./assets/dashboard-dark.png"
-import dashboardLight from "./assets/dashboard-light.png"
-import { UserAuthForm } from "./components/user-auth-form"
+import { Logo } from "@/assets/logo";
+import { cn } from "@/lib/utils";
+import dashboardDark from "./assets/dashboard-dark.png";
+import dashboardLight from "./assets/dashboard-light.png";
+import { UserAuthForm } from "./components/user-auth-form";
 
 export function SignIn2() {
     return (
@@ -67,5 +67,5 @@ export function SignIn2() {
                 />
             </div>
         </div>
-    )
+    );
 }

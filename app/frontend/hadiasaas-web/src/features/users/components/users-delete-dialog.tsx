@@ -1,33 +1,33 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { AlertTriangle } from "lucide-react"
-import { showSubmittedData } from "@/lib/show-submitted-data"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { ConfirmDialog } from "@/components/confirm-dialog"
-import { type User } from "../data/schema"
+import { useState } from "react";
+import { AlertTriangle } from "lucide-react";
+import { showSubmittedData } from "@/lib/show-submitted-data";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ConfirmDialog } from "@/components/confirm-dialog";
+import { type User } from "../data/schema";
 
 type UserDeleteDialogProps = {
-    open: boolean
-    onOpenChange: (open: boolean) => void
-    currentRow: User
-}
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    currentRow: User;
+};
 
 export function UsersDeleteDialog({
     open,
     onOpenChange,
     currentRow,
 }: UserDeleteDialogProps) {
-    const [value, setValue] = useState("")
+    const [value, setValue] = useState("");
 
     const handleDelete = () => {
-        if (value.trim() !== currentRow.username) return
+        if (value.trim() !== currentRow.username) return;
 
-        onOpenChange(false)
-        showSubmittedData(currentRow, "The following user has been deleted:")
-    }
+        onOpenChange(false);
+        showSubmittedData(currentRow, "The following user has been deleted:");
+    };
 
     return (
         <ConfirmDialog
@@ -80,5 +80,5 @@ export function UsersDeleteDialog({
             confirmText="Delete"
             destructive
         />
-    )
+    );
 }

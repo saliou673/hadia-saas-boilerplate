@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
-import { Monitor, Bell, Palette, Wrench, UserCog } from "lucide-react"
-import { Separator } from "@/components/ui/separator"
-import { ConfigDrawer } from "@/components/config-drawer"
-import { Header } from "@/components/layout/header"
-import { Main } from "@/components/layout/main"
-import { ProfileDropdown } from "@/components/profile-dropdown"
-import { Search } from "@/components/search"
-import { ThemeSwitch } from "@/components/theme-switch"
-import { SidebarNav } from "./components/sidebar-nav"
+import { Monitor, Bell, Palette, Wrench, UserCog } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { ConfigDrawer } from "@/components/config-drawer";
+import { Header } from "@/components/layout/header";
+import { Main } from "@/components/layout/main";
+import { ProfileDropdown } from "@/components/profile-dropdown";
+import { Search } from "@/components/search";
+import { ThemeSwitch } from "@/components/theme-switch";
+import { SidebarNav } from "./components/sidebar-nav";
 
 const sidebarNavItems = [
     {
@@ -36,11 +36,11 @@ const sidebarNavItems = [
         href: "/settings/display",
         icon: <Monitor size={18} />,
     },
-]
+];
 
 type SettingsProps = {
-    children?: React.ReactNode
-}
+    children?: React.ReactNode;
+};
 
 export function Settings({ children }: SettingsProps) {
     return (
@@ -75,5 +75,5 @@ export function Settings({ children }: SettingsProps) {
                 </div>
             </Main>
         </>
-    )
+    );
 }

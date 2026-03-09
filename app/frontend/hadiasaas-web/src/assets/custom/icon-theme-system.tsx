@@ -1,5 +1,5 @@
-import { type SVGProps } from "react"
-import { cn } from "@/lib/utils"
+import { type SVGProps } from "react";
+import { cn } from "@/lib/utils";
 
 export function IconThemeSystem({
     className,
@@ -112,5 +112,5 @@ export function IconThemeSystem({
                 strokeMiterlimit={10}
             />
         </svg>
-    )
+    );
 }

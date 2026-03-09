@@ -1,6 +1,6 @@
-import { useState } from "react"
-import { Fragment } from "react/jsx-runtime"
-import { format } from "date-fns"
+import { useState } from "react";
+import { Fragment } from "react/jsx-runtime";
+import { format } from "date-fns";
 import {
     ArrowLeft,
     MoreVertical,
@@ -13,56 +13,56 @@ import {
     Send,
     Video,
     MessagesSquare,
-} from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
-import { ConfigDrawer } from "@/components/config-drawer"
-import { Header } from "@/components/layout/header"
-import { Main } from "@/components/layout/main"
-import { ProfileDropdown } from "@/components/profile-dropdown"
-import { Search } from "@/components/search"
-import { ThemeSwitch } from "@/components/theme-switch"
-import { NewChat } from "./components/new-chat"
-import { type ChatUser, type Convo } from "./data/chat-types"
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { ConfigDrawer } from "@/components/config-drawer";
+import { Header } from "@/components/layout/header";
+import { Main } from "@/components/layout/main";
+import { ProfileDropdown } from "@/components/profile-dropdown";
+import { Search } from "@/components/search";
+import { ThemeSwitch } from "@/components/theme-switch";
+import { NewChat } from "./components/new-chat";
+import { type ChatUser, type Convo } from "./data/chat-types";
 // Fake Data
-import convoData from "./data/convo.json"
+import convoData from "./data/convo.json";
 
-const conversations = convoData.conversations
+const conversations = convoData.conversations;
 
 export function Chats() {
-    const [search, setSearch] = useState("")
-    const [selectedUser, setSelectedUser] = useState<ChatUser | null>(null)
+    const [search, setSearch] = useState("");
+    const [selectedUser, setSelectedUser] = useState<ChatUser | null>(null);
     const [mobileSelectedUser, setMobileSelectedUser] =
-        useState<ChatUser | null>(null)
+        useState<ChatUser | null>(null);
     const [createConversationDialogOpened, setCreateConversationDialog] =
-        useState(false)
+        useState(false);
 
     // Filtered data based on the search query
     const filteredChatList = conversations.filter(({ fullName }) =>
         fullName.toLowerCase().includes(search.trim().toLowerCase())
-    )
+    );
 
     const currentMessage = selectedUser?.messages.reduce(
         (acc: Record<string, Convo[]>, obj) => {
-            const key = format(obj.timestamp, "d MMM, yyyy")
+            const key = format(obj.timestamp, "d MMM, yyyy");
 
             // Create an array for the category if it doesn't exist
             if (!acc[key]) {
-                acc[key] = []
+                acc[key] = [];
             }
 
             // Push the current object to the array
-            acc[key].push(obj)
+            acc[key].push(obj);
 
-            return acc
+            return acc;
         },
         {}
-    )
+    );
 
-    const users = conversations.map(({ messages, ...user }) => user)
+    const users = conversations.map(({ messages, ...user }) => user);
 
     return (
         <>
@@ -133,12 +133,12 @@ export function Chats() {
                                     username,
                                     messages,
                                     fullName,
-                                } = chatUsr
-                                const lastConvo = messages[0]
+                                } = chatUsr;
+                                const lastConvo = messages[0];
                                 const lastMsg =
                                     lastConvo.sender === "You"
                                         ? `You: ${lastConvo.message}`
-                                        : lastConvo.message
+                                        : lastConvo.message;
                                 return (
                                     <Fragment key={id}>
                                         <button
@@ -150,8 +150,8 @@ export function Chats() {
                                                     "sm:bg-muted"
                                             )}
                                             onClick={() => {
-                                                setSelectedUser(chatUsr)
-                                                setMobileSelectedUser(chatUsr)
+                                                setSelectedUser(chatUsr);
+                                                setMobileSelectedUser(chatUsr);
                                             }}
                                         >
                                             <div className="flex gap-2">
@@ -176,7 +176,7 @@ export function Chats() {
                                         </button>
                                         <Separator className="my-1" />
                                     </Fragment>
-                                )
+                                );
                             })}
                         </ScrollArea>
                     </div>
@@ -407,5 +407,5 @@ export function Chats() {
                 />
             </Main>
         </>
-    )
+    );
 }

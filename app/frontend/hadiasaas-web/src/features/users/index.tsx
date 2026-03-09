@@ -1,24 +1,24 @@
-"use client"
+"use client";
 
 import {
     useNextNavigateSearch,
     useNextSearchObject,
-} from "@/hooks/use-next-search-state"
-import { ConfigDrawer } from "@/components/config-drawer"
-import { Header } from "@/components/layout/header"
-import { Main } from "@/components/layout/main"
-import { ProfileDropdown } from "@/components/profile-dropdown"
-import { Search } from "@/components/search"
-import { ThemeSwitch } from "@/components/theme-switch"
-import { UsersDialogs } from "./components/users-dialogs"
-import { UsersPrimaryButtons } from "./components/users-primary-buttons"
-import { UsersProvider } from "./components/users-provider"
-import { UsersTable } from "./components/users-table"
-import { users } from "./data/users"
+} from "@/hooks/use-next-search-state";
+import { ConfigDrawer } from "@/components/config-drawer";
+import { Header } from "@/components/layout/header";
+import { Main } from "@/components/layout/main";
+import { ProfileDropdown } from "@/components/profile-dropdown";
+import { Search } from "@/components/search";
+import { ThemeSwitch } from "@/components/theme-switch";
+import { UsersDialogs } from "./components/users-dialogs";
+import { UsersPrimaryButtons } from "./components/users-primary-buttons";
+import { UsersProvider } from "./components/users-provider";
+import { UsersTable } from "./components/users-table";
+import { users } from "./data/users";
 
 export function Users() {
-    const search = useNextSearchObject()
-    const navigate = useNextNavigateSearch()
+    const search = useNextSearchObject();
+    const navigate = useNextNavigateSearch();
 
     return (
         <UsersProvider>
@@ -48,5 +48,5 @@ export function Users() {
 
             <UsersDialogs />
         </UsersProvider>
-    )
+    );
 }

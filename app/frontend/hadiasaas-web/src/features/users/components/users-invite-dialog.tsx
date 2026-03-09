@@ -1,9 +1,9 @@
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { MailPlus, Send } from "lucide-react"
-import { showSubmittedData } from "@/lib/show-submitted-data"
-import { Button } from "@/components/ui/button"
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { MailPlus, Send } from "lucide-react";
+import { showSubmittedData } from "@/lib/show-submitted-data";
+import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogClose,
@@ -12,7 +12,7 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
     Form,
     FormControl,
@@ -20,11 +20,11 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { SelectDropdown } from "@/components/select-dropdown"
-import { roles } from "../data/data"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { SelectDropdown } from "@/components/select-dropdown";
+import { roles } from "../data/data";
 
 const formSchema = z.object({
     email: z.email({
@@ -33,14 +33,14 @@ const formSchema = z.object({
     }),
     role: z.string().min(1, "Role is required."),
     desc: z.string().optional(),
-})
+});
 
-type UserInviteForm = z.infer<typeof formSchema>
+type UserInviteForm = z.infer<typeof formSchema>;
 
 type UserInviteDialogProps = {
-    open: boolean
-    onOpenChange: (open: boolean) => void
-}
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+};
 
 export function UsersInviteDialog({
     open,
@@ -49,20 +49,20 @@ export function UsersInviteDialog({
     const form = useForm<UserInviteForm>({
         resolver: zodResolver(formSchema),
         defaultValues: { email: "", role: "", desc: "" },
-    })
+    });
 
     const onSubmit = (values: UserInviteForm) => {
-        form.reset()
-        showSubmittedData(values)
-        onOpenChange(false)
-    }
+        form.reset();
+        showSubmittedData(values);
+        onOpenChange(false);
+    };
 
     return (
         <Dialog
             open={open}
             onOpenChange={(state) => {
-                form.reset()
-                onOpenChange(state)
+                form.reset();
+                onOpenChange(state);
             }}
         >
             <DialogContent className="sm:max-w-md">
@@ -151,5 +151,5 @@ export function UsersInviteDialog({
                 </DialogFooter>
             </DialogContent>
         </Dialog>
-    )
+    );
 }

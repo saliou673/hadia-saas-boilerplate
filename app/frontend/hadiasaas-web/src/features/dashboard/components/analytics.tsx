@@ -4,8 +4,8 @@ import {
     CardDescription,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card"
-import { AnalyticsChart } from "./analytics-chart"
+} from "@/components/ui/card";
+import { AnalyticsChart } from "./analytics-chart";
 
 export function Analytics() {
     return (
@@ -168,7 +168,7 @@ export function Analytics() {
                 </Card>
             </div>
         </div>
-    )
+    );
 }
 
 function SimpleBarList({
@@ -176,15 +176,15 @@ function SimpleBarList({
     valueFormatter,
     barClass,
 }: {
-    items: { name: string; value: number }[]
-    valueFormatter: (n: number) => string
-    barClass: string
+    items: { name: string; value: number }[];
+    valueFormatter: (n: number) => string;
+    barClass: string;
 }) {
-    const max = Math.max(...items.map((i) => i.value), 1)
+    const max = Math.max(...items.map((i) => i.value), 1);
     return (
         <ul className="space-y-3">
             {items.map((i) => {
-                const width = `${Math.round((i.value / max) * 100)}%`
+                const width = `${Math.round((i.value / max) * 100)}%`;
                 return (
                     <li
                         key={i.name}
@@ -205,8 +205,8 @@ function SimpleBarList({
                             {valueFormatter(i.value)}
                         </div>
                     </li>
-                )
+                );
             })}
         </ul>
-    )
+    );
 }

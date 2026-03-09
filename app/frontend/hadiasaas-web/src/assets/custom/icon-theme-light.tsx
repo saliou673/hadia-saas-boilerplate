@@ -1,4 +1,4 @@
-import { type SVGProps } from "react"
+import { type SVGProps } from "react";
 
 export function IconThemeLight(props: SVGProps<SVGSVGElement>) {
     return (
@@ -81,5 +81,5 @@ export function IconThemeLight(props: SVGProps<SVGSVGElement>) {
                 fill="#fff"
             />
         </svg>
-    )
+    );
 }

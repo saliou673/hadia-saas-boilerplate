@@ -1,7 +1,7 @@
-import { DotsHorizontalIcon } from "@radix-ui/react-icons"
-import { type Row } from "@tanstack/react-table"
-import { Trash2, UserPen } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { type Row } from "@tanstack/react-table";
+import { Trash2, UserPen } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -9,16 +9,16 @@ import {
     DropdownMenuSeparator,
     DropdownMenuShortcut,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { type User } from "../data/schema"
-import { useUsers } from "./users-provider"
+} from "@/components/ui/dropdown-menu";
+import { type User } from "../data/schema";
+import { useUsers } from "./users-provider";
 
 type DataTableRowActionsProps = {
-    row: Row<User>
-}
+    row: Row<User>;
+};
 
 export function DataTableRowActions({ row }: DataTableRowActionsProps) {
-    const { setOpen, setCurrentRow } = useUsers()
+    const { setOpen, setCurrentRow } = useUsers();
     return (
         <>
             <DropdownMenu modal={false}>
@@ -34,8 +34,8 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                 <DropdownMenuContent align="end" className="w-[160px]">
                     <DropdownMenuItem
                         onClick={() => {
-                            setCurrentRow(row.original)
-                            setOpen("edit")
+                            setCurrentRow(row.original);
+                            setOpen("edit");
                         }}
                     >
                         Edit
@@ -46,8 +46,8 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                         onClick={() => {
-                            setCurrentRow(row.original)
-                            setOpen("delete")
+                            setCurrentRow(row.original);
+                            setOpen("delete");
                         }}
                         className="text-red-500!"
                     >
@@ -59,5 +59,5 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                 </DropdownMenuContent>
             </DropdownMenu>
         </>
-    )
+    );
 }

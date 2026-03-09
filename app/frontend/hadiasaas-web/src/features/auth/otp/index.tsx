@@ -1,4 +1,4 @@
-import Link from "next/link"
+import Link from "next/link";
 import {
     Card,
     CardContent,
@@ -6,9 +6,9 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card"
-import { AuthLayout } from "../auth-layout"
-import { OtpForm } from "./components/otp-form"
+} from "@/components/ui/card";
+import { AuthLayout } from "../auth-layout";
+import { OtpForm } from "./components/otp-form";
 
 export function Otp() {
     return (
@@ -40,5 +40,5 @@ export function Otp() {
                 </CardFooter>
             </Card>
         </AuthLayout>
-    )
+    );
 }

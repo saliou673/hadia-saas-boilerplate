@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import { useRouter } from "next/navigation"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 type GeneralErrorProps = React.HTMLAttributes<HTMLDivElement> & {
-    minimal?: boolean
-}
+    minimal?: boolean;
+};
 
 export function GeneralError({
     className,
     minimal = false,
 }: GeneralErrorProps) {
-    const router = useRouter()
+    const router = useRouter();
     return (
         <div className={cn("h-svh w-full", className)}>
             <div className="m-auto flex h-full w-full flex-col items-center justify-center gap-2">
@@ -41,5 +41,5 @@ export function GeneralError({
                 )}
             </div>
         </div>
-    )
+    );
 }

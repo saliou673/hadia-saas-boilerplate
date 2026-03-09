@@ -1,8 +1,8 @@
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { showSubmittedData } from "@/lib/show-submitted-data"
-import { Button } from "@/components/ui/button"
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { showSubmittedData } from "@/lib/show-submitted-data";
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -10,9 +10,9 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
     Sheet,
     SheetClose,
@@ -21,30 +21,30 @@ import {
     SheetFooter,
     SheetHeader,
     SheetTitle,
-} from "@/components/ui/sheet"
-import { SelectDropdown } from "@/components/select-dropdown"
-import { type Task } from "../data/schema"
+} from "@/components/ui/sheet";
+import { SelectDropdown } from "@/components/select-dropdown";
+import { type Task } from "../data/schema";
 
 type TaskMutateDrawerProps = {
-    open: boolean
-    onOpenChange: (open: boolean) => void
-    currentRow?: Task
-}
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    currentRow?: Task;
+};
 
 const formSchema = z.object({
     title: z.string().min(1, "Title is required."),
     status: z.string().min(1, "Please select a status."),
     label: z.string().min(1, "Please select a label."),
     priority: z.string().min(1, "Please choose a priority."),
-})
-type TaskForm = z.infer<typeof formSchema>
+});
+type TaskForm = z.infer<typeof formSchema>;
 
 export function TasksMutateDrawer({
     open,
     onOpenChange,
     currentRow,
 }: TaskMutateDrawerProps) {
-    const isUpdate = !!currentRow
+    const isUpdate = !!currentRow;
 
     const form = useForm<TaskForm>({
         resolver: zodResolver(formSchema),
@@ -54,21 +54,21 @@ export function TasksMutateDrawer({
             label: "",
             priority: "",
         },
-    })
+    });
 
     const onSubmit = (data: TaskForm) => {
         // do something with the form data
-        onOpenChange(false)
-        form.reset()
-        showSubmittedData(data)
-    }
+        onOpenChange(false);
+        form.reset();
+        showSubmittedData(data);
+    };
 
     return (
         <Sheet
             open={open}
             onOpenChange={(v) => {
-                onOpenChange(v)
-                form.reset()
+                onOpenChange(v);
+                form.reset();
             }}
         >
             <SheetContent className="flex flex-col">
@@ -232,5 +232,5 @@ export function TasksMutateDrawer({
                 </SheetFooter>
             </SheetContent>
         </Sheet>
-    )
+    );
 }
