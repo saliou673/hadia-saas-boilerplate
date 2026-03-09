@@ -29,10 +29,27 @@ const formSchema = z.object({
     .string()
     .min(1, 'Please enter your password')
     .min(7, 'Password must be at least 7 characters long'),
+  rememberMe: z.boolean(),
 })
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLFormElement> {
   redirectTo?: string
+}
+
+function sanitizeRedirect(redirectTo?: string) {
+  if (!redirectTo?.startsWith('/') || redirectTo.startsWith('//')) {
+    return '/dashboard'
+  }
+
+  return redirectTo
+}
+
+function getMfaChallengeId(error?: string | null) {
+  if (!error?.startsWith('MFA_REQUIRED:')) {
+    return null
+  }
+
+  return error.slice('MFA_REQUIRED:'.length)
 }
 
 export function UserAuthForm({
@@ -48,21 +65,31 @@ export function UserAuthForm({
     defaultValues: {
       email: '',
       password: '',
+      rememberMe: false,
     },
   })
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true)
 
-    const callbackUrl = redirectTo || '/dashboard'
+    const callbackUrl = sanitizeRedirect(redirectTo)
     const result = await signIn('credentials', {
       email: data.email,
       password: data.password,
+      rememberMe: data.rememberMe ? 'true' : 'false',
       redirect: false,
       callbackUrl,
     })
 
     setIsLoading(false)
+
+    const challengeId = getMfaChallengeId(result?.error)
+    if (challengeId) {
+      router.push(
+        `/otp?challengeId=${encodeURIComponent(challengeId)}&redirect=${encodeURIComponent(callbackUrl)}`
+      )
+      return
+    }
 
     if (result?.error) {
       toast.error('Invalid email or password')
@@ -117,6 +144,23 @@ export function UserAuthForm({
           {isLoading ? <Loader2 className='animate-spin' /> : <LogIn />}
           Sign in
         </Button>
+        <FormField
+          control={form.control}
+          name='rememberMe'
+          render={({ field }) => (
+            <FormItem>
+              <label className='inline-flex items-center gap-2 text-sm text-muted-foreground'>
+                <input
+                  type='checkbox'
+                  checked={field.value}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                />
+                Remember me
+              </label>
+            </FormItem>
+          )}
+        />
 
         <div className='relative my-2'>
           <div className='absolute inset-0 flex items-center'>

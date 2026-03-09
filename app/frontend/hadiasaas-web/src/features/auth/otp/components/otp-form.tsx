@@ -1,9 +1,10 @@
-import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { showSubmittedData } from '@/lib/show-submitted-data'
+import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -30,8 +31,17 @@ const formSchema = z.object({
 
 type OtpFormProps = React.HTMLAttributes<HTMLFormElement>
 
+function sanitizeRedirect(redirectTo: string | null) {
+  if (!redirectTo?.startsWith('/') || redirectTo.startsWith('//')) {
+    return '/dashboard'
+  }
+
+  return redirectTo
+}
+
 export function OtpForm({ className, ...props }: OtpFormProps) {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,14 +52,36 @@ export function OtpForm({ className, ...props }: OtpFormProps) {
   // eslint-disable-next-line react-hooks/incompatible-library
   const otp = form.watch('otp')
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true)
-    showSubmittedData(data)
+    const challengeId = searchParams.get('challengeId')
+    const callbackUrl = sanitizeRedirect(searchParams.get('redirect'))
 
-    setTimeout(() => {
+    if (!challengeId) {
+      toast.error('Your verification session has expired. Please sign in again.')
       setIsLoading(false)
-      router.push('/')
-    }, 1000)
+      router.push('/sign-in')
+      return
+    }
+
+    const result = await signIn('credentials', {
+      mode: 'otp',
+      challengeId,
+      code: data.otp,
+      redirect: false,
+      callbackUrl,
+    })
+
+    if (result?.error) {
+      toast.error('Invalid verification code')
+      setIsLoading(false)
+      return
+    }
+
+    setIsLoading(false)
+    toast.success('Verification successful')
+    router.push(result?.url || callbackUrl)
+    router.refresh()
   }
 
   return (

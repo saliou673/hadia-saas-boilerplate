@@ -1,4 +1,8 @@
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useCreatePublicUserAccount } from '@api-client'
+import { signIn } from 'next-auth/react'
+import { toast } from 'sonner'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -18,6 +22,8 @@ import { PasswordInput } from '@/components/password-input'
 
 const formSchema = z
   .object({
+    firstName: z.string().min(1, 'Please enter your first name'),
+    lastName: z.string().min(1, 'Please enter your last name'),
     email: z.email({
       error: (iss) =>
         iss.input === '' ? 'Please enter your email' : undefined,
@@ -25,7 +31,11 @@ const formSchema = z
     password: z
       .string()
       .min(1, 'Please enter your password')
-      .min(7, 'Password must be at least 7 characters long'),
+      .min(8, 'Password must be at least 8 characters long')
+      .regex(
+        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,
+        'Password must include upper, lower, number, and special character'
+      ),
     confirmPassword: z.string().min(1, 'Please confirm your password'),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -38,24 +48,55 @@ export function SignUpForm({
   ...props
 }: React.HTMLAttributes<HTMLFormElement>) {
   const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
+  const createPublicUserAccount = useCreatePublicUserAccount()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
       confirmPassword: '',
     },
   })
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true)
-    // eslint-disable-next-line no-console
-    console.log(data)
 
-    setTimeout(() => {
+    try {
+      await createPublicUserAccount.mutateAsync({
+        data: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          password: data.password,
+        },
+      })
+
+      const result = await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+        callbackUrl: '/dashboard',
+      })
+
+      if (result?.error) {
+        toast.success('Account created successfully')
+        router.push('/sign-in')
+        router.refresh()
+        return
+      }
+
+      toast.success('Account created successfully')
+      router.push(result?.url || '/dashboard')
+      router.refresh()
+    } catch {
+      toast.error('Unable to create account')
+    } finally {
       setIsLoading(false)
-    }, 3000)
+    }
   }
 
   return (
@@ -65,6 +106,32 @@ export function SignUpForm({
         className={cn('grid gap-3', className)}
         {...props}
       >
+        <FormField
+          control={form.control}
+          name='firstName'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>First Name</FormLabel>
+              <FormControl>
+                <Input placeholder='John' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='lastName'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last Name</FormLabel>
+              <FormControl>
+                <Input placeholder='Doe' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name='email'
