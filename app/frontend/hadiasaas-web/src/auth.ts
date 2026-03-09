@@ -146,6 +146,10 @@ export const authOptions: NextAuthOptions = {
             { baseURL: apiBaseUrl }
           )) as LoginResponse
 
+          if (result.challengeId) {
+            throw new Error(`MFA_REQUIRED:${result.challengeId}`)
+          }
+
           if (!result.accessToken || !result.refreshToken) {
             return null
           }
