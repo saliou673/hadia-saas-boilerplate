@@ -4,9 +4,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.hadiasaas.domain.enumerations.UserGender;
 import com.hadiasaas.domain.enumerations.UserGroupConstants;
 import com.hadiasaas.domain.enumerations.UserStatus;
+import com.hadiasaas.domain.models.userpreference.FontPreference;
+import com.hadiasaas.domain.models.userpreference.ThemePreference;
 import com.hadiasaas.domain.ports.out.NotificationSenderPort;
+import com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.UserPreferencesDTO;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.PermissionDTO;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.UserSummaryDTO;
+import com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.AppearancePreferencesDTO;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.requests.*;
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.PermissionEntity;
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.RoleGroupEntity;
@@ -39,6 +43,7 @@ class UserAccountControllerTest extends IntegrationTest {
     private static final String API_ACTIVATE = API_ACCOUNTS_BASE_URL + "/activation";
     private static final String API_RESEND_ACTIVATION = API_ACCOUNTS_BASE_URL + "/activation/resend";
     private static final String API_ACCOUNT = API_ACCOUNTS_BASE_URL + "/me";
+    private static final String API_ACCOUNT_PREFERENCES = API_ACCOUNTS_BASE_URL + "/me/preferences";
     private static final String API_ACCOUNT_RECOVER = API_ACCOUNTS_BASE_URL + "/recover";
     private static final String API_ACCOUNT_PERMISSIONS = API_ACCOUNTS_BASE_URL + "/me/permissions";
     private static final String API_CHANGE_PASSWORD = API_ACCOUNTS_BASE_URL + "/me/password";
@@ -205,6 +210,28 @@ class UserAccountControllerTest extends IntegrationTest {
         assertThat(result.email()).isEqualTo(user.getUserCredentials().getEmail());
         assertThat(result.firstName()).isEqualTo(user.getUserInfo().getFirstName());
         assertThat(result.lastName()).isEqualTo(user.getUserInfo().getLastName());
+        assertThat(result.preferences().appearance().theme()).isEqualTo(ThemePreference.SYSTEM);
+        assertThat(result.preferences().appearance().font()).isEqualTo(FontPreference.INTER);
+    }
+
+    @Test
+    @WithMockUser(username = "test@example.com", authorities = {"user:read:own", "user:update:own"})
+    void shouldUpdateCurrentUserPreferencesSuccessfully() throws Exception {
+        createUser("test@example.com", Set.of(UserGroupConstants.ADMIN));
+        UserPreferencesDTO request = new UserPreferencesDTO(
+                new AppearancePreferencesDTO(ThemePreference.DARK, FontPreference.MANROPE)
+        );
+
+        UserPreferencesDTO updated = put(API_ACCOUNT_PREFERENCES, request, UserPreferencesDTO.class, status().isOk());
+        UserSummaryDTO currentAccount = get(API_ACCOUNT, new TypeReference<>() {}, status().isOk());
+        UserPreferencesDTO currentPreferences = get(API_ACCOUNT_PREFERENCES, new TypeReference<>() {}, status().isOk());
+
+        assertThat(updated.appearance().theme()).isEqualTo(ThemePreference.DARK);
+        assertThat(updated.appearance().font()).isEqualTo(FontPreference.MANROPE);
+        assertThat(currentAccount.preferences().appearance().theme()).isEqualTo(ThemePreference.DARK);
+        assertThat(currentAccount.preferences().appearance().font()).isEqualTo(FontPreference.MANROPE);
+        assertThat(currentPreferences.appearance().theme()).isEqualTo(ThemePreference.DARK);
+        assertThat(currentPreferences.appearance().font()).isEqualTo(FontPreference.MANROPE);
     }
 
     // region UserAccountController.getCurrentUserPermissions

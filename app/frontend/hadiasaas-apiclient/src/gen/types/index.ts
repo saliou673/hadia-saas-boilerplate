@@ -2,6 +2,7 @@ export type { ActivateAccount200, ActivateAccount404, ActivateAccount409, Activa
 export type { AppConfiguration, AppConfigurationCategoryEnumKey } from "./AppConfiguration.ts";
 export type { AppConfigurationCategoryFilter, AppConfigurationCategoryFilterEqualsEnumKey, AppConfigurationCategoryFilterInEnumKey, AppConfigurationCategoryFilterNotEqualsEnumKey, AppConfigurationCategoryFilterNotInEnumKey } from "./AppConfigurationCategoryFilter.ts";
 export type { AppConfigurationFilter } from "./AppConfigurationFilter.ts";
+export type { AppearancePreferences, AppearancePreferencesFontEnumKey, AppearancePreferencesThemeEnumKey } from "./AppearancePreferences.ts";
 export type { AssignRoleGroupAsAdmin204, AssignRoleGroupAsAdmin404, AssignRoleGroupAsAdmin409, AssignRoleGroupAsAdminMutation, AssignRoleGroupAsAdminMutationRequest, AssignRoleGroupAsAdminMutationResponse, AssignRoleGroupAsAdminPathParams } from "./AssignRoleGroupAsAdmin.ts";
 export type { AssignRoleGroupRequest } from "./AssignRoleGroupRequest.ts";
 export type { Authenticate200, Authenticate404, Authenticate409, AuthenticateMutation, AuthenticateMutationRequest, AuthenticateMutationResponse } from "./Authenticate.ts";
@@ -43,6 +44,7 @@ export type { GetAppConfigurationByIdAsAdmin200, GetAppConfigurationByIdAsAdmin4
 export type { GetAppConfigurations200, GetAppConfigurations404, GetAppConfigurations409, GetAppConfigurationsQuery, GetAppConfigurationsQueryParams, GetAppConfigurationsQueryResponse } from "./GetAppConfigurations.ts";
 export type { GetAppConfigurationsAsAdmin200, GetAppConfigurationsAsAdmin404, GetAppConfigurationsAsAdmin409, GetAppConfigurationsAsAdminQuery, GetAppConfigurationsAsAdminQueryParams, GetAppConfigurationsAsAdminQueryResponse } from "./GetAppConfigurationsAsAdmin.ts";
 export type { GetCurrentUserPermissions200, GetCurrentUserPermissions404, GetCurrentUserPermissions409, GetCurrentUserPermissionsQuery, GetCurrentUserPermissionsQueryResponse } from "./GetCurrentUserPermissions.ts";
+export type { GetCurrentUserPreferences200, GetCurrentUserPreferences404, GetCurrentUserPreferences409, GetCurrentUserPreferencesQuery, GetCurrentUserPreferencesQueryResponse } from "./GetCurrentUserPreferences.ts";
 export type { GetDiscountCodeStatus200, GetDiscountCodeStatus404, GetDiscountCodeStatus409, GetDiscountCodeStatusPathParams, GetDiscountCodeStatusQuery, GetDiscountCodeStatusQueryResponse } from "./GetDiscountCodeStatus.ts";
 export type { GetDiscountCodesAsAdmin200, GetDiscountCodesAsAdmin404, GetDiscountCodesAsAdmin409, GetDiscountCodesAsAdminQuery, GetDiscountCodesAsAdminQueryParams, GetDiscountCodesAsAdminQueryResponse } from "./GetDiscountCodesAsAdmin.ts";
 export type { GetDiscountCodesByIdAsAdmin200, GetDiscountCodesByIdAsAdmin404, GetDiscountCodesByIdAsAdmin409, GetDiscountCodesByIdAsAdminPathParams, GetDiscountCodesByIdAsAdminQuery, GetDiscountCodesByIdAsAdminQueryResponse } from "./GetDiscountCodesByIdAsAdmin.ts";
@@ -101,6 +103,7 @@ export type { UpdateAccount200, UpdateAccount404, UpdateAccount409, UpdateAccoun
 export type { UpdateAppConfigurationAsAdmin200, UpdateAppConfigurationAsAdmin404, UpdateAppConfigurationAsAdmin409, UpdateAppConfigurationAsAdminMutation, UpdateAppConfigurationAsAdminMutationRequest, UpdateAppConfigurationAsAdminMutationResponse, UpdateAppConfigurationAsAdminPathParams } from "./UpdateAppConfigurationAsAdmin.ts";
 export type { UpdateAppConfigurationRequest } from "./UpdateAppConfigurationRequest.ts";
 export type { UpdateByCategoryAndCode200, UpdateByCategoryAndCode404, UpdateByCategoryAndCode409, UpdateByCategoryAndCodeMutation, UpdateByCategoryAndCodeMutationRequest, UpdateByCategoryAndCodeMutationResponse, UpdateByCategoryAndCodePathParams, UpdateByCategoryAndCodePathParamsCategoryEnumKey } from "./UpdateByCategoryAndCode.ts";
+export type { UpdateCurrentUserPreferences200, UpdateCurrentUserPreferences404, UpdateCurrentUserPreferences409, UpdateCurrentUserPreferencesMutation, UpdateCurrentUserPreferencesMutationRequest, UpdateCurrentUserPreferencesMutationResponse } from "./UpdateCurrentUserPreferences.ts";
 export type { UpdateDiscountCodeAsAdmin200, UpdateDiscountCodeAsAdmin404, UpdateDiscountCodeAsAdmin409, UpdateDiscountCodeAsAdminMutation, UpdateDiscountCodeAsAdminMutationRequest, UpdateDiscountCodeAsAdminMutationResponse, UpdateDiscountCodeAsAdminPathParams } from "./UpdateDiscountCodeAsAdmin.ts";
 export type { UpdateDiscountCodeRequest, UpdateDiscountCodeRequestDiscountTypeEnumKey } from "./UpdateDiscountCodeRequest.ts";
 export type { UpdateRoleGroupAsAdmin200, UpdateRoleGroupAsAdmin404, UpdateRoleGroupAsAdmin409, UpdateRoleGroupAsAdminMutation, UpdateRoleGroupAsAdminMutationRequest, UpdateRoleGroupAsAdminMutationResponse, UpdateRoleGroupAsAdminPathParams } from "./UpdateRoleGroupAsAdmin.ts";
@@ -112,6 +115,7 @@ export type { UpdateUserRequest, UpdateUserRequestGenderEnumKey } from "./Update
 export type { UserDetails, UserDetailsGenderEnumKey, UserDetailsStatusEnumKey } from "./UserDetails.ts";
 export type { UserFilter } from "./UserFilter.ts";
 export type { UserGenderFilter, UserGenderFilterEqualsEnumKey, UserGenderFilterInEnumKey, UserGenderFilterNotEqualsEnumKey, UserGenderFilterNotInEnumKey } from "./UserGenderFilter.ts";
+export type { UserPreferences } from "./UserPreferences.ts";
 export type { UserStatusFilter, UserStatusFilterEqualsEnumKey, UserStatusFilterInEnumKey, UserStatusFilterNotEqualsEnumKey, UserStatusFilterNotInEnumKey } from "./UserStatusFilter.ts";
 export type { UserSubscription, UserSubscriptionBillingFrequencyEnumKey, UserSubscriptionStatusEnumKey } from "./UserSubscription.ts";
 export type { UserSubscriptionFilter } from "./UserSubscriptionFilter.ts";
@@ -124,6 +128,8 @@ export { appConfigurationCategoryFilterEqualsEnum } from "./AppConfigurationCate
 export { appConfigurationCategoryFilterInEnum } from "./AppConfigurationCategoryFilter.ts";
 export { appConfigurationCategoryFilterNotEqualsEnum } from "./AppConfigurationCategoryFilter.ts";
 export { appConfigurationCategoryFilterNotInEnum } from "./AppConfigurationCategoryFilter.ts";
+export { appearancePreferencesFontEnum } from "./AppearancePreferences.ts";
+export { appearancePreferencesThemeEnum } from "./AppearancePreferences.ts";
 export { createAdminUserRequestGenderEnum } from "./CreateAdminUserRequest.ts";
 export { createAppConfigurationRequestCategoryEnum } from "./CreateAppConfigurationRequest.ts";
 export { createDiscountCodeRequestDiscountTypeEnum } from "./CreateDiscountCodeRequest.ts";

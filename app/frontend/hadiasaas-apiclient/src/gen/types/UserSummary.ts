@@ -3,6 +3,7 @@
 * Do not edit manually.
 */
 
+import type { UserPreferences } from "./UserPreferences.ts";
 
 export const userSummaryGenderEnum = {
     MALE: "MALE",
@@ -70,4 +71,8 @@ export type UserSummary = {
      * @type string | undefined
     */
     imageUrl?: string;
+    /**
+     * @type object
+    */
+    preferences: UserPreferences;
 };

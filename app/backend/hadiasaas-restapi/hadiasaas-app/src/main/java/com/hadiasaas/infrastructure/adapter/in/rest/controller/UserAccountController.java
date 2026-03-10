@@ -5,12 +5,15 @@ import com.hadiasaas.domain.models.rbac.Permission;
 import com.hadiasaas.domain.models.user.User;
 import com.hadiasaas.domain.models.user.UserInfoUpdate;
 import com.hadiasaas.domain.ports.in.AccountUseCase;
+import com.hadiasaas.domain.ports.in.UserPreferenceUseCase;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.PermissionDTO;
+import com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.UserPreferencesDTO;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.UserSummaryDTO;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.mapper.CreateUserRequestMapper;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.mapper.PermissionDtoMapper;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.mapper.UpdateUserRequestMapper;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.mapper.UserDtoMapper;
+import com.hadiasaas.infrastructure.adapter.in.rest.controller.mapper.UserPreferencesDtoMapper;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.requests.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -36,10 +39,12 @@ import java.util.List;
 public class UserAccountController {
 
     private final AccountUseCase accountUseCase;
+    private final UserPreferenceUseCase userPreferenceUseCase;
     private final CreateUserRequestMapper createUserRequestMapper;
     private final UserDtoMapper userDtoMapper;
     private final UpdateUserRequestMapper updateUserRequestMapper;
     private final PermissionDtoMapper permissionDtoMapper;
+    private final UserPreferencesDtoMapper userPreferencesDtoMapper;
 
     /**
      * Creates a new public user account.
@@ -104,6 +109,24 @@ public class UserAccountController {
     public UserSummaryDTO updateAccount(@Valid @RequestBody UpdateUserRequest request) {
         UserInfoUpdate infoUpdate = updateUserRequestMapper.toDomain(request);
         return userDtoMapper.toSummaryDTO(accountUseCase.updateCurrentUser(infoUpdate));
+    }
+
+    /**
+     * Returns the current user's preferences.
+     */
+    @GetMapping("/me/preferences")
+    @PreAuthorize("hasAuthority('user:read:own')")
+    public UserPreferencesDTO getCurrentUserPreferences() {
+        return userPreferencesDtoMapper.toDTO(userPreferenceUseCase.getCurrentUserPreferences());
+    }
+
+    /**
+     * Updates the current user's preferences.
+     */
+    @PutMapping("/me/preferences")
+    @PreAuthorize("hasAuthority('user:update:own')")
+    public UserPreferencesDTO updateCurrentUserPreferences(@Valid @RequestBody UserPreferencesDTO preferences) {
+        return userPreferencesDtoMapper.toDTO(userPreferenceUseCase.updateCurrentUserPreferences(userPreferencesDtoMapper.toDomain(preferences)));
     }
 
     /**

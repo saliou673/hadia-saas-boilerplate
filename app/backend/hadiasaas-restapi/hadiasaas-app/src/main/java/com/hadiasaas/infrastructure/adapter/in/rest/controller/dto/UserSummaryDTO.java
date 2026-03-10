@@ -48,6 +48,9 @@ public record UserSummaryDTO(
         String languageKey,
 
         @Nullable
-        String imageUrl) {
+        String imageUrl,
+
+        @NotNull
+        UserPreferencesDTO preferences) {
 
 }

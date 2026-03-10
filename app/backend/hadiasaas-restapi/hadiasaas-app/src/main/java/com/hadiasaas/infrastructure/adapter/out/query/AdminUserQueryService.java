@@ -8,6 +8,7 @@ import com.hadiasaas.domain.ports.in.UserQueryUseCase;
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.*;
 import com.hadiasaas.infrastructure.adapter.out.persistence.mapper.UserMapper;
 import com.hadiasaas.infrastructure.adapter.out.persistence.repository.UserRepository;
+import com.hadiasaas.infrastructure.adapter.out.persistence.repository.UserPreferenceRepository;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * JPA adapter implementing {@link UserQueryUseCase}.
@@ -38,6 +42,7 @@ public class AdminUserQueryService extends QueryService<UserEntity> implements U
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final UserPreferenceRepository userPreferenceRepository;
 
     @Override
     public PagedResult<User> findAll(UserFilter filter, int page, int size) {
@@ -46,7 +51,19 @@ public class AdminUserQueryService extends QueryService<UserEntity> implements U
                 createSpecification(filter),
                 PageRequest.of(page, size, Sort.by("id").ascending())
         );
-        List<User> users = entityPage.getContent().stream().map(userMapper::toDomain).toList();
+        Map<Long, UserPreferenceEntity> preferencesByUserId = userPreferenceRepository.findAllByUserIdIn(
+                        entityPage.getContent().stream().map(UserEntity::getId).collect(Collectors.toSet())
+                ).stream()
+                .collect(Collectors.toMap(UserPreferenceEntity::getUserId, Function.identity()));
+        List<User> users = entityPage.getContent().stream()
+                .map(userMapper::toDomain)
+                .peek(user -> {
+                    UserPreferenceEntity preference = preferencesByUserId.get(user.getId());
+                    if (preference != null) {
+                        user.updatePreferences(preference.getPreferences());
+                    }
+                })
+                .toList();
         return new PagedResult<>(users, entityPage.getTotalElements(), page, size, entityPage.getTotalPages());
     }
 
