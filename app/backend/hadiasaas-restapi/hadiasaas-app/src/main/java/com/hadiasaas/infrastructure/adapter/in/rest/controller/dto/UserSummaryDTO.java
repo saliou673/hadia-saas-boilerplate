@@ -48,9 +48,6 @@ public record UserSummaryDTO(
         String languageKey,
 
         @Nullable
-        String imageUrl,
-
-        @NotNull
-        List<String> permissions) {
+        String imageUrl) {
 
 }

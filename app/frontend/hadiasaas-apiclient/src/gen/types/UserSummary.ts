@@ -70,8 +70,4 @@ export type UserSummary = {
      * @type string | undefined
     */
     imageUrl?: string;
-    /**
-     * @type array
-    */
-    permissions: string[];
 };

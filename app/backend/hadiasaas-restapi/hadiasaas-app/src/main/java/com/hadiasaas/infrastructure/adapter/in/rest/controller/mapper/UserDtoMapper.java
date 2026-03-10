@@ -31,7 +31,6 @@ public interface UserDtoMapper {
     @Mapping(target = "address", source = "userInfo.address")
     @Mapping(target = "languageKey", source = "userInfo.languageKey")
     @Mapping(target = "imageUrl", source = "userInfo.imageUrl")
-    @Mapping(target = "permissions", expression = "java(mapPermissions(user.resolvePermissions()))")
     UserSummaryDTO toSummaryDTO(User user);
 
     @Mapping(target = "email", source = "userCredentials.email")
