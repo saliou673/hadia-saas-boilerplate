@@ -110,17 +110,28 @@ class AdminUserControllerTest extends IntegrationTest {
     @WithMockUser(authorities = {"user:read", "user:create", "user:update", "user:deactivate"})
     void shouldUpdateUserAsAdminSuccessfully() throws Exception {
         UserEntity user = createUser("admin-update@example.com", Set.of(UserGroupConstants.SYS_ADMIN));
-        UpdateUserRequest request = new UpdateUserRequest("Updated", "Admin", "123456789", "Conakry", "fr", null);
+        UpdateUserRequest request = new UpdateUserRequest("Updated",
+                                                          "Admin",
+                                                          "123456789",
+                                                          LocalDate.of(1995, 4, 20),
+                                                          UserGender.FEMALE,
+                                                          "Conakry",
+                                                          "fr",
+                                                          null);
 
         UserDetailsDTO result = put(API_ADMIN_USERS + "/" + user.getId(), request, UserDetailsDTO.class, status().isOk());
 
         assertThat(result).isNotNull();
         assertThat(result.getFirstName()).isEqualTo("Updated");
         assertThat(result.getLastName()).isEqualTo("Admin");
+        assertThat(result.getBirthDate()).isEqualTo(request.birthDate());
+        assertThat(result.getGender()).isEqualTo(request.gender());
 
         UserEntity updatedUser = userRepository.findById(user.getId()).orElseThrow();
         assertThat(updatedUser.getUserInfo().getFirstName()).isEqualTo("Updated");
         assertThat(updatedUser.getUserInfo().getLastName()).isEqualTo("Admin");
+        assertThat(updatedUser.getUserInfo().getBirthDate()).isEqualTo(request.birthDate());
+        assertThat(updatedUser.getUserInfo().getGender()).isEqualTo(request.gender());
     }
     // endregion
 

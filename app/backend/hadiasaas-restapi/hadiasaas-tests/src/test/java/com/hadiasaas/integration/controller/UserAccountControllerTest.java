@@ -277,11 +277,15 @@ class UserAccountControllerTest extends IntegrationTest {
         assertThat(result).isNotNull();
         assertThat(result.firstName()).isEqualTo(request.firstName());
         assertThat(result.lastName()).isEqualTo(request.lastName());
+        assertThat(result.birthDate()).isEqualTo(request.birthDate());
+        assertThat(result.gender()).isEqualTo(request.gender());
 
         // Verify the user was updated in database
         UserEntity updatedUser = userRepository.findById(user.getId()).orElseThrow();
         assertThat(updatedUser.getUserInfo().getFirstName()).isEqualTo(request.firstName());
         assertThat(updatedUser.getUserInfo().getLastName()).isEqualTo(request.lastName());
+        assertThat(updatedUser.getUserInfo().getBirthDate()).isEqualTo(request.birthDate());
+        assertThat(updatedUser.getUserInfo().getGender()).isEqualTo(request.gender());
     }
 
     @Test
@@ -641,6 +645,8 @@ class UserAccountControllerTest extends IntegrationTest {
         return new UpdateUserRequest("Updated",
                                      "User",
                                      null,
+                                     java.time.LocalDate.of(1992, 6, 15),
+                                     UserGender.FEMALE,
                                      null,
                                      null,
                                      null);

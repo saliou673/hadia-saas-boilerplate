@@ -4,6 +4,13 @@
 */
 
 
+export const updateUserRequestGenderEnum = {
+    MALE: "MALE",
+    FEMALE: "FEMALE"
+} as const;
+
+export type UpdateUserRequestGenderEnumKey = (typeof updateUserRequestGenderEnum)[keyof typeof updateUserRequestGenderEnum];
+
 export type UpdateUserRequest = {
     /**
      * @minLength 1
@@ -19,6 +26,14 @@ export type UpdateUserRequest = {
      * @type string | undefined
     */
     phoneNumber?: string;
+    /**
+     * @type string | undefined, date
+    */
+    birthDate?: string;
+    /**
+     * @type string | undefined
+    */
+    gender?: UpdateUserRequestGenderEnumKey;
     /**
      * @type string | undefined
     */

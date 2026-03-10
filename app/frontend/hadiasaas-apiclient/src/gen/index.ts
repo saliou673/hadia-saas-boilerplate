@@ -194,7 +194,7 @@ export type { UpdateRoleGroupRequest } from "./types/UpdateRoleGroupRequest.ts";
 export type { UpdateSubscriptionPlanAsAdmin200, UpdateSubscriptionPlanAsAdmin404, UpdateSubscriptionPlanAsAdmin409, UpdateSubscriptionPlanAsAdminMutation, UpdateSubscriptionPlanAsAdminMutationRequest, UpdateSubscriptionPlanAsAdminMutationResponse, UpdateSubscriptionPlanAsAdminPathParams } from "./types/UpdateSubscriptionPlanAsAdmin.ts";
 export type { UpdateSubscriptionPlanRequest, UpdateSubscriptionPlanRequestTypeEnumKey } from "./types/UpdateSubscriptionPlanRequest.ts";
 export type { UpdateUserAsAdmin200, UpdateUserAsAdmin404, UpdateUserAsAdmin409, UpdateUserAsAdminMutation, UpdateUserAsAdminMutationRequest, UpdateUserAsAdminMutationResponse, UpdateUserAsAdminPathParams } from "./types/UpdateUserAsAdmin.ts";
-export type { UpdateUserRequest } from "./types/UpdateUserRequest.ts";
+export type { UpdateUserRequest, UpdateUserRequestGenderEnumKey } from "./types/UpdateUserRequest.ts";
 export type { UserDetails, UserDetailsGenderEnumKey, UserDetailsStatusEnumKey } from "./types/UserDetails.ts";
 export type { UserFilter } from "./types/UserFilter.ts";
 export type { UserGenderFilter, UserGenderFilterEqualsEnumKey, UserGenderFilterInEnumKey, UserGenderFilterNotEqualsEnumKey, UserGenderFilterNotInEnumKey } from "./types/UserGenderFilter.ts";
@@ -567,6 +567,7 @@ export { twoFactorSetupRequestTypeEnum } from "./types/TwoFactorSetupRequest.ts"
 export { updateByCategoryAndCodePathParamsCategoryEnum } from "./types/UpdateByCategoryAndCode.ts";
 export { updateDiscountCodeRequestDiscountTypeEnum } from "./types/UpdateDiscountCodeRequest.ts";
 export { updateSubscriptionPlanRequestTypeEnum } from "./types/UpdateSubscriptionPlanRequest.ts";
+export { updateUserRequestGenderEnum } from "./types/UpdateUserRequest.ts";
 export { userDetailsGenderEnum } from "./types/UserDetails.ts";
 export { userDetailsStatusEnum } from "./types/UserDetails.ts";
 export { userGenderFilterEqualsEnum } from "./types/UserGenderFilter.ts";

@@ -38,8 +38,8 @@ public record UserInfo(
                 update.firstName(),
                 update.lastName(),
                 update.phoneNumber(),
-                birthDate,
-                gender,
+                update.birthDate() != null ? update.birthDate() : birthDate,
+                update.gender() != null ? update.gender() : gender,
                 update.address(),
                 update.languageKey(),
                 update.imageUrl()
