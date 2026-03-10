@@ -3,6 +3,7 @@
 * Do not edit manually.
 */
 
+import type { UserPreferences } from "./UserPreferences.ts";
 
 export const userDetailsGenderEnum = {
     MALE: "MALE",
@@ -86,4 +87,8 @@ export type UserDetails = {
      * @type array
     */
     permissions: string[];
+    /**
+     * @type object
+    */
+    preferences: UserPreferences;
 };

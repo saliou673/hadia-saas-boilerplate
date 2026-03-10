@@ -10,12 +10,14 @@ import { createPublicUserAccount } from "./createPublicUserAccount.ts";
 import { deleteCurrentAccount } from "./deleteCurrentAccount.ts";
 import { finishPasswordReset } from "./finishPasswordReset.ts";
 import { getCurrentUserPermissions } from "./getCurrentUserPermissions.ts";
+import { getCurrentUserPreferences } from "./getCurrentUserPreferences.ts";
 import { getUserDetails } from "./getUserDetails.ts";
 import { recoverAccount } from "./recoverAccount.ts";
 import { requestActivationCode } from "./requestActivationCode.ts";
 import { requestPasswordReset } from "./requestPasswordReset.ts";
 import { updateAccount } from "./updateAccount.ts";
+import { updateCurrentUserPreferences } from "./updateCurrentUserPreferences.ts";
 
 export function useraccountmanagement() {
-  return { getUserDetails, updateAccount, deleteCurrentAccount, requestPasswordReset, finishPasswordReset, createPublicUserAccount, recoverAccount, completeInvitation, requestActivationCode, changePassword, getCurrentUserPermissions, activateAccount }
+  return { getUserDetails, updateAccount, deleteCurrentAccount, getCurrentUserPreferences, updateCurrentUserPreferences, requestPasswordReset, finishPasswordReset, createPublicUserAccount, recoverAccount, completeInvitation, requestActivationCode, changePassword, getCurrentUserPermissions, activateAccount }
 }

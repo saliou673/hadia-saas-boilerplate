@@ -69,9 +69,11 @@ export { createPublicUserAccount } from "./user-account-management/createPublicU
 export { deleteCurrentAccount } from "./user-account-management/deleteCurrentAccount.ts";
 export { finishPasswordReset } from "./user-account-management/finishPasswordReset.ts";
 export { getCurrentUserPermissions } from "./user-account-management/getCurrentUserPermissions.ts";
+export { getCurrentUserPreferences } from "./user-account-management/getCurrentUserPreferences.ts";
 export { getUserDetails } from "./user-account-management/getUserDetails.ts";
 export { recoverAccount } from "./user-account-management/recoverAccount.ts";
 export { requestActivationCode } from "./user-account-management/requestActivationCode.ts";
 export { requestPasswordReset } from "./user-account-management/requestPasswordReset.ts";
 export { updateAccount } from "./user-account-management/updateAccount.ts";
+export { updateCurrentUserPreferences } from "./user-account-management/updateCurrentUserPreferences.ts";
 export { useraccountmanagement } from "./user-account-management/useraccountmanagement.ts";

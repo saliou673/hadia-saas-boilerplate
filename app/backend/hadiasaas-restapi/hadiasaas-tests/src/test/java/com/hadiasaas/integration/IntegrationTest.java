@@ -65,7 +65,7 @@ public class IntegrationTest {
         // Truncate all transient tables in one shot; CASCADE handles FK-dependent tables
         // (app_user_role_group, refresh_token, two_factor_challenge, stamp, transaction).
         jdbcTemplate.execute(
-                "TRUNCATE TABLE app_user, app_configuration, subscription_plan, user_subscription, discount_code RESTART IDENTITY CASCADE"
+                "TRUNCATE TABLE app_user, user_preference, app_configuration, subscription_plan, user_subscription, discount_code RESTART IDENTITY CASCADE"
         );
         // role_group holds both seed data (last_updated_by='system') and test-created rows.
         // Delete only the test rows; ON DELETE CASCADE handles role_group_permission automatically.

@@ -6,9 +6,11 @@ import com.hadiasaas.domain.ports.out.persistenceport.UserDetailsPersistencePort
 import com.hadiasaas.domain.ports.out.persistenceport.UserPersistencePort;
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.RoleGroupEntity;
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.UserEntity;
+import com.hadiasaas.infrastructure.adapter.out.persistence.entity.UserPreferenceEntity;
 import com.hadiasaas.infrastructure.adapter.out.persistence.mapper.UserMapper;
 import com.hadiasaas.infrastructure.adapter.out.persistence.repository.RoleGroupRepository;
 import com.hadiasaas.infrastructure.adapter.out.persistence.repository.UserRepository;
+import com.hadiasaas.infrastructure.adapter.out.persistence.repository.UserPreferenceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,7 @@ public class UserPersistenceAdapter implements UserPersistencePort, UserDetailsP
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final RoleGroupRepository roleGroupRepository;
+    private final UserPreferenceRepository userPreferenceRepository;
 
     @Override
     public User save(User user) {
@@ -43,7 +46,9 @@ public class UserPersistenceAdapter implements UserPersistencePort, UserDetailsP
                         Set<RoleGroupEntity> roleGroupEntities = new HashSet<>(roleGroupRepository.findAllById(roleGroupIds));
                         entity.setRoleGroups(roleGroupEntities);
                     }
-                    return userMapper.toDomain(userRepository.save(entity));
+                    UserEntity savedEntity = userRepository.save(entity);
+                    userPreferenceRepository.save(new UserPreferenceEntity(savedEntity.getId(), user.getPreferences()));
+                    return enrichPreferences(userMapper.toDomain(savedEntity));
                 },
                 "Error saving user with email: " + user.getUserCredentials().getEmail()
         );
@@ -53,7 +58,8 @@ public class UserPersistenceAdapter implements UserPersistencePort, UserDetailsP
     public Optional<User> findWithAuthoritiesByEmail(String email) {
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> userRepository.findOneWithAuthoritiesByUserCredentialsEmailIgnoreCase(email)
-                        .map(userMapper::toDomain),
+                        .map(userMapper::toDomain)
+                        .map(this::enrichPreferences),
                 "Error fetching user with authorities by email: " + email
         );
     }
@@ -62,7 +68,8 @@ public class UserPersistenceAdapter implements UserPersistencePort, UserDetailsP
     public Optional<User> findWithAuthoritiesById(Long id) {
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> userRepository.findOneWithAuthoritiesById(id)
-                        .map(userMapper::toDomain),
+                        .map(userMapper::toDomain)
+                        .map(this::enrichPreferences),
                 "Error fetching user with authorities by id: " + id
         );
     }
@@ -76,7 +83,8 @@ public class UserPersistenceAdapter implements UserPersistencePort, UserDetailsP
     public Optional<User> findByActivationCode(String activationCode) {
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> userRepository.findOneByUserCredentialsActivationCode(activationCode)
-                        .map(userMapper::toDomain),
+                        .map(userMapper::toDomain)
+                        .map(this::enrichPreferences),
                 "Error fetching user by activation code: " + activationCode
         );
     }
@@ -85,7 +93,8 @@ public class UserPersistenceAdapter implements UserPersistencePort, UserDetailsP
     public Optional<User> findByResetCode(String resetCode) {
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> userRepository.findOneByUserCredentialsResetCode(resetCode)
-                        .map(userMapper::toDomain),
+                        .map(userMapper::toDomain)
+                        .map(this::enrichPreferences),
                 "Error fetching user by reset code: " + resetCode
         );
     }
@@ -94,7 +103,8 @@ public class UserPersistenceAdapter implements UserPersistencePort, UserDetailsP
     public Optional<User> findByEmail(String email) {
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> userRepository.findOneByUserCredentialsEmailIgnoreCase(email)
-                        .map(userMapper::toDomain),
+                        .map(userMapper::toDomain)
+                        .map(this::enrichPreferences),
                 "Error fetching user by email: " + email
         );
     }
@@ -137,5 +147,12 @@ public class UserPersistenceAdapter implements UserPersistencePort, UserDetailsP
                 () -> userRepository.delete(userMapper.toEntity(existingUser)),
                 "Error removing user with email: " + existingUser.getUserCredentials().getEmail()
         );
+    }
+
+    private User enrichPreferences(User user) {
+        userPreferenceRepository.findById(user.getId())
+                .map(UserPreferenceEntity::getPreferences)
+                .ifPresent(user::updatePreferences);
+        return user;
     }
 }

@@ -1,15 +1,24 @@
 'use client'
 
 import { useEffect, useState, type ReactNode } from 'react'
-import { configureApiClient } from '@api-client'
+import {
+  configureApiClient,
+  getCurrentUserPreferencesQueryKey,
+  useGetCurrentUserPreferences,
+} from '@api-client'
 import { AxiosError } from 'axios'
-import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { SessionProvider, signOut, useSession } from 'next-auth/react'
 import { toast } from 'sonner'
 import { DirectionProvider } from '@/context/direction-provider'
-import { FontProvider } from '@/context/font-provider'
-import { ThemeProvider } from '@/context/theme-provider'
+import { FontProvider, useFont } from '@/context/font-provider'
+import { ThemeProvider, useTheme } from '@/context/theme-provider'
+import { mapUserPreferencesToAppearanceValues } from '@/lib/user-preferences'
 import { handleServerError } from '@/lib/handle-server-error'
 import {
   setApiAccessToken,
@@ -88,6 +97,31 @@ function ApiClientAuthSync() {
   return null
 }
 
+function UserPreferenceSync() {
+  const { data: session, status } = useSession()
+  const { setTheme } = useTheme()
+  const { setFont } = useFont()
+  const sessionEmail = session?.user?.email ?? null
+  const { data: preferences } = useGetCurrentUserPreferences({
+    query: {
+      enabled: status === 'authenticated' && !!sessionEmail,
+      queryKey: [...getCurrentUserPreferencesQueryKey(), sessionEmail],
+    },
+  })
+
+  useEffect(() => {
+    if (status !== 'authenticated' || !preferences) {
+      return
+    }
+
+    const nextValues = mapUserPreferencesToAppearanceValues(preferences)
+    setTheme(nextValues.theme)
+    setFont(nextValues.font)
+  }, [preferences, setFont, setTheme, status])
+
+  return null
+}
+
 export function Providers({ children }: ProvidersProps) {
   const [queryClient] = useState(makeQueryClient)
 
@@ -97,6 +131,7 @@ export function Providers({ children }: ProvidersProps) {
         <ApiClientAuthSync />
         <ThemeProvider>
           <FontProvider>
+            <UserPreferenceSync />
             <DirectionProvider>
               {children}
               <Toaster duration={5000} />

@@ -43,6 +43,7 @@ public interface UserMapper {
                 entity.isTwoFactorEnabled(),
                 entity.getTwoFactorMethod(),
                 entity.getTotpSecret(),
+                null,
                 entity.getCreationDate(),
                 entity.getLastUpdateDate(),
                 entity.getLastUpdatedBy()

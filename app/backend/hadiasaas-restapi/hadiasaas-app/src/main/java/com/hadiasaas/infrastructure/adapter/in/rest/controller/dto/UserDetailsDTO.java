@@ -97,7 +97,13 @@ public class UserDetailsDTO extends AuditableDTO {
     @NotNull
     private List<String> permissions;
 
-    public UserDetailsDTO(Long id, String email, String firstName, String lastName, @Nullable String phoneNumber, LocalDate birthDate, UserGender gender, @Nullable String address, @Nonnull UserStatus status, String languageKey, @Nullable String imageUrl, @NotNull List<String> permissions, Instant creationDate, Instant lastUpdateDate, String lastUpdatedBy) {
+    /**
+     * Preferences owned by the user.
+     */
+    @NotNull
+    private UserPreferencesDTO preferences;
+
+    public UserDetailsDTO(Long id, String email, String firstName, String lastName, @Nullable String phoneNumber, LocalDate birthDate, UserGender gender, @Nullable String address, @Nonnull UserStatus status, String languageKey, @Nullable String imageUrl, @NotNull List<String> permissions, @NotNull UserPreferencesDTO preferences, Instant creationDate, Instant lastUpdateDate, String lastUpdatedBy) {
         super(creationDate, lastUpdateDate, lastUpdatedBy);
         this.id = id;
         this.email = email;
@@ -111,6 +117,7 @@ public class UserDetailsDTO extends AuditableDTO {
         this.languageKey = languageKey;
         this.imageUrl = imageUrl;
         this.permissions = permissions;
+        this.preferences = preferences;
     }
 
 }
