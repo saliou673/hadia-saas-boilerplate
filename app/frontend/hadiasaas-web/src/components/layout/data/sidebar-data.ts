@@ -72,6 +72,7 @@ export const sidebarData: SidebarData = {
                     title: "Users",
                     url: "/users",
                     icon: Users,
+                    requiredPermission: "user:read",
                 },
                 {
                     title: "Configurations",
