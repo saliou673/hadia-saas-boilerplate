@@ -23,6 +23,8 @@ type ConfirmDialogProps = {
     isLoading?: boolean;
     className?: string;
     children?: React.ReactNode;
+    confirmForm?: string;
+    confirmButtonType?: "button" | "submit";
 };
 
 export function ConfirmDialog(props: ConfirmDialogProps) {
@@ -37,6 +39,8 @@ export function ConfirmDialog(props: ConfirmDialogProps) {
         isLoading,
         disabled = false,
         handleConfirm,
+        confirmForm,
+        confirmButtonType = "button",
         ...actions
     } = props;
     return (
@@ -55,7 +59,13 @@ export function ConfirmDialog(props: ConfirmDialogProps) {
                     </AlertDialogCancel>
                     <Button
                         variant={destructive ? "destructive" : "default"}
-                        onClick={handleConfirm}
+                        type={confirmButtonType}
+                        form={confirmForm}
+                        onClick={
+                            confirmButtonType === "button"
+                                ? handleConfirm
+                                : undefined
+                        }
                         disabled={disabled || isLoading}
                     >
                         {confirmText ?? "Continue"}
