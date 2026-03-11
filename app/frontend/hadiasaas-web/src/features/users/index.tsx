@@ -1,19 +1,25 @@
 "use client";
 
-import {
-    useNextNavigateSearch,
-    useNextSearchObject,
-} from "@/hooks/use-next-search-state";
+import { useGetCurrentUserPermissions } from "@api-client";
 import { Main } from "@/components/layout/main";
 import { UsersDialogs } from "./components/users-dialogs";
 import { UsersPrimaryButtons } from "./components/users-primary-buttons";
 import { UsersProvider } from "./components/users-provider";
 import { UsersTable } from "./components/users-table";
-import { users } from "./data/users";
 
 export function Users() {
-    const search = useNextSearchObject();
-    const navigate = useNextNavigateSearch();
+    const { data: permissions } = useGetCurrentUserPermissions();
+
+    const permissionCodes = new Set(
+        (permissions ?? [])
+            .map((permission) => permission.code)
+            .filter((code): code is string => typeof code === "string")
+    );
+    const canCreateUsers =
+        permissionCodes.has("user:create") &&
+        permissionCodes.has("role-group:read");
+    const canUpdateUsers = permissionCodes.has("user:update");
+    const canDeleteUsers = permissionCodes.has("user:deactivate");
 
     return (
         <UsersProvider>
@@ -27,12 +33,19 @@ export function Users() {
                             Manage your users and their roles here.
                         </p>
                     </div>
-                    <UsersPrimaryButtons />
+                    <UsersPrimaryButtons canCreateUsers={canCreateUsers} />
                 </div>
-                <UsersTable data={users} search={search} navigate={navigate} />
+                <UsersTable
+                    canDeleteUsers={canDeleteUsers}
+                    canUpdateUsers={canUpdateUsers}
+                />
             </Main>
 
-            <UsersDialogs />
+            <UsersDialogs
+                canCreateUsers={canCreateUsers}
+                canUpdateUsers={canUpdateUsers}
+                canDeleteUsers={canDeleteUsers}
+            />
         </UsersProvider>
     );
 }

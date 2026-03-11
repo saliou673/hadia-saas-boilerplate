@@ -1,9 +1,8 @@
-'use client'
+import { requirePermission } from "@/lib/server/require-permission";
+import UsersPageClient from "./users-page-client";
 
-import dynamic from 'next/dynamic'
+export default async function UsersPage() {
+    await requirePermission("user:read");
 
-const UsersClient = dynamic(() => import('./users-client'), { ssr: false })
-
-export default function UsersPage() {
-  return <UsersClient />
+    return <UsersPageClient />;
 }

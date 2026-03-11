@@ -9,6 +9,8 @@ type DataTableToolbarProps<TData> = {
     table: Table<TData>;
     searchPlaceholder?: string;
     searchKey?: string;
+    searchValue?: string;
+    onSearchChange?: (value: string) => void;
     filters?: {
         columnId: string;
         title: string;
@@ -24,6 +26,8 @@ export function DataTableToolbar<TData>({
     table,
     searchPlaceholder = "Filter...",
     searchKey,
+    searchValue,
+    onSearchChange,
     filters = [],
 }: DataTableToolbarProps<TData>) {
     const isFiltered =
@@ -37,14 +41,18 @@ export function DataTableToolbar<TData>({
                     <Input
                         placeholder={searchPlaceholder}
                         value={
+                            searchValue ??
                             (table
                                 .getColumn(searchKey)
-                                ?.getFilterValue() as string) ?? ""
+                                ?.getFilterValue() as string) ??
+                            ""
                         }
                         onChange={(event) =>
-                            table
-                                .getColumn(searchKey)
-                                ?.setFilterValue(event.target.value)
+                            onSearchChange
+                                ? onSearchChange(event.target.value)
+                                : table
+                                      .getColumn(searchKey)
+                                      ?.setFilterValue(event.target.value)
                         }
                         className="h-8 w-[150px] lg:w-[250px]"
                     />
@@ -76,6 +84,7 @@ export function DataTableToolbar<TData>({
                     <Button
                         variant="ghost"
                         onClick={() => {
+                            onSearchChange?.("");
                             table.resetColumnFilters();
                             table.setGlobalFilter("");
                         }}
