@@ -5,7 +5,7 @@ import { Dashboard } from '@/features/dashboard'
 
 export default function DashboardClient() {
   return (
-    <AuthenticatedLayout>
+    <AuthenticatedLayout header={false}>
       <Dashboard />
     </AuthenticatedLayout>
   )
