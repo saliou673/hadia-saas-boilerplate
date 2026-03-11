@@ -9,6 +9,8 @@ type DataTableToolbarProps<TData> = {
     table: Table<TData>;
     searchPlaceholder?: string;
     searchKey?: string;
+    searchValue?: string;
+    onSearchChange?: (value: string) => void;
     filters?: {
         columnId: string;
         title: string;
@@ -24,11 +26,31 @@ export function DataTableToolbar<TData>({
     table,
     searchPlaceholder = "Filter...",
     searchKey,
+    searchValue,
+    onSearchChange,
     filters = [],
 }: DataTableToolbarProps<TData>) {
     const isFiltered =
         table.getState().columnFilters.length > 0 ||
         table.getState().globalFilter;
+
+    const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+        if (onSearchChange) {
+            onSearchChange(event.target.value);
+        } else {
+            table.getColumn(searchKey)?.setFilterValue(event.target.value);
+        }
+    };
+
+    const handleGlobalFilterChange = (event: ChangeEvent<HTMLInputElement>) => {
+        table.setGlobalFilter(event.target.value);
+    };
+
+    const handleReset = () => {
+        onSearchChange?.("");
+        table.resetColumnFilters();
+        table.setGlobalFilter("");
+    };
 
     return (
         <div className="flex items-center justify-between">
@@ -37,24 +59,20 @@ export function DataTableToolbar<TData>({
                     <Input
                         placeholder={searchPlaceholder}
                         value={
+                            searchValue ??
                             (table
                                 .getColumn(searchKey)
-                                ?.getFilterValue() as string) ?? ""
+                                ?.getFilterValue() as string) ??
+                            ""
                         }
-                        onChange={(event) =>
-                            table
-                                .getColumn(searchKey)
-                                ?.setFilterValue(event.target.value)
-                        }
+                        onChange={handleSearchChange}
                         className="h-8 w-[150px] lg:w-[250px]"
                     />
                 ) : (
                     <Input
                         placeholder={searchPlaceholder}
                         value={table.getState().globalFilter ?? ""}
-                        onChange={(event) =>
-                            table.setGlobalFilter(event.target.value)
-                        }
+                        onChange={handleGlobalFilterChange}
                         className="h-8 w-[150px] lg:w-[250px]"
                     />
                 )}
@@ -75,10 +93,7 @@ export function DataTableToolbar<TData>({
                 {isFiltered && (
                     <Button
                         variant="ghost"
-                        onClick={() => {
-                            table.resetColumnFilters();
-                            table.setGlobalFilter("");
-                        }}
+                        onClick={handleReset}
                         className="h-8 px-2 lg:px-3"
                     >
                         Reset

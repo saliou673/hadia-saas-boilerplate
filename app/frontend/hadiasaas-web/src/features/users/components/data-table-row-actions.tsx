@@ -10,15 +10,35 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { type User } from "../data/schema";
+import { type UserRow } from "../data/schema";
 import { useUsers } from "./users-provider";
 
 type DataTableRowActionsProps = {
-    row: Row<User>;
+    row: Row<UserRow>;
+    canUpdateUsers: boolean;
+    canDeleteUsers: boolean;
 };
 
-export function DataTableRowActions({ row }: DataTableRowActionsProps) {
+export function DataTableRowActions({
+    row,
+    canUpdateUsers,
+    canDeleteUsers,
+}: DataTableRowActionsProps) {
     const { setOpen, setCurrentRow } = useUsers();
+
+    if (!canUpdateUsers && !canDeleteUsers) {
+        return null;
+    }
+    const handleEdit = () => {
+        setCurrentRow(row.original);
+        setOpen("edit");
+    };
+
+    const handleDelete = () => {
+        setCurrentRow(row.original);
+        setOpen("delete");
+    };
+
     return (
         <>
             <DropdownMenu modal={false}>
@@ -32,30 +52,28 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-[160px]">
-                    <DropdownMenuItem
-                        onClick={() => {
-                            setCurrentRow(row.original);
-                            setOpen("edit");
-                        }}
-                    >
-                        Edit
-                        <DropdownMenuShortcut>
-                            <UserPen size={16} />
-                        </DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                        onClick={() => {
-                            setCurrentRow(row.original);
-                            setOpen("delete");
-                        }}
-                        className="text-red-500!"
-                    >
-                        Delete
-                        <DropdownMenuShortcut>
-                            <Trash2 size={16} />
-                        </DropdownMenuShortcut>
-                    </DropdownMenuItem>
+                    {canUpdateUsers && (
+                        <DropdownMenuItem onClick={handleEdit}>
+                            Edit
+                            <DropdownMenuShortcut>
+                                <UserPen size={16} />
+                            </DropdownMenuShortcut>
+                        </DropdownMenuItem>
+                    )}
+                    {canUpdateUsers && canDeleteUsers && (
+                        <DropdownMenuSeparator />
+                    )}
+                    {canDeleteUsers && (
+                        <DropdownMenuItem
+                            onClick={handleDelete}
+                            className="text-red-500!"
+                        >
+                            Delete
+                            <DropdownMenuShortcut>
+                                <Trash2 size={16} />
+                            </DropdownMenuShortcut>
+                        </DropdownMenuItem>
+                    )}
                 </DropdownMenuContent>
             </DropdownMenu>
         </>
