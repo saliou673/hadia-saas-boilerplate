@@ -1,18 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
-    type SortingState,
+    type ColumnFiltersState,
     type VisibilityState,
     flexRender,
     getCoreRowModel,
-    getFacetedRowModel,
-    getFacetedUniqueValues,
-    getFilteredRowModel,
-    getPaginationRowModel,
-    getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
+import {
+    useGetUsersAsAdmin,
+    type UserFilter,
+    type UserGenderFilterInEnumKey,
+    type UserStatusFilterInEnumKey,
+} from "@api-client";
 import { cn } from "@/lib/utils";
-import { type NavigateFn, useTableUrlState } from "@/hooks/use-table-url-state";
+import {
+    useNextNavigateSearch,
+    useNextSearchObject,
+} from "@/hooks/use-next-search-state";
+import { useTableUrlState } from "@/hooks/use-table-url-state";
 import {
     Table,
     TableBody,
@@ -22,30 +27,65 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { DataTablePagination, DataTableToolbar } from "@/components/data-table";
-import { roles } from "../data/data";
-import { type User } from "../data/schema";
+import { genderOptions, userStatusOptions } from "../data/data";
+import { mapUserDetailsToRow } from "../data/schema";
 import { DataTableBulkActions } from "./data-table-bulk-actions";
-import { usersColumns as columns } from "./users-columns";
+import { buildUsersColumns } from "./users-columns";
 
 type DataTableProps = {
-    data: User[];
-    search: Record<string, unknown>;
-    navigate: NavigateFn;
+    canDeleteUsers: boolean;
+    canUpdateUsers: boolean;
 };
 
-export function UsersTable({ data, search, navigate }: DataTableProps) {
-    // Local UI-only states
+function toStringArray(value: unknown): string[] {
+    if (Array.isArray(value)) {
+        return value.filter(
+            (item): item is string =>
+                typeof item === "string" && item.length > 0
+        );
+    }
+
+    if (typeof value === "string" && value.length > 0) {
+        return [value];
+    }
+
+    return [];
+}
+
+function getArrayFilterValue(
+    columnFilters: { id: string; value: unknown }[],
+    columnId: string
+) {
+    const filter = columnFilters.find((item) => item.id === columnId);
+
+    if (!filter) {
+        return [];
+    }
+
+    return toStringArray(filter.value);
+}
+
+function getStringFilterValue(
+    columnFilters: { id: string; value: unknown }[],
+    columnId: string
+) {
+    const filter = columnFilters.find((item) => item.id === columnId);
+
+    if (!filter || typeof filter.value !== "string") {
+        return "";
+    }
+
+    return filter.value;
+}
+
+export function UsersTable({ canDeleteUsers, canUpdateUsers }: DataTableProps) {
+    const search = useNextSearchObject();
+    const navigate = useNextNavigateSearch();
     const [rowSelection, setRowSelection] = useState({});
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
         {}
     );
-    const [sorting, setSorting] = useState<SortingState>([]);
 
-    // Local state management for table (uncomment to use local-only state, not synced with URL)
-    // const [columnFilters, onColumnFiltersChange] = useState<ColumnFiltersState>([])
-    // const [pagination, onPaginationChange] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 })
-
-    // Synced with URL states (keys/defaults mirror users route search schema)
     const {
         columnFilters,
         onColumnFiltersChange,
@@ -58,41 +98,145 @@ export function UsersTable({ data, search, navigate }: DataTableProps) {
         pagination: { defaultPage: 1, defaultPageSize: 10 },
         globalFilter: { enabled: false },
         columnFilters: [
-            // username per-column text filter
-            { columnId: "username", searchKey: "username", type: "string" },
+            { columnId: "email", searchKey: "email", type: "string" },
             { columnId: "status", searchKey: "status", type: "array" },
-            { columnId: "role", searchKey: "role", type: "array" },
+            { columnId: "gender", searchKey: "gender", type: "array" },
         ],
     });
+    const emailFilterValue = useMemo(
+        () => getStringFilterValue(columnFilters, "email"),
+        [columnFilters]
+    );
+    const [emailSearchValue, setEmailSearchValue] = useState(emailFilterValue);
+
+    useEffect(() => {
+        setEmailSearchValue(emailFilterValue);
+    }, [emailFilterValue]);
+
+    useEffect(() => {
+        const trimmedSearchValue = emailSearchValue.trim();
+        const trimmedFilterValue = emailFilterValue.trim();
+
+        if (trimmedSearchValue === trimmedFilterValue) {
+            return;
+        }
+
+        const timeout = window.setTimeout(() => {
+            onColumnFiltersChange((previousFilters) => {
+                const nextFilters = previousFilters.filter(
+                    (filter) => filter.id !== "email"
+                );
+
+                if (!trimmedSearchValue) {
+                    return nextFilters;
+                }
+
+                return [
+                    ...nextFilters,
+                    {
+                        id: "email",
+                        value: trimmedSearchValue,
+                    },
+                ] satisfies ColumnFiltersState;
+            });
+        }, 300);
+
+        return () => window.clearTimeout(timeout);
+    }, [emailFilterValue, emailSearchValue, onColumnFiltersChange]);
+
+    const filter = useMemo<UserFilter>(() => {
+        const emailValues = getArrayFilterValue(columnFilters, "email");
+        const statusValues = getArrayFilterValue(columnFilters, "status");
+        const genderValues = getArrayFilterValue(columnFilters, "gender");
+        const nextFilter: UserFilter = {};
+        const email = emailValues[0]?.trim();
+
+        if (email) {
+            nextFilter.email = { contains: email };
+        }
+
+        if (statusValues.length === 1) {
+            nextFilter.status = {
+                equals: statusValues[0] as UserStatusFilterInEnumKey,
+            };
+        } else if (statusValues.length > 1) {
+            nextFilter.status = {
+                in: statusValues as UserStatusFilterInEnumKey[],
+            };
+        }
+
+        if (genderValues.length === 1) {
+            nextFilter.gender = {
+                equals: genderValues[0] as UserGenderFilterInEnumKey,
+            };
+        } else if (genderValues.length > 1) {
+            nextFilter.gender = {
+                in: genderValues as UserGenderFilterInEnumKey[],
+            };
+        }
+
+        return nextFilter;
+    }, [columnFilters]);
+
+    const usersQueryParams = useMemo(
+        () => ({
+            filter,
+            pageable: {
+                page: pagination.pageIndex,
+                size: pagination.pageSize,
+            },
+        }),
+        [filter, pagination.pageIndex, pagination.pageSize]
+    );
+
+    useEffect(() => {
+        setRowSelection({});
+    }, [pagination.pageIndex, pagination.pageSize, filter]);
+
+    const { data, isLoading, isError, error } = useGetUsersAsAdmin(
+        usersQueryParams,
+        {
+            query: {
+                placeholderData: (previousData) => previousData,
+            },
+        }
+    );
+
+    const rows = useMemo(
+        () => (data?.items ?? []).map(mapUserDetailsToRow),
+        [data?.items]
+    );
+    const totalPages = data?.totalPages ?? 0;
+    const columns = useMemo(
+        () => buildUsersColumns({ canDeleteUsers, canUpdateUsers }),
+        [canDeleteUsers, canUpdateUsers]
+    );
 
     // eslint-disable-next-line react-hooks/incompatible-library
     const table = useReactTable({
-        data,
+        data: rows,
         columns,
+        pageCount: totalPages,
         state: {
-            sorting,
             pagination,
             rowSelection,
             columnFilters,
             columnVisibility,
         },
-        enableRowSelection: true,
+        enableRowSelection: canDeleteUsers,
+        manualPagination: true,
+        manualFiltering: true,
+        getRowId: (row) => String(row.id),
         onPaginationChange,
         onColumnFiltersChange,
         onRowSelectionChange: setRowSelection,
-        onSortingChange: setSorting,
         onColumnVisibilityChange: setColumnVisibility,
-        getPaginationRowModel: getPaginationRowModel(),
         getCoreRowModel: getCoreRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getFacetedRowModel: getFacetedRowModel(),
-        getFacetedUniqueValues: getFacetedUniqueValues(),
     });
 
     useEffect(() => {
-        ensurePageInRange(table.getPageCount());
-    }, [table, ensurePageInRange]);
+        ensurePageInRange(totalPages);
+    }, [ensurePageInRange, totalPages]);
 
     return (
         <div
@@ -103,23 +247,20 @@ export function UsersTable({ data, search, navigate }: DataTableProps) {
         >
             <DataTableToolbar
                 table={table}
-                searchPlaceholder="Filter users..."
-                searchKey="username"
+                searchPlaceholder="Filter by email..."
+                searchKey="email"
+                searchValue={emailSearchValue}
+                onSearchChange={setEmailSearchValue}
                 filters={[
                     {
                         columnId: "status",
                         title: "Status",
-                        options: [
-                            { label: "Active", value: "active" },
-                            { label: "Inactive", value: "inactive" },
-                            { label: "Invited", value: "invited" },
-                            { label: "Suspended", value: "suspended" },
-                        ],
+                        options: userStatusOptions,
                     },
                     {
-                        columnId: "role",
-                        title: "Role",
-                        options: roles.map((role) => ({ ...role })),
+                        columnId: "gender",
+                        title: "Gender",
+                        options: genderOptions,
                     },
                 ]}
             />
@@ -158,7 +299,26 @@ export function UsersTable({ data, search, navigate }: DataTableProps) {
                         ))}
                     </TableHeader>
                     <TableBody>
-                        {table.getRowModel().rows?.length ? (
+                        {isLoading ? (
+                            <TableRow>
+                                <TableCell
+                                    colSpan={columns.length}
+                                    className="h-24 text-center"
+                                >
+                                    Loading users...
+                                </TableCell>
+                            </TableRow>
+                        ) : isError ? (
+                            <TableRow>
+                                <TableCell
+                                    colSpan={columns.length}
+                                    className="h-24 text-center text-destructive"
+                                >
+                                    {error?.response?.data?.message ??
+                                        "Unable to load users."}
+                                </TableCell>
+                            </TableRow>
+                        ) : table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
                                     key={row.id}
@@ -200,7 +360,10 @@ export function UsersTable({ data, search, navigate }: DataTableProps) {
                 </Table>
             </div>
             <DataTablePagination table={table} className="mt-auto" />
-            <DataTableBulkActions table={table} />
+            <DataTableBulkActions
+                table={table}
+                canDeleteUsers={canDeleteUsers}
+            />
         </div>
     );
 }
