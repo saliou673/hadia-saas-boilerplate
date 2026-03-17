@@ -32,6 +32,16 @@ export function Configurations() {
         }
     }, [deleteOpen]);
 
+    const handleOnEdit = (configuration: AppConfiguration) => {
+        setCurrentRow(configuration);
+        setMutateOpen(true);
+    }
+
+    const handleOnDelete = (configuration: AppConfiguration) => {
+        setCurrentRow(configuration);
+        setDeleteOpen(true);
+    }
+
     return (
         <>
             <Main className="flex flex-1 flex-col gap-4 sm:gap-6">
@@ -64,14 +74,8 @@ export function Configurations() {
                 <ConfigurationsTable
                     search={search}
                     navigate={navigate}
-                    onEdit={(configuration) => {
-                        setCurrentRow(configuration);
-                        setMutateOpen(true);
-                    }}
-                    onDelete={(configuration) => {
-                        setCurrentRow(configuration);
-                        setDeleteOpen(true);
-                    }}
+                    onEdit={handleOnEdit}
+                    onDelete={handleOnDelete}
                     onTotalItemsChange={setTotalItems}
                 />
             </Main>
@@ -85,9 +89,7 @@ export function Configurations() {
                 open={deleteOpen}
                 onOpenChange={setDeleteOpen}
                 currentRow={currentRow}
-                onDeleted={() => {
-                    toast.success("Configuration deleted.");
-                }}
+                onDeleted={() => toast.success("Configuration deleted.")}
             />
         </>
     );

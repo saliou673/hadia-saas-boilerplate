@@ -9,6 +9,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ConfirmDialog } from "@/components/confirm-dialog";
+import {getAppConfigurationsAsAdminQueryKey} from "@api-client";
 
 type ConfigurationsDeleteDialogProps = {
     open: boolean;
@@ -25,11 +26,11 @@ export function ConfigurationsDeleteDialog({
 }: ConfigurationsDeleteDialogProps) {
     const [value, setValue] = useState("");
     const queryClient = useQueryClient();
-    const deleteConfiguration = useDelete({
+    const {mutate: deleteConfiguration, isPending: isDeleting} = useDelete({
         mutation: {
             onSuccess: async () => {
                 await queryClient.invalidateQueries({
-                    queryKey: ["admin-configurations"],
+                    queryKey: getAppConfigurationsAsAdminQueryKey(),
                 });
 
                 setValue("");
@@ -48,25 +49,31 @@ export function ConfigurationsDeleteDialog({
             return;
         }
 
-        deleteConfiguration.mutate({ id: currentRow.id });
+        deleteConfiguration({ id: currentRow.id });
     };
 
+    const handleOpenChange = (nextOpen: boolean) => {
+        if (!isDeleting) {
+            onOpenChange(nextOpen);
+            if (!nextOpen) {
+                setValue("");
+            }
+        }
+    }
+
+    const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        handleDelete();
+    }
     return (
         <ConfirmDialog
             open={open}
-            onOpenChange={(nextOpen) => {
-                if (!deleteConfiguration.isPending) {
-                    onOpenChange(nextOpen);
-                    if (!nextOpen) {
-                        setValue("");
-                    }
-                }
-            }}
+            onOpenChange={handleOpenChange}
             handleConfirm={handleDelete}
             confirmForm="configuration-delete-form"
             confirmButtonType="submit"
             disabled={!isConfirmed}
-            isLoading={deleteConfiguration.isPending}
+            isLoading={isDeleting}
             title={
                 <span className="text-destructive">
                     <AlertTriangle
@@ -80,10 +87,7 @@ export function ConfigurationsDeleteDialog({
                 <form
                     id="configuration-delete-form"
                     className="space-y-4"
-                    onSubmit={(event) => {
-                        event.preventDefault();
-                        handleDelete();
-                    }}
+                    onSubmit={handleSubmit}
                 >
                     <p className="mb-2">
                         Delete configuration{" "}

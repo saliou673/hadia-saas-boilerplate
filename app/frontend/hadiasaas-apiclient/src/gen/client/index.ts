@@ -3,6 +3,7 @@ export { adminconfigurationmanagement } from "./admin-configuration-management/a
 export { createAppConfigurationAsAdmin } from "./admin-configuration-management/createAppConfigurationAsAdmin.ts";
 export { getAppConfigurationByIdAsAdmin } from "./admin-configuration-management/getAppConfigurationByIdAsAdmin.ts";
 export { getAppConfigurationsAsAdmin } from "./admin-configuration-management/getAppConfigurationsAsAdmin.ts";
+export { getCategoriesAsAdmin } from "./admin-configuration-management/getCategoriesAsAdmin.ts";
 export { updateAppConfigurationAsAdmin } from "./admin-configuration-management/updateAppConfigurationAsAdmin.ts";
 export { updateByCategoryAndCode } from "./admin-configuration-management/updateByCategoryAndCode.ts";
 export { admindiscountcodemanagement } from "./admin-discount-code-management/admindiscountcodemanagement.ts";

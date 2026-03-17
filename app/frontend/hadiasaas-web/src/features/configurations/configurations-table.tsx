@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import {
     type ColumnFiltersState,
     type VisibilityState,
@@ -11,9 +10,11 @@ import {
 } from "@tanstack/react-table";
 import {
     type AppConfiguration,
-    type AppConfigurationCategoryEnumKey,
-    type PaginatedResultAppConfiguration,
-    axiosInstance,
+    type AppConfigurationCategoryFilterEqualsEnumKey,
+    type AppConfigurationCategoryFilterInEnumKey,
+    type GetAppConfigurationsAsAdminQueryParams,
+    useGetAppConfigurationsAsAdmin,
+    useGetCategoriesAsAdmin,
 } from "@api-client";
 import { cn } from "@/lib/utils";
 import { type NavigateFn, useTableUrlState } from "@/hooks/use-table-url-state";
@@ -96,41 +97,34 @@ function getArrayFilterValue(
     return [];
 }
 
-function buildQueryString(
+function buildQueryParams(
     code: string,
     columnFilters: ColumnFiltersState,
     page: number,
     size: number
-) {
-    const params = new URLSearchParams();
+): GetAppConfigurationsAsAdminQueryParams {
     const trimmedCode = code.trim();
     const categories = getArrayFilterValue(columnFilters, "category");
     const active = toBooleanArray(getArrayFilterValue(columnFilters, "active"));
 
-    if (trimmedCode) {
-        params.set("code.contains", trimmedCode);
-    }
-
-    if (categories.length === 1) {
-        params.set("category.equals", categories[0]);
-    } else {
-        for (const category of categories as AppConfigurationCategoryEnumKey[]) {
-            params.append("category.in", category);
-        }
-    }
-
-    if (active.length === 1) {
-        params.set("active.equals", String(active[0]));
-    } else {
-        for (const item of active) {
-            params.append("active.in", String(item));
-        }
-    }
-
-    params.set("page", String(page));
-    params.set("size", String(size));
-
-    return params.toString();
+    return {
+        filter: {
+            code: trimmedCode ? { contains: trimmedCode } : undefined,
+            category:
+                categories.length === 1
+                    ? { equals: categories[0] as AppConfigurationCategoryFilterEqualsEnumKey }
+                    : categories.length > 1
+                      ? { in: categories as AppConfigurationCategoryFilterInEnumKey[] }
+                      : undefined,
+            active:
+                active.length === 1
+                    ? { equals: active[0] }
+                    : active.length > 1
+                      ? { in: active }
+                      : undefined,
+        },
+        pageable: { page, size },
+    };
 }
 
 export function ConfigurationsTable({
@@ -211,9 +205,9 @@ export function ConfigurationsTable({
         return () => window.clearTimeout(timeout);
     }, [codeFilter, navigate, search.code]);
 
-    const queryString = useMemo(
+    const queryParams = useMemo(
         () =>
-            buildQueryString(
+            buildQueryParams(
                 debouncedCodeFilter,
                 columnFilters,
                 pagination.pageIndex,
@@ -226,21 +220,18 @@ export function ConfigurationsTable({
             pagination.pageSize,
         ]
     );
-    const query = useQuery({
-        queryKey: ["admin-configurations", queryString],
-        queryFn: async () => {
-            const response =
-                await axiosInstance.get<PaginatedResultAppConfiguration>(
-                    `/api/v1/admin/configurations?${queryString}`
-                );
 
-            return response.data;
-        },
-    });
+    const { data: categoriesData } = useGetCategoriesAsAdmin();
+    const categoryOptions = (categoriesData ?? []).map(({ value, description }) => ({
+        label: description ?? value ?? "",
+        value: value ?? "",
+    }));
 
-    const items = query.data?.items ?? [];
-    const totalPages = query.data?.totalPages ?? 0;
-    const totalItems = query.data?.totalItems ?? 0;
+    const { data, isLoading, isError } = useGetAppConfigurationsAsAdmin(queryParams);
+
+    const items = data?.items ?? [];
+    const totalPages = data?.totalPages ?? 0;
+    const totalItems = data?.totalItems ?? 0;
     const columns = buildConfigurationsColumns({ onEdit, onDelete });
 
     // eslint-disable-next-line react-hooks/incompatible-library
@@ -280,6 +271,7 @@ export function ConfigurationsTable({
                 table={table}
                 codeFilter={codeFilter}
                 onCodeFilterChange={setCodeFilter}
+                categoryOptions={categoryOptions}
                 onReset={() => {
                     setCodeFilter("");
                     setDebouncedCodeFilter("");
@@ -328,7 +320,7 @@ export function ConfigurationsTable({
                         ))}
                     </TableHeader>
                     <TableBody>
-                        {query.isLoading ? (
+                        {isLoading ? (
                             <TableRow>
                                 <TableCell
                                     colSpan={columns.length}
@@ -337,7 +329,7 @@ export function ConfigurationsTable({
                                     Loading configurations...
                                 </TableCell>
                             </TableRow>
-                        ) : query.isError ? (
+                        ) : isError ? (
                             <TableRow>
                                 <TableCell
                                     colSpan={columns.length}

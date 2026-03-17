@@ -9,6 +9,7 @@ import {
     type AppConfiguration,
     type CreateAppConfigurationRequestCategoryEnumKey,
     useCreateAppConfigurationAsAdmin,
+    useGetCategoriesAsAdmin,
     useUpdateAppConfigurationAsAdmin,
 } from "@api-client";
 import { toast } from "sonner";
@@ -36,7 +37,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { SelectDropdown } from "@/components/select-dropdown";
-import { configurationCategories } from "./data";
+import {getAppConfigurationsAsAdminQueryKey} from "../../../../hadiasaas-apiclient";
 
 const formSchema = z.object({
     category: z.string().min(1, "Category is required."),
@@ -65,6 +66,11 @@ export function ConfigurationsMutateDrawer({
 }: ConfigurationsMutateDrawerProps) {
     const isUpdate = !!currentRow;
     const queryClient = useQueryClient();
+    const { data: categoriesData } = useGetCategoriesAsAdmin();
+    const categoryOptions = (categoriesData ?? []).map(({ value, description }) => ({
+        label: description ?? value ?? "",
+        value: value ?? "",
+    }));
     const form = useForm<ConfigurationForm>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -88,7 +94,7 @@ export function ConfigurationsMutateDrawer({
 
     const invalidateConfigurations = async () => {
         await queryClient.invalidateQueries({
-            queryKey: ["admin-configurations"],
+            queryKey: getAppConfigurationsAsAdminQueryKey(),
         });
     };
 
@@ -145,17 +151,19 @@ export function ConfigurationsMutateDrawer({
         });
     };
 
+    const handleOpenChange = (nextOpen: boolean) => {
+        if (!isPending) {
+            onOpenChange(nextOpen);
+            if (!nextOpen) {
+                form.reset();
+            }
+        }
+    }
+
     return (
         <Sheet
             open={open}
-            onOpenChange={(nextOpen) => {
-                if (!isPending) {
-                    onOpenChange(nextOpen);
-                    if (!nextOpen) {
-                        form.reset();
-                    }
-                }
-            }}
+            onOpenChange={handleOpenChange}
         >
             <SheetContent className="flex flex-col">
                 <SheetHeader className="text-start">
@@ -184,12 +192,7 @@ export function ConfigurationsMutateDrawer({
                                         defaultValue={field.value}
                                         onValueChange={field.onChange}
                                         placeholder="Select a category"
-                                        items={configurationCategories.map(
-                                            ({ label, value }) => ({
-                                                label,
-                                                value,
-                                            })
-                                        )}
+                                        items={categoryOptions}
                                         disabled={isUpdate || isPending}
                                         isControlled
                                     />

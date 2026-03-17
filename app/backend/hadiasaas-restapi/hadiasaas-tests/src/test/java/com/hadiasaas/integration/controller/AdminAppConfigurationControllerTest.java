@@ -2,6 +2,7 @@ package com.hadiasaas.integration.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hadiasaas.domain.enumerations.AppConfigurationCategory;
+import com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.AppConfigurationCategoryDTO;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.AppConfigurationDTO;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.requests.CreateAppConfigurationRequest;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.requests.UpdateAppConfigurationRequest;
@@ -15,6 +16,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -478,6 +480,63 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
 
         UpdateAppConfigurationRequest request = new UpdateAppConfigurationRequest("OTHER", "Two-Factor Authentication", null, false);
         put(API + "/TWO_FACTOR/ENABLED", request, status().isBadRequest());
+    }
+
+    // endregion
+
+    // region categories
+
+    @Test
+    @WithMockUser(authorities = "config:manage")
+    void shouldReturnAllCategoriesSuccessfully() throws Exception {
+        List<AppConfigurationCategoryDTO> result = get(
+                API + "/categories",
+                new TypeReference<>() {},
+                status().isOk()
+        );
+
+        assertThat(result).isNotNull();
+        assertThat(result).hasSize(AppConfigurationCategory.values().length);
+        assertThat(result).extracting(AppConfigurationCategoryDTO::value)
+                .containsExactlyInAnyOrder(AppConfigurationCategory.values());
+    }
+
+    @Test
+    @WithMockUser(authorities = "config:manage")
+    void shouldReturnAllSixCategoriesWithDescriptions() throws Exception {
+        List<AppConfigurationCategoryDTO> result = get(
+                API + "/categories",
+                new TypeReference<>() {},
+                status().isOk()
+        );
+
+        assertThat(result).extracting(AppConfigurationCategoryDTO::value, AppConfigurationCategoryDTO::description)
+                .containsExactlyInAnyOrder(
+                        tuple(AppConfigurationCategory.CURRENCY, AppConfigurationCategory.CURRENCY.getDescription()),
+                        tuple(AppConfigurationCategory.TWO_FACTOR, AppConfigurationCategory.TWO_FACTOR.getDescription()),
+                        tuple(AppConfigurationCategory.PAYMENT_MODE, AppConfigurationCategory.PAYMENT_MODE.getDescription()),
+                        tuple(AppConfigurationCategory.STORAGE, AppConfigurationCategory.STORAGE.getDescription()),
+                        tuple(AppConfigurationCategory.TAX, AppConfigurationCategory.TAX.getDescription()),
+                        tuple(AppConfigurationCategory.ENTERPRISE, AppConfigurationCategory.ENTERPRISE.getDescription())
+                );
+    }
+
+    @Test
+    @WithMockUser(authorities = "config:manage")
+    void shouldReturnNonBlankDescriptionForEachCategory() throws Exception {
+        List<AppConfigurationCategoryDTO> result = get(
+                API + "/categories",
+                new TypeReference<>() {},
+                status().isOk()
+        );
+
+        assertThat(result).allSatisfy(dto -> assertThat(dto.description()).isNotBlank());
+    }
+
+    @Test
+    @WithMockUser(authorities = "ROLE_USER")
+    void shouldForbidGetCategoriesForSimpleUser() throws Exception {
+        get(API + "/categories", status().isForbidden());
     }
 
     // endregion

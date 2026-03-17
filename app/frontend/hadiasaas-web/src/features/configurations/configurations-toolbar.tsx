@@ -6,13 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTableFacetedFilter } from "@/components/data-table/faceted-filter";
 import { DataTableViewOptions } from "@/components/data-table/view-options";
-import { activeOptions, configurationCategories } from "./data";
+import { activeOptions } from "./data";
 
 type ConfigurationsToolbarProps<TData> = {
     table: Table<TData>;
     codeFilter: string;
     onCodeFilterChange: (value: string) => void;
     onReset: () => void;
+    categoryOptions: { label: string; value: string }[];
 };
 
 export function ConfigurationsToolbar<TData>({
@@ -20,6 +21,7 @@ export function ConfigurationsToolbar<TData>({
     codeFilter,
     onCodeFilterChange,
     onReset,
+    categoryOptions,
 }: ConfigurationsToolbarProps<TData>) {
     const isFiltered =
         codeFilter.trim().length > 0 ||
@@ -27,7 +29,7 @@ export function ConfigurationsToolbar<TData>({
 
     return (
         <div className="flex items-center justify-between">
-            <div className="flex flex-1 flex-col-reverse items-start gap-y-2 sm:flex-row sm:items-center sm:space-x-2">
+            <div suppressHydrationWarning className="flex flex-1 flex-col-reverse items-start gap-y-2 sm:flex-row sm:items-center sm:space-x-2">
                 <Input
                     placeholder="Filter by code..."
                     value={codeFilter}
@@ -38,9 +40,7 @@ export function ConfigurationsToolbar<TData>({
                     <DataTableFacetedFilter
                         column={table.getColumn("category")}
                         title="Category"
-                        options={configurationCategories.map((category) => ({
-                            ...category,
-                        }))}
+                        options={categoryOptions}
                     />
                     <DataTableFacetedFilter
                         column={table.getColumn("active")}
