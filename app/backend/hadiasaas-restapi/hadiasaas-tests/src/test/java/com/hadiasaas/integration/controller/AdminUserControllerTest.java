@@ -7,6 +7,8 @@ import com.hadiasaas.domain.enumerations.UserGender;
 import com.hadiasaas.domain.enumerations.UserGroupConstants;
 import com.hadiasaas.domain.enumerations.UserStatus;
 import com.hadiasaas.domain.models.auth.TwoFactorMethodType;
+import com.hadiasaas.domain.models.userpreference.FontPreference;
+import com.hadiasaas.domain.models.userpreference.ThemePreference;
 import com.hadiasaas.domain.ports.out.NotificationSenderPort;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.PermissionCheckResponse;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.PermissionDTO;
@@ -95,6 +97,8 @@ class AdminUserControllerTest extends IntegrationTest {
         assertThat(result.getId()).isEqualTo(user.getId());
         assertThat(result.getEmail()).isEqualTo(user.getUserCredentials().getEmail());
         assertThat(result.getPermissions()).contains("role-group:manage");
+        assertThat(result.getPreferences().appearance().theme()).isEqualTo(ThemePreference.SYSTEM);
+        assertThat(result.getPreferences().appearance().font()).isEqualTo(FontPreference.INTER);
     }
 
     @Test
@@ -164,6 +168,9 @@ class AdminUserControllerTest extends IntegrationTest {
         assertThat(result.getItems())
                 .extracting(UserDetailsDTO::getEmail)
                 .containsExactlyInAnyOrder("admin-list-1@example.com", "admin-list-2@example.com");
+        assertThat(result.getItems())
+                .extracting(user -> user.getPreferences().appearance().theme())
+                .containsOnly(ThemePreference.SYSTEM);
     }
 
     @Test

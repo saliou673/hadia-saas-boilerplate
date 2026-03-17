@@ -4,6 +4,8 @@ export type { GetAppConfigurationByIdAsAdminQueryKey } from "./admin-configurati
 export type { GetAppConfigurationByIdAsAdminSuspenseQueryKey } from "./admin-configuration-management/useGetAppConfigurationByIdAsAdminSuspense.ts";
 export type { GetAppConfigurationsAsAdminQueryKey } from "./admin-configuration-management/useGetAppConfigurationsAsAdmin.ts";
 export type { GetAppConfigurationsAsAdminSuspenseQueryKey } from "./admin-configuration-management/useGetAppConfigurationsAsAdminSuspense.ts";
+export type { GetCategoriesAsAdminQueryKey } from "./admin-configuration-management/useGetCategoriesAsAdmin.ts";
+export type { GetCategoriesAsAdminSuspenseQueryKey } from "./admin-configuration-management/useGetCategoriesAsAdminSuspense.ts";
 export type { UpdateAppConfigurationAsAdminMutationKey } from "./admin-configuration-management/useUpdateAppConfigurationAsAdmin.ts";
 export type { UpdateByCategoryAndCodeMutationKey } from "./admin-configuration-management/useUpdateByCategoryAndCode.ts";
 export type { CreateDiscountCodeAsAdminMutationKey } from "./admin-discount-code-management/useCreateDiscountCodeAsAdmin.ts";
@@ -78,12 +80,15 @@ export type { DeleteCurrentAccountMutationKey } from "./user-account-management/
 export type { FinishPasswordResetMutationKey } from "./user-account-management/useFinishPasswordReset.ts";
 export type { GetCurrentUserPermissionsQueryKey } from "./user-account-management/useGetCurrentUserPermissions.ts";
 export type { GetCurrentUserPermissionsSuspenseQueryKey } from "./user-account-management/useGetCurrentUserPermissionsSuspense.ts";
+export type { GetCurrentUserPreferencesQueryKey } from "./user-account-management/useGetCurrentUserPreferences.ts";
+export type { GetCurrentUserPreferencesSuspenseQueryKey } from "./user-account-management/useGetCurrentUserPreferencesSuspense.ts";
 export type { GetUserDetailsQueryKey } from "./user-account-management/useGetUserDetails.ts";
 export type { GetUserDetailsSuspenseQueryKey } from "./user-account-management/useGetUserDetailsSuspense.ts";
 export type { RecoverAccountMutationKey } from "./user-account-management/useRecoverAccount.ts";
 export type { RequestActivationCodeMutationKey } from "./user-account-management/useRequestActivationCode.ts";
 export type { RequestPasswordResetMutationKey } from "./user-account-management/useRequestPasswordReset.ts";
 export type { UpdateAccountMutationKey } from "./user-account-management/useUpdateAccount.ts";
+export type { UpdateCurrentUserPreferencesMutationKey } from "./user-account-management/useUpdateCurrentUserPreferences.ts";
 export { createAppConfigurationAsAdminMutationKey } from "./admin-configuration-management/useCreateAppConfigurationAsAdmin.ts";
 export { createAppConfigurationAsAdminMutationOptions } from "./admin-configuration-management/useCreateAppConfigurationAsAdmin.ts";
 export { useCreateAppConfigurationAsAdmin } from "./admin-configuration-management/useCreateAppConfigurationAsAdmin.ts";
@@ -102,6 +107,12 @@ export { useGetAppConfigurationsAsAdmin } from "./admin-configuration-management
 export { getAppConfigurationsAsAdminSuspenseQueryKey } from "./admin-configuration-management/useGetAppConfigurationsAsAdminSuspense.ts";
 export { getAppConfigurationsAsAdminSuspenseQueryOptions } from "./admin-configuration-management/useGetAppConfigurationsAsAdminSuspense.ts";
 export { useGetAppConfigurationsAsAdminSuspense } from "./admin-configuration-management/useGetAppConfigurationsAsAdminSuspense.ts";
+export { getCategoriesAsAdminQueryKey } from "./admin-configuration-management/useGetCategoriesAsAdmin.ts";
+export { getCategoriesAsAdminQueryOptions } from "./admin-configuration-management/useGetCategoriesAsAdmin.ts";
+export { useGetCategoriesAsAdmin } from "./admin-configuration-management/useGetCategoriesAsAdmin.ts";
+export { getCategoriesAsAdminSuspenseQueryKey } from "./admin-configuration-management/useGetCategoriesAsAdminSuspense.ts";
+export { getCategoriesAsAdminSuspenseQueryOptions } from "./admin-configuration-management/useGetCategoriesAsAdminSuspense.ts";
+export { useGetCategoriesAsAdminSuspense } from "./admin-configuration-management/useGetCategoriesAsAdminSuspense.ts";
 export { updateAppConfigurationAsAdminMutationKey } from "./admin-configuration-management/useUpdateAppConfigurationAsAdmin.ts";
 export { updateAppConfigurationAsAdminMutationOptions } from "./admin-configuration-management/useUpdateAppConfigurationAsAdmin.ts";
 export { useUpdateAppConfigurationAsAdmin } from "./admin-configuration-management/useUpdateAppConfigurationAsAdmin.ts";
@@ -324,6 +335,12 @@ export { useGetCurrentUserPermissions } from "./user-account-management/useGetCu
 export { getCurrentUserPermissionsSuspenseQueryKey } from "./user-account-management/useGetCurrentUserPermissionsSuspense.ts";
 export { getCurrentUserPermissionsSuspenseQueryOptions } from "./user-account-management/useGetCurrentUserPermissionsSuspense.ts";
 export { useGetCurrentUserPermissionsSuspense } from "./user-account-management/useGetCurrentUserPermissionsSuspense.ts";
+export { getCurrentUserPreferencesQueryKey } from "./user-account-management/useGetCurrentUserPreferences.ts";
+export { getCurrentUserPreferencesQueryOptions } from "./user-account-management/useGetCurrentUserPreferences.ts";
+export { useGetCurrentUserPreferences } from "./user-account-management/useGetCurrentUserPreferences.ts";
+export { getCurrentUserPreferencesSuspenseQueryKey } from "./user-account-management/useGetCurrentUserPreferencesSuspense.ts";
+export { getCurrentUserPreferencesSuspenseQueryOptions } from "./user-account-management/useGetCurrentUserPreferencesSuspense.ts";
+export { useGetCurrentUserPreferencesSuspense } from "./user-account-management/useGetCurrentUserPreferencesSuspense.ts";
 export { getUserDetailsQueryKey } from "./user-account-management/useGetUserDetails.ts";
 export { getUserDetailsQueryOptions } from "./user-account-management/useGetUserDetails.ts";
 export { useGetUserDetails } from "./user-account-management/useGetUserDetails.ts";
@@ -342,3 +359,6 @@ export { useRequestPasswordReset } from "./user-account-management/useRequestPas
 export { updateAccountMutationKey } from "./user-account-management/useUpdateAccount.ts";
 export { updateAccountMutationOptions } from "./user-account-management/useUpdateAccount.ts";
 export { useUpdateAccount } from "./user-account-management/useUpdateAccount.ts";
+export { updateCurrentUserPreferencesMutationKey } from "./user-account-management/useUpdateCurrentUserPreferences.ts";
+export { updateCurrentUserPreferencesMutationOptions } from "./user-account-management/useUpdateCurrentUserPreferences.ts";
+export { useUpdateCurrentUserPreferences } from "./user-account-management/useUpdateCurrentUserPreferences.ts";

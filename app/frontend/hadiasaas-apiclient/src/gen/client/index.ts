@@ -3,6 +3,7 @@ export { adminconfigurationmanagement } from "./admin-configuration-management/a
 export { createAppConfigurationAsAdmin } from "./admin-configuration-management/createAppConfigurationAsAdmin.ts";
 export { getAppConfigurationByIdAsAdmin } from "./admin-configuration-management/getAppConfigurationByIdAsAdmin.ts";
 export { getAppConfigurationsAsAdmin } from "./admin-configuration-management/getAppConfigurationsAsAdmin.ts";
+export { getCategoriesAsAdmin } from "./admin-configuration-management/getCategoriesAsAdmin.ts";
 export { updateAppConfigurationAsAdmin } from "./admin-configuration-management/updateAppConfigurationAsAdmin.ts";
 export { updateByCategoryAndCode } from "./admin-configuration-management/updateByCategoryAndCode.ts";
 export { admindiscountcodemanagement } from "./admin-discount-code-management/admindiscountcodemanagement.ts";
@@ -69,9 +70,11 @@ export { createPublicUserAccount } from "./user-account-management/createPublicU
 export { deleteCurrentAccount } from "./user-account-management/deleteCurrentAccount.ts";
 export { finishPasswordReset } from "./user-account-management/finishPasswordReset.ts";
 export { getCurrentUserPermissions } from "./user-account-management/getCurrentUserPermissions.ts";
+export { getCurrentUserPreferences } from "./user-account-management/getCurrentUserPreferences.ts";
 export { getUserDetails } from "./user-account-management/getUserDetails.ts";
 export { recoverAccount } from "./user-account-management/recoverAccount.ts";
 export { requestActivationCode } from "./user-account-management/requestActivationCode.ts";
 export { requestPasswordReset } from "./user-account-management/requestPasswordReset.ts";
 export { updateAccount } from "./user-account-management/updateAccount.ts";
+export { updateCurrentUserPreferences } from "./user-account-management/updateCurrentUserPreferences.ts";
 export { useraccountmanagement } from "./user-account-management/useraccountmanagement.ts";

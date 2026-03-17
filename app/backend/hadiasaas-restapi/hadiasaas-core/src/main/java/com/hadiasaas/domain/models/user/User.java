@@ -7,6 +7,7 @@ import com.hadiasaas.domain.models.Auditable;
 import com.hadiasaas.domain.models.auth.TwoFactorMethodType;
 import com.hadiasaas.domain.models.rbac.Permission;
 import com.hadiasaas.domain.models.rbac.RoleGroup;
+import com.hadiasaas.domain.models.userpreference.UserPreferences;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -52,6 +53,10 @@ public class User extends Auditable<Long> {
      * TOTP shared secret ({@code null} unless method is TOTP).
      */
     private String totpSecret;
+    /**
+     * User-owned preferences persisted alongside the user aggregate.
+     */
+    private UserPreferences preferences;
 
     private User(
             Long id,
@@ -62,6 +67,7 @@ public class User extends Auditable<Long> {
             boolean twoFactorEnabled,
             TwoFactorMethodType twoFactorMethod,
             String totpSecret,
+            UserPreferences preferences,
             Instant creationDate,
             Instant lastUpdateDate,
             String lastUpdatedBy
@@ -74,6 +80,7 @@ public class User extends Auditable<Long> {
         this.twoFactorEnabled = twoFactorEnabled;
         this.twoFactorMethod = twoFactorMethod;
         this.totpSecret = totpSecret;
+        this.preferences = preferences == null ? UserPreferences.defaults() : preferences;
     }
 
     public static User create(
@@ -89,6 +96,7 @@ public class User extends Auditable<Long> {
                 false,
                 null,
                 null,
+                UserPreferences.defaults(),
                 null,
                 null,
                 null
@@ -104,6 +112,7 @@ public class User extends Auditable<Long> {
             boolean twoFactorEnabled,
             TwoFactorMethodType twoFactorMethod,
             String totpSecret,
+            UserPreferences preferences,
             Instant creationDate,
             Instant lastUpdateDate,
             String lastUpdatedBy
@@ -117,6 +126,7 @@ public class User extends Auditable<Long> {
                 twoFactorEnabled,
                 twoFactorMethod,
                 totpSecret,
+                preferences,
                 creationDate,
                 lastUpdateDate,
                 lastUpdatedBy
@@ -207,5 +217,9 @@ public class User extends Auditable<Long> {
         this.twoFactorEnabled = false;
         this.twoFactorMethod = null;
         this.totpSecret = null;
+    }
+
+    public void updatePreferences(UserPreferences preferences) {
+        this.preferences = Objects.requireNonNull(preferences, "preferences must not be null");
     }
 }
