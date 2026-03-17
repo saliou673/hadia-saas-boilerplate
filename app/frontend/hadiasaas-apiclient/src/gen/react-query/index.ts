@@ -4,6 +4,8 @@ export type { GetAppConfigurationByIdAsAdminQueryKey } from "./admin-configurati
 export type { GetAppConfigurationByIdAsAdminSuspenseQueryKey } from "./admin-configuration-management/useGetAppConfigurationByIdAsAdminSuspense.ts";
 export type { GetAppConfigurationsAsAdminQueryKey } from "./admin-configuration-management/useGetAppConfigurationsAsAdmin.ts";
 export type { GetAppConfigurationsAsAdminSuspenseQueryKey } from "./admin-configuration-management/useGetAppConfigurationsAsAdminSuspense.ts";
+export type { GetCategoriesAsAdminQueryKey } from "./admin-configuration-management/useGetCategoriesAsAdmin.ts";
+export type { GetCategoriesAsAdminSuspenseQueryKey } from "./admin-configuration-management/useGetCategoriesAsAdminSuspense.ts";
 export type { UpdateAppConfigurationAsAdminMutationKey } from "./admin-configuration-management/useUpdateAppConfigurationAsAdmin.ts";
 export type { UpdateByCategoryAndCodeMutationKey } from "./admin-configuration-management/useUpdateByCategoryAndCode.ts";
 export type { CreateDiscountCodeAsAdminMutationKey } from "./admin-discount-code-management/useCreateDiscountCodeAsAdmin.ts";
@@ -105,6 +107,12 @@ export { useGetAppConfigurationsAsAdmin } from "./admin-configuration-management
 export { getAppConfigurationsAsAdminSuspenseQueryKey } from "./admin-configuration-management/useGetAppConfigurationsAsAdminSuspense.ts";
 export { getAppConfigurationsAsAdminSuspenseQueryOptions } from "./admin-configuration-management/useGetAppConfigurationsAsAdminSuspense.ts";
 export { useGetAppConfigurationsAsAdminSuspense } from "./admin-configuration-management/useGetAppConfigurationsAsAdminSuspense.ts";
+export { getCategoriesAsAdminQueryKey } from "./admin-configuration-management/useGetCategoriesAsAdmin.ts";
+export { getCategoriesAsAdminQueryOptions } from "./admin-configuration-management/useGetCategoriesAsAdmin.ts";
+export { useGetCategoriesAsAdmin } from "./admin-configuration-management/useGetCategoriesAsAdmin.ts";
+export { getCategoriesAsAdminSuspenseQueryKey } from "./admin-configuration-management/useGetCategoriesAsAdminSuspense.ts";
+export { getCategoriesAsAdminSuspenseQueryOptions } from "./admin-configuration-management/useGetCategoriesAsAdminSuspense.ts";
+export { useGetCategoriesAsAdminSuspense } from "./admin-configuration-management/useGetCategoriesAsAdminSuspense.ts";
 export { updateAppConfigurationAsAdminMutationKey } from "./admin-configuration-management/useUpdateAppConfigurationAsAdmin.ts";
 export { updateAppConfigurationAsAdminMutationOptions } from "./admin-configuration-management/useUpdateAppConfigurationAsAdmin.ts";
 export { useUpdateAppConfigurationAsAdmin } from "./admin-configuration-management/useUpdateAppConfigurationAsAdmin.ts";

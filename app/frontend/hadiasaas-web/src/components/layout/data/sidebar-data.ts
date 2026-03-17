@@ -21,6 +21,7 @@ import {
     AudioWaveform,
     Command,
     GalleryVerticalEnd,
+    SlidersHorizontal,
 } from "lucide-react";
 import { type SidebarData } from "../types";
 
@@ -71,6 +72,13 @@ export const sidebarData: SidebarData = {
                     title: "Users",
                     url: "/users",
                     icon: Users,
+                    requiredPermission: "user:read",
+                },
+                {
+                    title: "Configurations",
+                    url: "/configurations",
+                    icon: SlidersHorizontal,
+                    requiredPermission: "config:manage",
                 },
             ],
         },

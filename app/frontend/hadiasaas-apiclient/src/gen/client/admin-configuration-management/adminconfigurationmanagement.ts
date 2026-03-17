@@ -7,9 +7,10 @@ import { _delete } from "./_delete.ts";
 import { createAppConfigurationAsAdmin } from "./createAppConfigurationAsAdmin.ts";
 import { getAppConfigurationByIdAsAdmin } from "./getAppConfigurationByIdAsAdmin.ts";
 import { getAppConfigurationsAsAdmin } from "./getAppConfigurationsAsAdmin.ts";
+import { getCategoriesAsAdmin } from "./getCategoriesAsAdmin.ts";
 import { updateAppConfigurationAsAdmin } from "./updateAppConfigurationAsAdmin.ts";
 import { updateByCategoryAndCode } from "./updateByCategoryAndCode.ts";
 
 export function adminconfigurationmanagement() {
-  return { getAppConfigurationByIdAsAdmin, updateAppConfigurationAsAdmin, _delete, updateByCategoryAndCode, getAppConfigurationsAsAdmin, createAppConfigurationAsAdmin }
+  return { getAppConfigurationByIdAsAdmin, updateAppConfigurationAsAdmin, _delete, updateByCategoryAndCode, getAppConfigurationsAsAdmin, createAppConfigurationAsAdmin, getCategoriesAsAdmin }
 }

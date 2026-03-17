@@ -1,5 +1,6 @@
 export type { ActivateAccount200, ActivateAccount404, ActivateAccount409, ActivateAccountQuery, ActivateAccountQueryParams, ActivateAccountQueryResponse } from "./ActivateAccount.ts";
 export type { AppConfiguration, AppConfigurationCategoryEnumKey } from "./AppConfiguration.ts";
+export type { AppConfigurationCategory, AppConfigurationCategoryValueEnumKey } from "./AppConfigurationCategory.ts";
 export type { AppConfigurationCategoryFilter, AppConfigurationCategoryFilterEqualsEnumKey, AppConfigurationCategoryFilterInEnumKey, AppConfigurationCategoryFilterNotEqualsEnumKey, AppConfigurationCategoryFilterNotInEnumKey } from "./AppConfigurationCategoryFilter.ts";
 export type { AppConfigurationFilter } from "./AppConfigurationFilter.ts";
 export type { AppearancePreferences, AppearancePreferencesFontEnumKey, AppearancePreferencesThemeEnumKey } from "./AppearancePreferences.ts";
@@ -43,6 +44,7 @@ export type { GetAppConfigurationByCategoryAndCode200, GetAppConfigurationByCate
 export type { GetAppConfigurationByIdAsAdmin200, GetAppConfigurationByIdAsAdmin404, GetAppConfigurationByIdAsAdmin409, GetAppConfigurationByIdAsAdminPathParams, GetAppConfigurationByIdAsAdminQuery, GetAppConfigurationByIdAsAdminQueryResponse } from "./GetAppConfigurationByIdAsAdmin.ts";
 export type { GetAppConfigurations200, GetAppConfigurations404, GetAppConfigurations409, GetAppConfigurationsQuery, GetAppConfigurationsQueryParams, GetAppConfigurationsQueryResponse } from "./GetAppConfigurations.ts";
 export type { GetAppConfigurationsAsAdmin200, GetAppConfigurationsAsAdmin404, GetAppConfigurationsAsAdmin409, GetAppConfigurationsAsAdminQuery, GetAppConfigurationsAsAdminQueryParams, GetAppConfigurationsAsAdminQueryResponse } from "./GetAppConfigurationsAsAdmin.ts";
+export type { GetCategoriesAsAdmin200, GetCategoriesAsAdmin404, GetCategoriesAsAdmin409, GetCategoriesAsAdminQuery, GetCategoriesAsAdminQueryResponse } from "./GetCategoriesAsAdmin.ts";
 export type { GetCurrentUserPermissions200, GetCurrentUserPermissions404, GetCurrentUserPermissions409, GetCurrentUserPermissionsQuery, GetCurrentUserPermissionsQueryResponse } from "./GetCurrentUserPermissions.ts";
 export type { GetCurrentUserPreferences200, GetCurrentUserPreferences404, GetCurrentUserPreferences409, GetCurrentUserPreferencesQuery, GetCurrentUserPreferencesQueryResponse } from "./GetCurrentUserPreferences.ts";
 export type { GetDiscountCodeStatus200, GetDiscountCodeStatus404, GetDiscountCodeStatus409, GetDiscountCodeStatusPathParams, GetDiscountCodeStatusQuery, GetDiscountCodeStatusQueryResponse } from "./GetDiscountCodeStatus.ts";
@@ -124,6 +126,7 @@ export type { UserSummary, UserSummaryGenderEnumKey, UserSummaryStatusEnumKey } 
 export type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts";
 export type { VerifyLoginChallenge200, VerifyLoginChallenge404, VerifyLoginChallenge409, VerifyLoginChallengeMutation, VerifyLoginChallengeMutationRequest, VerifyLoginChallengeMutationResponse } from "./VerifyLoginChallenge.ts";
 export { appConfigurationCategoryEnum } from "./AppConfiguration.ts";
+export { appConfigurationCategoryValueEnum } from "./AppConfigurationCategory.ts";
 export { appConfigurationCategoryFilterEqualsEnum } from "./AppConfigurationCategoryFilter.ts";
 export { appConfigurationCategoryFilterInEnum } from "./AppConfigurationCategoryFilter.ts";
 export { appConfigurationCategoryFilterNotEqualsEnum } from "./AppConfigurationCategoryFilter.ts";

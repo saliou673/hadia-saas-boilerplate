@@ -4,6 +4,8 @@ export type { GetAppConfigurationByIdAsAdminQueryKey } from "./react-query/admin
 export type { GetAppConfigurationByIdAsAdminSuspenseQueryKey } from "./react-query/admin-configuration-management/useGetAppConfigurationByIdAsAdminSuspense.ts";
 export type { GetAppConfigurationsAsAdminQueryKey } from "./react-query/admin-configuration-management/useGetAppConfigurationsAsAdmin.ts";
 export type { GetAppConfigurationsAsAdminSuspenseQueryKey } from "./react-query/admin-configuration-management/useGetAppConfigurationsAsAdminSuspense.ts";
+export type { GetCategoriesAsAdminQueryKey } from "./react-query/admin-configuration-management/useGetCategoriesAsAdmin.ts";
+export type { GetCategoriesAsAdminSuspenseQueryKey } from "./react-query/admin-configuration-management/useGetCategoriesAsAdminSuspense.ts";
 export type { UpdateAppConfigurationAsAdminMutationKey } from "./react-query/admin-configuration-management/useUpdateAppConfigurationAsAdmin.ts";
 export type { UpdateByCategoryAndCodeMutationKey } from "./react-query/admin-configuration-management/useUpdateByCategoryAndCode.ts";
 export type { CreateDiscountCodeAsAdminMutationKey } from "./react-query/admin-discount-code-management/useCreateDiscountCodeAsAdmin.ts";
@@ -89,6 +91,7 @@ export type { UpdateAccountMutationKey } from "./react-query/user-account-manage
 export type { UpdateCurrentUserPreferencesMutationKey } from "./react-query/user-account-management/useUpdateCurrentUserPreferences.ts";
 export type { ActivateAccount200, ActivateAccount404, ActivateAccount409, ActivateAccountQuery, ActivateAccountQueryParams, ActivateAccountQueryResponse } from "./types/ActivateAccount.ts";
 export type { AppConfiguration, AppConfigurationCategoryEnumKey } from "./types/AppConfiguration.ts";
+export type { AppConfigurationCategory, AppConfigurationCategoryValueEnumKey } from "./types/AppConfigurationCategory.ts";
 export type { AppConfigurationCategoryFilter, AppConfigurationCategoryFilterEqualsEnumKey, AppConfigurationCategoryFilterInEnumKey, AppConfigurationCategoryFilterNotEqualsEnumKey, AppConfigurationCategoryFilterNotInEnumKey } from "./types/AppConfigurationCategoryFilter.ts";
 export type { AppConfigurationFilter } from "./types/AppConfigurationFilter.ts";
 export type { AppearancePreferences, AppearancePreferencesFontEnumKey, AppearancePreferencesThemeEnumKey } from "./types/AppearancePreferences.ts";
@@ -132,6 +135,7 @@ export type { GetAppConfigurationByCategoryAndCode200, GetAppConfigurationByCate
 export type { GetAppConfigurationByIdAsAdmin200, GetAppConfigurationByIdAsAdmin404, GetAppConfigurationByIdAsAdmin409, GetAppConfigurationByIdAsAdminPathParams, GetAppConfigurationByIdAsAdminQuery, GetAppConfigurationByIdAsAdminQueryResponse } from "./types/GetAppConfigurationByIdAsAdmin.ts";
 export type { GetAppConfigurations200, GetAppConfigurations404, GetAppConfigurations409, GetAppConfigurationsQuery, GetAppConfigurationsQueryParams, GetAppConfigurationsQueryResponse } from "./types/GetAppConfigurations.ts";
 export type { GetAppConfigurationsAsAdmin200, GetAppConfigurationsAsAdmin404, GetAppConfigurationsAsAdmin409, GetAppConfigurationsAsAdminQuery, GetAppConfigurationsAsAdminQueryParams, GetAppConfigurationsAsAdminQueryResponse } from "./types/GetAppConfigurationsAsAdmin.ts";
+export type { GetCategoriesAsAdmin200, GetCategoriesAsAdmin404, GetCategoriesAsAdmin409, GetCategoriesAsAdminQuery, GetCategoriesAsAdminQueryResponse } from "./types/GetCategoriesAsAdmin.ts";
 export type { GetCurrentUserPermissions200, GetCurrentUserPermissions404, GetCurrentUserPermissions409, GetCurrentUserPermissionsQuery, GetCurrentUserPermissionsQueryResponse } from "./types/GetCurrentUserPermissions.ts";
 export type { GetCurrentUserPreferences200, GetCurrentUserPreferences404, GetCurrentUserPreferences409, GetCurrentUserPreferencesQuery, GetCurrentUserPreferencesQueryResponse } from "./types/GetCurrentUserPreferences.ts";
 export type { GetDiscountCodeStatus200, GetDiscountCodeStatus404, GetDiscountCodeStatus409, GetDiscountCodeStatusPathParams, GetDiscountCodeStatusQuery, GetDiscountCodeStatusQueryResponse } from "./types/GetDiscountCodeStatus.ts";
@@ -217,6 +221,7 @@ export { adminconfigurationmanagement } from "./client/admin-configuration-manag
 export { createAppConfigurationAsAdmin } from "./client/admin-configuration-management/createAppConfigurationAsAdmin.ts";
 export { getAppConfigurationByIdAsAdmin } from "./client/admin-configuration-management/getAppConfigurationByIdAsAdmin.ts";
 export { getAppConfigurationsAsAdmin } from "./client/admin-configuration-management/getAppConfigurationsAsAdmin.ts";
+export { getCategoriesAsAdmin } from "./client/admin-configuration-management/getCategoriesAsAdmin.ts";
 export { updateAppConfigurationAsAdmin } from "./client/admin-configuration-management/updateAppConfigurationAsAdmin.ts";
 export { updateByCategoryAndCode } from "./client/admin-configuration-management/updateByCategoryAndCode.ts";
 export { admindiscountcodemanagement } from "./client/admin-discount-code-management/admindiscountcodemanagement.ts";
@@ -309,6 +314,12 @@ export { useGetAppConfigurationsAsAdmin } from "./react-query/admin-configuratio
 export { getAppConfigurationsAsAdminSuspenseQueryKey } from "./react-query/admin-configuration-management/useGetAppConfigurationsAsAdminSuspense.ts";
 export { getAppConfigurationsAsAdminSuspenseQueryOptions } from "./react-query/admin-configuration-management/useGetAppConfigurationsAsAdminSuspense.ts";
 export { useGetAppConfigurationsAsAdminSuspense } from "./react-query/admin-configuration-management/useGetAppConfigurationsAsAdminSuspense.ts";
+export { getCategoriesAsAdminQueryKey } from "./react-query/admin-configuration-management/useGetCategoriesAsAdmin.ts";
+export { getCategoriesAsAdminQueryOptions } from "./react-query/admin-configuration-management/useGetCategoriesAsAdmin.ts";
+export { useGetCategoriesAsAdmin } from "./react-query/admin-configuration-management/useGetCategoriesAsAdmin.ts";
+export { getCategoriesAsAdminSuspenseQueryKey } from "./react-query/admin-configuration-management/useGetCategoriesAsAdminSuspense.ts";
+export { getCategoriesAsAdminSuspenseQueryOptions } from "./react-query/admin-configuration-management/useGetCategoriesAsAdminSuspense.ts";
+export { useGetCategoriesAsAdminSuspense } from "./react-query/admin-configuration-management/useGetCategoriesAsAdminSuspense.ts";
 export { updateAppConfigurationAsAdminMutationKey } from "./react-query/admin-configuration-management/useUpdateAppConfigurationAsAdmin.ts";
 export { updateAppConfigurationAsAdminMutationOptions } from "./react-query/admin-configuration-management/useUpdateAppConfigurationAsAdmin.ts";
 export { useUpdateAppConfigurationAsAdmin } from "./react-query/admin-configuration-management/useUpdateAppConfigurationAsAdmin.ts";
@@ -559,6 +570,7 @@ export { updateCurrentUserPreferencesMutationKey } from "./react-query/user-acco
 export { updateCurrentUserPreferencesMutationOptions } from "./react-query/user-account-management/useUpdateCurrentUserPreferences.ts";
 export { useUpdateCurrentUserPreferences } from "./react-query/user-account-management/useUpdateCurrentUserPreferences.ts";
 export { appConfigurationCategoryEnum } from "./types/AppConfiguration.ts";
+export { appConfigurationCategoryValueEnum } from "./types/AppConfigurationCategory.ts";
 export { appConfigurationCategoryFilterEqualsEnum } from "./types/AppConfigurationCategoryFilter.ts";
 export { appConfigurationCategoryFilterInEnum } from "./types/AppConfigurationCategoryFilter.ts";
 export { appConfigurationCategoryFilterNotEqualsEnum } from "./types/AppConfigurationCategoryFilter.ts";

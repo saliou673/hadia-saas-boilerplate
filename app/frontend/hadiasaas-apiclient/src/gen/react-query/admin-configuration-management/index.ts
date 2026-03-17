@@ -4,6 +4,8 @@ export type { GetAppConfigurationByIdAsAdminQueryKey } from "./useGetAppConfigur
 export type { GetAppConfigurationByIdAsAdminSuspenseQueryKey } from "./useGetAppConfigurationByIdAsAdminSuspense.ts";
 export type { GetAppConfigurationsAsAdminQueryKey } from "./useGetAppConfigurationsAsAdmin.ts";
 export type { GetAppConfigurationsAsAdminSuspenseQueryKey } from "./useGetAppConfigurationsAsAdminSuspense.ts";
+export type { GetCategoriesAsAdminQueryKey } from "./useGetCategoriesAsAdmin.ts";
+export type { GetCategoriesAsAdminSuspenseQueryKey } from "./useGetCategoriesAsAdminSuspense.ts";
 export type { UpdateAppConfigurationAsAdminMutationKey } from "./useUpdateAppConfigurationAsAdmin.ts";
 export type { UpdateByCategoryAndCodeMutationKey } from "./useUpdateByCategoryAndCode.ts";
 export { createAppConfigurationAsAdminMutationKey } from "./useCreateAppConfigurationAsAdmin.ts";
@@ -24,6 +26,12 @@ export { useGetAppConfigurationsAsAdmin } from "./useGetAppConfigurationsAsAdmin
 export { getAppConfigurationsAsAdminSuspenseQueryKey } from "./useGetAppConfigurationsAsAdminSuspense.ts";
 export { getAppConfigurationsAsAdminSuspenseQueryOptions } from "./useGetAppConfigurationsAsAdminSuspense.ts";
 export { useGetAppConfigurationsAsAdminSuspense } from "./useGetAppConfigurationsAsAdminSuspense.ts";
+export { getCategoriesAsAdminQueryKey } from "./useGetCategoriesAsAdmin.ts";
+export { getCategoriesAsAdminQueryOptions } from "./useGetCategoriesAsAdmin.ts";
+export { useGetCategoriesAsAdmin } from "./useGetCategoriesAsAdmin.ts";
+export { getCategoriesAsAdminSuspenseQueryKey } from "./useGetCategoriesAsAdminSuspense.ts";
+export { getCategoriesAsAdminSuspenseQueryOptions } from "./useGetCategoriesAsAdminSuspense.ts";
+export { useGetCategoriesAsAdminSuspense } from "./useGetCategoriesAsAdminSuspense.ts";
 export { updateAppConfigurationAsAdminMutationKey } from "./useUpdateAppConfigurationAsAdmin.ts";
 export { updateAppConfigurationAsAdminMutationOptions } from "./useUpdateAppConfigurationAsAdmin.ts";
 export { useUpdateAppConfigurationAsAdmin } from "./useUpdateAppConfigurationAsAdmin.ts";

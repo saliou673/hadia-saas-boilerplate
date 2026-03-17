@@ -8,6 +8,7 @@ type BaseNavItem = {
     title: string;
     badge?: string;
     icon?: React.ElementType;
+    requiredPermission?: string;
 };
 
 type NavLink = BaseNavItem & {

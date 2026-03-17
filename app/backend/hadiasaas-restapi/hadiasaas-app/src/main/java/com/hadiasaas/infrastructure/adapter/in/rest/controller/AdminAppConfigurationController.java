@@ -6,6 +6,7 @@ import com.hadiasaas.domain.models.appconfiguration.AppConfigurationFilter;
 import com.hadiasaas.domain.models.query.PagedResult;
 import com.hadiasaas.domain.ports.in.AppConfigurationQueryUseCase;
 import com.hadiasaas.domain.ports.in.AppConfigurationUseCase;
+import com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.AppConfigurationCategoryDTO;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.AppConfigurationDTO;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.mapper.AppConfigurationDtoMapper;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.requests.CreateAppConfigurationRequest;
@@ -23,6 +24,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static com.hadiasaas.util.PaginationConstants.DEFAULT_PAGE_SIZE_INT;
 
 /**
@@ -39,6 +43,13 @@ public class AdminAppConfigurationController {
     private final AppConfigurationUseCase appConfigurationUseCase;
     private final AppConfigurationQueryUseCase appConfigurationQueryUseCase;
     private final AppConfigurationDtoMapper appConfigurationDtoMapper;
+
+    @GetMapping("/categories")
+    public List<AppConfigurationCategoryDTO> getCategoriesAsAdmin() {
+        return Arrays.stream(AppConfigurationCategory.values())
+                .map(AppConfigurationCategoryDTO::from)
+                .toList();
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
