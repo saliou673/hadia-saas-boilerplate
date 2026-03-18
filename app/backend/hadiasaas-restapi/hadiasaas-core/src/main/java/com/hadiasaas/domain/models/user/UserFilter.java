@@ -38,6 +38,7 @@ public final class UserFilter extends AuditableFilter implements Serializable {
     private StringFilter phoneNumber;
     private StringFilter address;
     private StringFilter languageKey;
+    private StringFilter roleGroupName;
 
     public UserFilter(UserFilter other) {
         this.id = other.id == null ? null : other.id.copy();
@@ -49,6 +50,7 @@ public final class UserFilter extends AuditableFilter implements Serializable {
         this.phoneNumber = other.phoneNumber == null ? null : other.phoneNumber.copy();
         this.address = other.address == null ? null : other.address.copy();
         this.languageKey = other.languageKey == null ? null : other.languageKey.copy();
+        this.roleGroupName = other.roleGroupName == null ? null : other.roleGroupName.copy();
         this.setCreationDate(other.getCreationDate() == null ? null : other.getCreationDate().copy());
         this.setLastUpdateDate(other.getLastUpdateDate() == null ? null : other.getLastUpdateDate().copy());
         this.setLastUpdatedBy(other.getLastUpdatedBy() == null ? null : other.getLastUpdatedBy().copy());

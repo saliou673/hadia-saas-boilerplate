@@ -1,1 +1,196 @@
-{"type":"object","properties":{"creationDate":{"type":"object","properties":{"equals":{"type":"string","format":"date-time"},"notEquals":{"type":"string","format":"date-time"},"specified":{"type":"boolean"},"in":{"type":"array","items":{"type":"string","format":"date-time"}},"notIn":{"type":"array","items":{"type":"string","format":"date-time"}},"greaterThan":{"type":"string","format":"date-time"},"lessThan":{"type":"string","format":"date-time"},"greaterThanOrEqual":{"type":"string","format":"date-time"},"lessThanOrEqual":{"type":"string","format":"date-time"}},"x-readme-ref-name":"InstantFilter"},"lastUpdateDate":{"type":"object","properties":{"equals":{"type":"string","format":"date-time"},"notEquals":{"type":"string","format":"date-time"},"specified":{"type":"boolean"},"in":{"type":"array","items":{"type":"string","format":"date-time"}},"notIn":{"type":"array","items":{"type":"string","format":"date-time"}},"greaterThan":{"type":"string","format":"date-time"},"lessThan":{"type":"string","format":"date-time"},"greaterThanOrEqual":{"type":"string","format":"date-time"},"lessThanOrEqual":{"type":"string","format":"date-time"}},"x-readme-ref-name":"InstantFilter"},"lastUpdatedBy":{"type":"object","properties":{"equals":{"type":"string"},"notEquals":{"type":"string"},"specified":{"type":"boolean"},"in":{"type":"array","items":{"type":"string"}},"notIn":{"type":"array","items":{"type":"string"}},"contains":{"type":"string"},"doesNotContain":{"type":"string"}},"x-readme-ref-name":"StringFilter"},"id":{"type":"object","properties":{"equals":{"type":"integer","format":"int64"},"notEquals":{"type":"integer","format":"int64"},"specified":{"type":"boolean"},"in":{"type":"array","items":{"type":"integer","format":"int64"}},"notIn":{"type":"array","items":{"type":"integer","format":"int64"}},"greaterThan":{"type":"integer","format":"int64"},"lessThan":{"type":"integer","format":"int64"},"greaterThanOrEqual":{"type":"integer","format":"int64"},"lessThanOrEqual":{"type":"integer","format":"int64"}},"x-readme-ref-name":"LongFilter"},"userId":{"type":"object","properties":{"equals":{"type":"integer","format":"int64"},"notEquals":{"type":"integer","format":"int64"},"specified":{"type":"boolean"},"in":{"type":"array","items":{"type":"integer","format":"int64"}},"notIn":{"type":"array","items":{"type":"integer","format":"int64"}},"greaterThan":{"type":"integer","format":"int64"},"lessThan":{"type":"integer","format":"int64"},"greaterThanOrEqual":{"type":"integer","format":"int64"},"lessThanOrEqual":{"type":"integer","format":"int64"}},"x-readme-ref-name":"LongFilter"},"planId":{"type":"object","properties":{"equals":{"type":"integer","format":"int64"},"notEquals":{"type":"integer","format":"int64"},"specified":{"type":"boolean"},"in":{"type":"array","items":{"type":"integer","format":"int64"}},"notIn":{"type":"array","items":{"type":"integer","format":"int64"}},"greaterThan":{"type":"integer","format":"int64"},"lessThan":{"type":"integer","format":"int64"},"greaterThanOrEqual":{"type":"integer","format":"int64"},"lessThanOrEqual":{"type":"integer","format":"int64"}},"x-readme-ref-name":"LongFilter"},"paymentMode":{"type":"object","properties":{"equals":{"type":"string"},"notEquals":{"type":"string"},"specified":{"type":"boolean"},"in":{"type":"array","items":{"type":"string"}},"notIn":{"type":"array","items":{"type":"string"}},"contains":{"type":"string"},"doesNotContain":{"type":"string"}},"x-readme-ref-name":"StringFilter"},"status":{"type":"object","properties":{"equals":{"type":"string","enum":["PENDING","ACTIVE","EXPIRED","CANCELLED","FAILED"]},"notEquals":{"type":"string","enum":["PENDING","ACTIVE","EXPIRED","CANCELLED","FAILED"]},"specified":{"type":"boolean"},"in":{"type":"array","items":{"type":"string","enum":["PENDING","ACTIVE","EXPIRED","CANCELLED","FAILED"]}},"notIn":{"type":"array","items":{"type":"string","enum":["PENDING","ACTIVE","EXPIRED","CANCELLED","FAILED"]}}},"x-readme-ref-name":"UserSubscriptionStatusFilter"}},"x-readme-ref-name":"UserSubscriptionFilter"}
+{
+    "type": "object",
+    "properties": {
+        "creationDate": {
+            "type": "object",
+            "properties": {
+                "equals": { "type": "string", "format": "date-time" },
+                "notEquals": { "type": "string", "format": "date-time" },
+                "specified": { "type": "boolean" },
+                "in": {
+                    "type": "array",
+                    "items": { "type": "string", "format": "date-time" }
+                },
+                "notIn": {
+                    "type": "array",
+                    "items": { "type": "string", "format": "date-time" }
+                },
+                "greaterThan": { "type": "string", "format": "date-time" },
+                "lessThan": { "type": "string", "format": "date-time" },
+                "greaterThanOrEqual": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "lessThanOrEqual": { "type": "string", "format": "date-time" }
+            },
+            "x-readme-ref-name": "InstantFilter"
+        },
+        "lastUpdateDate": {
+            "type": "object",
+            "properties": {
+                "equals": { "type": "string", "format": "date-time" },
+                "notEquals": { "type": "string", "format": "date-time" },
+                "specified": { "type": "boolean" },
+                "in": {
+                    "type": "array",
+                    "items": { "type": "string", "format": "date-time" }
+                },
+                "notIn": {
+                    "type": "array",
+                    "items": { "type": "string", "format": "date-time" }
+                },
+                "greaterThan": { "type": "string", "format": "date-time" },
+                "lessThan": { "type": "string", "format": "date-time" },
+                "greaterThanOrEqual": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "lessThanOrEqual": { "type": "string", "format": "date-time" }
+            },
+            "x-readme-ref-name": "InstantFilter"
+        },
+        "lastUpdatedBy": {
+            "type": "object",
+            "properties": {
+                "equals": { "type": "string" },
+                "notEquals": { "type": "string" },
+                "specified": { "type": "boolean" },
+                "in": { "type": "array", "items": { "type": "string" } },
+                "notIn": { "type": "array", "items": { "type": "string" } },
+                "contains": { "type": "string" },
+                "doesNotContain": { "type": "string" }
+            },
+            "x-readme-ref-name": "StringFilter"
+        },
+        "id": {
+            "type": "object",
+            "properties": {
+                "equals": { "type": "integer", "format": "int64" },
+                "notEquals": { "type": "integer", "format": "int64" },
+                "specified": { "type": "boolean" },
+                "in": {
+                    "type": "array",
+                    "items": { "type": "integer", "format": "int64" }
+                },
+                "notIn": {
+                    "type": "array",
+                    "items": { "type": "integer", "format": "int64" }
+                },
+                "greaterThan": { "type": "integer", "format": "int64" },
+                "lessThan": { "type": "integer", "format": "int64" },
+                "greaterThanOrEqual": { "type": "integer", "format": "int64" },
+                "lessThanOrEqual": { "type": "integer", "format": "int64" }
+            },
+            "x-readme-ref-name": "LongFilter"
+        },
+        "userId": {
+            "type": "object",
+            "properties": {
+                "equals": { "type": "integer", "format": "int64" },
+                "notEquals": { "type": "integer", "format": "int64" },
+                "specified": { "type": "boolean" },
+                "in": {
+                    "type": "array",
+                    "items": { "type": "integer", "format": "int64" }
+                },
+                "notIn": {
+                    "type": "array",
+                    "items": { "type": "integer", "format": "int64" }
+                },
+                "greaterThan": { "type": "integer", "format": "int64" },
+                "lessThan": { "type": "integer", "format": "int64" },
+                "greaterThanOrEqual": { "type": "integer", "format": "int64" },
+                "lessThanOrEqual": { "type": "integer", "format": "int64" }
+            },
+            "x-readme-ref-name": "LongFilter"
+        },
+        "planId": {
+            "type": "object",
+            "properties": {
+                "equals": { "type": "integer", "format": "int64" },
+                "notEquals": { "type": "integer", "format": "int64" },
+                "specified": { "type": "boolean" },
+                "in": {
+                    "type": "array",
+                    "items": { "type": "integer", "format": "int64" }
+                },
+                "notIn": {
+                    "type": "array",
+                    "items": { "type": "integer", "format": "int64" }
+                },
+                "greaterThan": { "type": "integer", "format": "int64" },
+                "lessThan": { "type": "integer", "format": "int64" },
+                "greaterThanOrEqual": { "type": "integer", "format": "int64" },
+                "lessThanOrEqual": { "type": "integer", "format": "int64" }
+            },
+            "x-readme-ref-name": "LongFilter"
+        },
+        "paymentMode": {
+            "type": "object",
+            "properties": {
+                "equals": { "type": "string" },
+                "notEquals": { "type": "string" },
+                "specified": { "type": "boolean" },
+                "in": { "type": "array", "items": { "type": "string" } },
+                "notIn": { "type": "array", "items": { "type": "string" } },
+                "contains": { "type": "string" },
+                "doesNotContain": { "type": "string" }
+            },
+            "x-readme-ref-name": "StringFilter"
+        },
+        "status": {
+            "type": "object",
+            "properties": {
+                "equals": {
+                    "type": "string",
+                    "enum": [
+                        "PENDING",
+                        "ACTIVE",
+                        "EXPIRED",
+                        "CANCELLED",
+                        "FAILED"
+                    ]
+                },
+                "notEquals": {
+                    "type": "string",
+                    "enum": [
+                        "PENDING",
+                        "ACTIVE",
+                        "EXPIRED",
+                        "CANCELLED",
+                        "FAILED"
+                    ]
+                },
+                "specified": { "type": "boolean" },
+                "in": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "PENDING",
+                            "ACTIVE",
+                            "EXPIRED",
+                            "CANCELLED",
+                            "FAILED"
+                        ]
+                    }
+                },
+                "notIn": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "PENDING",
+                            "ACTIVE",
+                            "EXPIRED",
+                            "CANCELLED",
+                            "FAILED"
+                        ]
+                    }
+                }
+            },
+            "x-readme-ref-name": "UserSubscriptionStatusFilter"
+        }
+    },
+    "x-readme-ref-name": "UserSubscriptionFilter"
+}

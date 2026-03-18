@@ -109,90 +109,600 @@ export type { RequestActivationCodeMutationKey } from "./react-query/user-accoun
 export type { RequestPasswordResetMutationKey } from "./react-query/user-account-management/useRequestPasswordReset.ts";
 export type { UpdateAccountMutationKey } from "./react-query/user-account-management/useUpdateAccount.ts";
 export type { UpdateCurrentUserPreferencesMutationKey } from "./react-query/user-account-management/useUpdateCurrentUserPreferences.ts";
-export type { ActivateAccount200, ActivateAccount403, ActivateAccount404, ActivateAccount409, ActivateAccountQuery, ActivateAccountQueryParams, ActivateAccountQueryResponse } from "./types/ActivateAccount.ts";
-export type { AppConfiguration, AppConfigurationCategoryEnumKey } from "./types/AppConfiguration.ts";
-export type { AppConfigurationCategory, AppConfigurationCategoryValueEnumKey } from "./types/AppConfigurationCategory.ts";
-export type { AppConfigurationCategoryFilter, AppConfigurationCategoryFilterEqualsEnumKey, AppConfigurationCategoryFilterInEnumKey, AppConfigurationCategoryFilterNotEqualsEnumKey, AppConfigurationCategoryFilterNotInEnumKey } from "./types/AppConfigurationCategoryFilter.ts";
+export type {
+    ActivateAccount200,
+    ActivateAccount403,
+    ActivateAccount404,
+    ActivateAccount409,
+    ActivateAccountQuery,
+    ActivateAccountQueryParams,
+    ActivateAccountQueryResponse,
+} from "./types/ActivateAccount.ts";
+export type {
+    AppConfiguration,
+    AppConfigurationCategoryEnumKey,
+} from "./types/AppConfiguration.ts";
+export type {
+    AppConfigurationCategory,
+    AppConfigurationCategoryValueEnumKey,
+} from "./types/AppConfigurationCategory.ts";
+export type {
+    AppConfigurationCategoryFilter,
+    AppConfigurationCategoryFilterEqualsEnumKey,
+    AppConfigurationCategoryFilterInEnumKey,
+    AppConfigurationCategoryFilterNotEqualsEnumKey,
+    AppConfigurationCategoryFilterNotInEnumKey,
+} from "./types/AppConfigurationCategoryFilter.ts";
 export type { AppConfigurationFilter } from "./types/AppConfigurationFilter.ts";
-export type { AppearancePreferences, AppearancePreferencesFontEnumKey, AppearancePreferencesThemeEnumKey } from "./types/AppearancePreferences.ts";
-export type { AssignRoleGroupAsAdmin204, AssignRoleGroupAsAdmin403, AssignRoleGroupAsAdmin404, AssignRoleGroupAsAdmin409, AssignRoleGroupAsAdminMutation, AssignRoleGroupAsAdminMutationRequest, AssignRoleGroupAsAdminMutationResponse, AssignRoleGroupAsAdminPathParams } from "./types/AssignRoleGroupAsAdmin.ts";
+export type {
+    AppearancePreferences,
+    AppearancePreferencesFontEnumKey,
+    AppearancePreferencesThemeEnumKey,
+} from "./types/AppearancePreferences.ts";
+export type {
+    AssignRoleGroupAsAdmin204,
+    AssignRoleGroupAsAdmin403,
+    AssignRoleGroupAsAdmin404,
+    AssignRoleGroupAsAdmin409,
+    AssignRoleGroupAsAdminMutation,
+    AssignRoleGroupAsAdminMutationRequest,
+    AssignRoleGroupAsAdminMutationResponse,
+    AssignRoleGroupAsAdminPathParams,
+} from "./types/AssignRoleGroupAsAdmin.ts";
 export type { AssignRoleGroupRequest } from "./types/AssignRoleGroupRequest.ts";
-export type { Authenticate200, Authenticate403, Authenticate404, Authenticate409, AuthenticateMutation, AuthenticateMutationRequest, AuthenticateMutationResponse } from "./types/Authenticate.ts";
+export type {
+    Authenticate200,
+    Authenticate403,
+    Authenticate404,
+    Authenticate409,
+    AuthenticateMutation,
+    AuthenticateMutationRequest,
+    AuthenticateMutationResponse,
+} from "./types/Authenticate.ts";
 export type { BooleanFilter } from "./types/BooleanFilter.ts";
-export type { CancelSubscription200, CancelSubscription403, CancelSubscription404, CancelSubscription409, CancelSubscriptionMutation, CancelSubscriptionMutationResponse, CancelSubscriptionPathParams } from "./types/CancelSubscription.ts";
-export type { CancelUserSubscriptionAsAdmin200, CancelUserSubscriptionAsAdmin403, CancelUserSubscriptionAsAdmin404, CancelUserSubscriptionAsAdmin409, CancelUserSubscriptionAsAdminMutation, CancelUserSubscriptionAsAdminMutationResponse, CancelUserSubscriptionAsAdminPathParams } from "./types/CancelUserSubscriptionAsAdmin.ts";
-export type { ChangePassword200, ChangePassword403, ChangePassword404, ChangePassword409, ChangePasswordMutation, ChangePasswordMutationRequest, ChangePasswordMutationResponse } from "./types/ChangePassword.ts";
-export type { CheckUserPermissionAsAdmin200, CheckUserPermissionAsAdmin403, CheckUserPermissionAsAdmin404, CheckUserPermissionAsAdmin409, CheckUserPermissionAsAdminPathParams, CheckUserPermissionAsAdminQuery, CheckUserPermissionAsAdminQueryParams, CheckUserPermissionAsAdminQueryResponse } from "./types/CheckUserPermissionAsAdmin.ts";
-export type { CompleteInvitation200, CompleteInvitation403, CompleteInvitation404, CompleteInvitation409, CompleteInvitationMutation, CompleteInvitationMutationRequest, CompleteInvitationMutationResponse } from "./types/CompleteInvitation.ts";
-export type { Confirm2FactorSetup204, Confirm2FactorSetup403, Confirm2FactorSetup404, Confirm2FactorSetup409, Confirm2FactorSetupMutation, Confirm2FactorSetupMutationRequest, Confirm2FactorSetupMutationResponse } from "./types/Confirm2FactorSetup.ts";
+export type {
+    CancelSubscription200,
+    CancelSubscription403,
+    CancelSubscription404,
+    CancelSubscription409,
+    CancelSubscriptionMutation,
+    CancelSubscriptionMutationResponse,
+    CancelSubscriptionPathParams,
+} from "./types/CancelSubscription.ts";
+export type {
+    CancelUserSubscriptionAsAdmin200,
+    CancelUserSubscriptionAsAdmin403,
+    CancelUserSubscriptionAsAdmin404,
+    CancelUserSubscriptionAsAdmin409,
+    CancelUserSubscriptionAsAdminMutation,
+    CancelUserSubscriptionAsAdminMutationResponse,
+    CancelUserSubscriptionAsAdminPathParams,
+} from "./types/CancelUserSubscriptionAsAdmin.ts";
+export type {
+    ChangePassword200,
+    ChangePassword403,
+    ChangePassword404,
+    ChangePassword409,
+    ChangePasswordMutation,
+    ChangePasswordMutationRequest,
+    ChangePasswordMutationResponse,
+} from "./types/ChangePassword.ts";
+export type {
+    CheckUserPermissionAsAdmin200,
+    CheckUserPermissionAsAdmin403,
+    CheckUserPermissionAsAdmin404,
+    CheckUserPermissionAsAdmin409,
+    CheckUserPermissionAsAdminPathParams,
+    CheckUserPermissionAsAdminQuery,
+    CheckUserPermissionAsAdminQueryParams,
+    CheckUserPermissionAsAdminQueryResponse,
+} from "./types/CheckUserPermissionAsAdmin.ts";
+export type {
+    CompleteInvitation200,
+    CompleteInvitation403,
+    CompleteInvitation404,
+    CompleteInvitation409,
+    CompleteInvitationMutation,
+    CompleteInvitationMutationRequest,
+    CompleteInvitationMutationResponse,
+} from "./types/CompleteInvitation.ts";
+export type {
+    Confirm2FactorSetup204,
+    Confirm2FactorSetup403,
+    Confirm2FactorSetup404,
+    Confirm2FactorSetup409,
+    Confirm2FactorSetupMutation,
+    Confirm2FactorSetupMutationRequest,
+    Confirm2FactorSetupMutationResponse,
+} from "./types/Confirm2FactorSetup.ts";
 export type { ContactFormRequest } from "./types/ContactFormRequest.ts";
-export type { CreateAdminUserRequest, CreateAdminUserRequestGenderEnumKey } from "./types/CreateAdminUserRequest.ts";
-export type { CreateAppConfigurationAsAdmin201, CreateAppConfigurationAsAdmin403, CreateAppConfigurationAsAdmin404, CreateAppConfigurationAsAdmin409, CreateAppConfigurationAsAdminMutation, CreateAppConfigurationAsAdminMutationRequest, CreateAppConfigurationAsAdminMutationResponse } from "./types/CreateAppConfigurationAsAdmin.ts";
-export type { CreateAppConfigurationRequest, CreateAppConfigurationRequestCategoryEnumKey } from "./types/CreateAppConfigurationRequest.ts";
-export type { CreateDiscountCodeAsAdmin201, CreateDiscountCodeAsAdmin403, CreateDiscountCodeAsAdmin404, CreateDiscountCodeAsAdmin409, CreateDiscountCodeAsAdminMutation, CreateDiscountCodeAsAdminMutationRequest, CreateDiscountCodeAsAdminMutationResponse } from "./types/CreateDiscountCodeAsAdmin.ts";
-export type { CreateDiscountCodeRequest, CreateDiscountCodeRequestDiscountTypeEnumKey } from "./types/CreateDiscountCodeRequest.ts";
-export type { CreatePublicUserAccount201, CreatePublicUserAccount403, CreatePublicUserAccount404, CreatePublicUserAccount409, CreatePublicUserAccountMutation, CreatePublicUserAccountMutationRequest, CreatePublicUserAccountMutationResponse } from "./types/CreatePublicUserAccount.ts";
-export type { CreateRoleGroupAsAdmin201, CreateRoleGroupAsAdmin403, CreateRoleGroupAsAdmin404, CreateRoleGroupAsAdmin409, CreateRoleGroupAsAdminMutation, CreateRoleGroupAsAdminMutationRequest, CreateRoleGroupAsAdminMutationResponse } from "./types/CreateRoleGroupAsAdmin.ts";
+export type {
+    CreateAdminUserRequest,
+    CreateAdminUserRequestGenderEnumKey,
+} from "./types/CreateAdminUserRequest.ts";
+export type {
+    CreateAppConfigurationAsAdmin201,
+    CreateAppConfigurationAsAdmin403,
+    CreateAppConfigurationAsAdmin404,
+    CreateAppConfigurationAsAdmin409,
+    CreateAppConfigurationAsAdminMutation,
+    CreateAppConfigurationAsAdminMutationRequest,
+    CreateAppConfigurationAsAdminMutationResponse,
+} from "./types/CreateAppConfigurationAsAdmin.ts";
+export type {
+    CreateAppConfigurationRequest,
+    CreateAppConfigurationRequestCategoryEnumKey,
+} from "./types/CreateAppConfigurationRequest.ts";
+export type {
+    CreateDiscountCodeAsAdmin201,
+    CreateDiscountCodeAsAdmin403,
+    CreateDiscountCodeAsAdmin404,
+    CreateDiscountCodeAsAdmin409,
+    CreateDiscountCodeAsAdminMutation,
+    CreateDiscountCodeAsAdminMutationRequest,
+    CreateDiscountCodeAsAdminMutationResponse,
+} from "./types/CreateDiscountCodeAsAdmin.ts";
+export type {
+    CreateDiscountCodeRequest,
+    CreateDiscountCodeRequestDiscountTypeEnumKey,
+} from "./types/CreateDiscountCodeRequest.ts";
+export type {
+    CreatePublicUserAccount201,
+    CreatePublicUserAccount403,
+    CreatePublicUserAccount404,
+    CreatePublicUserAccount409,
+    CreatePublicUserAccountMutation,
+    CreatePublicUserAccountMutationRequest,
+    CreatePublicUserAccountMutationResponse,
+} from "./types/CreatePublicUserAccount.ts";
+export type {
+    CreateRoleGroupAsAdmin201,
+    CreateRoleGroupAsAdmin403,
+    CreateRoleGroupAsAdmin404,
+    CreateRoleGroupAsAdmin409,
+    CreateRoleGroupAsAdminMutation,
+    CreateRoleGroupAsAdminMutationRequest,
+    CreateRoleGroupAsAdminMutationResponse,
+} from "./types/CreateRoleGroupAsAdmin.ts";
 export type { CreateRoleGroupRequest } from "./types/CreateRoleGroupRequest.ts";
-export type { CreateStorageSettingsAsAdmin201, CreateStorageSettingsAsAdmin403, CreateStorageSettingsAsAdmin404, CreateStorageSettingsAsAdmin409, CreateStorageSettingsAsAdminMutation, CreateStorageSettingsAsAdminMutationRequest, CreateStorageSettingsAsAdminMutationResponse } from "./types/CreateStorageSettingsAsAdmin.ts";
-export type { CreateStorageSettingsRequest, CreateStorageSettingsRequestProviderEnumKey } from "./types/CreateStorageSettingsRequest.ts";
-export type { CreateSubscriptionPlanAsAdmin201, CreateSubscriptionPlanAsAdmin403, CreateSubscriptionPlanAsAdmin404, CreateSubscriptionPlanAsAdmin409, CreateSubscriptionPlanAsAdminMutation, CreateSubscriptionPlanAsAdminMutationRequest, CreateSubscriptionPlanAsAdminMutationResponse } from "./types/CreateSubscriptionPlanAsAdmin.ts";
+export type {
+    CreateStorageSettingsAsAdmin201,
+    CreateStorageSettingsAsAdmin403,
+    CreateStorageSettingsAsAdmin404,
+    CreateStorageSettingsAsAdmin409,
+    CreateStorageSettingsAsAdminMutation,
+    CreateStorageSettingsAsAdminMutationRequest,
+    CreateStorageSettingsAsAdminMutationResponse,
+} from "./types/CreateStorageSettingsAsAdmin.ts";
+export type {
+    CreateStorageSettingsRequest,
+    CreateStorageSettingsRequestProviderEnumKey,
+} from "./types/CreateStorageSettingsRequest.ts";
+export type {
+    CreateSubscriptionPlanAsAdmin201,
+    CreateSubscriptionPlanAsAdmin403,
+    CreateSubscriptionPlanAsAdmin404,
+    CreateSubscriptionPlanAsAdmin409,
+    CreateSubscriptionPlanAsAdminMutation,
+    CreateSubscriptionPlanAsAdminMutationRequest,
+    CreateSubscriptionPlanAsAdminMutationResponse,
+} from "./types/CreateSubscriptionPlanAsAdmin.ts";
 export type { CreateSubscriptionPlanRequest } from "./types/CreateSubscriptionPlanRequest.ts";
-export type { CreateTaxConfigurationAsAdmin201, CreateTaxConfigurationAsAdmin403, CreateTaxConfigurationAsAdmin404, CreateTaxConfigurationAsAdmin409, CreateTaxConfigurationAsAdminMutation, CreateTaxConfigurationAsAdminMutationRequest, CreateTaxConfigurationAsAdminMutationResponse } from "./types/CreateTaxConfigurationAsAdmin.ts";
+export type {
+    CreateTaxConfigurationAsAdmin201,
+    CreateTaxConfigurationAsAdmin403,
+    CreateTaxConfigurationAsAdmin404,
+    CreateTaxConfigurationAsAdmin409,
+    CreateTaxConfigurationAsAdminMutation,
+    CreateTaxConfigurationAsAdminMutationRequest,
+    CreateTaxConfigurationAsAdminMutationResponse,
+} from "./types/CreateTaxConfigurationAsAdmin.ts";
 export type { CreateTaxConfigurationRequest } from "./types/CreateTaxConfigurationRequest.ts";
-export type { CreateUserAsAdmin201, CreateUserAsAdmin403, CreateUserAsAdmin404, CreateUserAsAdmin409, CreateUserAsAdminMutation, CreateUserAsAdminMutationRequest, CreateUserAsAdminMutationResponse } from "./types/CreateUserAsAdmin.ts";
-export type { CreateUserRequest, CreateUserRequestGenderEnumKey } from "./types/CreateUserRequest.ts";
-export type { Delete204, Delete403, Delete404, Delete409, DeleteMutation, DeleteMutationResponse, DeletePathParams } from "./types/Delete.ts";
-export type { DeleteCurrentAccount204, DeleteCurrentAccount403, DeleteCurrentAccount404, DeleteCurrentAccount409, DeleteCurrentAccountMutation, DeleteCurrentAccountMutationResponse } from "./types/DeleteCurrentAccount.ts";
-export type { DeleteDiscountCodeAsAdmin204, DeleteDiscountCodeAsAdmin403, DeleteDiscountCodeAsAdmin404, DeleteDiscountCodeAsAdmin409, DeleteDiscountCodeAsAdminMutation, DeleteDiscountCodeAsAdminMutationResponse, DeleteDiscountCodeAsAdminPathParams } from "./types/DeleteDiscountCodeAsAdmin.ts";
-export type { DeleteRoleGroupAsAdmin204, DeleteRoleGroupAsAdmin403, DeleteRoleGroupAsAdmin404, DeleteRoleGroupAsAdmin409, DeleteRoleGroupAsAdminMutation, DeleteRoleGroupAsAdminMutationResponse, DeleteRoleGroupAsAdminPathParams } from "./types/DeleteRoleGroupAsAdmin.ts";
-export type { DeleteStorageSettings204, DeleteStorageSettings403, DeleteStorageSettings404, DeleteStorageSettings409, DeleteStorageSettingsMutation, DeleteStorageSettingsMutationResponse, DeleteStorageSettingsPathParams } from "./types/DeleteStorageSettings.ts";
-export type { DeleteSubscriptionPlanAsAdmin204, DeleteSubscriptionPlanAsAdmin403, DeleteSubscriptionPlanAsAdmin404, DeleteSubscriptionPlanAsAdmin409, DeleteSubscriptionPlanAsAdminMutation, DeleteSubscriptionPlanAsAdminMutationResponse, DeleteSubscriptionPlanAsAdminPathParams } from "./types/DeleteSubscriptionPlanAsAdmin.ts";
-export type { DeleteTaxConfiguration204, DeleteTaxConfiguration403, DeleteTaxConfiguration404, DeleteTaxConfiguration409, DeleteTaxConfigurationMutation, DeleteTaxConfigurationMutationResponse, DeleteTaxConfigurationPathParams } from "./types/DeleteTaxConfiguration.ts";
-export type { DeleteUserAsAdmin204, DeleteUserAsAdmin403, DeleteUserAsAdmin404, DeleteUserAsAdmin409, DeleteUserAsAdminMutation, DeleteUserAsAdminMutationResponse, DeleteUserAsAdminPathParams } from "./types/DeleteUserAsAdmin.ts";
-export type { DeleteUserSubscriptionAsAdmin204, DeleteUserSubscriptionAsAdmin403, DeleteUserSubscriptionAsAdmin404, DeleteUserSubscriptionAsAdmin409, DeleteUserSubscriptionAsAdminMutation, DeleteUserSubscriptionAsAdminMutationResponse, DeleteUserSubscriptionAsAdminPathParams } from "./types/DeleteUserSubscriptionAsAdmin.ts";
-export type { Disable2Factor204, Disable2Factor403, Disable2Factor404, Disable2Factor409, Disable2FactorMutation, Disable2FactorMutationRequest, Disable2FactorMutationResponse } from "./types/Disable2Factor.ts";
-export type { DiscountCodeDTO, DiscountCodeDTODiscountTypeEnumKey } from "./types/DiscountCodeDTO.ts";
+export type {
+    CreateUserAsAdmin201,
+    CreateUserAsAdmin403,
+    CreateUserAsAdmin404,
+    CreateUserAsAdmin409,
+    CreateUserAsAdminMutation,
+    CreateUserAsAdminMutationRequest,
+    CreateUserAsAdminMutationResponse,
+} from "./types/CreateUserAsAdmin.ts";
+export type {
+    CreateUserRequest,
+    CreateUserRequestGenderEnumKey,
+} from "./types/CreateUserRequest.ts";
+export type {
+    Delete204,
+    Delete403,
+    Delete404,
+    Delete409,
+    DeleteMutation,
+    DeleteMutationResponse,
+    DeletePathParams,
+} from "./types/Delete.ts";
+export type {
+    DeleteCurrentAccount204,
+    DeleteCurrentAccount403,
+    DeleteCurrentAccount404,
+    DeleteCurrentAccount409,
+    DeleteCurrentAccountMutation,
+    DeleteCurrentAccountMutationResponse,
+} from "./types/DeleteCurrentAccount.ts";
+export type {
+    DeleteDiscountCodeAsAdmin204,
+    DeleteDiscountCodeAsAdmin403,
+    DeleteDiscountCodeAsAdmin404,
+    DeleteDiscountCodeAsAdmin409,
+    DeleteDiscountCodeAsAdminMutation,
+    DeleteDiscountCodeAsAdminMutationResponse,
+    DeleteDiscountCodeAsAdminPathParams,
+} from "./types/DeleteDiscountCodeAsAdmin.ts";
+export type {
+    DeleteRoleGroupAsAdmin204,
+    DeleteRoleGroupAsAdmin403,
+    DeleteRoleGroupAsAdmin404,
+    DeleteRoleGroupAsAdmin409,
+    DeleteRoleGroupAsAdminMutation,
+    DeleteRoleGroupAsAdminMutationResponse,
+    DeleteRoleGroupAsAdminPathParams,
+} from "./types/DeleteRoleGroupAsAdmin.ts";
+export type {
+    DeleteStorageSettings204,
+    DeleteStorageSettings403,
+    DeleteStorageSettings404,
+    DeleteStorageSettings409,
+    DeleteStorageSettingsMutation,
+    DeleteStorageSettingsMutationResponse,
+    DeleteStorageSettingsPathParams,
+} from "./types/DeleteStorageSettings.ts";
+export type {
+    DeleteSubscriptionPlanAsAdmin204,
+    DeleteSubscriptionPlanAsAdmin403,
+    DeleteSubscriptionPlanAsAdmin404,
+    DeleteSubscriptionPlanAsAdmin409,
+    DeleteSubscriptionPlanAsAdminMutation,
+    DeleteSubscriptionPlanAsAdminMutationResponse,
+    DeleteSubscriptionPlanAsAdminPathParams,
+} from "./types/DeleteSubscriptionPlanAsAdmin.ts";
+export type {
+    DeleteTaxConfiguration204,
+    DeleteTaxConfiguration403,
+    DeleteTaxConfiguration404,
+    DeleteTaxConfiguration409,
+    DeleteTaxConfigurationMutation,
+    DeleteTaxConfigurationMutationResponse,
+    DeleteTaxConfigurationPathParams,
+} from "./types/DeleteTaxConfiguration.ts";
+export type {
+    DeleteUserAsAdmin204,
+    DeleteUserAsAdmin403,
+    DeleteUserAsAdmin404,
+    DeleteUserAsAdmin409,
+    DeleteUserAsAdminMutation,
+    DeleteUserAsAdminMutationResponse,
+    DeleteUserAsAdminPathParams,
+} from "./types/DeleteUserAsAdmin.ts";
+export type {
+    DeleteUserSubscriptionAsAdmin204,
+    DeleteUserSubscriptionAsAdmin403,
+    DeleteUserSubscriptionAsAdmin404,
+    DeleteUserSubscriptionAsAdmin409,
+    DeleteUserSubscriptionAsAdminMutation,
+    DeleteUserSubscriptionAsAdminMutationResponse,
+    DeleteUserSubscriptionAsAdminPathParams,
+} from "./types/DeleteUserSubscriptionAsAdmin.ts";
+export type {
+    Disable2Factor204,
+    Disable2Factor403,
+    Disable2Factor404,
+    Disable2Factor409,
+    Disable2FactorMutation,
+    Disable2FactorMutationRequest,
+    Disable2FactorMutationResponse,
+} from "./types/Disable2Factor.ts";
+export type {
+    DiscountCodeDTO,
+    DiscountCodeDTODiscountTypeEnumKey,
+} from "./types/DiscountCodeDTO.ts";
 export type { DiscountCodeFilter } from "./types/DiscountCodeFilter.ts";
-export type { DiscountCodeStatusResponse, DiscountCodeStatusResponseDiscountTypeEnumKey } from "./types/DiscountCodeStatusResponse.ts";
-export type { DiscountTypeFilter, DiscountTypeFilterEqualsEnumKey, DiscountTypeFilterInEnumKey, DiscountTypeFilterNotEqualsEnumKey, DiscountTypeFilterNotInEnumKey } from "./types/DiscountTypeFilter.ts";
+export type {
+    DiscountCodeStatusResponse,
+    DiscountCodeStatusResponseDiscountTypeEnumKey,
+} from "./types/DiscountCodeStatusResponse.ts";
+export type {
+    DiscountTypeFilter,
+    DiscountTypeFilterEqualsEnumKey,
+    DiscountTypeFilterInEnumKey,
+    DiscountTypeFilterNotEqualsEnumKey,
+    DiscountTypeFilterNotInEnumKey,
+} from "./types/DiscountTypeFilter.ts";
 export type { EnterpriseProfile } from "./types/EnterpriseProfile.ts";
-export type { FinishPasswordReset200, FinishPasswordReset403, FinishPasswordReset404, FinishPasswordReset409, FinishPasswordResetMutation, FinishPasswordResetMutationRequest, FinishPasswordResetMutationResponse } from "./types/FinishPasswordReset.ts";
-export type { GetAppConfigurationByCategoryAndCode200, GetAppConfigurationByCategoryAndCode403, GetAppConfigurationByCategoryAndCode404, GetAppConfigurationByCategoryAndCode409, GetAppConfigurationByCategoryAndCodePathParams, GetAppConfigurationByCategoryAndCodePathParamsCategoryEnumKey, GetAppConfigurationByCategoryAndCodeQuery, GetAppConfigurationByCategoryAndCodeQueryResponse } from "./types/GetAppConfigurationByCategoryAndCode.ts";
-export type { GetAppConfigurationByIdAsAdmin200, GetAppConfigurationByIdAsAdmin403, GetAppConfigurationByIdAsAdmin404, GetAppConfigurationByIdAsAdmin409, GetAppConfigurationByIdAsAdminPathParams, GetAppConfigurationByIdAsAdminQuery, GetAppConfigurationByIdAsAdminQueryResponse } from "./types/GetAppConfigurationByIdAsAdmin.ts";
-export type { GetAppConfigurations200, GetAppConfigurations403, GetAppConfigurations404, GetAppConfigurations409, GetAppConfigurationsQuery, GetAppConfigurationsQueryParams, GetAppConfigurationsQueryResponse } from "./types/GetAppConfigurations.ts";
-export type { GetAppConfigurationsAsAdmin200, GetAppConfigurationsAsAdmin403, GetAppConfigurationsAsAdmin404, GetAppConfigurationsAsAdmin409, GetAppConfigurationsAsAdminQuery, GetAppConfigurationsAsAdminQueryParams, GetAppConfigurationsAsAdminQueryResponse } from "./types/GetAppConfigurationsAsAdmin.ts";
-export type { GetCategoriesAsAdmin200, GetCategoriesAsAdmin403, GetCategoriesAsAdmin404, GetCategoriesAsAdmin409, GetCategoriesAsAdminQuery, GetCategoriesAsAdminQueryResponse } from "./types/GetCategoriesAsAdmin.ts";
-export type { GetCurrentUserPermissions200, GetCurrentUserPermissions403, GetCurrentUserPermissions404, GetCurrentUserPermissions409, GetCurrentUserPermissionsQuery, GetCurrentUserPermissionsQueryResponse } from "./types/GetCurrentUserPermissions.ts";
-export type { GetCurrentUserPreferences200, GetCurrentUserPreferences403, GetCurrentUserPreferences404, GetCurrentUserPreferences409, GetCurrentUserPreferencesQuery, GetCurrentUserPreferencesQueryResponse } from "./types/GetCurrentUserPreferences.ts";
-export type { GetDiscountCodeStatus200, GetDiscountCodeStatus403, GetDiscountCodeStatus404, GetDiscountCodeStatus409, GetDiscountCodeStatusPathParams, GetDiscountCodeStatusQuery, GetDiscountCodeStatusQueryResponse } from "./types/GetDiscountCodeStatus.ts";
-export type { GetDiscountCodesAsAdmin200, GetDiscountCodesAsAdmin403, GetDiscountCodesAsAdmin404, GetDiscountCodesAsAdmin409, GetDiscountCodesAsAdminQuery, GetDiscountCodesAsAdminQueryParams, GetDiscountCodesAsAdminQueryResponse } from "./types/GetDiscountCodesAsAdmin.ts";
-export type { GetDiscountCodesByIdAsAdmin200, GetDiscountCodesByIdAsAdmin403, GetDiscountCodesByIdAsAdmin404, GetDiscountCodesByIdAsAdmin409, GetDiscountCodesByIdAsAdminPathParams, GetDiscountCodesByIdAsAdminQuery, GetDiscountCodesByIdAsAdminQueryResponse } from "./types/GetDiscountCodesByIdAsAdmin.ts";
-export type { GetEnterpriseProfileAsAdmin200, GetEnterpriseProfileAsAdmin403, GetEnterpriseProfileAsAdmin404, GetEnterpriseProfileAsAdmin409, GetEnterpriseProfileAsAdminQuery, GetEnterpriseProfileAsAdminQueryResponse } from "./types/GetEnterpriseProfileAsAdmin.ts";
-export type { GetMySubscriptions200, GetMySubscriptions403, GetMySubscriptions404, GetMySubscriptions409, GetMySubscriptionsQuery, GetMySubscriptionsQueryParams, GetMySubscriptionsQueryResponse } from "./types/GetMySubscriptions.ts";
-export type { GetPermissionsAsAdmin200, GetPermissionsAsAdmin403, GetPermissionsAsAdmin404, GetPermissionsAsAdmin409, GetPermissionsAsAdminQuery, GetPermissionsAsAdminQueryParams, GetPermissionsAsAdminQueryResponse } from "./types/GetPermissionsAsAdmin.ts";
-export type { GetRoleGroupByIdAsAdmin200, GetRoleGroupByIdAsAdmin403, GetRoleGroupByIdAsAdmin404, GetRoleGroupByIdAsAdmin409, GetRoleGroupByIdAsAdminPathParams, GetRoleGroupByIdAsAdminQuery, GetRoleGroupByIdAsAdminQueryResponse } from "./types/GetRoleGroupByIdAsAdmin.ts";
-export type { GetRoleGroupsAsAdmin200, GetRoleGroupsAsAdmin403, GetRoleGroupsAsAdmin404, GetRoleGroupsAsAdmin409, GetRoleGroupsAsAdminQuery, GetRoleGroupsAsAdminQueryParams, GetRoleGroupsAsAdminQueryResponse } from "./types/GetRoleGroupsAsAdmin.ts";
-export type { GetSecuritySettingsAsAdmin200, GetSecuritySettingsAsAdmin403, GetSecuritySettingsAsAdmin404, GetSecuritySettingsAsAdmin409, GetSecuritySettingsAsAdminQuery, GetSecuritySettingsAsAdminQueryResponse } from "./types/GetSecuritySettingsAsAdmin.ts";
-export type { GetStorageSettingsAsAdmin200, GetStorageSettingsAsAdmin403, GetStorageSettingsAsAdmin404, GetStorageSettingsAsAdmin409, GetStorageSettingsAsAdminQuery, GetStorageSettingsAsAdminQueryParams, GetStorageSettingsAsAdminQueryResponse } from "./types/GetStorageSettingsAsAdmin.ts";
-export type { GetStorageSettingsByIdAsAdmin200, GetStorageSettingsByIdAsAdmin403, GetStorageSettingsByIdAsAdmin404, GetStorageSettingsByIdAsAdmin409, GetStorageSettingsByIdAsAdminPathParams, GetStorageSettingsByIdAsAdminQuery, GetStorageSettingsByIdAsAdminQueryResponse } from "./types/GetStorageSettingsByIdAsAdmin.ts";
-export type { GetSubscriptionPlanByIdAsAdmin200, GetSubscriptionPlanByIdAsAdmin403, GetSubscriptionPlanByIdAsAdmin404, GetSubscriptionPlanByIdAsAdmin409, GetSubscriptionPlanByIdAsAdminPathParams, GetSubscriptionPlanByIdAsAdminQuery, GetSubscriptionPlanByIdAsAdminQueryResponse } from "./types/GetSubscriptionPlanByIdAsAdmin.ts";
-export type { GetSubscriptionPlans200, GetSubscriptionPlans403, GetSubscriptionPlans404, GetSubscriptionPlans409, GetSubscriptionPlansQuery, GetSubscriptionPlansQueryParams, GetSubscriptionPlansQueryResponse } from "./types/GetSubscriptionPlans.ts";
-export type { GetSubscriptionPlansAsAdmin200, GetSubscriptionPlansAsAdmin403, GetSubscriptionPlansAsAdmin404, GetSubscriptionPlansAsAdmin409, GetSubscriptionPlansAsAdminQuery, GetSubscriptionPlansAsAdminQueryParams, GetSubscriptionPlansAsAdminQueryResponse } from "./types/GetSubscriptionPlansAsAdmin.ts";
-export type { GetTaxConfigurationByIdAsAdmin200, GetTaxConfigurationByIdAsAdmin403, GetTaxConfigurationByIdAsAdmin404, GetTaxConfigurationByIdAsAdmin409, GetTaxConfigurationByIdAsAdminPathParams, GetTaxConfigurationByIdAsAdminQuery, GetTaxConfigurationByIdAsAdminQueryResponse } from "./types/GetTaxConfigurationByIdAsAdmin.ts";
-export type { GetTaxConfigurationsAsAdmin200, GetTaxConfigurationsAsAdmin403, GetTaxConfigurationsAsAdmin404, GetTaxConfigurationsAsAdmin409, GetTaxConfigurationsAsAdminQuery, GetTaxConfigurationsAsAdminQueryParams, GetTaxConfigurationsAsAdminQueryResponse } from "./types/GetTaxConfigurationsAsAdmin.ts";
-export type { GetUserAsAdmin200, GetUserAsAdmin403, GetUserAsAdmin404, GetUserAsAdmin409, GetUserAsAdminPathParams, GetUserAsAdminQuery, GetUserAsAdminQueryResponse } from "./types/GetUserAsAdmin.ts";
-export type { GetUserDetails200, GetUserDetails403, GetUserDetails404, GetUserDetails409, GetUserDetailsQuery, GetUserDetailsQueryResponse } from "./types/GetUserDetails.ts";
-export type { GetUserPermissionsAsAdmin200, GetUserPermissionsAsAdmin403, GetUserPermissionsAsAdmin404, GetUserPermissionsAsAdmin409, GetUserPermissionsAsAdminPathParams, GetUserPermissionsAsAdminQuery, GetUserPermissionsAsAdminQueryResponse } from "./types/GetUserPermissionsAsAdmin.ts";
-export type { GetUserSubscriptionAsAdmin200, GetUserSubscriptionAsAdmin403, GetUserSubscriptionAsAdmin404, GetUserSubscriptionAsAdmin409, GetUserSubscriptionAsAdminQuery, GetUserSubscriptionAsAdminQueryParams, GetUserSubscriptionAsAdminQueryResponse } from "./types/GetUserSubscriptionAsAdmin.ts";
-export type { GetUserSubscriptionByIdAsAdmin200, GetUserSubscriptionByIdAsAdmin403, GetUserSubscriptionByIdAsAdmin404, GetUserSubscriptionByIdAsAdmin409, GetUserSubscriptionByIdAsAdminPathParams, GetUserSubscriptionByIdAsAdminQuery, GetUserSubscriptionByIdAsAdminQueryResponse } from "./types/GetUserSubscriptionByIdAsAdmin.ts";
-export type { GetUsersAsAdmin200, GetUsersAsAdmin403, GetUsersAsAdmin404, GetUsersAsAdmin409, GetUsersAsAdminQuery, GetUsersAsAdminQueryParams, GetUsersAsAdminQueryResponse } from "./types/GetUsersAsAdmin.ts";
-export type { Init2FactorSetup200, Init2FactorSetup403, Init2FactorSetup404, Init2FactorSetup409, Init2FactorSetupMutation, Init2FactorSetupMutationRequest, Init2FactorSetupMutationResponse } from "./types/Init2FactorSetup.ts";
+export type {
+    FinishPasswordReset200,
+    FinishPasswordReset403,
+    FinishPasswordReset404,
+    FinishPasswordReset409,
+    FinishPasswordResetMutation,
+    FinishPasswordResetMutationRequest,
+    FinishPasswordResetMutationResponse,
+} from "./types/FinishPasswordReset.ts";
+export type {
+    GetAppConfigurationByCategoryAndCode200,
+    GetAppConfigurationByCategoryAndCode403,
+    GetAppConfigurationByCategoryAndCode404,
+    GetAppConfigurationByCategoryAndCode409,
+    GetAppConfigurationByCategoryAndCodePathParams,
+    GetAppConfigurationByCategoryAndCodePathParamsCategoryEnumKey,
+    GetAppConfigurationByCategoryAndCodeQuery,
+    GetAppConfigurationByCategoryAndCodeQueryResponse,
+} from "./types/GetAppConfigurationByCategoryAndCode.ts";
+export type {
+    GetAppConfigurationByIdAsAdmin200,
+    GetAppConfigurationByIdAsAdmin403,
+    GetAppConfigurationByIdAsAdmin404,
+    GetAppConfigurationByIdAsAdmin409,
+    GetAppConfigurationByIdAsAdminPathParams,
+    GetAppConfigurationByIdAsAdminQuery,
+    GetAppConfigurationByIdAsAdminQueryResponse,
+} from "./types/GetAppConfigurationByIdAsAdmin.ts";
+export type {
+    GetAppConfigurations200,
+    GetAppConfigurations403,
+    GetAppConfigurations404,
+    GetAppConfigurations409,
+    GetAppConfigurationsQuery,
+    GetAppConfigurationsQueryParams,
+    GetAppConfigurationsQueryResponse,
+} from "./types/GetAppConfigurations.ts";
+export type {
+    GetAppConfigurationsAsAdmin200,
+    GetAppConfigurationsAsAdmin403,
+    GetAppConfigurationsAsAdmin404,
+    GetAppConfigurationsAsAdmin409,
+    GetAppConfigurationsAsAdminQuery,
+    GetAppConfigurationsAsAdminQueryParams,
+    GetAppConfigurationsAsAdminQueryResponse,
+} from "./types/GetAppConfigurationsAsAdmin.ts";
+export type {
+    GetCategoriesAsAdmin200,
+    GetCategoriesAsAdmin403,
+    GetCategoriesAsAdmin404,
+    GetCategoriesAsAdmin409,
+    GetCategoriesAsAdminQuery,
+    GetCategoriesAsAdminQueryResponse,
+} from "./types/GetCategoriesAsAdmin.ts";
+export type {
+    GetCurrentUserPermissions200,
+    GetCurrentUserPermissions403,
+    GetCurrentUserPermissions404,
+    GetCurrentUserPermissions409,
+    GetCurrentUserPermissionsQuery,
+    GetCurrentUserPermissionsQueryResponse,
+} from "./types/GetCurrentUserPermissions.ts";
+export type {
+    GetCurrentUserPreferences200,
+    GetCurrentUserPreferences403,
+    GetCurrentUserPreferences404,
+    GetCurrentUserPreferences409,
+    GetCurrentUserPreferencesQuery,
+    GetCurrentUserPreferencesQueryResponse,
+} from "./types/GetCurrentUserPreferences.ts";
+export type {
+    GetDiscountCodeStatus200,
+    GetDiscountCodeStatus403,
+    GetDiscountCodeStatus404,
+    GetDiscountCodeStatus409,
+    GetDiscountCodeStatusPathParams,
+    GetDiscountCodeStatusQuery,
+    GetDiscountCodeStatusQueryResponse,
+} from "./types/GetDiscountCodeStatus.ts";
+export type {
+    GetDiscountCodesAsAdmin200,
+    GetDiscountCodesAsAdmin403,
+    GetDiscountCodesAsAdmin404,
+    GetDiscountCodesAsAdmin409,
+    GetDiscountCodesAsAdminQuery,
+    GetDiscountCodesAsAdminQueryParams,
+    GetDiscountCodesAsAdminQueryResponse,
+} from "./types/GetDiscountCodesAsAdmin.ts";
+export type {
+    GetDiscountCodesByIdAsAdmin200,
+    GetDiscountCodesByIdAsAdmin403,
+    GetDiscountCodesByIdAsAdmin404,
+    GetDiscountCodesByIdAsAdmin409,
+    GetDiscountCodesByIdAsAdminPathParams,
+    GetDiscountCodesByIdAsAdminQuery,
+    GetDiscountCodesByIdAsAdminQueryResponse,
+} from "./types/GetDiscountCodesByIdAsAdmin.ts";
+export type {
+    GetEnterpriseProfileAsAdmin200,
+    GetEnterpriseProfileAsAdmin403,
+    GetEnterpriseProfileAsAdmin404,
+    GetEnterpriseProfileAsAdmin409,
+    GetEnterpriseProfileAsAdminQuery,
+    GetEnterpriseProfileAsAdminQueryResponse,
+} from "./types/GetEnterpriseProfileAsAdmin.ts";
+export type {
+    GetMySubscriptions200,
+    GetMySubscriptions403,
+    GetMySubscriptions404,
+    GetMySubscriptions409,
+    GetMySubscriptionsQuery,
+    GetMySubscriptionsQueryParams,
+    GetMySubscriptionsQueryResponse,
+} from "./types/GetMySubscriptions.ts";
+export type {
+    GetPermissionsAsAdmin200,
+    GetPermissionsAsAdmin403,
+    GetPermissionsAsAdmin404,
+    GetPermissionsAsAdmin409,
+    GetPermissionsAsAdminQuery,
+    GetPermissionsAsAdminQueryParams,
+    GetPermissionsAsAdminQueryResponse,
+} from "./types/GetPermissionsAsAdmin.ts";
+export type {
+    GetRoleGroupByIdAsAdmin200,
+    GetRoleGroupByIdAsAdmin403,
+    GetRoleGroupByIdAsAdmin404,
+    GetRoleGroupByIdAsAdmin409,
+    GetRoleGroupByIdAsAdminPathParams,
+    GetRoleGroupByIdAsAdminQuery,
+    GetRoleGroupByIdAsAdminQueryResponse,
+} from "./types/GetRoleGroupByIdAsAdmin.ts";
+export type {
+    GetRoleGroupsAsAdmin200,
+    GetRoleGroupsAsAdmin403,
+    GetRoleGroupsAsAdmin404,
+    GetRoleGroupsAsAdmin409,
+    GetRoleGroupsAsAdminQuery,
+    GetRoleGroupsAsAdminQueryParams,
+    GetRoleGroupsAsAdminQueryResponse,
+} from "./types/GetRoleGroupsAsAdmin.ts";
+export type {
+    GetSecuritySettingsAsAdmin200,
+    GetSecuritySettingsAsAdmin403,
+    GetSecuritySettingsAsAdmin404,
+    GetSecuritySettingsAsAdmin409,
+    GetSecuritySettingsAsAdminQuery,
+    GetSecuritySettingsAsAdminQueryResponse,
+} from "./types/GetSecuritySettingsAsAdmin.ts";
+export type {
+    GetStorageSettingsAsAdmin200,
+    GetStorageSettingsAsAdmin403,
+    GetStorageSettingsAsAdmin404,
+    GetStorageSettingsAsAdmin409,
+    GetStorageSettingsAsAdminQuery,
+    GetStorageSettingsAsAdminQueryParams,
+    GetStorageSettingsAsAdminQueryResponse,
+} from "./types/GetStorageSettingsAsAdmin.ts";
+export type {
+    GetStorageSettingsByIdAsAdmin200,
+    GetStorageSettingsByIdAsAdmin403,
+    GetStorageSettingsByIdAsAdmin404,
+    GetStorageSettingsByIdAsAdmin409,
+    GetStorageSettingsByIdAsAdminPathParams,
+    GetStorageSettingsByIdAsAdminQuery,
+    GetStorageSettingsByIdAsAdminQueryResponse,
+} from "./types/GetStorageSettingsByIdAsAdmin.ts";
+export type {
+    GetSubscriptionPlanByIdAsAdmin200,
+    GetSubscriptionPlanByIdAsAdmin403,
+    GetSubscriptionPlanByIdAsAdmin404,
+    GetSubscriptionPlanByIdAsAdmin409,
+    GetSubscriptionPlanByIdAsAdminPathParams,
+    GetSubscriptionPlanByIdAsAdminQuery,
+    GetSubscriptionPlanByIdAsAdminQueryResponse,
+} from "./types/GetSubscriptionPlanByIdAsAdmin.ts";
+export type {
+    GetSubscriptionPlans200,
+    GetSubscriptionPlans403,
+    GetSubscriptionPlans404,
+    GetSubscriptionPlans409,
+    GetSubscriptionPlansQuery,
+    GetSubscriptionPlansQueryParams,
+    GetSubscriptionPlansQueryResponse,
+} from "./types/GetSubscriptionPlans.ts";
+export type {
+    GetSubscriptionPlansAsAdmin200,
+    GetSubscriptionPlansAsAdmin403,
+    GetSubscriptionPlansAsAdmin404,
+    GetSubscriptionPlansAsAdmin409,
+    GetSubscriptionPlansAsAdminQuery,
+    GetSubscriptionPlansAsAdminQueryParams,
+    GetSubscriptionPlansAsAdminQueryResponse,
+} from "./types/GetSubscriptionPlansAsAdmin.ts";
+export type {
+    GetTaxConfigurationByIdAsAdmin200,
+    GetTaxConfigurationByIdAsAdmin403,
+    GetTaxConfigurationByIdAsAdmin404,
+    GetTaxConfigurationByIdAsAdmin409,
+    GetTaxConfigurationByIdAsAdminPathParams,
+    GetTaxConfigurationByIdAsAdminQuery,
+    GetTaxConfigurationByIdAsAdminQueryResponse,
+} from "./types/GetTaxConfigurationByIdAsAdmin.ts";
+export type {
+    GetTaxConfigurationsAsAdmin200,
+    GetTaxConfigurationsAsAdmin403,
+    GetTaxConfigurationsAsAdmin404,
+    GetTaxConfigurationsAsAdmin409,
+    GetTaxConfigurationsAsAdminQuery,
+    GetTaxConfigurationsAsAdminQueryParams,
+    GetTaxConfigurationsAsAdminQueryResponse,
+} from "./types/GetTaxConfigurationsAsAdmin.ts";
+export type {
+    GetUserAsAdmin200,
+    GetUserAsAdmin403,
+    GetUserAsAdmin404,
+    GetUserAsAdmin409,
+    GetUserAsAdminPathParams,
+    GetUserAsAdminQuery,
+    GetUserAsAdminQueryResponse,
+} from "./types/GetUserAsAdmin.ts";
+export type {
+    GetUserDetails200,
+    GetUserDetails403,
+    GetUserDetails404,
+    GetUserDetails409,
+    GetUserDetailsQuery,
+    GetUserDetailsQueryResponse,
+} from "./types/GetUserDetails.ts";
+export type {
+    GetUserPermissionsAsAdmin200,
+    GetUserPermissionsAsAdmin403,
+    GetUserPermissionsAsAdmin404,
+    GetUserPermissionsAsAdmin409,
+    GetUserPermissionsAsAdminPathParams,
+    GetUserPermissionsAsAdminQuery,
+    GetUserPermissionsAsAdminQueryResponse,
+} from "./types/GetUserPermissionsAsAdmin.ts";
+export type {
+    GetUserSubscriptionAsAdmin200,
+    GetUserSubscriptionAsAdmin403,
+    GetUserSubscriptionAsAdmin404,
+    GetUserSubscriptionAsAdmin409,
+    GetUserSubscriptionAsAdminQuery,
+    GetUserSubscriptionAsAdminQueryParams,
+    GetUserSubscriptionAsAdminQueryResponse,
+} from "./types/GetUserSubscriptionAsAdmin.ts";
+export type {
+    GetUserSubscriptionByIdAsAdmin200,
+    GetUserSubscriptionByIdAsAdmin403,
+    GetUserSubscriptionByIdAsAdmin404,
+    GetUserSubscriptionByIdAsAdmin409,
+    GetUserSubscriptionByIdAsAdminPathParams,
+    GetUserSubscriptionByIdAsAdminQuery,
+    GetUserSubscriptionByIdAsAdminQueryResponse,
+} from "./types/GetUserSubscriptionByIdAsAdmin.ts";
+export type {
+    GetUsersAsAdmin200,
+    GetUsersAsAdmin403,
+    GetUsersAsAdmin404,
+    GetUsersAsAdmin409,
+    GetUsersAsAdminQuery,
+    GetUsersAsAdminQueryParams,
+    GetUsersAsAdminQueryResponse,
+} from "./types/GetUsersAsAdmin.ts";
+export type {
+    Init2FactorSetup200,
+    Init2FactorSetup403,
+    Init2FactorSetup404,
+    Init2FactorSetup409,
+    Init2FactorSetupMutation,
+    Init2FactorSetupMutationRequest,
+    Init2FactorSetupMutationResponse,
+} from "./types/Init2FactorSetup.ts";
 export type { InstantFilter } from "./types/InstantFilter.ts";
 export type { InvitationCompleteRequest } from "./types/InvitationCompleteRequest.ts";
 export type { JwtToken } from "./types/JwtToken.ts";
 export type { LoginRequest } from "./types/LoginRequest.ts";
-export type { Logout204, Logout403, Logout404, Logout409, LogoutMutation, LogoutMutationResponse } from "./types/Logout.ts";
+export type {
+    Logout204,
+    Logout403,
+    Logout404,
+    Logout409,
+    LogoutMutation,
+    LogoutMutationResponse,
+} from "./types/Logout.ts";
 export type { LongFilter } from "./types/LongFilter.ts";
 export type { Pageable } from "./types/Pageable.ts";
 export type { PaginatedResultAppConfiguration } from "./types/PaginatedResultAppConfiguration.ts";
@@ -208,22 +718,98 @@ export type { PasswordChangeRequest } from "./types/PasswordChangeRequest.ts";
 export type { PasswordResetRequest } from "./types/PasswordResetRequest.ts";
 export type { Permission } from "./types/Permission.ts";
 export type { PermissionCheckResponse } from "./types/PermissionCheckResponse.ts";
-export type { RecoverAccount200, RecoverAccount403, RecoverAccount404, RecoverAccount409, RecoverAccountMutation, RecoverAccountMutationRequest, RecoverAccountMutationResponse } from "./types/RecoverAccount.ts";
+export type {
+    RecoverAccount200,
+    RecoverAccount403,
+    RecoverAccount404,
+    RecoverAccount409,
+    RecoverAccountMutation,
+    RecoverAccountMutationRequest,
+    RecoverAccountMutationResponse,
+} from "./types/RecoverAccount.ts";
 export type { RecoverAccountRequest } from "./types/RecoverAccountRequest.ts";
-export type { RefreshToken200, RefreshToken403, RefreshToken404, RefreshToken409, RefreshTokenMutation, RefreshTokenMutationRequest, RefreshTokenMutationResponse } from "./types/RefreshToken.ts";
-export type { RenewSubscription201, RenewSubscription403, RenewSubscription404, RenewSubscription409, RenewSubscriptionMutation, RenewSubscriptionMutationResponse, RenewSubscriptionPathParams } from "./types/RenewSubscription.ts";
-export type { RequestActivationCode200, RequestActivationCode403, RequestActivationCode404, RequestActivationCode409, RequestActivationCodeMutation, RequestActivationCodeMutationRequest, RequestActivationCodeMutationResponse } from "./types/RequestActivationCode.ts";
-export type { RequestPasswordReset200, RequestPasswordReset403, RequestPasswordReset404, RequestPasswordReset409, RequestPasswordResetMutation, RequestPasswordResetMutationRequest, RequestPasswordResetMutationResponse } from "./types/RequestPasswordReset.ts";
-export type { RevokeRoleGroupAsAdmin204, RevokeRoleGroupAsAdmin403, RevokeRoleGroupAsAdmin404, RevokeRoleGroupAsAdmin409, RevokeRoleGroupAsAdminMutation, RevokeRoleGroupAsAdminMutationResponse, RevokeRoleGroupAsAdminPathParams } from "./types/RevokeRoleGroupAsAdmin.ts";
+export type {
+    RefreshToken200,
+    RefreshToken403,
+    RefreshToken404,
+    RefreshToken409,
+    RefreshTokenMutation,
+    RefreshTokenMutationRequest,
+    RefreshTokenMutationResponse,
+} from "./types/RefreshToken.ts";
+export type {
+    RenewSubscription201,
+    RenewSubscription403,
+    RenewSubscription404,
+    RenewSubscription409,
+    RenewSubscriptionMutation,
+    RenewSubscriptionMutationResponse,
+    RenewSubscriptionPathParams,
+} from "./types/RenewSubscription.ts";
+export type {
+    RequestActivationCode200,
+    RequestActivationCode403,
+    RequestActivationCode404,
+    RequestActivationCode409,
+    RequestActivationCodeMutation,
+    RequestActivationCodeMutationRequest,
+    RequestActivationCodeMutationResponse,
+} from "./types/RequestActivationCode.ts";
+export type {
+    RequestPasswordReset200,
+    RequestPasswordReset403,
+    RequestPasswordReset404,
+    RequestPasswordReset409,
+    RequestPasswordResetMutation,
+    RequestPasswordResetMutationRequest,
+    RequestPasswordResetMutationResponse,
+} from "./types/RequestPasswordReset.ts";
+export type {
+    RevokeRoleGroupAsAdmin204,
+    RevokeRoleGroupAsAdmin403,
+    RevokeRoleGroupAsAdmin404,
+    RevokeRoleGroupAsAdmin409,
+    RevokeRoleGroupAsAdminMutation,
+    RevokeRoleGroupAsAdminMutationResponse,
+    RevokeRoleGroupAsAdminPathParams,
+} from "./types/RevokeRoleGroupAsAdmin.ts";
 export type { RoleGroup } from "./types/RoleGroup.ts";
 export type { SecuritySettings } from "./types/SecuritySettings.ts";
-export type { SendContactForm204, SendContactForm403, SendContactForm404, SendContactForm409, SendContactFormMutation, SendContactFormMutationRequest, SendContactFormMutationResponse } from "./types/SendContactForm.ts";
-export type { StorageProviderFilter, StorageProviderFilterEqualsEnumKey, StorageProviderFilterInEnumKey, StorageProviderFilterNotEqualsEnumKey, StorageProviderFilterNotInEnumKey } from "./types/StorageProviderFilter.ts";
-export type { StorageSettings, StorageSettingsProviderEnumKey } from "./types/StorageSettings.ts";
+export type {
+    SendContactForm204,
+    SendContactForm403,
+    SendContactForm404,
+    SendContactForm409,
+    SendContactFormMutation,
+    SendContactFormMutationRequest,
+    SendContactFormMutationResponse,
+} from "./types/SendContactForm.ts";
+export type {
+    StorageProviderFilter,
+    StorageProviderFilterEqualsEnumKey,
+    StorageProviderFilterInEnumKey,
+    StorageProviderFilterNotEqualsEnumKey,
+    StorageProviderFilterNotInEnumKey,
+} from "./types/StorageProviderFilter.ts";
+export type {
+    StorageSettings,
+    StorageSettingsProviderEnumKey,
+} from "./types/StorageSettings.ts";
 export type { StorageSettingsFilter } from "./types/StorageSettingsFilter.ts";
 export type { StringFilter } from "./types/StringFilter.ts";
-export type { SubscribeRequest, SubscribeRequestBillingFrequencyEnumKey } from "./types/SubscribeRequest.ts";
-export type { SubscribeToPlan201, SubscribeToPlan403, SubscribeToPlan404, SubscribeToPlan409, SubscribeToPlanMutation, SubscribeToPlanMutationRequest, SubscribeToPlanMutationResponse } from "./types/SubscribeToPlan.ts";
+export type {
+    SubscribeRequest,
+    SubscribeRequestBillingFrequencyEnumKey,
+} from "./types/SubscribeRequest.ts";
+export type {
+    SubscribeToPlan201,
+    SubscribeToPlan403,
+    SubscribeToPlan404,
+    SubscribeToPlan409,
+    SubscribeToPlanMutation,
+    SubscribeToPlanMutationRequest,
+    SubscribeToPlanMutationResponse,
+} from "./types/SubscribeToPlan.ts";
 export type { SubscriptionPlan } from "./types/SubscriptionPlan.ts";
 export type { SubscriptionPlanFilter } from "./types/SubscriptionPlanFilter.ts";
 export type { TaxConfiguration } from "./types/TaxConfiguration.ts";
@@ -231,39 +817,194 @@ export type { TaxConfigurationFilter } from "./types/TaxConfigurationFilter.ts";
 export type { TwoFactorDisableRequest } from "./types/TwoFactorDisableRequest.ts";
 export type { TwoFactorLoginVerifyRequest } from "./types/TwoFactorLoginVerifyRequest.ts";
 export type { TwoFactorSetupConfirmRequest } from "./types/TwoFactorSetupConfirmRequest.ts";
-export type { TwoFactorSetupRequest, TwoFactorSetupRequestTypeEnumKey } from "./types/TwoFactorSetupRequest.ts";
-export type { UpdateAccount200, UpdateAccount403, UpdateAccount404, UpdateAccount409, UpdateAccountMutation, UpdateAccountMutationRequest, UpdateAccountMutationResponse } from "./types/UpdateAccount.ts";
-export type { UpdateAppConfigurationAsAdmin200, UpdateAppConfigurationAsAdmin403, UpdateAppConfigurationAsAdmin404, UpdateAppConfigurationAsAdmin409, UpdateAppConfigurationAsAdminMutation, UpdateAppConfigurationAsAdminMutationRequest, UpdateAppConfigurationAsAdminMutationResponse, UpdateAppConfigurationAsAdminPathParams } from "./types/UpdateAppConfigurationAsAdmin.ts";
+export type {
+    TwoFactorSetupRequest,
+    TwoFactorSetupRequestTypeEnumKey,
+} from "./types/TwoFactorSetupRequest.ts";
+export type {
+    UpdateAccount200,
+    UpdateAccount403,
+    UpdateAccount404,
+    UpdateAccount409,
+    UpdateAccountMutation,
+    UpdateAccountMutationRequest,
+    UpdateAccountMutationResponse,
+} from "./types/UpdateAccount.ts";
+export type {
+    UpdateAppConfigurationAsAdmin200,
+    UpdateAppConfigurationAsAdmin403,
+    UpdateAppConfigurationAsAdmin404,
+    UpdateAppConfigurationAsAdmin409,
+    UpdateAppConfigurationAsAdminMutation,
+    UpdateAppConfigurationAsAdminMutationRequest,
+    UpdateAppConfigurationAsAdminMutationResponse,
+    UpdateAppConfigurationAsAdminPathParams,
+} from "./types/UpdateAppConfigurationAsAdmin.ts";
 export type { UpdateAppConfigurationRequest } from "./types/UpdateAppConfigurationRequest.ts";
-export type { UpdateByCategoryAndCode200, UpdateByCategoryAndCode403, UpdateByCategoryAndCode404, UpdateByCategoryAndCode409, UpdateByCategoryAndCodeMutation, UpdateByCategoryAndCodeMutationRequest, UpdateByCategoryAndCodeMutationResponse, UpdateByCategoryAndCodePathParams, UpdateByCategoryAndCodePathParamsCategoryEnumKey } from "./types/UpdateByCategoryAndCode.ts";
-export type { UpdateCurrentUserPreferences200, UpdateCurrentUserPreferences403, UpdateCurrentUserPreferences404, UpdateCurrentUserPreferences409, UpdateCurrentUserPreferencesMutation, UpdateCurrentUserPreferencesMutationRequest, UpdateCurrentUserPreferencesMutationResponse } from "./types/UpdateCurrentUserPreferences.ts";
-export type { UpdateDiscountCodeAsAdmin200, UpdateDiscountCodeAsAdmin403, UpdateDiscountCodeAsAdmin404, UpdateDiscountCodeAsAdmin409, UpdateDiscountCodeAsAdminMutation, UpdateDiscountCodeAsAdminMutationRequest, UpdateDiscountCodeAsAdminMutationResponse, UpdateDiscountCodeAsAdminPathParams } from "./types/UpdateDiscountCodeAsAdmin.ts";
-export type { UpdateDiscountCodeRequest, UpdateDiscountCodeRequestDiscountTypeEnumKey } from "./types/UpdateDiscountCodeRequest.ts";
-export type { UpdateRoleGroupAsAdmin200, UpdateRoleGroupAsAdmin403, UpdateRoleGroupAsAdmin404, UpdateRoleGroupAsAdmin409, UpdateRoleGroupAsAdminMutation, UpdateRoleGroupAsAdminMutationRequest, UpdateRoleGroupAsAdminMutationResponse, UpdateRoleGroupAsAdminPathParams } from "./types/UpdateRoleGroupAsAdmin.ts";
+export type {
+    UpdateByCategoryAndCode200,
+    UpdateByCategoryAndCode403,
+    UpdateByCategoryAndCode404,
+    UpdateByCategoryAndCode409,
+    UpdateByCategoryAndCodeMutation,
+    UpdateByCategoryAndCodeMutationRequest,
+    UpdateByCategoryAndCodeMutationResponse,
+    UpdateByCategoryAndCodePathParams,
+    UpdateByCategoryAndCodePathParamsCategoryEnumKey,
+} from "./types/UpdateByCategoryAndCode.ts";
+export type {
+    UpdateCurrentUserPreferences200,
+    UpdateCurrentUserPreferences403,
+    UpdateCurrentUserPreferences404,
+    UpdateCurrentUserPreferences409,
+    UpdateCurrentUserPreferencesMutation,
+    UpdateCurrentUserPreferencesMutationRequest,
+    UpdateCurrentUserPreferencesMutationResponse,
+} from "./types/UpdateCurrentUserPreferences.ts";
+export type {
+    UpdateDiscountCodeAsAdmin200,
+    UpdateDiscountCodeAsAdmin403,
+    UpdateDiscountCodeAsAdmin404,
+    UpdateDiscountCodeAsAdmin409,
+    UpdateDiscountCodeAsAdminMutation,
+    UpdateDiscountCodeAsAdminMutationRequest,
+    UpdateDiscountCodeAsAdminMutationResponse,
+    UpdateDiscountCodeAsAdminPathParams,
+} from "./types/UpdateDiscountCodeAsAdmin.ts";
+export type {
+    UpdateDiscountCodeRequest,
+    UpdateDiscountCodeRequestDiscountTypeEnumKey,
+} from "./types/UpdateDiscountCodeRequest.ts";
+export type {
+    UpdateRoleGroupAsAdmin200,
+    UpdateRoleGroupAsAdmin403,
+    UpdateRoleGroupAsAdmin404,
+    UpdateRoleGroupAsAdmin409,
+    UpdateRoleGroupAsAdminMutation,
+    UpdateRoleGroupAsAdminMutationRequest,
+    UpdateRoleGroupAsAdminMutationResponse,
+    UpdateRoleGroupAsAdminPathParams,
+} from "./types/UpdateRoleGroupAsAdmin.ts";
 export type { UpdateRoleGroupRequest } from "./types/UpdateRoleGroupRequest.ts";
-export type { UpdateStorageSettingsAsAdmin200, UpdateStorageSettingsAsAdmin403, UpdateStorageSettingsAsAdmin404, UpdateStorageSettingsAsAdmin409, UpdateStorageSettingsAsAdminMutation, UpdateStorageSettingsAsAdminMutationRequest, UpdateStorageSettingsAsAdminMutationResponse, UpdateStorageSettingsAsAdminPathParams } from "./types/UpdateStorageSettingsAsAdmin.ts";
-export type { UpdateStorageSettingsRequest, UpdateStorageSettingsRequestProviderEnumKey } from "./types/UpdateStorageSettingsRequest.ts";
-export type { UpdateSubscriptionPlanAsAdmin200, UpdateSubscriptionPlanAsAdmin403, UpdateSubscriptionPlanAsAdmin404, UpdateSubscriptionPlanAsAdmin409, UpdateSubscriptionPlanAsAdminMutation, UpdateSubscriptionPlanAsAdminMutationRequest, UpdateSubscriptionPlanAsAdminMutationResponse, UpdateSubscriptionPlanAsAdminPathParams } from "./types/UpdateSubscriptionPlanAsAdmin.ts";
+export type {
+    UpdateStorageSettingsAsAdmin200,
+    UpdateStorageSettingsAsAdmin403,
+    UpdateStorageSettingsAsAdmin404,
+    UpdateStorageSettingsAsAdmin409,
+    UpdateStorageSettingsAsAdminMutation,
+    UpdateStorageSettingsAsAdminMutationRequest,
+    UpdateStorageSettingsAsAdminMutationResponse,
+    UpdateStorageSettingsAsAdminPathParams,
+} from "./types/UpdateStorageSettingsAsAdmin.ts";
+export type {
+    UpdateStorageSettingsRequest,
+    UpdateStorageSettingsRequestProviderEnumKey,
+} from "./types/UpdateStorageSettingsRequest.ts";
+export type {
+    UpdateSubscriptionPlanAsAdmin200,
+    UpdateSubscriptionPlanAsAdmin403,
+    UpdateSubscriptionPlanAsAdmin404,
+    UpdateSubscriptionPlanAsAdmin409,
+    UpdateSubscriptionPlanAsAdminMutation,
+    UpdateSubscriptionPlanAsAdminMutationRequest,
+    UpdateSubscriptionPlanAsAdminMutationResponse,
+    UpdateSubscriptionPlanAsAdminPathParams,
+} from "./types/UpdateSubscriptionPlanAsAdmin.ts";
 export type { UpdateSubscriptionPlanRequest } from "./types/UpdateSubscriptionPlanRequest.ts";
-export type { UpdateTaxConfigurationAsAdmin200, UpdateTaxConfigurationAsAdmin403, UpdateTaxConfigurationAsAdmin404, UpdateTaxConfigurationAsAdmin409, UpdateTaxConfigurationAsAdminMutation, UpdateTaxConfigurationAsAdminMutationRequest, UpdateTaxConfigurationAsAdminMutationResponse, UpdateTaxConfigurationAsAdminPathParams } from "./types/UpdateTaxConfigurationAsAdmin.ts";
+export type {
+    UpdateTaxConfigurationAsAdmin200,
+    UpdateTaxConfigurationAsAdmin403,
+    UpdateTaxConfigurationAsAdmin404,
+    UpdateTaxConfigurationAsAdmin409,
+    UpdateTaxConfigurationAsAdminMutation,
+    UpdateTaxConfigurationAsAdminMutationRequest,
+    UpdateTaxConfigurationAsAdminMutationResponse,
+    UpdateTaxConfigurationAsAdminPathParams,
+} from "./types/UpdateTaxConfigurationAsAdmin.ts";
 export type { UpdateTaxConfigurationRequest } from "./types/UpdateTaxConfigurationRequest.ts";
-export type { UpdateUserAsAdmin200, UpdateUserAsAdmin403, UpdateUserAsAdmin404, UpdateUserAsAdmin409, UpdateUserAsAdminMutation, UpdateUserAsAdminMutationRequest, UpdateUserAsAdminMutationResponse, UpdateUserAsAdminPathParams } from "./types/UpdateUserAsAdmin.ts";
-export type { UpdateUserRequest, UpdateUserRequestGenderEnumKey } from "./types/UpdateUserRequest.ts";
-export type { UpsertEnterpriseProfileAsAdmin200, UpsertEnterpriseProfileAsAdmin403, UpsertEnterpriseProfileAsAdmin404, UpsertEnterpriseProfileAsAdmin409, UpsertEnterpriseProfileAsAdminMutation, UpsertEnterpriseProfileAsAdminMutationRequest, UpsertEnterpriseProfileAsAdminMutationResponse } from "./types/UpsertEnterpriseProfileAsAdmin.ts";
+export type {
+    UpdateUserAsAdmin200,
+    UpdateUserAsAdmin403,
+    UpdateUserAsAdmin404,
+    UpdateUserAsAdmin409,
+    UpdateUserAsAdminMutation,
+    UpdateUserAsAdminMutationRequest,
+    UpdateUserAsAdminMutationResponse,
+    UpdateUserAsAdminPathParams,
+} from "./types/UpdateUserAsAdmin.ts";
+export type {
+    UpdateUserRequest,
+    UpdateUserRequestGenderEnumKey,
+} from "./types/UpdateUserRequest.ts";
+export type {
+    UpsertEnterpriseProfileAsAdmin200,
+    UpsertEnterpriseProfileAsAdmin403,
+    UpsertEnterpriseProfileAsAdmin404,
+    UpsertEnterpriseProfileAsAdmin409,
+    UpsertEnterpriseProfileAsAdminMutation,
+    UpsertEnterpriseProfileAsAdminMutationRequest,
+    UpsertEnterpriseProfileAsAdminMutationResponse,
+} from "./types/UpsertEnterpriseProfileAsAdmin.ts";
 export type { UpsertEnterpriseProfileRequest } from "./types/UpsertEnterpriseProfileRequest.ts";
-export type { UpsertSecuritySettingsAsAdmin200, UpsertSecuritySettingsAsAdmin403, UpsertSecuritySettingsAsAdmin404, UpsertSecuritySettingsAsAdmin409, UpsertSecuritySettingsAsAdminMutation, UpsertSecuritySettingsAsAdminMutationRequest, UpsertSecuritySettingsAsAdminMutationResponse } from "./types/UpsertSecuritySettingsAsAdmin.ts";
+export type {
+    UpsertSecuritySettingsAsAdmin200,
+    UpsertSecuritySettingsAsAdmin403,
+    UpsertSecuritySettingsAsAdmin404,
+    UpsertSecuritySettingsAsAdmin409,
+    UpsertSecuritySettingsAsAdminMutation,
+    UpsertSecuritySettingsAsAdminMutationRequest,
+    UpsertSecuritySettingsAsAdminMutationResponse,
+} from "./types/UpsertSecuritySettingsAsAdmin.ts";
 export type { UpsertSecuritySettingsRequest } from "./types/UpsertSecuritySettingsRequest.ts";
-export type { UserDetails, UserDetailsGenderEnumKey, UserDetailsStatusEnumKey } from "./types/UserDetails.ts";
+export type {
+    UserDetails,
+    UserDetailsGenderEnumKey,
+    UserDetailsStatusEnumKey,
+} from "./types/UserDetails.ts";
 export type { UserFilter } from "./types/UserFilter.ts";
-export type { UserGenderFilter, UserGenderFilterEqualsEnumKey, UserGenderFilterInEnumKey, UserGenderFilterNotEqualsEnumKey, UserGenderFilterNotInEnumKey } from "./types/UserGenderFilter.ts";
+export type {
+    UserGenderFilter,
+    UserGenderFilterEqualsEnumKey,
+    UserGenderFilterInEnumKey,
+    UserGenderFilterNotEqualsEnumKey,
+    UserGenderFilterNotInEnumKey,
+} from "./types/UserGenderFilter.ts";
 export type { UserPreferences } from "./types/UserPreferences.ts";
-export type { UserStatusFilter, UserStatusFilterEqualsEnumKey, UserStatusFilterInEnumKey, UserStatusFilterNotEqualsEnumKey, UserStatusFilterNotInEnumKey } from "./types/UserStatusFilter.ts";
-export type { UserSubscription, UserSubscriptionBillingFrequencyEnumKey, UserSubscriptionStatusEnumKey } from "./types/UserSubscription.ts";
+export type {
+    UserStatusFilter,
+    UserStatusFilterEqualsEnumKey,
+    UserStatusFilterInEnumKey,
+    UserStatusFilterNotEqualsEnumKey,
+    UserStatusFilterNotInEnumKey,
+} from "./types/UserStatusFilter.ts";
+export type {
+    UserSubscription,
+    UserSubscriptionBillingFrequencyEnumKey,
+    UserSubscriptionStatusEnumKey,
+} from "./types/UserSubscription.ts";
 export type { UserSubscriptionFilter } from "./types/UserSubscriptionFilter.ts";
-export type { UserSubscriptionStatusFilter, UserSubscriptionStatusFilterEqualsEnumKey, UserSubscriptionStatusFilterInEnumKey, UserSubscriptionStatusFilterNotEqualsEnumKey, UserSubscriptionStatusFilterNotInEnumKey } from "./types/UserSubscriptionStatusFilter.ts";
-export type { UserSummary, UserSummaryGenderEnumKey, UserSummaryStatusEnumKey } from "./types/UserSummary.ts";
+export type {
+    UserSubscriptionStatusFilter,
+    UserSubscriptionStatusFilterEqualsEnumKey,
+    UserSubscriptionStatusFilterInEnumKey,
+    UserSubscriptionStatusFilterNotEqualsEnumKey,
+    UserSubscriptionStatusFilterNotInEnumKey,
+} from "./types/UserSubscriptionStatusFilter.ts";
+export type {
+    UserSummary,
+    UserSummaryGenderEnumKey,
+    UserSummaryStatusEnumKey,
+} from "./types/UserSummary.ts";
 export type { ValidationErrorResponseDTO } from "./types/ValidationErrorResponseDTO.ts";
-export type { VerifyLoginChallenge200, VerifyLoginChallenge403, VerifyLoginChallenge404, VerifyLoginChallenge409, VerifyLoginChallengeMutation, VerifyLoginChallengeMutationRequest, VerifyLoginChallengeMutationResponse } from "./types/VerifyLoginChallenge.ts";
+export type {
+    VerifyLoginChallenge200,
+    VerifyLoginChallenge403,
+    VerifyLoginChallenge404,
+    VerifyLoginChallenge409,
+    VerifyLoginChallengeMutation,
+    VerifyLoginChallengeMutationRequest,
+    VerifyLoginChallengeMutationResponse,
+} from "./types/VerifyLoginChallenge.ts";
 export { _delete } from "./client/admin-configuration-management/_delete.ts";
 export { adminconfigurationmanagement } from "./client/admin-configuration-management/adminconfigurationmanagement.ts";
 export { createAppConfigurationAsAdmin } from "./client/admin-configuration-management/createAppConfigurationAsAdmin.ts";

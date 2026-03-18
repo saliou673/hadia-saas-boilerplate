@@ -22,6 +22,7 @@ export type UserRow = {
     languageKey: string | null;
     imageUrl: string | null;
     permissions: string[];
+    roleGroupNames: string[];
     creationDate: string | null;
     lastUpdateDate: string | null;
 };
@@ -47,6 +48,10 @@ export function mapUserDetailsToRow(user: UserDetails): UserRow {
         languageKey: user.languageKey ?? null,
         imageUrl: user.imageUrl ?? null,
         permissions: user.permissions,
+        roleGroupNames: (user.roleGroups ?? [])
+            .map((rg) => rg.name)
+            .filter((name): name is string => !!name)
+            .sort(),
         creationDate: user.creationDate ?? null,
         lastUpdateDate: user.lastUpdateDate ?? null,
     };

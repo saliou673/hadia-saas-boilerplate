@@ -1,1 +1,20 @@
-{"type":"object","properties":{"creationDate":{"type":"string","format":"date-time"},"lastUpdateDate":{"type":"string","format":"date-time"},"lastUpdatedBy":{"type":"string"},"id":{"type":"integer","format":"int64"},"title":{"type":"string"},"description":{"type":"string"},"monthlyPrice":{"type":"number"},"yearlyPrice":{"type":"number"},"lifetimePrice":{"type":"number"},"price":{"type":"number"},"durationDays":{"type":"integer","format":"int32"},"currencyCode":{"type":"string"},"features":{"type":"array","items":{"type":"string"}},"active":{"type":"boolean"}},"x-readme-ref-name":"SubscriptionPlan"}
+{
+    "type": "object",
+    "properties": {
+        "creationDate": { "type": "string", "format": "date-time" },
+        "lastUpdateDate": { "type": "string", "format": "date-time" },
+        "lastUpdatedBy": { "type": "string" },
+        "id": { "type": "integer", "format": "int64" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "monthlyPrice": { "type": "number" },
+        "yearlyPrice": { "type": "number" },
+        "lifetimePrice": { "type": "number" },
+        "price": { "type": "number" },
+        "durationDays": { "type": "integer", "format": "int32" },
+        "currencyCode": { "type": "string" },
+        "features": { "type": "array", "items": { "type": "string" } },
+        "active": { "type": "boolean" }
+    },
+    "x-readme-ref-name": "SubscriptionPlan"
+}
