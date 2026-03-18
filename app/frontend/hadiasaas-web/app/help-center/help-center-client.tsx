@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
-import { AuthenticatedLayout } from '@/components/layout/authenticated-layout'
-import { ComingSoon } from '@/components/coming-soon'
+import { ComingSoon } from "@/components/coming-soon";
+import { AuthenticatedLayout } from "@/components/layout/authenticated-layout";
 
 export default function HelpCenterClient() {
-  return (
-    <AuthenticatedLayout>
-      <ComingSoon />
-    </AuthenticatedLayout>
-  )
+    return (
+        <AuthenticatedLayout>
+            <ComingSoon />
+        </AuthenticatedLayout>
+    );
 }

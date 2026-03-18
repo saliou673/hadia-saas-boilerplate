@@ -1,6 +1,5 @@
 package com.hadiasaas.infrastructure.adapter.out.persistence.entity;
 
-import com.hadiasaas.domain.enumerations.SubscriptionPlanType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -69,10 +68,6 @@ public class SubscriptionPlanEntity extends AuditableEntity<Long> implements Ser
 
     @Column(name = "active", nullable = false)
     private boolean active;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false, length = 30)
-    private SubscriptionPlanType type;
 
     @Override
     public boolean equals(Object o) {

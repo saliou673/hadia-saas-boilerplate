@@ -1,7 +1,6 @@
 package com.hadiasaas.integration.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.hadiasaas.domain.enumerations.SubscriptionPlanType;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.SubscriptionPlanDTO;
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.SubscriptionPlanEntity;
 import com.hadiasaas.infrastructure.adapter.out.persistence.repository.SubscriptionPlanRepository;
@@ -31,8 +30,8 @@ class SubscriptionPlanControllerTest extends IntegrationTest {
 
     @Test
     void shouldReturnActivePlansWithoutAuthentication() throws Exception {
-        createPlan("Online Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
-        createPlan("On-Site Workshop", null, new BigDecimal("99.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ON_SITE_TRAINING);
+        createPlan("Online Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true);
+        createPlan("On-Site Workshop", null, new BigDecimal("99.99"), null, null, null, CURRENCY_CODE, true);
 
         PaginatedResult<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
@@ -48,21 +47,20 @@ class SubscriptionPlanControllerTest extends IntegrationTest {
 
     @Test
     void shouldReturnOnlyActivePlans() throws Exception {
-        createPlan("Active Online", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
-        createPlan("Inactive On-Site", null, new BigDecimal("99.99"), null, null, null, CURRENCY_CODE, false, SubscriptionPlanType.ON_SITE_TRAINING);
+        createPlan("Active Online", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true);
+        createPlan("Inactive On-Site", null, new BigDecimal("99.99"), null, null, null, CURRENCY_CODE, false);
 
         PaginatedResult<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
         assertThat(result.getItems()).hasSize(1);
         assertThat(result.getItems().getFirst().isActive()).isTrue();
-        assertThat(result.getItems().getFirst().getType()).isEqualTo(SubscriptionPlanType.ONLINE_TRAINING);
     }
 
     @Test
     void shouldReturnPlansSortedByMonthlyPriceAscending() throws Exception {
-        createPlan("Expensive On-Site", null, new BigDecimal("299.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ON_SITE_TRAINING);
-        createPlan("Cheap Online", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
-        createPlan("Mid Online", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        createPlan("Expensive On-Site", null, new BigDecimal("299.99"), null, null, null, CURRENCY_CODE, true);
+        createPlan("Cheap Online", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true);
+        createPlan("Mid Online", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true);
 
         PaginatedResult<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
@@ -71,23 +69,11 @@ class SubscriptionPlanControllerTest extends IntegrationTest {
     }
 
     @Test
-    void shouldReturnCorrectTypeInResponse() throws Exception {
-        createPlan("Online Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
-        createPlan("On-Site Plan", null, new BigDecimal("99.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ON_SITE_TRAINING);
-
-        PaginatedResult<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
-
-        assertThat(result.getItems()).hasSize(2);
-        assertThat(result.getItems()).extracting(SubscriptionPlanDTO::getType)
-                .containsExactlyInAnyOrder(SubscriptionPlanType.ONLINE_TRAINING, SubscriptionPlanType.ON_SITE_TRAINING);
-    }
-
-    @Test
     void shouldReturnPlanWithAllStandardPrices() throws Exception {
         SubscriptionPlanEntity entity = createPlanWithFeatures(
                 "Premium Online",
                 new BigDecimal("9.99"), new BigDecimal("89.99"), new BigDecimal("199.99"), null, null,
-                CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING,
+                CURRENCY_CODE, true,
                 List.of("Unlimited access", "Priority support")
         );
 
@@ -108,7 +94,7 @@ class SubscriptionPlanControllerTest extends IntegrationTest {
 
     @Test
     void shouldReturnCustomCyclePlan() throws Exception {
-        createPlan("Trial", null, null, null, new BigDecimal("4.99"), 14, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        createPlan("Trial", null, null, null, new BigDecimal("4.99"), 14, CURRENCY_CODE, true);
 
         PaginatedResult<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
@@ -120,7 +106,7 @@ class SubscriptionPlanControllerTest extends IntegrationTest {
 
     @Test
     void shouldReturnLifetimePlan() throws Exception {
-        createPlan("Lifetime Online", null, null, new BigDecimal("199.99"), null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        createPlan("Lifetime Online", null, null, new BigDecimal("199.99"), null, null, CURRENCY_CODE, true);
 
         PaginatedResult<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
@@ -132,7 +118,7 @@ class SubscriptionPlanControllerTest extends IntegrationTest {
     @Test
     void shouldSupportPagination() throws Exception {
         for (int i = 1; i <= 5; i++) {
-            createPlan("Plan " + i, new BigDecimal(i * 10), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+            createPlan("Plan " + i, new BigDecimal(i * 10), null, null, null, null, CURRENCY_CODE, true);
         }
 
         PaginatedResult<SubscriptionPlanDTO> firstPage = get(API + "?page=0&size=2", new TypeReference<>() {}, status().isOk());
@@ -145,12 +131,12 @@ class SubscriptionPlanControllerTest extends IntegrationTest {
     // endregion
 
     // monthlyPrice, yearlyPrice, lifetimePrice, price (custom), durationDays (custom)
-    private SubscriptionPlanEntity createPlan(String title, BigDecimal monthlyPrice, BigDecimal yearlyPrice, BigDecimal lifetimePrice, BigDecimal price, Integer durationDays, String currencyCode, boolean active, SubscriptionPlanType type) {
-        return createPlanWithFeatures(title, monthlyPrice, yearlyPrice, lifetimePrice, price, durationDays, currencyCode, active, type, List.of());
+    private SubscriptionPlanEntity createPlan(String title, BigDecimal monthlyPrice, BigDecimal yearlyPrice, BigDecimal lifetimePrice, BigDecimal price, Integer durationDays, String currencyCode, boolean active) {
+        return createPlanWithFeatures(title, monthlyPrice, yearlyPrice, lifetimePrice, price, durationDays, currencyCode, active, List.of());
     }
 
-    private SubscriptionPlanEntity createPlanWithFeatures(String title, BigDecimal monthlyPrice, BigDecimal yearlyPrice, BigDecimal lifetimePrice, BigDecimal price, Integer durationDays, String currencyCode, boolean active, SubscriptionPlanType type, List<String> features) {
-        SubscriptionPlanEntity entity = new SubscriptionPlanEntity(null, title, null, monthlyPrice, yearlyPrice, lifetimePrice, price, durationDays, currencyCode, features, active, type);
+    private SubscriptionPlanEntity createPlanWithFeatures(String title, BigDecimal monthlyPrice, BigDecimal yearlyPrice, BigDecimal lifetimePrice, BigDecimal price, Integer durationDays, String currencyCode, boolean active, List<String> features) {
+        SubscriptionPlanEntity entity = new SubscriptionPlanEntity(null, title, null, monthlyPrice, yearlyPrice, lifetimePrice, price, durationDays, currencyCode, features, active);
         entity.setCreationDate(Instant.now());
         entity.setLastUpdateDate(Instant.now());
         entity.setLastUpdatedBy("test");

@@ -5,7 +5,14 @@
   "scripts": {
     "dev": "pnpm --filter hadiasaas-webapp dev",
     "build": "pnpm -r build",
-    "generate:api": "pnpm --filter hadiasaas-apiclient generate"
+    "generate:api": "pnpm --filter hadiasaas-apiclient generate",
+    "format:check": "prettier --check .",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^6.0.0",
+    "prettier": "^3.7.4",
+    "prettier-plugin-tailwindcss": "^0.7.2"
   },
   "packageManager": "pnpm@10.30.3"
 }

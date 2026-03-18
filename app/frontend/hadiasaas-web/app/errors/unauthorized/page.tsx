@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { UnauthorisedError } from '@/features/errors/unauthorized-error'
+import { UnauthorisedError } from "@/features/errors/unauthorized-error";
 
 export default function UnauthorizedPage() {
-  return <UnauthorisedError />
+    return <UnauthorisedError />;
 }

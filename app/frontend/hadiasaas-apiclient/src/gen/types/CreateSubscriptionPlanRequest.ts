@@ -4,13 +4,6 @@
 */
 
 
-export const createSubscriptionPlanRequestTypeEnum = {
-    ONLINE_TRAINING: "ONLINE_TRAINING",
-    ON_SITE_TRAINING: "ON_SITE_TRAINING"
-} as const;
-
-export type CreateSubscriptionPlanRequestTypeEnumKey = (typeof createSubscriptionPlanRequestTypeEnum)[keyof typeof createSubscriptionPlanRequestTypeEnum];
-
 export type CreateSubscriptionPlanRequest = {
     /**
      * @minLength 1
@@ -60,8 +53,4 @@ export type CreateSubscriptionPlanRequest = {
      * @type boolean
     */
     active: boolean;
-    /**
-     * @type string
-    */
-    type: CreateSubscriptionPlanRequestTypeEnumKey;
 };

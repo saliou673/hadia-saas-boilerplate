@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
-import { AuthenticatedLayout } from '@/components/layout/authenticated-layout'
-import { Users } from '@/features/users'
+import { AuthenticatedLayout } from "@/components/layout/authenticated-layout";
+import { Users } from "@/features/users";
 
 export default function UsersClient() {
-  return (
-    <AuthenticatedLayout>
-      <Users />
-    </AuthenticatedLayout>
-  )
+    return (
+        <AuthenticatedLayout>
+            <Users />
+        </AuthenticatedLayout>
+    );
 }

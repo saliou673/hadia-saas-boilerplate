@@ -1,6 +1,5 @@
 package com.hadiasaas.infrastructure.adapter.in.rest.controller.dto;
 
-import com.hadiasaas.domain.enumerations.SubscriptionPlanType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,7 +40,6 @@ public class SubscriptionPlanDTO extends AuditableDTO {
     private String currencyCode;
     private List<String> features;
     private boolean active;
-    private SubscriptionPlanType type;
 
     public SubscriptionPlanDTO(
             Long id,
@@ -55,7 +53,6 @@ public class SubscriptionPlanDTO extends AuditableDTO {
             String currencyCode,
             List<String> features,
             boolean active,
-            SubscriptionPlanType type,
             Instant creationDate,
             Instant lastUpdateDate,
             String lastUpdatedBy
@@ -72,6 +69,5 @@ public class SubscriptionPlanDTO extends AuditableDTO {
         this.currencyCode = currencyCode;
         this.features = features;
         this.active = active;
-        this.type = type;
     }
 }

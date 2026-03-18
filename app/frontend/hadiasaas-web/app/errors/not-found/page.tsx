@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { NotFoundError } from '@/features/errors/not-found-error'
+import { NotFoundError } from "@/features/errors/not-found-error";
 
 export default function NotFoundPage() {
-  return <NotFoundError />
+    return <NotFoundError />;
 }

@@ -1,0 +1,15 @@
+# Ignore everything by default
+/*
+
+# Allow frontend workspace files
+!hadiasaas-web/
+!hadiasaas-apiclient/
+
+# Ignore dependencies and build output
+hadiasaas-web/node_modules/
+hadiasaas-web/.next/
+hadiasaas-apiclient/node_modules/
+hadiasaas-apiclient/dist/
+
+# Ignore auto-generated API client
+hadiasaas-apiclient/src/gen/

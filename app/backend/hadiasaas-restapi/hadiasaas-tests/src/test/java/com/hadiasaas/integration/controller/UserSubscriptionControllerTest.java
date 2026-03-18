@@ -129,7 +129,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @WithMockUser(username = DEFAULT_USER_EMAIL)
     void shouldSubscribeToPlanMonthlySuccessfully() throws Exception {
         createDefaultUser();
-        SubscriptionPlanEntity plan = createPlan("Multi Plan", new BigDecimal("9.99"), new BigDecimal("89.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("Multi Plan", new BigDecimal("9.99"), new BigDecimal("89.99"), null, null, null, CURRENCY_CODE, true);
 
         UserSubscriptionDTO result = post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), UserSubscriptionDTO.class, status().isCreated());
 
@@ -160,7 +160,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     void shouldGenerateBillInEnglishWhenUserLanguageKeyIsNull() throws Exception {
         UserEntity user = createDefaultUser();
         updateUserLanguage(user, null);
-        SubscriptionPlanEntity plan = createPlan("Multi Plan", new BigDecimal("9.99"), new BigDecimal("89.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("Multi Plan", new BigDecimal("9.99"), new BigDecimal("89.99"), null, null, null, CURRENCY_CODE, true);
 
         post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), UserSubscriptionDTO.class, status().isCreated());
 
@@ -177,7 +177,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     void shouldStoreBillInAwsWhenAwsStrategyIsConfigured() throws Exception {
         createDefaultUser();
         createStorageSettings(StorageProvider.AWS_S3, "test-bucket", true);
-        SubscriptionPlanEntity plan = createPlan("Multi Plan", new BigDecimal("9.99"), new BigDecimal("89.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("Multi Plan", new BigDecimal("9.99"), new BigDecimal("89.99"), null, null, null, CURRENCY_CODE, true);
 
         post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), UserSubscriptionDTO.class, status().isCreated());
 
@@ -193,7 +193,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @WithMockUser(username = DEFAULT_USER_EMAIL)
     void shouldSubscribeToPlanYearlySuccessfully() throws Exception {
         createDefaultUser();
-        SubscriptionPlanEntity plan = createPlan("Multi Plan", new BigDecimal("9.99"), new BigDecimal("89.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("Multi Plan", new BigDecimal("9.99"), new BigDecimal("89.99"), null, null, null, CURRENCY_CODE, true);
 
         UserSubscriptionDTO result = post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.YEARLY, null), UserSubscriptionDTO.class, status().isCreated());
 
@@ -207,7 +207,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     void shouldApplyZeroTaxWhenTaxConfigurationIsMissing() throws Exception {
         createDefaultUser();
         taxConfigurationRepository.deleteAll();
-        SubscriptionPlanEntity plan = createPlan("No Tax Plan", new BigDecimal("10.00"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("No Tax Plan", new BigDecimal("10.00"), null, null, null, null, CURRENCY_CODE, true);
 
         UserSubscriptionDTO result = post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), UserSubscriptionDTO.class, status().isCreated());
 
@@ -220,7 +220,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @WithMockUser(username = DEFAULT_USER_EMAIL)
     void shouldSubscribeToPlanLifetimeSuccessfully() throws Exception {
         createDefaultUser();
-        SubscriptionPlanEntity plan = createPlan("Full Plan", null, null, new BigDecimal("299.99"), null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("Full Plan", null, null, new BigDecimal("299.99"), null, null, CURRENCY_CODE, true);
 
         UserSubscriptionDTO result = post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.LIFETIME, null), UserSubscriptionDTO.class, status().isCreated());
 
@@ -233,7 +233,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @WithMockUser(username = DEFAULT_USER_EMAIL)
     void shouldSubscribeToPlanCustomCycleSuccessfully() throws Exception {
         createDefaultUser();
-        SubscriptionPlanEntity plan = createPlan("14-Day Trial", null, null, null, new BigDecimal("4.99"), 14, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("14-Day Trial", null, null, null, new BigDecimal("4.99"), 14, CURRENCY_CODE, true);
 
         UserSubscriptionDTO result = post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.CUSTOM, null), UserSubscriptionDTO.class, status().isCreated());
 
@@ -247,7 +247,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     void shouldSubscribeToPlanWithPaypalSuccessfully() throws Exception {
         createDefaultUser();
         createPaymentMode("PAYPAL");
-        SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true);
 
         UserSubscriptionDTO result = post(API, new SubscribeRequest(plan.getId(), "PAYPAL", SubscriptionBillingFrequency.MONTHLY, null), UserSubscriptionDTO.class, status().isCreated());
 
@@ -259,7 +259,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @WithMockUser(username = DEFAULT_USER_EMAIL)
     void shouldFailToSubscribeToPlanToInactivePlan() throws Exception {
         createDefaultUser();
-        SubscriptionPlanEntity plan = createPlan("Inactive Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, false, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("Inactive Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, false);
 
         post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), status().isBadRequest());
     }
@@ -269,7 +269,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     void shouldFailToSubscribeToPlanWhenBillingFrequencyNotSupported() throws Exception {
         createDefaultUser();
         // Plan only offers monthly; requesting YEARLY should fail
-        SubscriptionPlanEntity plan = createPlan("Monthly Only", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("Monthly Only", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true);
 
         post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.YEARLY, null), status().isBadRequest());
     }
@@ -279,7 +279,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     void shouldFailToSubscribeToPlanCustomWhenNoPriceSet() throws Exception {
         createDefaultUser();
         // Plan has no custom price
-        SubscriptionPlanEntity plan = createPlan("Monthly Only", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("Monthly Only", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true);
 
         post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.CUSTOM, null), status().isBadRequest());
     }
@@ -288,7 +288,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @WithMockUser(username = DEFAULT_USER_EMAIL)
     void shouldFailToSubscribeToPlanWithInvalidPaymentMode() throws Exception {
         createDefaultUser();
-        SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true);
 
         post(API, new SubscribeRequest(plan.getId(), "BITCOIN", SubscriptionBillingFrequency.MONTHLY, null), status().isBadRequest());
     }
@@ -305,7 +305,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @WithMockUser(username = DEFAULT_USER_EMAIL)
     void shouldFailToSubscribeToPlanWhenAlreadyActiveSubscription() throws Exception {
         createDefaultUser();
-        SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true);
 
         SubscribeRequest request = new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null);
         post(API, request, UserSubscriptionDTO.class, status().isCreated());
@@ -316,7 +316,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @WithMockUser(username = DEFAULT_USER_EMAIL)
     void shouldNotifyUserWhenSubscriptionPaymentFails() throws Exception {
         createDefaultUser();
-        SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true);
         when(stripePaymentGatewayAdapter.process(any())).thenReturn(PaymentResult.failure("Card declined"));
 
         post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), status().isBadRequest());
@@ -334,7 +334,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @WithMockUser(username = DEFAULT_USER_EMAIL)
     void shouldSubscribeToPlanWithPercentageDiscountSuccessfully() throws Exception {
         createDefaultUser();
-        SubscriptionPlanEntity plan = createPlan("Discounted Plan", new BigDecimal("100.00"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("Discounted Plan", new BigDecimal("100.00"), null, null, null, null, CURRENCY_CODE, true);
         DiscountCodeEntity discountCode = createDiscountCode("WELCOME10", DiscountType.PERCENTAGE, new BigDecimal("10.00"), null, true, LocalDate.now().plusDays(5), 10, 0);
 
         UserSubscriptionDTO result = post(
@@ -356,7 +356,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @WithMockUser(username = DEFAULT_USER_EMAIL)
     void shouldFailToSubscribeToPlanWhenFixedDiscountCurrencyDoesNotMatch() throws Exception {
         createDefaultUser();
-        SubscriptionPlanEntity plan = createPlan("EUR Plan", new BigDecimal("50.00"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("EUR Plan", new BigDecimal("50.00"), null, null, null, null, CURRENCY_CODE, true);
         createCurrency("USD");
         createDiscountCode("SAVE15USD", DiscountType.FIXED_AMOUNT, new BigDecimal("15.00"), "USD", true, LocalDate.now().plusDays(5), 10, 0);
 
@@ -371,8 +371,8 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @WithMockUser(username = DEFAULT_USER_EMAIL)
     void shouldReturnMySubscriptions() throws Exception {
         createDefaultUser();
-        SubscriptionPlanEntity plan1 = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
-        SubscriptionPlanEntity plan2 = createPlan("Yearly Plan", null, new BigDecimal("99.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan1 = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true);
+        SubscriptionPlanEntity plan2 = createPlan("Yearly Plan", null, new BigDecimal("99.99"), null, null, null, CURRENCY_CODE, true);
 
         post(API, new SubscribeRequest(plan1.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), UserSubscriptionDTO.class, status().isCreated());
         post(API, new SubscribeRequest(plan2.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.YEARLY, null), UserSubscriptionDTO.class, status().isCreated());
@@ -407,7 +407,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @WithMockUser(username = DEFAULT_USER_EMAIL)
     void shouldRenewSubscriptionSubscriptionSuccessfully() throws Exception {
         createDefaultUser();
-        SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true);
 
         UserSubscriptionDTO original = post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), UserSubscriptionDTO.class, status().isCreated());
         UserSubscriptionDTO renewed = post(API + "/" + original.getId() + "/renew", null, UserSubscriptionDTO.class, status().isCreated());
@@ -421,7 +421,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @WithMockUser(username = DEFAULT_USER_EMAIL)
     void shouldFailToRenewSubscriptionNonOwnedSubscription() throws Exception {
         createDefaultUser();
-        SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true);
         UserSubscriptionEntity other = createSubscriptionDirectly(createUser("other@sub-test.com").getId(), plan.getId(), SubscriptionBillingFrequency.MONTHLY);
 
         post(API + "/" + other.getId() + "/renew", null, status().isBadRequest());
@@ -435,7 +435,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @WithMockUser(username = DEFAULT_USER_EMAIL)
     void shouldCancelSubscriptionSubscriptionSuccessfully() throws Exception {
         createDefaultUser();
-        SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity plan = createPlan("Monthly Plan", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true);
 
         UserSubscriptionDTO original = post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), UserSubscriptionDTO.class, status().isCreated());
         UserSubscriptionDTO cancelled = put(API + "/" + original.getId() + "/cancel", null, UserSubscriptionDTO.class, status().isOk());
@@ -450,8 +450,8 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     // region helpers
 
     // monthlyPrice, yearlyPrice, lifetimePrice, price (custom), durationDays (custom)
-    private SubscriptionPlanEntity createPlan(String title, BigDecimal monthlyPrice, BigDecimal yearlyPrice, BigDecimal lifetimePrice, BigDecimal price, Integer durationDays, String currencyCode, boolean active, SubscriptionPlanType type) {
-        SubscriptionPlanEntity entity = new SubscriptionPlanEntity(null, title, null, monthlyPrice, yearlyPrice, lifetimePrice, price, durationDays, currencyCode, List.of(), active, type);
+    private SubscriptionPlanEntity createPlan(String title, BigDecimal monthlyPrice, BigDecimal yearlyPrice, BigDecimal lifetimePrice, BigDecimal price, Integer durationDays, String currencyCode, boolean active) {
+        SubscriptionPlanEntity entity = new SubscriptionPlanEntity(null, title, null, monthlyPrice, yearlyPrice, lifetimePrice, price, durationDays, currencyCode, List.of(), active);
         entity.setCreationDate(Instant.now());
         entity.setLastUpdateDate(Instant.now());
         entity.setLastUpdatedBy("test");

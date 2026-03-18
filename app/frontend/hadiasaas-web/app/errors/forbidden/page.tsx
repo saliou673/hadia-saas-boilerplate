@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { ForbiddenError } from '@/features/errors/forbidden'
+import { ForbiddenError } from "@/features/errors/forbidden";
 
 export default function ForbiddenPage() {
-  return <ForbiddenError />
+    return <ForbiddenError />;
 }

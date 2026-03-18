@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
-import dynamic from 'next/dynamic'
+import dynamic from "next/dynamic";
 
 const SettingsDisplayClient = dynamic(
-  () => import('./settings-display-client'),
-  { ssr: false }
-)
+    () => import("./settings-display-client"),
+    { ssr: false }
+);
 
 export default function SettingsDisplayPage() {
-  return <SettingsDisplayClient />
+    return <SettingsDisplayClient />;
 }

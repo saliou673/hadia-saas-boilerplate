@@ -83,10 +83,6 @@ public class SubscriptionPlanQueryService extends QueryService<SubscriptionPlanE
             spec = spec.and(buildSpecification(filter.getActive(), SubscriptionPlanEntity_.active));
         }
 
-        if (filter.getType() != null) {
-            spec = spec.and(buildEnumSpecification(filter.getType(), SubscriptionPlanEntity_.type));
-        }
-
         spec = addAuditFieldsSpecifications(
                 spec,
                 filter,
