@@ -2,7 +2,6 @@ package com.hadiasaas.integration.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hadiasaas.domain.enumerations.SubscriptionBillingFrequency;
-import com.hadiasaas.domain.enumerations.SubscriptionPlanType;
 import com.hadiasaas.domain.enumerations.UserSubscriptionStatus;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.UserSubscriptionDTO;
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.SubscriptionPlanEntity;
@@ -45,7 +44,7 @@ class AdminUserSubscriptionControllerTest extends IntegrationTest {
     void seedPlan() {
         SubscriptionPlanEntity plan = new SubscriptionPlanEntity(
                 null, "Test Plan", null, new BigDecimal("9.99"), new BigDecimal("89.99"), null, null, null,
-                CURRENCY_CODE, List.of(), true, SubscriptionPlanType.ONLINE_TRAINING
+                CURRENCY_CODE, List.of(), true
         );
         plan.setCreationDate(Instant.now());
         plan.setLastUpdateDate(Instant.now());

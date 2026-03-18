@@ -1,6 +1,5 @@
 package com.hadiasaas.infrastructure.adapter.in.rest.controller.requests;
 
-import com.hadiasaas.domain.enumerations.SubscriptionPlanType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.*;
@@ -49,9 +48,6 @@ public record UpdateSubscriptionPlanRequest(
         List<String> features,
 
         @NotNull(message = "active is required")
-        Boolean active,
-
-        @NotNull(message = "type is required")
-        SubscriptionPlanType type
+        Boolean active
 ) {
 }

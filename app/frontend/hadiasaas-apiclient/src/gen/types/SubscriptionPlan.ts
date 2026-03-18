@@ -4,13 +4,6 @@
 */
 
 
-export const subscriptionPlanTypeEnum = {
-    ONLINE_TRAINING: "ONLINE_TRAINING",
-    ON_SITE_TRAINING: "ON_SITE_TRAINING"
-} as const;
-
-export type SubscriptionPlanTypeEnumKey = (typeof subscriptionPlanTypeEnum)[keyof typeof subscriptionPlanTypeEnum];
-
 export type SubscriptionPlan = {
     /**
      * @type string | undefined, date-time
@@ -68,8 +61,4 @@ export type SubscriptionPlan = {
      * @type boolean | undefined
     */
     active?: boolean;
-    /**
-     * @type string | undefined
-    */
-    type?: SubscriptionPlanTypeEnumKey;
 };

@@ -2,7 +2,6 @@ package com.hadiasaas.integration.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hadiasaas.domain.enumerations.AppConfigurationCategory;
-import com.hadiasaas.domain.enumerations.SubscriptionPlanType;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.SubscriptionPlanDTO;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.requests.CreateSubscriptionPlanRequest;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.requests.UpdateSubscriptionPlanRequest;
@@ -50,14 +49,13 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
         CreateSubscriptionPlanRequest request = new CreateSubscriptionPlanRequest(
                 "Online Premium", "Full online access",
                 new BigDecimal("9.99"), null, null, null, null,
-                CURRENCY_CODE, List.of("Video lessons", "Quizzes"), true, SubscriptionPlanType.ONLINE_TRAINING
+                CURRENCY_CODE, List.of("Video lessons", "Quizzes"), true
         );
 
         SubscriptionPlanDTO result = post(API, request, SubscriptionPlanDTO.class, status().isCreated());
 
         assertThat(result.getId()).isNotNull();
         assertThat(result.getTitle()).isEqualTo("Online Premium");
-        assertThat(result.getType()).isEqualTo(SubscriptionPlanType.ONLINE_TRAINING);
         assertThat(result.getMonthlyPrice()).isEqualByComparingTo("9.99");
         assertThat(result.getYearlyPrice()).isNull();
         assertThat(result.getLifetimePrice()).isNull();
@@ -75,7 +73,7 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
         CreateSubscriptionPlanRequest request = new CreateSubscriptionPlanRequest(
                 "Full Plan", null,
                 new BigDecimal("9.99"), new BigDecimal("89.99"), new BigDecimal("199.99"), null, null,
-                CURRENCY_CODE, null, true, SubscriptionPlanType.ONLINE_TRAINING
+                CURRENCY_CODE, null, true
         );
 
         SubscriptionPlanDTO result = post(API, request, SubscriptionPlanDTO.class, status().isCreated());
@@ -92,7 +90,7 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
         CreateSubscriptionPlanRequest request = new CreateSubscriptionPlanRequest(
                 "14-Day Trial", null,
                 null, null, null, new BigDecimal("4.99"), 14,
-                CURRENCY_CODE, null, true, SubscriptionPlanType.ONLINE_TRAINING
+                CURRENCY_CODE, null, true
         );
 
         SubscriptionPlanDTO result = post(API, request, SubscriptionPlanDTO.class, status().isCreated());
@@ -108,7 +106,7 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
         CreateSubscriptionPlanRequest request = new CreateSubscriptionPlanRequest(
                 "Draft", null,
                 new BigDecimal("0.00"), null, null, null, null,
-                CURRENCY_CODE, null, false, SubscriptionPlanType.ON_SITE_TRAINING
+                CURRENCY_CODE, null, false
         );
 
         SubscriptionPlanDTO result = post(API, request, SubscriptionPlanDTO.class, status().isCreated());
@@ -118,20 +116,10 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "plan:create")
-    void shouldFailToCreateSubscriptionPlanAsAdminWithMissingType() throws Exception {
-        CreateSubscriptionPlanRequest request = new CreateSubscriptionPlanRequest(
-                "Basic", null, new BigDecimal("9.99"), null, null, null, null,
-                CURRENCY_CODE, null, true, null
-        );
-        post(API, request, status().isBadRequest());
-    }
-
-    @Test
-    @WithMockUser(authorities = "plan:create")
     void shouldFailToCreateSubscriptionPlanAsAdminWithAllPricesNull() throws Exception {
         CreateSubscriptionPlanRequest request = new CreateSubscriptionPlanRequest(
                 "Basic", null, null, null, null, null, null,
-                CURRENCY_CODE, null, true, SubscriptionPlanType.ONLINE_TRAINING
+                CURRENCY_CODE, null, true
         );
         post(API, request, status().isBadRequest());
     }
@@ -141,7 +129,7 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
     void shouldFailToCreateSubscriptionPlanAsAdminWithCustomPriceButNoDurationDays() throws Exception {
         CreateSubscriptionPlanRequest request = new CreateSubscriptionPlanRequest(
                 "Basic", null, null, null, null, new BigDecimal("4.99"), null,
-                CURRENCY_CODE, null, true, SubscriptionPlanType.ONLINE_TRAINING
+                CURRENCY_CODE, null, true
         );
         post(API, request, status().isBadRequest());
     }
@@ -151,7 +139,7 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
     void shouldFailToCreateSubscriptionPlanAsAdminWithDurationDaysButNoCustomPrice() throws Exception {
         CreateSubscriptionPlanRequest request = new CreateSubscriptionPlanRequest(
                 "Basic", null, null, null, null, null, 30,
-                CURRENCY_CODE, null, true, SubscriptionPlanType.ONLINE_TRAINING
+                CURRENCY_CODE, null, true
         );
         post(API, request, status().isBadRequest());
     }
@@ -161,7 +149,7 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
     void shouldFailToCreateSubscriptionPlanAsAdminWithBlankTitle() throws Exception {
         CreateSubscriptionPlanRequest request = new CreateSubscriptionPlanRequest(
                 "", null, new BigDecimal("9.99"), null, null, null, null,
-                CURRENCY_CODE, null, true, SubscriptionPlanType.ONLINE_TRAINING
+                CURRENCY_CODE, null, true
         );
         post(API, request, status().isBadRequest());
     }
@@ -171,7 +159,7 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
     void shouldFailToCreateSubscriptionPlanAsAdminWithNegativeMonthlyPrice() throws Exception {
         CreateSubscriptionPlanRequest request = new CreateSubscriptionPlanRequest(
                 "Basic", null, new BigDecimal("-1.00"), null, null, null, null,
-                CURRENCY_CODE, null, true, SubscriptionPlanType.ONLINE_TRAINING
+                CURRENCY_CODE, null, true
         );
         post(API, request, status().isBadRequest());
     }
@@ -181,7 +169,7 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
     void shouldFailToCreateSubscriptionPlanAsAdminWithInvalidCurrencyCode() throws Exception {
         CreateSubscriptionPlanRequest request = new CreateSubscriptionPlanRequest(
                 "Basic", null, new BigDecimal("9.99"), null, null, null, null,
-                "INVALID", null, true, SubscriptionPlanType.ONLINE_TRAINING
+                "INVALID", null, true
         );
         post(API, request, status().isBadRequest());
     }
@@ -197,7 +185,7 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
 
         CreateSubscriptionPlanRequest request = new CreateSubscriptionPlanRequest(
                 "Basic", null, new BigDecimal("9.99"), null, null, null, null,
-                "EUR", null, true, SubscriptionPlanType.ONLINE_TRAINING
+                "EUR", null, true
         );
         post(API, request, status().isBadRequest());
     }
@@ -209,13 +197,12 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "plan:read")
     void shouldGetPlanByIdSuccessfully() throws Exception {
-        SubscriptionPlanEntity entity = createSubscriptionPlanAsAdminPlan("Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity entity = createPlan("Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true);
 
         SubscriptionPlanDTO result = get(API + "/" + entity.getId(), new TypeReference<>() {}, status().isOk());
 
         assertThat(result.getId()).isEqualTo(entity.getId());
         assertThat(result.getTitle()).isEqualTo("Basic");
-        assertThat(result.getType()).isEqualTo(SubscriptionPlanType.ONLINE_TRAINING);
     }
 
     @Test
@@ -231,8 +218,8 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "plan:read")
     void shouldGetSubscriptionPlansAsAdmminPlansSuccessfully() throws Exception {
-        createSubscriptionPlanAsAdminPlan("Online Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
-        createSubscriptionPlanAsAdminPlan("On-Site Workshop", null, new BigDecimal("99.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ON_SITE_TRAINING);
+        createPlan("Online Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true);
+        createPlan("On-Site Workshop", null, new BigDecimal("99.99"), null, null, null, CURRENCY_CODE, true);
 
         PaginatedResult<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
@@ -250,43 +237,25 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "plan:read")
-    void shouldFilterByTypeEqualsOnlineTraining() throws Exception {
-        createSubscriptionPlanAsAdminPlan("Online Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
-        createSubscriptionPlanAsAdminPlan("Online Premium", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
-        createSubscriptionPlanAsAdminPlan("On-Site Workshop", null, new BigDecimal("199.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ON_SITE_TRAINING);
+    void shouldFilterByActiveStatus() throws Exception {
+        createPlan("Active Plan", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true);
+        createPlan("Inactive Plan", new BigDecimal("1.99"), null, null, null, null, CURRENCY_CODE, false);
 
         PaginatedResult<SubscriptionPlanDTO> result = get(
-                API + "?type.equals=ONLINE_TRAINING",
-                new TypeReference<>() {}, status().isOk()
-        );
-
-        assertThat(result.getTotalItems()).isEqualTo(2);
-        assertThat(result.getItems()).extracting(SubscriptionPlanDTO::getType)
-                .containsOnly(SubscriptionPlanType.ONLINE_TRAINING);
-    }
-
-    @Test
-    @WithMockUser(authorities = "plan:read")
-    void shouldFilterByTypeAndActive() throws Exception {
-        createSubscriptionPlanAsAdminPlan("Online Active", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
-        createSubscriptionPlanAsAdminPlan("Online Inactive", new BigDecimal("1.99"), null, null, null, null, CURRENCY_CODE, false, SubscriptionPlanType.ONLINE_TRAINING);
-        createSubscriptionPlanAsAdminPlan("On-Site Active", null, new BigDecimal("99.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ON_SITE_TRAINING);
-
-        PaginatedResult<SubscriptionPlanDTO> result = get(
-                API + "?type.equals=ONLINE_TRAINING&active.equals=true",
+                API + "?active.equals=true",
                 new TypeReference<>() {}, status().isOk()
         );
 
         assertThat(result.getTotalItems()).isEqualTo(1);
-        assertThat(result.getItems().getFirst().getTitle()).isEqualTo("Online Active");
+        assertThat(result.getItems().getFirst().getTitle()).isEqualTo("Active Plan");
     }
 
     @Test
     @WithMockUser(authorities = "plan:read")
     void shouldReturnPlansSortedByMonthlyPriceAscending() throws Exception {
-        createSubscriptionPlanAsAdminPlan("Expensive", null, new BigDecimal("99.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ON_SITE_TRAINING);
-        createSubscriptionPlanAsAdminPlan("Cheap", new BigDecimal("1.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
-        createSubscriptionPlanAsAdminPlan("Middle", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        createPlan("Expensive", null, new BigDecimal("99.99"), null, null, null, CURRENCY_CODE, true);
+        createPlan("Cheap", new BigDecimal("1.99"), null, null, null, null, CURRENCY_CODE, true);
+        createPlan("Middle", new BigDecimal("9.99"), null, null, null, null, CURRENCY_CODE, true);
 
         PaginatedResult<SubscriptionPlanDTO> result = get(API, new TypeReference<>() {}, status().isOk());
 
@@ -298,8 +267,7 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
     @WithMockUser(authorities = "plan:read")
     void shouldSupportPagination() throws Exception {
         for (int i = 1; i <= 5; i++) {
-            SubscriptionPlanType type = i % 2 == 0 ? SubscriptionPlanType.ON_SITE_TRAINING : SubscriptionPlanType.ONLINE_TRAINING;
-            createSubscriptionPlanAsAdminPlan("Plan " + i, new BigDecimal(i * 10), null, null, null, null, CURRENCY_CODE, true, type);
+            createPlan("Plan " + i, new BigDecimal(i * 10), null, null, null, null, CURRENCY_CODE, true);
         }
 
         PaginatedResult<SubscriptionPlanDTO> firstPage = get(
@@ -319,24 +287,20 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "plan:update")
     void shouldUpdateSubscriptionPlanAsAdminPlanSuccessfully() throws Exception {
-        SubscriptionPlanEntity entity = createSubscriptionPlanAsAdminPlan("Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity entity = createPlan("Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true);
         UpdateSubscriptionPlanRequest request = new UpdateSubscriptionPlanRequest(
                 "Basic Plus", "Updated",
                 new BigDecimal("7.99"), new BigDecimal("69.99"), null, null, null,
-                CURRENCY_CODE, List.of("New Feature"), false, SubscriptionPlanType.ON_SITE_TRAINING
+                CURRENCY_CODE, List.of("New Feature"), false
         );
 
         SubscriptionPlanDTO result = put(API + "/" + entity.getId(), request, SubscriptionPlanDTO.class, status().isOk());
 
         assertThat(result.getTitle()).isEqualTo("Basic Plus");
-        assertThat(result.getType()).isEqualTo(SubscriptionPlanType.ON_SITE_TRAINING);
         assertThat(result.getMonthlyPrice()).isEqualByComparingTo("7.99");
         assertThat(result.getYearlyPrice()).isEqualByComparingTo("69.99");
         assertThat(result.getLifetimePrice()).isNull();
         assertThat(result.isActive()).isFalse();
-
-        SubscriptionPlanEntity updated = subscriptionPlanRepository.findById(entity.getId()).orElseThrow();
-        assertThat(updated.getType()).isEqualTo(SubscriptionPlanType.ON_SITE_TRAINING);
     }
 
     @Test
@@ -344,29 +308,18 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
     void shouldFailToUpdateSubscriptionPlanAsAdminWhenNotFound() throws Exception {
         UpdateSubscriptionPlanRequest request = new UpdateSubscriptionPlanRequest(
                 "Basic", null, new BigDecimal("9.99"), null, null, null, null,
-                CURRENCY_CODE, null, true, SubscriptionPlanType.ONLINE_TRAINING
+                CURRENCY_CODE, null, true
         );
         put(API + "/99999", request, status().isBadRequest());
     }
 
     @Test
     @WithMockUser(authorities = "plan:update")
-    void shouldFailToUpdateSubscriptionPlanAsAdminWithMissingType() throws Exception {
-        SubscriptionPlanEntity entity = createSubscriptionPlanAsAdminPlan("Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
-        UpdateSubscriptionPlanRequest request = new UpdateSubscriptionPlanRequest(
-                "Basic", null, new BigDecimal("9.99"), null, null, null, null,
-                CURRENCY_CODE, null, true, null
-        );
-        put(API + "/" + entity.getId(), request, status().isBadRequest());
-    }
-
-    @Test
-    @WithMockUser(authorities = "plan:update")
     void shouldFailToUpdateSubscriptionPlanAsAdminWithInvalidCurrencyCode() throws Exception {
-        SubscriptionPlanEntity entity = createSubscriptionPlanAsAdminPlan("Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity entity = createPlan("Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true);
         UpdateSubscriptionPlanRequest request = new UpdateSubscriptionPlanRequest(
                 "Basic", null, new BigDecimal("9.99"), null, null, null, null,
-                "INVALID", null, true, SubscriptionPlanType.ONLINE_TRAINING
+                "INVALID", null, true
         );
         put(API + "/" + entity.getId(), request, status().isBadRequest());
     }
@@ -378,7 +331,7 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "plan:delete")
     void shouldDeleteSubscriptionPlanAsAdminPlanSuccessfully() throws Exception {
-        SubscriptionPlanEntity entity = createSubscriptionPlanAsAdminPlan("Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity entity = createPlan("Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true);
 
         delete(API + "/" + entity.getId(), status().isNoContent());
 
@@ -399,7 +352,7 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
     void shouldRejectUnauthenticatedCreateSubscriptionPlanAsAdmin() throws Exception {
         CreateSubscriptionPlanRequest request = new CreateSubscriptionPlanRequest(
                 "Basic", null, new BigDecimal("9.99"), null, null, null, null,
-                CURRENCY_CODE, null, true, SubscriptionPlanType.ONLINE_TRAINING
+                CURRENCY_CODE, null, true
         );
         post(API, request, status().isUnauthorized());
     }
@@ -409,7 +362,7 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
     void shouldForbidCreateSubscriptionPlanAsAdminForWrongPermission() throws Exception {
         CreateSubscriptionPlanRequest request = new CreateSubscriptionPlanRequest(
                 "Basic", null, new BigDecimal("9.99"), null, null, null, null,
-                CURRENCY_CODE, null, true, SubscriptionPlanType.ONLINE_TRAINING
+                CURRENCY_CODE, null, true
         );
         post(API, request, status().isForbidden());
     }
@@ -423,17 +376,17 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
     @Test
     @WithMockUser(authorities = "plan:read")
     void shouldForbidDeleteSubscriptionPlanAsAdminWithReadPermissionOnly() throws Exception {
-        SubscriptionPlanEntity entity = createSubscriptionPlanAsAdminPlan("Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity entity = createPlan("Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true);
         delete(API + "/" + entity.getId(), status().isForbidden());
     }
 
     @Test
     @WithMockUser(authorities = "plan:read")
     void shouldForbidUpdateSubscriptionPlanAsAdminWithReadPermissionOnly() throws Exception {
-        SubscriptionPlanEntity entity = createSubscriptionPlanAsAdminPlan("Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
+        SubscriptionPlanEntity entity = createPlan("Basic", new BigDecimal("4.99"), null, null, null, null, CURRENCY_CODE, true);
         UpdateSubscriptionPlanRequest request = new UpdateSubscriptionPlanRequest(
                 "New Title", null, new BigDecimal("9.99"), null, null, null, null,
-                CURRENCY_CODE, null, true, SubscriptionPlanType.ONLINE_TRAINING
+                CURRENCY_CODE, null, true
         );
         put(API + "/" + entity.getId(), request, status().isForbidden());
     }
@@ -441,8 +394,8 @@ class AdminSubscriptionPlanControllerTest extends IntegrationTest {
     // endregion
 
     // monthlyPrice, yearlyPrice, lifetimePrice, price (custom), durationDays (custom)
-    private SubscriptionPlanEntity createSubscriptionPlanAsAdminPlan(String title, BigDecimal monthlyPrice, BigDecimal yearlyPrice, BigDecimal lifetimePrice, BigDecimal price, Integer durationDays, String currencyCode, boolean active, SubscriptionPlanType type) {
-        SubscriptionPlanEntity entity = new SubscriptionPlanEntity(null, title, null, monthlyPrice, yearlyPrice, lifetimePrice, price, durationDays, currencyCode, List.of(), active, type);
+    private SubscriptionPlanEntity createPlan(String title, BigDecimal monthlyPrice, BigDecimal yearlyPrice, BigDecimal lifetimePrice, BigDecimal price, Integer durationDays, String currencyCode, boolean active) {
+        SubscriptionPlanEntity entity = new SubscriptionPlanEntity(null, title, null, monthlyPrice, yearlyPrice, lifetimePrice, price, durationDays, currencyCode, List.of(), active);
         entity.setCreationDate(Instant.now());
         entity.setLastUpdateDate(Instant.now());
         entity.setLastUpdatedBy("test");

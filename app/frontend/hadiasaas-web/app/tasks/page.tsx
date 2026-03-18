@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import dynamic from 'next/dynamic'
+import dynamic from "next/dynamic";
 
-const TasksClient = dynamic(() => import('./tasks-client'), { ssr: false })
+const TasksClient = dynamic(() => import("./tasks-client"), { ssr: false });
 
 export default function TasksPage() {
-  return <TasksClient />
+    return <TasksClient />;
 }

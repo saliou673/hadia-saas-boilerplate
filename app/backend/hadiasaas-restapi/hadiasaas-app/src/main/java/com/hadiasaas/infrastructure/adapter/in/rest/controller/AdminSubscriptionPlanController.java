@@ -54,8 +54,7 @@ public class AdminSubscriptionPlanController {
                         request.durationDays(),
                         request.currencyCode(),
                         request.features() != null ? request.features() : Collections.emptyList(),
-                        Boolean.TRUE.equals(request.active()),
-                        request.type()
+                        Boolean.TRUE.equals(request.active())
                 )
         );
     }
@@ -91,8 +90,7 @@ public class AdminSubscriptionPlanController {
                         request.durationDays(),
                         request.currencyCode(),
                         request.features() != null ? request.features() : Collections.emptyList(),
-                        Boolean.TRUE.equals(request.active()),
-                        request.type()
+                        Boolean.TRUE.equals(request.active())
                 )
         );
     }

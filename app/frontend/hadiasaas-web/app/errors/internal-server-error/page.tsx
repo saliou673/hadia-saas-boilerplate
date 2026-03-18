@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { GeneralError } from '@/features/errors/general-error'
+import { GeneralError } from "@/features/errors/general-error";
 
 export default function InternalServerErrorPage() {
-  return <GeneralError />
+    return <GeneralError />;
 }

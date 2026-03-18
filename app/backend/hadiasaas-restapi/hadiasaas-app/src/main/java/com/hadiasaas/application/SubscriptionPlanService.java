@@ -1,7 +1,6 @@
 package com.hadiasaas.application;
 
 import com.hadiasaas.domain.enumerations.AppConfigurationCategory;
-import com.hadiasaas.domain.enumerations.SubscriptionPlanType;
 import com.hadiasaas.domain.exceptions.InvalidCurrencyException;
 import com.hadiasaas.domain.exceptions.RequiredFieldException;
 import com.hadiasaas.domain.exceptions.SubscriptionPlanNotFoundException;
@@ -28,22 +27,22 @@ public class SubscriptionPlanService implements SubscriptionPlanUseCase {
     private final AppConfigurationPersistencePort appConfigurationPersistencePort;
 
     @Override
-    public SubscriptionPlan create(String title, String description, BigDecimal monthlyPrice, BigDecimal yearlyPrice, BigDecimal lifetimePrice, BigDecimal price, Integer durationDays, String currencyCode, List<String> features, boolean active, SubscriptionPlanType type) {
-        log.debug("Creating subscription plan: title={}, type={}, currencyCode={}", title, type, currencyCode);
+    public SubscriptionPlan create(String title, String description, BigDecimal monthlyPrice, BigDecimal yearlyPrice, BigDecimal lifetimePrice, BigDecimal price, Integer durationDays, String currencyCode, List<String> features, boolean active) {
+        log.debug("Creating subscription plan: title={}, currencyCode={}", title, currencyCode);
         validatePrices(monthlyPrice, yearlyPrice, lifetimePrice, price, durationDays);
         validateCurrencyCode(currencyCode);
-        SubscriptionPlan plan = SubscriptionPlan.create(title, description, monthlyPrice, yearlyPrice, lifetimePrice, price, durationDays, currencyCode, features, active, type);
+        SubscriptionPlan plan = SubscriptionPlan.create(title, description, monthlyPrice, yearlyPrice, lifetimePrice, price, durationDays, currencyCode, features, active);
         return subscriptionPlanPersistencePort.save(plan);
     }
 
     @Override
-    public SubscriptionPlan update(Long id, String title, String description, BigDecimal monthlyPrice, BigDecimal yearlyPrice, BigDecimal lifetimePrice, BigDecimal price, Integer durationDays, String currencyCode, List<String> features, boolean active, SubscriptionPlanType type) {
+    public SubscriptionPlan update(Long id, String title, String description, BigDecimal monthlyPrice, BigDecimal yearlyPrice, BigDecimal lifetimePrice, BigDecimal price, Integer durationDays, String currencyCode, List<String> features, boolean active) {
         log.debug("Updating subscription plan id={}", id);
         SubscriptionPlan plan = subscriptionPlanPersistencePort.findById(id)
                 .orElseThrow(() -> new SubscriptionPlanNotFoundException("Subscription plan not found with id: " + id));
         validatePrices(monthlyPrice, yearlyPrice, lifetimePrice, price, durationDays);
         validateCurrencyCode(currencyCode);
-        plan.update(title, description, monthlyPrice, yearlyPrice, lifetimePrice, price, durationDays, currencyCode, features, active, type);
+        plan.update(title, description, monthlyPrice, yearlyPrice, lifetimePrice, price, durationDays, currencyCode, features, active);
         return subscriptionPlanPersistencePort.save(plan);
     }
 

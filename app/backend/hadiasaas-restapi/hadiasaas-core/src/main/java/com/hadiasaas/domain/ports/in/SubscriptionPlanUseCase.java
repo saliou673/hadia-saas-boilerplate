@@ -1,6 +1,5 @@
 package com.hadiasaas.domain.ports.in;
 
-import com.hadiasaas.domain.enumerations.SubscriptionPlanType;
 import com.hadiasaas.domain.models.subscriptionplan.SubscriptionPlan;
 
 import java.math.BigDecimal;
@@ -24,10 +23,18 @@ public interface SubscriptionPlanUseCase {
      * @param currencyCode  ISO currency code (must be an active CURRENCY entry)
      * @param features      ordered list of feature bullet points
      * @param active        whether the plan is immediately available
-     * @param type          training delivery mode
      * @return the created plan
      */
-    SubscriptionPlan create(String title, String description, BigDecimal monthlyPrice, BigDecimal yearlyPrice, BigDecimal lifetimePrice, BigDecimal price, Integer durationDays, String currencyCode, List<String> features, boolean active, SubscriptionPlanType type);
+    SubscriptionPlan create(String title,
+                            String description,
+                            BigDecimal monthlyPrice,
+                            BigDecimal yearlyPrice,
+                            BigDecimal lifetimePrice,
+                            BigDecimal price,
+                            Integer durationDays,
+                            String currencyCode,
+                            List<String> features,
+                            boolean active);
 
     /**
      * Updates the subscription plan with the given identifier.
@@ -43,10 +50,19 @@ public interface SubscriptionPlanUseCase {
      * @param currencyCode  new currency code
      * @param features      new feature list
      * @param active        new active flag
-     * @param type          new delivery mode
      * @return the updated plan
      */
-    SubscriptionPlan update(Long id, String title, String description, BigDecimal monthlyPrice, BigDecimal yearlyPrice, BigDecimal lifetimePrice, BigDecimal price, Integer durationDays, String currencyCode, List<String> features, boolean active, SubscriptionPlanType type);
+    SubscriptionPlan update(Long id,
+                            String title,
+                            String description,
+                            BigDecimal monthlyPrice,
+                            BigDecimal yearlyPrice,
+                            BigDecimal lifetimePrice,
+                            BigDecimal price,
+                            Integer durationDays,
+                            String currencyCode,
+                            List<String> features,
+                            boolean active);
 
     /**
      * Deletes the subscription plan with the given identifier.

@@ -18,27 +18,27 @@ Thank you for considering contributing to **shadcn-admin**! Every contribution i
 1. **Fork** the repository.
 2. **Clone** your fork:
 
-   ```bash
-   git clone https://github.com/your-username/shadcn-admin.git
-   ```
+    ```bash
+    git clone https://github.com/your-username/shadcn-admin.git
+    ```
 
 3. **Install dependencies:**
 
-   ```bash
-   pnpm install
-   ```
+    ```bash
+    pnpm install
+    ```
 
 4. **Run the project locally:**
 
-   ```bash
-   pnpm dev
-   ```
+    ```bash
+    pnpm dev
+    ```
 
 5. Create a new branch for your contribution:
 
-   ```bash
-   git checkout -b feature/your-feature
-   ```
+    ```bash
+    git checkout -b feature/your-feature
+    ```
 
 ---
 
@@ -69,11 +69,11 @@ pnpm lint && pnpm format && pnpm knip && pnpm build
 ## Pull Request Guidelines
 
 - **Follow the [PR Template](./PULL_REQUEST_TEMPLATE.md):**
-  - Description
-  - Types of changes
-  - Checklist
-  - Further comments
-  - Related Issue
+    - Description
+    - Types of changes
+    - Checklist
+    - Further comments
+    - Related Issue
 - Ensure your changes pass **CI checks**.
 - Keep PRs **focused** and **concise**.
 - Reference related issues in your PR description.

@@ -1,6 +1,5 @@
 package com.hadiasaas.domain.models.subscriptionplan;
 
-import com.hadiasaas.domain.enumerations.SubscriptionPlanType;
 import com.hadiasaas.domain.models.Auditable;
 import lombok.Getter;
 
@@ -55,10 +54,6 @@ public class SubscriptionPlan extends Auditable<Long> {
      * Whether this plan is currently available for purchase.
      */
     private boolean active;
-    /**
-     * Training delivery mode (online or on-site).
-     */
-    private SubscriptionPlanType type;
 
     private SubscriptionPlan(
             Long id,
@@ -72,7 +67,6 @@ public class SubscriptionPlan extends Auditable<Long> {
             String currencyCode,
             List<String> features,
             boolean active,
-            SubscriptionPlanType type,
             Instant creationDate,
             Instant lastUpdateDate,
             String lastUpdatedBy
@@ -88,7 +82,6 @@ public class SubscriptionPlan extends Auditable<Long> {
         this.currencyCode = currencyCode;
         this.features = features != null ? new ArrayList<>(features) : new ArrayList<>();
         this.active = active;
-        this.type = type;
     }
 
     public static SubscriptionPlan create(
@@ -101,10 +94,22 @@ public class SubscriptionPlan extends Auditable<Long> {
             Integer durationDays,
             String currencyCode,
             List<String> features,
-            boolean active,
-            SubscriptionPlanType type
+            boolean active
     ) {
-        return new SubscriptionPlan(null, title, description, monthlyPrice, yearlyPrice, lifetimePrice, price, durationDays, currencyCode, features, active, type, null, null, null);
+        return new SubscriptionPlan(null,
+                                    title,
+                                    description,
+                                    monthlyPrice,
+                                    yearlyPrice,
+                                    lifetimePrice,
+                                    price,
+                                    durationDays,
+                                    currencyCode,
+                                    features,
+                                    active,
+                                    null,
+                                    null,
+                                    null);
     }
 
     public static SubscriptionPlan rehydrate(
@@ -119,12 +124,24 @@ public class SubscriptionPlan extends Auditable<Long> {
             String currencyCode,
             List<String> features,
             boolean active,
-            SubscriptionPlanType type,
             Instant creationDate,
             Instant lastUpdateDate,
             String lastUpdatedBy
     ) {
-        return new SubscriptionPlan(id, title, description, monthlyPrice, yearlyPrice, lifetimePrice, price, durationDays, currencyCode, features, active, type, creationDate, lastUpdateDate, lastUpdatedBy);
+        return new SubscriptionPlan(id,
+                                    title,
+                                    description,
+                                    monthlyPrice,
+                                    yearlyPrice,
+                                    lifetimePrice,
+                                    price,
+                                    durationDays,
+                                    currencyCode,
+                                    features,
+                                    active,
+                                    creationDate,
+                                    lastUpdateDate,
+                                    lastUpdatedBy);
     }
 
     public void update(
@@ -137,8 +154,7 @@ public class SubscriptionPlan extends Auditable<Long> {
             Integer durationDays,
             String currencyCode,
             List<String> features,
-            boolean active,
-            SubscriptionPlanType type
+            boolean active
     ) {
         this.title = title;
         this.description = description;
@@ -150,6 +166,5 @@ public class SubscriptionPlan extends Auditable<Long> {
         this.currencyCode = currencyCode;
         this.features = features != null ? new ArrayList<>(features) : new ArrayList<>();
         this.active = active;
-        this.type = type;
     }
 }

@@ -1,8 +1,8 @@
 "use client";
 
 import { AuthenticatedLayout } from "@/components/layout/authenticated-layout";
-import { ConfigurationsLayout } from "@/features/configurations/layout";
 import { Configurations } from "@/features/configurations";
+import { ConfigurationsLayout } from "@/features/configurations/layout";
 
 export default function ConfigurationsClient() {
     return (

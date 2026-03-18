@@ -31,7 +31,6 @@ public interface SubscriptionPlanDtoMapper {
                 plan.getCurrencyCode(),
                 plan.getFeatures(),
                 plan.isActive(),
-                plan.getType(),
                 plan.getCreationDate(),
                 plan.getLastUpdateDate(),
                 plan.getLastUpdatedBy()

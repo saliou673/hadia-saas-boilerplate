@@ -7,7 +7,6 @@ import type { BooleanFilter } from "./BooleanFilter.ts";
 import type { InstantFilter } from "./InstantFilter.ts";
 import type { LongFilter } from "./LongFilter.ts";
 import type { StringFilter } from "./StringFilter.ts";
-import type { SubscriptionPlanTypeFilter } from "./SubscriptionPlanTypeFilter.ts";
 
 export type SubscriptionPlanFilter = {
     /**
@@ -38,8 +37,4 @@ export type SubscriptionPlanFilter = {
      * @type object | undefined
     */
     active?: BooleanFilter;
-    /**
-     * @type object | undefined
-    */
-    type?: SubscriptionPlanTypeFilter;
 };

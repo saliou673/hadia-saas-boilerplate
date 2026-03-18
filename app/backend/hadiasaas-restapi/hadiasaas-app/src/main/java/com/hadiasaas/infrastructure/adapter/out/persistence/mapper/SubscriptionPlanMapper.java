@@ -37,7 +37,6 @@ public interface SubscriptionPlanMapper {
                 entity.getCurrencyCode(),
                 entity.getFeatures(),
                 entity.isActive(),
-                entity.getType(),
                 entity.getCreationDate(),
                 entity.getLastUpdateDate(),
                 entity.getLastUpdatedBy()

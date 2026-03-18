@@ -27,6 +27,7 @@ import {
     Building2,
     Tag,
     ShieldAlert,
+    CreditCard,
 } from "lucide-react";
 import { type SidebarData } from "../types";
 
@@ -78,6 +79,12 @@ export const sidebarData: SidebarData = {
                     url: "/users",
                     icon: Users,
                     requiredPermission: "user:read",
+                },
+                {
+                    title: "Subscription Plans",
+                    url: "/subscription-plans",
+                    icon: CreditCard,
+                    requiredPermission: "plan:read",
                 },
                 {
                     title: "Configuration",
