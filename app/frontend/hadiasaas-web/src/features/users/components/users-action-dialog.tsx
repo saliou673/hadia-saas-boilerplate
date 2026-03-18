@@ -9,9 +9,11 @@ import {
     type CreateAdminUserRequestGenderEnumKey,
     type UpdateUserRequestGenderEnumKey,
     getUserAsAdminQueryKey,
+    useAssignRoleGroupAsAdmin,
     useCreateUserAsAdmin,
     useGetRoleGroupsAsAdmin,
     useGetUserAsAdmin,
+    useRevokeRoleGroupAsAdmin,
     useUpdateUserAsAdmin,
 } from "@api-client";
 import { toast } from "sonner";
@@ -38,6 +40,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SelectDropdown } from "@/components/select-dropdown";
+import { getUsersAsAdminQueryKey } from "@api-client";
 import { genderOptions } from "../data/data";
 import {
     mapRoleGroupToOption,
@@ -126,7 +129,7 @@ export function UsersActionDialog({
             },
             {
                 query: {
-                    enabled: open && !isEdit,
+                    enabled: open,
                 },
             }
         );
@@ -142,8 +145,12 @@ export function UsersActionDialog({
 
     useEffect(() => {
         if (isEdit && userDetails) {
+            const existingRoleGroupNames = (userDetails.roleGroups ?? [])
+                .map((rg) => rg.name)
+                .filter((name): name is string => !!name);
             form.reset({
                 ...getDefaultValues(mapUserDetailsToRow(userDetails)),
+                roleGroupNames: existingRoleGroupNames,
                 isEdit: true,
             });
             return;
@@ -154,7 +161,7 @@ export function UsersActionDialog({
 
     const invalidateUsers = async () => {
         await queryClient.invalidateQueries({
-            queryKey: [{ url: getGetUsersAsAdminUrl().url }],
+            queryKey: getUsersAsAdminQueryKey(),
         });
     };
 
@@ -171,43 +178,77 @@ export function UsersActionDialog({
             },
         });
 
-    const { mutate: updateUser, isPending: isUpdatingUser } =
-        useUpdateUserAsAdmin({
-            mutation: {
-                onSuccess: async (updatedUser) => {
-                    await invalidateUsers();
-                    if (currentRow?.id) {
-                        queryClient.setQueryData(
-                            getUserAsAdminQueryKey(currentRow.id),
-                            updatedUser
-                        );
-                    }
-                    toast.success("User updated.");
-                    onOpenChange(false);
-                },
-                onError: handleServerError,
-            },
-        });
+    const { mutateAsync: updateUserAsync, isPending: isUpdatingUser } =
+        useUpdateUserAsAdmin();
 
-    const isPending = isCreatingUser || isUpdatingUser;
+    const { mutateAsync: assignRoleGroupAsync, isPending: isAssigning } =
+        useAssignRoleGroupAsAdmin();
 
-    const onSubmit = (values: UserForm) => {
+    const { mutateAsync: revokeRoleGroupAsync, isPending: isRevoking } =
+        useRevokeRoleGroupAsAdmin();
+
+    const isPending =
+        isCreatingUser || isUpdatingUser || isAssigning || isRevoking;
+
+    const onSubmit = async (values: UserForm) => {
         if (isEdit && currentRow?.id) {
-            updateUser({
-                id: currentRow.id,
-                data: {
-                    firstName: values.firstName.trim(),
-                    lastName: values.lastName.trim(),
-                    birthDate: normalizeOptionalString(values.birthDate),
-                    gender: values.gender
-                        ? (values.gender as UpdateUserRequestGenderEnumKey)
-                        : undefined,
-                    phoneNumber: normalizeOptionalString(values.phoneNumber),
-                    address: normalizeOptionalString(values.address),
-                    languageKey: normalizeOptionalString(values.languageKey),
-                    imageUrl: normalizeOptionalString(values.imageUrl),
-                },
-            });
+            const userId = currentRow.id;
+            const initialIds = new Set(
+                (userDetails?.roleGroups ?? [])
+                    .map((rg) => rg.id)
+                    .filter((id): id is number => !!id)
+            );
+            const targetIds = new Set(
+                roleGroupOptions
+                    .filter((opt) => values.roleGroupNames.includes(opt.name))
+                    .map((opt) => opt.id)
+            );
+            const toAssign = [...targetIds].filter((id) => !initialIds.has(id));
+            const toRevoke = [...initialIds].filter((id) => !targetIds.has(id));
+
+            try {
+                const [updatedUser] = await Promise.all([
+                    updateUserAsync({
+                        id: userId,
+                        data: {
+                            firstName: values.firstName.trim(),
+                            lastName: values.lastName.trim(),
+                            birthDate: normalizeOptionalString(
+                                values.birthDate
+                            ),
+                            gender: values.gender
+                                ? (values.gender as UpdateUserRequestGenderEnumKey)
+                                : undefined,
+                            phoneNumber: normalizeOptionalString(
+                                values.phoneNumber
+                            ),
+                            address: normalizeOptionalString(values.address),
+                            languageKey: normalizeOptionalString(
+                                values.languageKey
+                            ),
+                            imageUrl: normalizeOptionalString(values.imageUrl),
+                        },
+                    }),
+                    ...toAssign.map((roleGroupId) =>
+                        assignRoleGroupAsync({
+                            id: userId,
+                            data: { roleGroupId },
+                        })
+                    ),
+                    ...toRevoke.map((roleGroupId) =>
+                        revokeRoleGroupAsync({ id: userId, roleGroupId })
+                    ),
+                ]);
+                await invalidateUsers();
+                queryClient.setQueryData(
+                    getUserAsAdminQueryKey(userId),
+                    updatedUser
+                );
+                toast.success("User updated.");
+                onOpenChange(false);
+            } catch (error) {
+                handleServerError(error);
+            }
             return;
         }
 
@@ -248,7 +289,7 @@ export function UsersActionDialog({
                     </DialogTitle>
                     <DialogDescription>
                         {isEdit
-                            ? "Update the managed user profile. Email and assigned role groups cannot be changed from this dialog."
+                            ? "Update the managed user profile and assigned role groups. Email cannot be changed."
                             : "Create a managed user and assign at least one role group."}
                     </DialogDescription>
                 </DialogHeader>
@@ -438,105 +479,98 @@ export function UsersActionDialog({
                                         )}
                                     />
                                 </div>
-                                {!isEdit && (
-                                    <FormField
-                                        control={form.control}
-                                        name="roleGroupNames"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>
-                                                    Role Groups
-                                                </FormLabel>
-                                                <div className="rounded-md border">
-                                                    <ScrollArea className="h-48">
-                                                        <div className="space-y-3 p-4">
-                                                            {isRoleGroupsLoading ? (
-                                                                <p className="text-sm text-muted-foreground">
-                                                                    Loading role
-                                                                    groups...
-                                                                </p>
-                                                            ) : roleGroupOptions.length ===
-                                                              0 ? (
-                                                                <p className="text-sm text-muted-foreground">
-                                                                    No role
-                                                                    groups
-                                                                    available.
-                                                                </p>
-                                                            ) : (
-                                                                roleGroupOptions.map(
-                                                                    (
-                                                                        roleGroup
-                                                                    ) => {
-                                                                        const checked =
-                                                                            field.value.includes(
-                                                                                roleGroup.name
-                                                                            );
+                                <FormField
+                                    control={form.control}
+                                    name="roleGroupNames"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Role Groups</FormLabel>
+                                            <div className="rounded-md border">
+                                                <ScrollArea className="h-48">
+                                                    <div className="space-y-3 p-4">
+                                                        {isRoleGroupsLoading ? (
+                                                            <p className="text-sm text-muted-foreground">
+                                                                Loading role
+                                                                groups...
+                                                            </p>
+                                                        ) : roleGroupOptions.length ===
+                                                          0 ? (
+                                                            <p className="text-sm text-muted-foreground">
+                                                                No role groups
+                                                                available.
+                                                            </p>
+                                                        ) : (
+                                                            roleGroupOptions.map(
+                                                                (roleGroup) => {
+                                                                    const checked =
+                                                                        field.value.includes(
+                                                                            roleGroup.name
+                                                                        );
 
-                                                                        return (
-                                                                            <label
-                                                                                key={
-                                                                                    roleGroup.id
+                                                                    return (
+                                                                        <label
+                                                                            key={
+                                                                                roleGroup.id
+                                                                            }
+                                                                            className="flex items-start gap-3"
+                                                                        >
+                                                                            <Checkbox
+                                                                                checked={
+                                                                                    checked
                                                                                 }
-                                                                                className="flex items-start gap-3"
-                                                                            >
-                                                                                <Checkbox
-                                                                                    checked={
-                                                                                        checked
-                                                                                    }
-                                                                                    onCheckedChange={(
+                                                                                onCheckedChange={(
+                                                                                    nextChecked
+                                                                                ) => {
+                                                                                    const nextValues =
                                                                                         nextChecked
-                                                                                    ) => {
-                                                                                        const nextValues =
-                                                                                            nextChecked
-                                                                                                ? [
-                                                                                                      ...field.value,
-                                                                                                      roleGroup.name,
-                                                                                                  ]
-                                                                                                : field.value.filter(
-                                                                                                      (
-                                                                                                          value
-                                                                                                      ) =>
-                                                                                                          value !==
-                                                                                                          roleGroup.name
-                                                                                                  );
+                                                                                            ? [
+                                                                                                  ...field.value,
+                                                                                                  roleGroup.name,
+                                                                                              ]
+                                                                                            : field.value.filter(
+                                                                                                  (
+                                                                                                      value
+                                                                                                  ) =>
+                                                                                                      value !==
+                                                                                                      roleGroup.name
+                                                                                              );
 
-                                                                                        field.onChange(
-                                                                                            nextValues
-                                                                                        );
-                                                                                    }}
-                                                                                />
-                                                                                <div className="space-y-1">
-                                                                                    <p className="text-sm leading-none font-medium">
+                                                                                    field.onChange(
+                                                                                        nextValues
+                                                                                    );
+                                                                                }}
+                                                                            />
+                                                                            <div className="space-y-1">
+                                                                                <p className="text-sm leading-none font-medium">
+                                                                                    {
+                                                                                        roleGroup.name
+                                                                                    }
+                                                                                </p>
+                                                                                {roleGroup.description && (
+                                                                                    <p className="text-sm text-muted-foreground">
                                                                                         {
-                                                                                            roleGroup.name
+                                                                                            roleGroup.description
                                                                                         }
                                                                                     </p>
-                                                                                    {roleGroup.description && (
-                                                                                        <p className="text-sm text-muted-foreground">
-                                                                                            {
-                                                                                                roleGroup.description
-                                                                                            }
-                                                                                        </p>
-                                                                                    )}
-                                                                                </div>
-                                                                            </label>
-                                                                        );
-                                                                    }
-                                                                )
-                                                            )}
-                                                        </div>
-                                                    </ScrollArea>
-                                                </div>
-                                                <FormDescription>
-                                                    Role groups are required
-                                                    when creating a managed
-                                                    user.
-                                                </FormDescription>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                )}
+                                                                                )}
+                                                                            </div>
+                                                                        </label>
+                                                                    );
+                                                                }
+                                                            )
+                                                        )}
+                                                    </div>
+                                                </ScrollArea>
+                                            </div>
+                                            <FormDescription>
+                                                {isEdit
+                                                    ? "Assign or revoke role groups for this user."
+                                                    : "Role groups are required when creating a managed user."}
+                                            </FormDescription>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
                             </div>
                         </ScrollArea>
                         <DialogFooter className="mt-2 border-t pt-4">

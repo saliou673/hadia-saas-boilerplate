@@ -2,6 +2,7 @@ package com.hadiasaas.infrastructure.adapter.out.query;
 
 import com.hadiasaas.domain.enumerations.UserGroupConstants;
 import com.hadiasaas.domain.models.query.PagedResult;
+import com.hadiasaas.domain.models.query.filter.StringFilter;
 import com.hadiasaas.domain.models.user.User;
 import com.hadiasaas.domain.models.user.UserFilter;
 import com.hadiasaas.domain.ports.in.UserQueryUseCase;
@@ -11,6 +12,7 @@ import com.hadiasaas.infrastructure.adapter.out.persistence.repository.UserRepos
 import com.hadiasaas.infrastructure.adapter.out.persistence.repository.UserPreferenceRepository;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -76,8 +78,8 @@ public class AdminUserQueryService extends QueryService<UserEntity> implements U
     private Specification<UserEntity> createSpecification(UserFilter filter) {
         Specification<UserEntity> spec = Specification.unrestricted();
 
-        // Always filter by Admin role group
-        spec = spec.and(hasAdminRoleGroup());
+        // Always filter by Admin role group (with optional name filter folded in)
+        spec = spec.and(hasAdminRoleGroup(filter));
 
         if (filter == null) {
             return spec;
@@ -134,11 +136,24 @@ public class AdminUserQueryService extends QueryService<UserEntity> implements U
         return spec;
     }
 
-    private Specification<UserEntity> hasAdminRoleGroup() {
+    private Specification<UserEntity> hasAdminRoleGroup(UserFilter filter) {
         return (root, query, cb) -> {
             Join<UserEntity, RoleGroupEntity> join = root.join(UserEntity_.roleGroups, JoinType.INNER);
             query.distinct(true);
-            return cb.or(cb.equal(join.get(RoleGroupEntity_.name), UserGroupConstants.SYS_ADMIN), cb.equal(join.get(RoleGroupEntity_.name), UserGroupConstants.ADMIN));
+            Predicate isAdminGroup = cb.or(
+                cb.equal(join.get(RoleGroupEntity_.name), UserGroupConstants.SYS_ADMIN),
+                cb.equal(join.get(RoleGroupEntity_.name), UserGroupConstants.ADMIN)
+            );
+            if (filter != null && filter.getRoleGroupName() != null) {
+                StringFilter rgFilter = filter.getRoleGroupName();
+                if (rgFilter.getIn() != null && !rgFilter.getIn().isEmpty()) {
+                    return cb.and(isAdminGroup, join.get(RoleGroupEntity_.name).in(rgFilter.getIn()));
+                }
+                if (rgFilter.getEquals() != null) {
+                    return cb.and(isAdminGroup, cb.equal(join.get(RoleGroupEntity_.name), rgFilter.getEquals()));
+                }
+            }
+            return isAdminGroup;
         };
     }
 }

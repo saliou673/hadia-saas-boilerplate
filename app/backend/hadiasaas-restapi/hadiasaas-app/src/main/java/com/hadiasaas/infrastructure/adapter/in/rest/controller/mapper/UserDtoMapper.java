@@ -20,7 +20,7 @@ import java.util.Set;
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.ERROR,
-        uses = {UserPreferencesDtoMapper.class}
+        uses = {UserPreferencesDtoMapper.class, RoleGroupDtoMapper.class}
 )
 public interface UserDtoMapper {
     @Mapping(target = "email", source = "userCredentials.email")
@@ -45,6 +45,7 @@ public interface UserDtoMapper {
     @Mapping(target = "languageKey", source = "userInfo.languageKey")
     @Mapping(target = "imageUrl", source = "userInfo.imageUrl")
     @Mapping(target = "permissions", expression = "java(mapPermissions(user.resolvePermissions()))")
+    @Mapping(target = "roleGroups", source = "roleGroups")
     @Mapping(target = "preferences", source = "preferences")
     UserDetailsDTO toDetailsDTO(User user);
 

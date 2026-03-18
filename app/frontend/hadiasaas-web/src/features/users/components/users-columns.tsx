@@ -90,6 +90,22 @@ export function buildUsersColumns({
             enableSorting: false,
         },
         {
+            accessorKey: "roleGroupNames",
+            header: "Role Groups",
+            cell: ({ row }) => (
+                <div className="flex flex-wrap gap-1">
+                    {row.original.roleGroupNames.map((name) => (
+                        <Badge key={name} variant="outline" className="text-xs">
+                            {name}
+                        </Badge>
+                    ))}
+                </div>
+            ),
+            filterFn: (row, _id, value: string[]) =>
+                value.some((v) => row.original.roleGroupNames.includes(v)),
+            enableSorting: false,
+        },
+        {
             accessorKey: "gender",
             header: "Gender",
             cell: ({ row }) => <div>{genderLabels[row.original.gender]}</div>,

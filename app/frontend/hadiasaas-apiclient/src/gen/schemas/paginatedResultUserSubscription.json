@@ -1,1 +1,55 @@
-{"type":"object","properties":{"items":{"type":"array","items":{"type":"object","properties":{"creationDate":{"type":"string","format":"date-time"},"lastUpdateDate":{"type":"string","format":"date-time"},"lastUpdatedBy":{"type":"string"},"id":{"type":"integer","format":"int64"},"userId":{"type":"integer","format":"int64"},"planId":{"type":"integer","format":"int64"},"planTitle":{"type":"string"},"pricePaid":{"type":"number"},"discountCodeUsed":{"type":"string"},"discountAmount":{"type":"number"},"taxRate":{"type":"number"},"taxAmount":{"type":"number"},"currencyCode":{"type":"string"},"billingFrequency":{"type":"string","enum":["MONTHLY","YEARLY","LIFETIME","CUSTOM"]},"paymentMode":{"type":"string"},"externalPaymentId":{"type":"string"},"status":{"type":"string","enum":["PENDING","ACTIVE","EXPIRED","CANCELLED","FAILED"]},"startDate":{"type":"string","format":"date"},"endDate":{"type":"string","format":"date"},"autoRenew":{"type":"boolean"}},"x-readme-ref-name":"UserSubscription"}},"page":{"type":"integer","format":"int32"},"size":{"type":"integer","format":"int32"},"totalPages":{"type":"integer","format":"int32"},"totalItems":{"type":"integer","format":"int64"}},"required":["items"],"x-readme-ref-name":"PaginatedResultUserSubscription"}
+{
+    "type": "object",
+    "properties": {
+        "items": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "creationDate": { "type": "string", "format": "date-time" },
+                    "lastUpdateDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastUpdatedBy": { "type": "string" },
+                    "id": { "type": "integer", "format": "int64" },
+                    "userId": { "type": "integer", "format": "int64" },
+                    "planId": { "type": "integer", "format": "int64" },
+                    "planTitle": { "type": "string" },
+                    "pricePaid": { "type": "number" },
+                    "discountCodeUsed": { "type": "string" },
+                    "discountAmount": { "type": "number" },
+                    "taxRate": { "type": "number" },
+                    "taxAmount": { "type": "number" },
+                    "currencyCode": { "type": "string" },
+                    "billingFrequency": {
+                        "type": "string",
+                        "enum": ["MONTHLY", "YEARLY", "LIFETIME", "CUSTOM"]
+                    },
+                    "paymentMode": { "type": "string" },
+                    "externalPaymentId": { "type": "string" },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "PENDING",
+                            "ACTIVE",
+                            "EXPIRED",
+                            "CANCELLED",
+                            "FAILED"
+                        ]
+                    },
+                    "startDate": { "type": "string", "format": "date" },
+                    "endDate": { "type": "string", "format": "date" },
+                    "autoRenew": { "type": "boolean" }
+                },
+                "x-readme-ref-name": "UserSubscription"
+            }
+        },
+        "page": { "type": "integer", "format": "int32" },
+        "size": { "type": "integer", "format": "int32" },
+        "totalPages": { "type": "integer", "format": "int32" },
+        "totalItems": { "type": "integer", "format": "int64" }
+    },
+    "required": ["items"],
+    "x-readme-ref-name": "PaginatedResultUserSubscription"
+}

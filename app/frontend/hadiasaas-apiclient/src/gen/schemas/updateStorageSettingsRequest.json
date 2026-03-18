@@ -1,1 +1,15 @@
-{"type":"object","properties":{"provider":{"type":"string","enum":["LOCAL","AWS_S3","AZURE_BLOB","GCS"]},"bucketName":{"type":"string"},"region":{"type":"string"},"endpoint":{"type":"string"},"active":{"type":"boolean"}},"required":["active","provider"],"x-readme-ref-name":"UpdateStorageSettingsRequest"}
+{
+    "type": "object",
+    "properties": {
+        "provider": {
+            "type": "string",
+            "enum": ["LOCAL", "AWS_S3", "AZURE_BLOB", "GCS"]
+        },
+        "bucketName": { "type": "string" },
+        "region": { "type": "string" },
+        "endpoint": { "type": "string" },
+        "active": { "type": "boolean" }
+    },
+    "required": ["active", "provider"],
+    "x-readme-ref-name": "UpdateStorageSettingsRequest"
+}

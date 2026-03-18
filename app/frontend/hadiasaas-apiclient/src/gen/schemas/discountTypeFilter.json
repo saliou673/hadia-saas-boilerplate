@@ -1,1 +1,26 @@
-{"type":"object","properties":{"equals":{"type":"string","enum":["PERCENTAGE","FIXED_AMOUNT"]},"notEquals":{"type":"string","enum":["PERCENTAGE","FIXED_AMOUNT"]},"specified":{"type":"boolean"},"in":{"type":"array","items":{"type":"string","enum":["PERCENTAGE","FIXED_AMOUNT"]}},"notIn":{"type":"array","items":{"type":"string","enum":["PERCENTAGE","FIXED_AMOUNT"]}}},"x-readme-ref-name":"DiscountTypeFilter"}
+{
+    "type": "object",
+    "properties": {
+        "equals": { "type": "string", "enum": ["PERCENTAGE", "FIXED_AMOUNT"] },
+        "notEquals": {
+            "type": "string",
+            "enum": ["PERCENTAGE", "FIXED_AMOUNT"]
+        },
+        "specified": { "type": "boolean" },
+        "in": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": ["PERCENTAGE", "FIXED_AMOUNT"]
+            }
+        },
+        "notIn": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": ["PERCENTAGE", "FIXED_AMOUNT"]
+            }
+        }
+    },
+    "x-readme-ref-name": "DiscountTypeFilter"
+}

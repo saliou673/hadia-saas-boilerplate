@@ -1,1 +1,35 @@
-{"type":"object","properties":{"items":{"type":"array","items":{"type":"object","properties":{"creationDate":{"type":"string","format":"date-time"},"lastUpdateDate":{"type":"string","format":"date-time"},"lastUpdatedBy":{"type":"string"},"id":{"type":"integer","format":"int64"},"provider":{"type":"string","enum":["LOCAL","AWS_S3","AZURE_BLOB","GCS"]},"bucketName":{"type":"string"},"region":{"type":"string"},"endpoint":{"type":"string"},"active":{"type":"boolean"}},"x-readme-ref-name":"StorageSettings"}},"page":{"type":"integer","format":"int32"},"size":{"type":"integer","format":"int32"},"totalPages":{"type":"integer","format":"int32"},"totalItems":{"type":"integer","format":"int64"}},"required":["items"],"x-readme-ref-name":"PaginatedResultStorageSettings"}
+{
+    "type": "object",
+    "properties": {
+        "items": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "creationDate": { "type": "string", "format": "date-time" },
+                    "lastUpdateDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastUpdatedBy": { "type": "string" },
+                    "id": { "type": "integer", "format": "int64" },
+                    "provider": {
+                        "type": "string",
+                        "enum": ["LOCAL", "AWS_S3", "AZURE_BLOB", "GCS"]
+                    },
+                    "bucketName": { "type": "string" },
+                    "region": { "type": "string" },
+                    "endpoint": { "type": "string" },
+                    "active": { "type": "boolean" }
+                },
+                "x-readme-ref-name": "StorageSettings"
+            }
+        },
+        "page": { "type": "integer", "format": "int32" },
+        "size": { "type": "integer", "format": "int32" },
+        "totalPages": { "type": "integer", "format": "int32" },
+        "totalItems": { "type": "integer", "format": "int64" }
+    },
+    "required": ["items"],
+    "x-readme-ref-name": "PaginatedResultStorageSettings"
+}

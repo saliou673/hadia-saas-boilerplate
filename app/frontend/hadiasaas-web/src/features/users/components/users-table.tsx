@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-table";
 import {
     useGetUsersAsAdmin,
+    useGetRoleGroupsAsAdmin,
     type UserFilter,
     type UserGenderFilterInEnumKey,
     type UserStatusFilterInEnumKey,
@@ -101,8 +102,29 @@ export function UsersTable({ canDeleteUsers, canUpdateUsers }: DataTableProps) {
             { columnId: "email", searchKey: "email", type: "string" },
             { columnId: "status", searchKey: "status", type: "array" },
             { columnId: "gender", searchKey: "gender", type: "array" },
+            {
+                columnId: "roleGroupNames",
+                searchKey: "roleGroup",
+                type: "array",
+            },
         ],
     });
+    const { data: roleGroupsData } = useGetRoleGroupsAsAdmin(
+        { pageable: { page: 0, size: 100 } },
+        { query: { enabled: true } }
+    );
+    const roleGroupOptions = useMemo(
+        () =>
+            (roleGroupsData?.items ?? [])
+                .filter(
+                    (rg): rg is typeof rg & { id: number; name: string } =>
+                        !!rg.id && !!rg.name
+                )
+                .map((rg) => ({ label: rg.name, value: rg.name }))
+                .sort((a, b) => a.label.localeCompare(b.label)),
+        [roleGroupsData?.items]
+    );
+
     const emailFilterValue = useMemo(
         () => getStringFilterValue(columnFilters, "email"),
         [columnFilters]
@@ -148,6 +170,10 @@ export function UsersTable({ canDeleteUsers, canUpdateUsers }: DataTableProps) {
         const emailValues = getArrayFilterValue(columnFilters, "email");
         const statusValues = getArrayFilterValue(columnFilters, "status");
         const genderValues = getArrayFilterValue(columnFilters, "gender");
+        const roleGroupValues = getArrayFilterValue(
+            columnFilters,
+            "roleGroupNames"
+        );
         const nextFilter: UserFilter = {};
         const email = emailValues[0]?.trim();
 
@@ -175,6 +201,12 @@ export function UsersTable({ canDeleteUsers, canUpdateUsers }: DataTableProps) {
             };
         }
 
+        if (roleGroupValues.length === 1) {
+            nextFilter.roleGroupName = { equals: roleGroupValues[0] };
+        } else if (roleGroupValues.length > 1) {
+            nextFilter.roleGroupName = { in: roleGroupValues };
+        }
+
         return nextFilter;
     }, [columnFilters]);
 
@@ -193,7 +225,7 @@ export function UsersTable({ canDeleteUsers, canUpdateUsers }: DataTableProps) {
         setRowSelection({});
     }, [pagination.pageIndex, pagination.pageSize, filter]);
 
-    const { data, isLoading, isError, error } = useGetUsersAsAdmin(
+    const { data, isLoading, isFetching, isError, error } = useGetUsersAsAdmin(
         usersQueryParams,
         {
             query: {
@@ -262,9 +294,14 @@ export function UsersTable({ canDeleteUsers, canUpdateUsers }: DataTableProps) {
                         title: "Gender",
                         options: genderOptions,
                     },
+                    {
+                        columnId: "roleGroupNames",
+                        title: "Role Group",
+                        options: roleGroupOptions,
+                    },
                 ]}
             />
-            <div className="overflow-hidden rounded-md border">
+            <div className={cn("overflow-hidden rounded-md border transition-opacity", isFetching && "opacity-60")}>
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (

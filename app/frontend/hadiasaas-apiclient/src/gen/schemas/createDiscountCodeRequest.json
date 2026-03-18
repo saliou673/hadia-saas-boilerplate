@@ -1,1 +1,17 @@
-{"type":"object","properties":{"code":{"type":"string","maxLength":50,"minLength":0},"discountType":{"type":"string","enum":["PERCENTAGE","FIXED_AMOUNT"]},"discountValue":{"type":"number","minimum":0.01},"currencyCode":{"type":"string","maxLength":10,"minLength":0},"active":{"type":"boolean"},"expirationDate":{"type":"string","format":"date"},"maxUsages":{"type":"integer","format":"int32","minimum":1}},"required":["active","code","discountType","discountValue"],"x-readme-ref-name":"CreateDiscountCodeRequest"}
+{
+    "type": "object",
+    "properties": {
+        "code": { "type": "string", "maxLength": 50, "minLength": 0 },
+        "discountType": {
+            "type": "string",
+            "enum": ["PERCENTAGE", "FIXED_AMOUNT"]
+        },
+        "discountValue": { "type": "number", "minimum": 0.01 },
+        "currencyCode": { "type": "string", "maxLength": 10, "minLength": 0 },
+        "active": { "type": "boolean" },
+        "expirationDate": { "type": "string", "format": "date" },
+        "maxUsages": { "type": "integer", "format": "int32", "minimum": 1 }
+    },
+    "required": ["active", "code", "discountType", "discountValue"],
+    "x-readme-ref-name": "CreateDiscountCodeRequest"
+}

@@ -7,6 +7,7 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * MapStruct mapper converting {@link com.hadiasaas.domain.models.rbac.RoleGroup} to {@link com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.RoleGroupDTO}.
@@ -21,4 +22,6 @@ public interface RoleGroupDtoMapper {
     RoleGroupDTO toDTO(RoleGroup roleGroup);
 
     List<RoleGroupDTO> toDTO(List<RoleGroup> roleGroups);
+
+    List<RoleGroupDTO> toDTO(Set<RoleGroup> roleGroups);
 }

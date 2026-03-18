@@ -1,1 +1,15 @@
-{"type":"object","properties":{"code":{"type":"string"},"valid":{"type":"boolean"},"discountType":{"type":"string","enum":["PERCENTAGE","FIXED_AMOUNT"]},"discountValue":{"type":"number"},"currencyCode":{"type":"string"},"expirationDate":{"type":"string","format":"date"}},"x-readme-ref-name":"DiscountCodeStatusResponse"}
+{
+    "type": "object",
+    "properties": {
+        "code": { "type": "string" },
+        "valid": { "type": "boolean" },
+        "discountType": {
+            "type": "string",
+            "enum": ["PERCENTAGE", "FIXED_AMOUNT"]
+        },
+        "discountValue": { "type": "number" },
+        "currencyCode": { "type": "string" },
+        "expirationDate": { "type": "string", "format": "date" }
+    },
+    "x-readme-ref-name": "DiscountCodeStatusResponse"
+}
