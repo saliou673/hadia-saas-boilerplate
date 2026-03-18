@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { UpdateByCategoryAndCodeMutationRequest, UpdateByCategoryAndCodeMutationResponse, UpdateByCategoryAndCodePathParams, UpdateByCategoryAndCode404, UpdateByCategoryAndCode409 } from "../../types/UpdateByCategoryAndCode.ts";
+import type { UpdateByCategoryAndCodeMutationRequest, UpdateByCategoryAndCodeMutationResponse, UpdateByCategoryAndCodePathParams, UpdateByCategoryAndCode403, UpdateByCategoryAndCode404, UpdateByCategoryAndCode409 } from "../../types/UpdateByCategoryAndCode.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getUpdateByCategoryAndCodeUrl(category: UpdateByCategoryAndCodePathParams["category"], code: UpdateByCategoryAndCodePathParams["code"]) {
@@ -20,6 +20,6 @@ export async function updateByCategoryAndCode(category: UpdateByCategoryAndCodeP
 
   const requestData = data
 
-  const res = await request<UpdateByCategoryAndCodeMutationResponse, ResponseErrorConfig<UpdateByCategoryAndCode404 | UpdateByCategoryAndCode409>, UpdateByCategoryAndCodeMutationRequest>({ method : "PUT", url : getUpdateByCategoryAndCodeUrl(category, code).url.toString(), data : requestData, ... requestConfig })
+  const res = await request<UpdateByCategoryAndCodeMutationResponse, ResponseErrorConfig<UpdateByCategoryAndCode403 | UpdateByCategoryAndCode404 | UpdateByCategoryAndCode409>, UpdateByCategoryAndCodeMutationRequest>({ method : "PUT", url : getUpdateByCategoryAndCodeUrl(category, code).url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

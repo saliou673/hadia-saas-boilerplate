@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { VerifyLoginChallengeMutationRequest, VerifyLoginChallengeMutationResponse, VerifyLoginChallenge404, VerifyLoginChallenge409 } from "../../types/VerifyLoginChallenge.ts";
+import type { VerifyLoginChallengeMutationRequest, VerifyLoginChallengeMutationResponse, VerifyLoginChallenge403, VerifyLoginChallenge404, VerifyLoginChallenge409 } from "../../types/VerifyLoginChallenge.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getVerifyLoginChallengeUrl() {
@@ -20,6 +20,6 @@ export async function verifyLoginChallenge(data: VerifyLoginChallengeMutationReq
 
   const requestData = data
 
-  const res = await request<VerifyLoginChallengeMutationResponse, ResponseErrorConfig<VerifyLoginChallenge404 | VerifyLoginChallenge409>, VerifyLoginChallengeMutationRequest>({ method : "POST", url : getVerifyLoginChallengeUrl().url.toString(), data : requestData, ... requestConfig })
+  const res = await request<VerifyLoginChallengeMutationResponse, ResponseErrorConfig<VerifyLoginChallenge403 | VerifyLoginChallenge404 | VerifyLoginChallenge409>, VerifyLoginChallengeMutationRequest>({ method : "POST", url : getVerifyLoginChallengeUrl().url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

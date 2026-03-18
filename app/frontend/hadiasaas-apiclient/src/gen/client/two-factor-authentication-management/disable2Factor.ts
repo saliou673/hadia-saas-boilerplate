@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { Disable2FactorMutationRequest, Disable2FactorMutationResponse, Disable2Factor404, Disable2Factor409 } from "../../types/Disable2Factor.ts";
+import type { Disable2FactorMutationRequest, Disable2FactorMutationResponse, Disable2Factor403, Disable2Factor404, Disable2Factor409 } from "../../types/Disable2Factor.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getDisable2FactorUrl() {
@@ -20,6 +20,6 @@ export async function disable2Factor(data: Disable2FactorMutationRequest, config
 
   const requestData = data
 
-  const res = await request<Disable2FactorMutationResponse, ResponseErrorConfig<Disable2Factor404 | Disable2Factor409>, Disable2FactorMutationRequest>({ method : "DELETE", url : getDisable2FactorUrl().url.toString(), data : requestData, ... requestConfig })
+  const res = await request<Disable2FactorMutationResponse, ResponseErrorConfig<Disable2Factor403 | Disable2Factor404 | Disable2Factor409>, Disable2FactorMutationRequest>({ method : "DELETE", url : getDisable2FactorUrl().url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

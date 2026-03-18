@@ -1,18 +1,13 @@
 package com.hadiasaas.infrastructure.adapter.out.storage;
 
-import com.hadiasaas.domain.enumerations.AppConfigurationCategory;
-import com.hadiasaas.domain.exceptions.TechnicalException;
 import com.hadiasaas.domain.ports.out.StorageStrategyResolverPort;
-import com.hadiasaas.infrastructure.adapter.out.persistence.entity.AppConfigurationEntity;
-import com.hadiasaas.infrastructure.adapter.out.persistence.repository.AppConfigurationRepository;
+import com.hadiasaas.domain.ports.out.persistenceport.StorageSettingsPersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 /**
- * Resolves the storage strategy from persisted app configuration.
+ * Resolves the storage strategy from the active {@link com.hadiasaas.domain.models.storagesettings.StorageSettings}.
  */
 @Service
 @Transactional(readOnly = true)
@@ -21,24 +16,12 @@ public class AppConfigurationStorageStrategyResolver implements StorageStrategyR
 
     private static final String DEFAULT_STRATEGY = StorageStrategy.LOCAL_CODE;
 
-    private final AppConfigurationRepository appConfigurationRepository;
+    private final StorageSettingsPersistencePort storageSettingsPersistencePort;
 
     @Override
     public String resolveStorageStrategyCode() {
-        List<String> activeStrategies = appConfigurationRepository
-                .findAllByCategoryAndActiveTrue(AppConfigurationCategory.STORAGE)
-                .stream()
-                .map(AppConfigurationEntity::getCode)
-                .toList();
-
-        if (activeStrategies.isEmpty()) {
-            return DEFAULT_STRATEGY;
-        }
-
-        if (activeStrategies.size() > 1) {
-            throw new TechnicalException("Multiple active storage strategies found");
-        }
-
-        return activeStrategies.getFirst();
+        return storageSettingsPersistencePort.findActive()
+                .map(s -> s.getProvider().getStrategyCode())
+                .orElse(DEFAULT_STRATEGY);
     }
 }

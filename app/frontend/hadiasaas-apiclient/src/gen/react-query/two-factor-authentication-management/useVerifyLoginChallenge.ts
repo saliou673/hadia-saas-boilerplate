@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { VerifyLoginChallengeMutationRequest, VerifyLoginChallengeMutationResponse, VerifyLoginChallenge404, VerifyLoginChallenge409 } from "../../types/VerifyLoginChallenge.ts";
+import type { VerifyLoginChallengeMutationRequest, VerifyLoginChallengeMutationResponse, VerifyLoginChallenge403, VerifyLoginChallenge404, VerifyLoginChallenge409 } from "../../types/VerifyLoginChallenge.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { verifyLoginChallenge } from "../../client/two-factor-authentication-management/verifyLoginChallenge.ts";
@@ -16,7 +16,7 @@ export type VerifyLoginChallengeMutationKey = ReturnType<typeof verifyLoginChall
 export function verifyLoginChallengeMutationOptions<TContext = unknown>(config: Partial<RequestConfig<VerifyLoginChallengeMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = verifyLoginChallengeMutationKey()
-        return mutationOptions<VerifyLoginChallengeMutationResponse, ResponseErrorConfig<VerifyLoginChallenge404 | VerifyLoginChallenge409>, {data: VerifyLoginChallengeMutationRequest}, TContext>({
+        return mutationOptions<VerifyLoginChallengeMutationResponse, ResponseErrorConfig<VerifyLoginChallenge403 | VerifyLoginChallenge404 | VerifyLoginChallenge409>, {data: VerifyLoginChallengeMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return verifyLoginChallenge(data, config)
@@ -30,7 +30,7 @@ export function verifyLoginChallengeMutationOptions<TContext = unknown>(config: 
  */
 export function useVerifyLoginChallenge<TContext>(options: 
 {
-  mutation?: UseMutationOptions<VerifyLoginChallengeMutationResponse, ResponseErrorConfig<VerifyLoginChallenge404 | VerifyLoginChallenge409>, {data: VerifyLoginChallengeMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<VerifyLoginChallengeMutationResponse, ResponseErrorConfig<VerifyLoginChallenge403 | VerifyLoginChallenge404 | VerifyLoginChallenge409>, {data: VerifyLoginChallengeMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<VerifyLoginChallengeMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useVerifyLoginChallenge<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? verifyLoginChallengeMutationKey()
 
-          const baseOptions = verifyLoginChallengeMutationOptions(config) as UseMutationOptions<VerifyLoginChallengeMutationResponse, ResponseErrorConfig<VerifyLoginChallenge404 | VerifyLoginChallenge409>, {data: VerifyLoginChallengeMutationRequest}, TContext>
+          const baseOptions = verifyLoginChallengeMutationOptions(config) as UseMutationOptions<VerifyLoginChallengeMutationResponse, ResponseErrorConfig<VerifyLoginChallenge403 | VerifyLoginChallenge404 | VerifyLoginChallenge409>, {data: VerifyLoginChallengeMutationRequest}, TContext>
           
 
-          return useMutation<VerifyLoginChallengeMutationResponse, ResponseErrorConfig<VerifyLoginChallenge404 | VerifyLoginChallenge409>, {data: VerifyLoginChallengeMutationRequest}, TContext>({
+          return useMutation<VerifyLoginChallengeMutationResponse, ResponseErrorConfig<VerifyLoginChallenge403 | VerifyLoginChallenge404 | VerifyLoginChallenge409>, {data: VerifyLoginChallengeMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<VerifyLoginChallengeMutationResponse, ResponseErrorConfig<VerifyLoginChallenge404 | VerifyLoginChallenge409>, {data: VerifyLoginChallengeMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<VerifyLoginChallengeMutationResponse, ResponseErrorConfig<VerifyLoginChallenge403 | VerifyLoginChallenge404 | VerifyLoginChallenge409>, {data: VerifyLoginChallengeMutationRequest}, TContext>
       
 }

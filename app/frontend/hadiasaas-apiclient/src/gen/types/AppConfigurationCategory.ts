@@ -7,10 +7,7 @@
 export const appConfigurationCategoryValueEnum = {
     CURRENCY: "CURRENCY",
     TWO_FACTOR: "TWO_FACTOR",
-    PAYMENT_MODE: "PAYMENT_MODE",
-    STORAGE: "STORAGE",
-    TAX: "TAX",
-    ENTERPRISE: "ENTERPRISE"
+    PAYMENT_MODE: "PAYMENT_MODE"
 } as const;
 
 export type AppConfigurationCategoryValueEnumKey = (typeof appConfigurationCategoryValueEnum)[keyof typeof appConfigurationCategoryValueEnum];

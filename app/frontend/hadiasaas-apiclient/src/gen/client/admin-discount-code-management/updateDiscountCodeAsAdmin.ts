@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { UpdateDiscountCodeAsAdminMutationRequest, UpdateDiscountCodeAsAdminMutationResponse, UpdateDiscountCodeAsAdminPathParams, UpdateDiscountCodeAsAdmin404, UpdateDiscountCodeAsAdmin409 } from "../../types/UpdateDiscountCodeAsAdmin.ts";
+import type { UpdateDiscountCodeAsAdminMutationRequest, UpdateDiscountCodeAsAdminMutationResponse, UpdateDiscountCodeAsAdminPathParams, UpdateDiscountCodeAsAdmin403, UpdateDiscountCodeAsAdmin404, UpdateDiscountCodeAsAdmin409 } from "../../types/UpdateDiscountCodeAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getUpdateDiscountCodeAsAdminUrl(id: UpdateDiscountCodeAsAdminPathParams["id"]) {
@@ -20,6 +20,6 @@ export async function updateDiscountCodeAsAdmin(id: UpdateDiscountCodeAsAdminPat
 
   const requestData = data
 
-  const res = await request<UpdateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<UpdateDiscountCodeAsAdmin404 | UpdateDiscountCodeAsAdmin409>, UpdateDiscountCodeAsAdminMutationRequest>({ method : "PUT", url : getUpdateDiscountCodeAsAdminUrl(id).url.toString(), data : requestData, ... requestConfig })
+  const res = await request<UpdateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<UpdateDiscountCodeAsAdmin403 | UpdateDiscountCodeAsAdmin404 | UpdateDiscountCodeAsAdmin409>, UpdateDiscountCodeAsAdminMutationRequest>({ method : "PUT", url : getUpdateDiscountCodeAsAdminUrl(id).url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

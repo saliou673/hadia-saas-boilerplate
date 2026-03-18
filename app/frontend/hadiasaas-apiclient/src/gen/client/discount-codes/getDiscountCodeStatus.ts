@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { GetDiscountCodeStatusQueryResponse, GetDiscountCodeStatusPathParams, GetDiscountCodeStatus404, GetDiscountCodeStatus409 } from "../../types/GetDiscountCodeStatus.ts";
+import type { GetDiscountCodeStatusQueryResponse, GetDiscountCodeStatusPathParams, GetDiscountCodeStatus403, GetDiscountCodeStatus404, GetDiscountCodeStatus409 } from "../../types/GetDiscountCodeStatus.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getGetDiscountCodeStatusUrl(code: GetDiscountCodeStatusPathParams["code"]) {
@@ -20,6 +20,6 @@ export async function getDiscountCodeStatus(code: GetDiscountCodeStatusPathParam
 
 
 
-  const res = await request<GetDiscountCodeStatusQueryResponse, ResponseErrorConfig<GetDiscountCodeStatus404 | GetDiscountCodeStatus409>, unknown>({ method : "GET", url : getGetDiscountCodeStatusUrl(code).url.toString(), ... requestConfig })
+  const res = await request<GetDiscountCodeStatusQueryResponse, ResponseErrorConfig<GetDiscountCodeStatus403 | GetDiscountCodeStatus404 | GetDiscountCodeStatus409>, unknown>({ method : "GET", url : getGetDiscountCodeStatusUrl(code).url.toString(), ... requestConfig })
   return res.data
 }

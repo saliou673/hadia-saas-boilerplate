@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetAppConfigurationsQueryResponse, GetAppConfigurationsQueryParams, GetAppConfigurations404, GetAppConfigurations409 } from "../../types/GetAppConfigurations.ts";
+import type { GetAppConfigurationsQueryResponse, GetAppConfigurationsQueryParams, GetAppConfigurations403, GetAppConfigurations404, GetAppConfigurations409 } from "../../types/GetAppConfigurations.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 import { getAppConfigurations } from "../../client/configuration-management/getAppConfigurations.ts";
@@ -16,7 +16,7 @@ export type GetAppConfigurationsSuspenseQueryKey = ReturnType<typeof getAppConfi
 export function getAppConfigurationsSuspenseQueryOptions(params: GetAppConfigurationsQueryParams, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getAppConfigurationsSuspenseQueryKey(params)
-        return queryOptions<GetAppConfigurationsQueryResponse, ResponseErrorConfig<GetAppConfigurations404 | GetAppConfigurations409>, GetAppConfigurationsQueryResponse, typeof queryKey>({
+        return queryOptions<GetAppConfigurationsQueryResponse, ResponseErrorConfig<GetAppConfigurations403 | GetAppConfigurations404 | GetAppConfigurations409>, GetAppConfigurationsQueryResponse, typeof queryKey>({
          enabled: !!(params),
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getAppConfigurationsSuspenseQueryOptions(params: GetAppConfigura
  */
 export function useGetAppConfigurationsSuspense<TData = GetAppConfigurationsQueryResponse, TQueryKey extends QueryKey = GetAppConfigurationsSuspenseQueryKey>(params: GetAppConfigurationsQueryParams, options: 
 {
-  query?: Partial<UseSuspenseQueryOptions<GetAppConfigurationsQueryResponse, ResponseErrorConfig<GetAppConfigurations404 | GetAppConfigurations409>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<GetAppConfigurationsQueryResponse, ResponseErrorConfig<GetAppConfigurations403 | GetAppConfigurations404 | GetAppConfigurations409>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetAppConfigurationsSuspense<TData = GetAppConfigurationsQuer
           ...getAppConfigurationsSuspenseQueryOptions(params, config),
           queryKey,
           ...queryOptions
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetAppConfigurations404 | GetAppConfigurations409>> & { queryKey: TQueryKey }
+         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetAppConfigurations403 | GetAppConfigurations404 | GetAppConfigurations409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

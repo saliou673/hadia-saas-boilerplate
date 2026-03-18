@@ -20,3 +20,15 @@ databaseChangeLog:
   - include:
       file: 00006-assign-non-admin-permissions.sql
       relativeToChangelogFile: true
+  - include:
+      file: 00007-migrate-storage-from-app-configuration.sql
+      relativeToChangelogFile: true
+  - include:
+      file: 00008-migrate-tax-from-app-configuration.sql
+      relativeToChangelogFile: true
+  - include:
+      file: 00009-migrate-enterprise-from-app-configuration.sql
+      relativeToChangelogFile: true
+  - include:
+      file: 00010-cleanup-app-configuration-categories.sql
+      relativeToChangelogFile: true

@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { CreatePublicUserAccountMutationRequest, CreatePublicUserAccountMutationResponse, CreatePublicUserAccount404, CreatePublicUserAccount409 } from "../../types/CreatePublicUserAccount.ts";
+import type { CreatePublicUserAccountMutationRequest, CreatePublicUserAccountMutationResponse, CreatePublicUserAccount403, CreatePublicUserAccount404, CreatePublicUserAccount409 } from "../../types/CreatePublicUserAccount.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { createPublicUserAccount } from "../../client/user-account-management/createPublicUserAccount.ts";
@@ -16,7 +16,7 @@ export type CreatePublicUserAccountMutationKey = ReturnType<typeof createPublicU
 export function createPublicUserAccountMutationOptions<TContext = unknown>(config: Partial<RequestConfig<CreatePublicUserAccountMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = createPublicUserAccountMutationKey()
-        return mutationOptions<CreatePublicUserAccountMutationResponse, ResponseErrorConfig<CreatePublicUserAccount404 | CreatePublicUserAccount409>, {data: CreatePublicUserAccountMutationRequest}, TContext>({
+        return mutationOptions<CreatePublicUserAccountMutationResponse, ResponseErrorConfig<CreatePublicUserAccount403 | CreatePublicUserAccount404 | CreatePublicUserAccount409>, {data: CreatePublicUserAccountMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return createPublicUserAccount(data, config)
@@ -30,7 +30,7 @@ export function createPublicUserAccountMutationOptions<TContext = unknown>(confi
  */
 export function useCreatePublicUserAccount<TContext>(options: 
 {
-  mutation?: UseMutationOptions<CreatePublicUserAccountMutationResponse, ResponseErrorConfig<CreatePublicUserAccount404 | CreatePublicUserAccount409>, {data: CreatePublicUserAccountMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<CreatePublicUserAccountMutationResponse, ResponseErrorConfig<CreatePublicUserAccount403 | CreatePublicUserAccount404 | CreatePublicUserAccount409>, {data: CreatePublicUserAccountMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<CreatePublicUserAccountMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useCreatePublicUserAccount<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? createPublicUserAccountMutationKey()
 
-          const baseOptions = createPublicUserAccountMutationOptions(config) as UseMutationOptions<CreatePublicUserAccountMutationResponse, ResponseErrorConfig<CreatePublicUserAccount404 | CreatePublicUserAccount409>, {data: CreatePublicUserAccountMutationRequest}, TContext>
+          const baseOptions = createPublicUserAccountMutationOptions(config) as UseMutationOptions<CreatePublicUserAccountMutationResponse, ResponseErrorConfig<CreatePublicUserAccount403 | CreatePublicUserAccount404 | CreatePublicUserAccount409>, {data: CreatePublicUserAccountMutationRequest}, TContext>
           
 
-          return useMutation<CreatePublicUserAccountMutationResponse, ResponseErrorConfig<CreatePublicUserAccount404 | CreatePublicUserAccount409>, {data: CreatePublicUserAccountMutationRequest}, TContext>({
+          return useMutation<CreatePublicUserAccountMutationResponse, ResponseErrorConfig<CreatePublicUserAccount403 | CreatePublicUserAccount404 | CreatePublicUserAccount409>, {data: CreatePublicUserAccountMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<CreatePublicUserAccountMutationResponse, ResponseErrorConfig<CreatePublicUserAccount404 | CreatePublicUserAccount409>, {data: CreatePublicUserAccountMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<CreatePublicUserAccountMutationResponse, ResponseErrorConfig<CreatePublicUserAccount403 | CreatePublicUserAccount404 | CreatePublicUserAccount409>, {data: CreatePublicUserAccountMutationRequest}, TContext>
       
 }

@@ -1,0 +1,24 @@
+package com.hadiasaas.infrastructure.adapter.in.rest.controller.requests;
+
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.*;
+
+import java.math.BigDecimal;
+
+public record CreateTaxConfigurationRequest(
+        @NotBlank(message = "code is required")
+        @Size(max = 50, message = "code must not exceed 50 characters")
+        String code,
+
+        @NotBlank(message = "name is required")
+        String name,
+
+        @NotNull(message = "rate is required")
+        @DecimalMin(value = "0.0", message = "rate must be >= 0")
+        @DecimalMax(value = "1.0", message = "rate must be <= 1")
+        BigDecimal rate,
+
+        @Nullable
+        String description
+) {
+}

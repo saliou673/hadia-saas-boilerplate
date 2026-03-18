@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetRoleGroupByIdAsAdminQueryResponse, GetRoleGroupByIdAsAdminPathParams, GetRoleGroupByIdAsAdmin404, GetRoleGroupByIdAsAdmin409 } from "../../types/GetRoleGroupByIdAsAdmin.ts";
+import type { GetRoleGroupByIdAsAdminQueryResponse, GetRoleGroupByIdAsAdminPathParams, GetRoleGroupByIdAsAdmin403, GetRoleGroupByIdAsAdmin404, GetRoleGroupByIdAsAdmin409 } from "../../types/GetRoleGroupByIdAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 import { getRoleGroupByIdAsAdmin } from "../../client/role-group-management/getRoleGroupByIdAsAdmin.ts";
@@ -16,7 +16,7 @@ export type GetRoleGroupByIdAsAdminSuspenseQueryKey = ReturnType<typeof getRoleG
 export function getRoleGroupByIdAsAdminSuspenseQueryOptions(id: GetRoleGroupByIdAsAdminPathParams["id"], config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getRoleGroupByIdAsAdminSuspenseQueryKey(id)
-        return queryOptions<GetRoleGroupByIdAsAdminQueryResponse, ResponseErrorConfig<GetRoleGroupByIdAsAdmin404 | GetRoleGroupByIdAsAdmin409>, GetRoleGroupByIdAsAdminQueryResponse, typeof queryKey>({
+        return queryOptions<GetRoleGroupByIdAsAdminQueryResponse, ResponseErrorConfig<GetRoleGroupByIdAsAdmin403 | GetRoleGroupByIdAsAdmin404 | GetRoleGroupByIdAsAdmin409>, GetRoleGroupByIdAsAdminQueryResponse, typeof queryKey>({
          enabled: !!(id),
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getRoleGroupByIdAsAdminSuspenseQueryOptions(id: GetRoleGroupById
  */
 export function useGetRoleGroupByIdAsAdminSuspense<TData = GetRoleGroupByIdAsAdminQueryResponse, TQueryKey extends QueryKey = GetRoleGroupByIdAsAdminSuspenseQueryKey>(id: GetRoleGroupByIdAsAdminPathParams["id"], options: 
 {
-  query?: Partial<UseSuspenseQueryOptions<GetRoleGroupByIdAsAdminQueryResponse, ResponseErrorConfig<GetRoleGroupByIdAsAdmin404 | GetRoleGroupByIdAsAdmin409>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<GetRoleGroupByIdAsAdminQueryResponse, ResponseErrorConfig<GetRoleGroupByIdAsAdmin403 | GetRoleGroupByIdAsAdmin404 | GetRoleGroupByIdAsAdmin409>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetRoleGroupByIdAsAdminSuspense<TData = GetRoleGroupByIdAsAdm
           ...getRoleGroupByIdAsAdminSuspenseQueryOptions(id, config),
           queryKey,
           ...queryOptions
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetRoleGroupByIdAsAdmin404 | GetRoleGroupByIdAsAdmin409>> & { queryKey: TQueryKey }
+         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetRoleGroupByIdAsAdmin403 | GetRoleGroupByIdAsAdmin404 | GetRoleGroupByIdAsAdmin409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

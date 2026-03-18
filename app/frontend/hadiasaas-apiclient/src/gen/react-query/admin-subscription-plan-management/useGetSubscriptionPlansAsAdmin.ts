@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetSubscriptionPlansAsAdminQueryResponse, GetSubscriptionPlansAsAdminQueryParams, GetSubscriptionPlansAsAdmin404, GetSubscriptionPlansAsAdmin409 } from "../../types/GetSubscriptionPlansAsAdmin.ts";
+import type { GetSubscriptionPlansAsAdminQueryResponse, GetSubscriptionPlansAsAdminQueryParams, GetSubscriptionPlansAsAdmin403, GetSubscriptionPlansAsAdmin404, GetSubscriptionPlansAsAdmin409 } from "../../types/GetSubscriptionPlansAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
 import { getSubscriptionPlansAsAdmin } from "../../client/admin-subscription-plan-management/getSubscriptionPlansAsAdmin.ts";
@@ -16,7 +16,7 @@ export type GetSubscriptionPlansAsAdminQueryKey = ReturnType<typeof getSubscript
 export function getSubscriptionPlansAsAdminQueryOptions(params: GetSubscriptionPlansAsAdminQueryParams, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getSubscriptionPlansAsAdminQueryKey(params)
-        return queryOptions<GetSubscriptionPlansAsAdminQueryResponse, ResponseErrorConfig<GetSubscriptionPlansAsAdmin404 | GetSubscriptionPlansAsAdmin409>, GetSubscriptionPlansAsAdminQueryResponse, typeof queryKey>({
+        return queryOptions<GetSubscriptionPlansAsAdminQueryResponse, ResponseErrorConfig<GetSubscriptionPlansAsAdmin403 | GetSubscriptionPlansAsAdmin404 | GetSubscriptionPlansAsAdmin409>, GetSubscriptionPlansAsAdminQueryResponse, typeof queryKey>({
          enabled: !!(params),
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getSubscriptionPlansAsAdminQueryOptions(params: GetSubscriptionP
  */
 export function useGetSubscriptionPlansAsAdmin<TData = GetSubscriptionPlansAsAdminQueryResponse, TQueryData = GetSubscriptionPlansAsAdminQueryResponse, TQueryKey extends QueryKey = GetSubscriptionPlansAsAdminQueryKey>(params: GetSubscriptionPlansAsAdminQueryParams, options: 
 {
-  query?: Partial<QueryObserverOptions<GetSubscriptionPlansAsAdminQueryResponse, ResponseErrorConfig<GetSubscriptionPlansAsAdmin404 | GetSubscriptionPlansAsAdmin409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<QueryObserverOptions<GetSubscriptionPlansAsAdminQueryResponse, ResponseErrorConfig<GetSubscriptionPlansAsAdmin403 | GetSubscriptionPlansAsAdmin404 | GetSubscriptionPlansAsAdmin409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetSubscriptionPlansAsAdmin<TData = GetSubscriptionPlansAsAdm
           ...getSubscriptionPlansAsAdminQueryOptions(params, config),
           queryKey,
           ...queryOptions
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetSubscriptionPlansAsAdmin404 | GetSubscriptionPlansAsAdmin409>> & { queryKey: TQueryKey }
+         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetSubscriptionPlansAsAdmin403 | GetSubscriptionPlansAsAdmin404 | GetSubscriptionPlansAsAdmin409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

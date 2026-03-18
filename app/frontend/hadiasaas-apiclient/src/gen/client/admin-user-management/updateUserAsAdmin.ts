@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { UpdateUserAsAdminMutationRequest, UpdateUserAsAdminMutationResponse, UpdateUserAsAdminPathParams, UpdateUserAsAdmin404, UpdateUserAsAdmin409 } from "../../types/UpdateUserAsAdmin.ts";
+import type { UpdateUserAsAdminMutationRequest, UpdateUserAsAdminMutationResponse, UpdateUserAsAdminPathParams, UpdateUserAsAdmin403, UpdateUserAsAdmin404, UpdateUserAsAdmin409 } from "../../types/UpdateUserAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getUpdateUserAsAdminUrl(id: UpdateUserAsAdminPathParams["id"]) {
@@ -20,6 +20,6 @@ export async function updateUserAsAdmin(id: UpdateUserAsAdminPathParams["id"], d
 
   const requestData = data
 
-  const res = await request<UpdateUserAsAdminMutationResponse, ResponseErrorConfig<UpdateUserAsAdmin404 | UpdateUserAsAdmin409>, UpdateUserAsAdminMutationRequest>({ method : "PUT", url : getUpdateUserAsAdminUrl(id).url.toString(), data : requestData, ... requestConfig })
+  const res = await request<UpdateUserAsAdminMutationResponse, ResponseErrorConfig<UpdateUserAsAdmin403 | UpdateUserAsAdmin404 | UpdateUserAsAdmin409>, UpdateUserAsAdminMutationRequest>({ method : "PUT", url : getUpdateUserAsAdminUrl(id).url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

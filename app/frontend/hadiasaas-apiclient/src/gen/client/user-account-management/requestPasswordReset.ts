@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { RequestPasswordResetMutationRequest, RequestPasswordResetMutationResponse, RequestPasswordReset404, RequestPasswordReset409 } from "../../types/RequestPasswordReset.ts";
+import type { RequestPasswordResetMutationRequest, RequestPasswordResetMutationResponse, RequestPasswordReset403, RequestPasswordReset404, RequestPasswordReset409 } from "../../types/RequestPasswordReset.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getRequestPasswordResetUrl() {
@@ -20,6 +20,6 @@ export async function requestPasswordReset(data: RequestPasswordResetMutationReq
 
   const requestData = data
 
-  const res = await request<RequestPasswordResetMutationResponse, ResponseErrorConfig<RequestPasswordReset404 | RequestPasswordReset409>, RequestPasswordResetMutationRequest>({ method : "POST", url : getRequestPasswordResetUrl().url.toString(), data : requestData, ... requestConfig, headers : { 'Content-Type': 'text/plain', ...requestConfig.headers } })
+  const res = await request<RequestPasswordResetMutationResponse, ResponseErrorConfig<RequestPasswordReset403 | RequestPasswordReset404 | RequestPasswordReset409>, RequestPasswordResetMutationRequest>({ method : "POST", url : getRequestPasswordResetUrl().url.toString(), data : requestData, ... requestConfig, headers : { 'Content-Type': 'text/plain', ...requestConfig.headers } })
   return res.data
 }

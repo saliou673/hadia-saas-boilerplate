@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { CompleteInvitationMutationRequest, CompleteInvitationMutationResponse, CompleteInvitation404, CompleteInvitation409 } from "../../types/CompleteInvitation.ts";
+import type { CompleteInvitationMutationRequest, CompleteInvitationMutationResponse, CompleteInvitation403, CompleteInvitation404, CompleteInvitation409 } from "../../types/CompleteInvitation.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { completeInvitation } from "../../client/user-account-management/completeInvitation.ts";
@@ -16,7 +16,7 @@ export type CompleteInvitationMutationKey = ReturnType<typeof completeInvitation
 export function completeInvitationMutationOptions<TContext = unknown>(config: Partial<RequestConfig<CompleteInvitationMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = completeInvitationMutationKey()
-        return mutationOptions<CompleteInvitationMutationResponse, ResponseErrorConfig<CompleteInvitation404 | CompleteInvitation409>, {data: CompleteInvitationMutationRequest}, TContext>({
+        return mutationOptions<CompleteInvitationMutationResponse, ResponseErrorConfig<CompleteInvitation403 | CompleteInvitation404 | CompleteInvitation409>, {data: CompleteInvitationMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return completeInvitation(data, config)
@@ -30,7 +30,7 @@ export function completeInvitationMutationOptions<TContext = unknown>(config: Pa
  */
 export function useCompleteInvitation<TContext>(options: 
 {
-  mutation?: UseMutationOptions<CompleteInvitationMutationResponse, ResponseErrorConfig<CompleteInvitation404 | CompleteInvitation409>, {data: CompleteInvitationMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<CompleteInvitationMutationResponse, ResponseErrorConfig<CompleteInvitation403 | CompleteInvitation404 | CompleteInvitation409>, {data: CompleteInvitationMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<CompleteInvitationMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useCompleteInvitation<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? completeInvitationMutationKey()
 
-          const baseOptions = completeInvitationMutationOptions(config) as UseMutationOptions<CompleteInvitationMutationResponse, ResponseErrorConfig<CompleteInvitation404 | CompleteInvitation409>, {data: CompleteInvitationMutationRequest}, TContext>
+          const baseOptions = completeInvitationMutationOptions(config) as UseMutationOptions<CompleteInvitationMutationResponse, ResponseErrorConfig<CompleteInvitation403 | CompleteInvitation404 | CompleteInvitation409>, {data: CompleteInvitationMutationRequest}, TContext>
           
 
-          return useMutation<CompleteInvitationMutationResponse, ResponseErrorConfig<CompleteInvitation404 | CompleteInvitation409>, {data: CompleteInvitationMutationRequest}, TContext>({
+          return useMutation<CompleteInvitationMutationResponse, ResponseErrorConfig<CompleteInvitation403 | CompleteInvitation404 | CompleteInvitation409>, {data: CompleteInvitationMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<CompleteInvitationMutationResponse, ResponseErrorConfig<CompleteInvitation404 | CompleteInvitation409>, {data: CompleteInvitationMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<CompleteInvitationMutationResponse, ResponseErrorConfig<CompleteInvitation403 | CompleteInvitation404 | CompleteInvitation409>, {data: CompleteInvitationMutationRequest}, TContext>
       
 }

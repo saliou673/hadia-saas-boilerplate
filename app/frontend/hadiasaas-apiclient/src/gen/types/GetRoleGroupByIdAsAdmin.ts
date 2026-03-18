@@ -19,6 +19,11 @@ export type GetRoleGroupByIdAsAdminPathParams = {
 export type GetRoleGroupByIdAsAdmin200 = RoleGroup;
 
 /**
+ * @description Forbidden
+*/
+export type GetRoleGroupByIdAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type GetRoleGroupByIdAsAdmin404 = ValidationErrorResponseDTO;
@@ -33,5 +38,5 @@ export type GetRoleGroupByIdAsAdminQueryResponse = GetRoleGroupByIdAsAdmin200;
 export type GetRoleGroupByIdAsAdminQuery = {
     Response: GetRoleGroupByIdAsAdmin200;
     PathParams: GetRoleGroupByIdAsAdminPathParams;
-    Errors: GetRoleGroupByIdAsAdmin404 | GetRoleGroupByIdAsAdmin409;
+    Errors: GetRoleGroupByIdAsAdmin403 | GetRoleGroupByIdAsAdmin404 | GetRoleGroupByIdAsAdmin409;
 };

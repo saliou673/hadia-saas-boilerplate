@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { GetAppConfigurationByIdAsAdminQueryResponse, GetAppConfigurationByIdAsAdminPathParams, GetAppConfigurationByIdAsAdmin404, GetAppConfigurationByIdAsAdmin409 } from "../../types/GetAppConfigurationByIdAsAdmin.ts";
+import type { GetAppConfigurationByIdAsAdminQueryResponse, GetAppConfigurationByIdAsAdminPathParams, GetAppConfigurationByIdAsAdmin403, GetAppConfigurationByIdAsAdmin404, GetAppConfigurationByIdAsAdmin409 } from "../../types/GetAppConfigurationByIdAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getGetAppConfigurationByIdAsAdminUrl(id: GetAppConfigurationByIdAsAdminPathParams["id"]) {
@@ -20,6 +20,6 @@ export async function getAppConfigurationByIdAsAdmin(id: GetAppConfigurationById
 
 
 
-  const res = await request<GetAppConfigurationByIdAsAdminQueryResponse, ResponseErrorConfig<GetAppConfigurationByIdAsAdmin404 | GetAppConfigurationByIdAsAdmin409>, unknown>({ method : "GET", url : getGetAppConfigurationByIdAsAdminUrl(id).url.toString(), ... requestConfig })
+  const res = await request<GetAppConfigurationByIdAsAdminQueryResponse, ResponseErrorConfig<GetAppConfigurationByIdAsAdmin403 | GetAppConfigurationByIdAsAdmin404 | GetAppConfigurationByIdAsAdmin409>, unknown>({ method : "GET", url : getGetAppConfigurationByIdAsAdminUrl(id).url.toString(), ... requestConfig })
   return res.data
 }

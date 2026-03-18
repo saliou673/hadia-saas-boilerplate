@@ -9,7 +9,6 @@ import {
     useNextSearchObject,
 } from "@/hooks/use-next-search-state";
 import { Button } from "@/components/ui/button";
-import { Main } from "@/components/layout/main";
 import { ConfigurationsDeleteDialog } from "./configurations-delete-dialog";
 import { ConfigurationsMutateDrawer } from "./configurations-mutate-drawer";
 import { ConfigurationsTable } from "./configurations-table";
@@ -35,23 +34,25 @@ export function Configurations() {
     const handleOnEdit = (configuration: AppConfiguration) => {
         setCurrentRow(configuration);
         setMutateOpen(true);
-    }
+    };
 
     const handleOnDelete = (configuration: AppConfiguration) => {
         setCurrentRow(configuration);
         setDeleteOpen(true);
-    }
+    };
 
     return (
         <>
-            <Main className="flex flex-1 flex-col gap-4 sm:gap-6">
+            <div className="flex flex-1 flex-col gap-4 sm:gap-6">
                 <div className="flex flex-wrap items-end justify-between gap-2">
                     <div>
                         <h2 className="text-2xl font-bold tracking-tight">
-                            Application Configurations
+                            Reference Data
                         </h2>
                         <p className="text-muted-foreground">
-                            Manage application configurations.
+                            Configurable option lists used across the
+                            application — available currencies, supported
+                            payment modes, and 2FA methods.
                         </p>
                     </div>
                     <div className="flex items-center gap-3">
@@ -78,7 +79,7 @@ export function Configurations() {
                     onDelete={handleOnDelete}
                     onTotalItemsChange={setTotalItems}
                 />
-            </Main>
+            </div>
 
             <ConfigurationsMutateDrawer
                 open={mutateOpen}

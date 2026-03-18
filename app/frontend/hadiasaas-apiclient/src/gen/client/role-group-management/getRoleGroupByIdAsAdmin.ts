@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { GetRoleGroupByIdAsAdminQueryResponse, GetRoleGroupByIdAsAdminPathParams, GetRoleGroupByIdAsAdmin404, GetRoleGroupByIdAsAdmin409 } from "../../types/GetRoleGroupByIdAsAdmin.ts";
+import type { GetRoleGroupByIdAsAdminQueryResponse, GetRoleGroupByIdAsAdminPathParams, GetRoleGroupByIdAsAdmin403, GetRoleGroupByIdAsAdmin404, GetRoleGroupByIdAsAdmin409 } from "../../types/GetRoleGroupByIdAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getGetRoleGroupByIdAsAdminUrl(id: GetRoleGroupByIdAsAdminPathParams["id"]) {
@@ -20,6 +20,6 @@ export async function getRoleGroupByIdAsAdmin(id: GetRoleGroupByIdAsAdminPathPar
 
 
 
-  const res = await request<GetRoleGroupByIdAsAdminQueryResponse, ResponseErrorConfig<GetRoleGroupByIdAsAdmin404 | GetRoleGroupByIdAsAdmin409>, unknown>({ method : "GET", url : getGetRoleGroupByIdAsAdminUrl(id).url.toString(), ... requestConfig })
+  const res = await request<GetRoleGroupByIdAsAdminQueryResponse, ResponseErrorConfig<GetRoleGroupByIdAsAdmin403 | GetRoleGroupByIdAsAdmin404 | GetRoleGroupByIdAsAdmin409>, unknown>({ method : "GET", url : getGetRoleGroupByIdAsAdminUrl(id).url.toString(), ... requestConfig })
   return res.data
 }

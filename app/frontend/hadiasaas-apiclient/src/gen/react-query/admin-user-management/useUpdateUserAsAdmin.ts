@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { UpdateUserAsAdminMutationRequest, UpdateUserAsAdminMutationResponse, UpdateUserAsAdminPathParams, UpdateUserAsAdmin404, UpdateUserAsAdmin409 } from "../../types/UpdateUserAsAdmin.ts";
+import type { UpdateUserAsAdminMutationRequest, UpdateUserAsAdminMutationResponse, UpdateUserAsAdminPathParams, UpdateUserAsAdmin403, UpdateUserAsAdmin404, UpdateUserAsAdmin409 } from "../../types/UpdateUserAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { updateUserAsAdmin } from "../../client/admin-user-management/updateUserAsAdmin.ts";
@@ -16,7 +16,7 @@ export type UpdateUserAsAdminMutationKey = ReturnType<typeof updateUserAsAdminMu
 export function updateUserAsAdminMutationOptions<TContext = unknown>(config: Partial<RequestConfig<UpdateUserAsAdminMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = updateUserAsAdminMutationKey()
-        return mutationOptions<UpdateUserAsAdminMutationResponse, ResponseErrorConfig<UpdateUserAsAdmin404 | UpdateUserAsAdmin409>, {id: UpdateUserAsAdminPathParams["id"], data: UpdateUserAsAdminMutationRequest}, TContext>({
+        return mutationOptions<UpdateUserAsAdminMutationResponse, ResponseErrorConfig<UpdateUserAsAdmin403 | UpdateUserAsAdmin404 | UpdateUserAsAdmin409>, {id: UpdateUserAsAdminPathParams["id"], data: UpdateUserAsAdminMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ id, data }) => {
             return updateUserAsAdmin(id, data, config)
@@ -30,7 +30,7 @@ export function updateUserAsAdminMutationOptions<TContext = unknown>(config: Par
  */
 export function useUpdateUserAsAdmin<TContext>(options: 
 {
-  mutation?: UseMutationOptions<UpdateUserAsAdminMutationResponse, ResponseErrorConfig<UpdateUserAsAdmin404 | UpdateUserAsAdmin409>, {id: UpdateUserAsAdminPathParams["id"], data: UpdateUserAsAdminMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<UpdateUserAsAdminMutationResponse, ResponseErrorConfig<UpdateUserAsAdmin403 | UpdateUserAsAdmin404 | UpdateUserAsAdmin409>, {id: UpdateUserAsAdminPathParams["id"], data: UpdateUserAsAdminMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<UpdateUserAsAdminMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useUpdateUserAsAdmin<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? updateUserAsAdminMutationKey()
 
-          const baseOptions = updateUserAsAdminMutationOptions(config) as UseMutationOptions<UpdateUserAsAdminMutationResponse, ResponseErrorConfig<UpdateUserAsAdmin404 | UpdateUserAsAdmin409>, {id: UpdateUserAsAdminPathParams["id"], data: UpdateUserAsAdminMutationRequest}, TContext>
+          const baseOptions = updateUserAsAdminMutationOptions(config) as UseMutationOptions<UpdateUserAsAdminMutationResponse, ResponseErrorConfig<UpdateUserAsAdmin403 | UpdateUserAsAdmin404 | UpdateUserAsAdmin409>, {id: UpdateUserAsAdminPathParams["id"], data: UpdateUserAsAdminMutationRequest}, TContext>
           
 
-          return useMutation<UpdateUserAsAdminMutationResponse, ResponseErrorConfig<UpdateUserAsAdmin404 | UpdateUserAsAdmin409>, {id: UpdateUserAsAdminPathParams["id"], data: UpdateUserAsAdminMutationRequest}, TContext>({
+          return useMutation<UpdateUserAsAdminMutationResponse, ResponseErrorConfig<UpdateUserAsAdmin403 | UpdateUserAsAdmin404 | UpdateUserAsAdmin409>, {id: UpdateUserAsAdminPathParams["id"], data: UpdateUserAsAdminMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<UpdateUserAsAdminMutationResponse, ResponseErrorConfig<UpdateUserAsAdmin404 | UpdateUserAsAdmin409>, {id: UpdateUserAsAdminPathParams["id"], data: UpdateUserAsAdminMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<UpdateUserAsAdminMutationResponse, ResponseErrorConfig<UpdateUserAsAdmin403 | UpdateUserAsAdmin404 | UpdateUserAsAdmin409>, {id: UpdateUserAsAdminPathParams["id"], data: UpdateUserAsAdminMutationRequest}, TContext>
       
 }

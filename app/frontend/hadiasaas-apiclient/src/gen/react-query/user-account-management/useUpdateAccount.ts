@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { UpdateAccountMutationRequest, UpdateAccountMutationResponse, UpdateAccount404, UpdateAccount409 } from "../../types/UpdateAccount.ts";
+import type { UpdateAccountMutationRequest, UpdateAccountMutationResponse, UpdateAccount403, UpdateAccount404, UpdateAccount409 } from "../../types/UpdateAccount.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { updateAccount } from "../../client/user-account-management/updateAccount.ts";
@@ -16,7 +16,7 @@ export type UpdateAccountMutationKey = ReturnType<typeof updateAccountMutationKe
 export function updateAccountMutationOptions<TContext = unknown>(config: Partial<RequestConfig<UpdateAccountMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = updateAccountMutationKey()
-        return mutationOptions<UpdateAccountMutationResponse, ResponseErrorConfig<UpdateAccount404 | UpdateAccount409>, {data: UpdateAccountMutationRequest}, TContext>({
+        return mutationOptions<UpdateAccountMutationResponse, ResponseErrorConfig<UpdateAccount403 | UpdateAccount404 | UpdateAccount409>, {data: UpdateAccountMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return updateAccount(data, config)
@@ -30,7 +30,7 @@ export function updateAccountMutationOptions<TContext = unknown>(config: Partial
  */
 export function useUpdateAccount<TContext>(options: 
 {
-  mutation?: UseMutationOptions<UpdateAccountMutationResponse, ResponseErrorConfig<UpdateAccount404 | UpdateAccount409>, {data: UpdateAccountMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<UpdateAccountMutationResponse, ResponseErrorConfig<UpdateAccount403 | UpdateAccount404 | UpdateAccount409>, {data: UpdateAccountMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<UpdateAccountMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useUpdateAccount<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? updateAccountMutationKey()
 
-          const baseOptions = updateAccountMutationOptions(config) as UseMutationOptions<UpdateAccountMutationResponse, ResponseErrorConfig<UpdateAccount404 | UpdateAccount409>, {data: UpdateAccountMutationRequest}, TContext>
+          const baseOptions = updateAccountMutationOptions(config) as UseMutationOptions<UpdateAccountMutationResponse, ResponseErrorConfig<UpdateAccount403 | UpdateAccount404 | UpdateAccount409>, {data: UpdateAccountMutationRequest}, TContext>
           
 
-          return useMutation<UpdateAccountMutationResponse, ResponseErrorConfig<UpdateAccount404 | UpdateAccount409>, {data: UpdateAccountMutationRequest}, TContext>({
+          return useMutation<UpdateAccountMutationResponse, ResponseErrorConfig<UpdateAccount403 | UpdateAccount404 | UpdateAccount409>, {data: UpdateAccountMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<UpdateAccountMutationResponse, ResponseErrorConfig<UpdateAccount404 | UpdateAccount409>, {data: UpdateAccountMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<UpdateAccountMutationResponse, ResponseErrorConfig<UpdateAccount403 | UpdateAccount404 | UpdateAccount409>, {data: UpdateAccountMutationRequest}, TContext>
       
 }

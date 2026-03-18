@@ -12,6 +12,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type RefreshToken200 = JwtToken;
 
 /**
+ * @description Forbidden
+*/
+export type RefreshToken403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type RefreshToken404 = ValidationErrorResponseDTO;
@@ -28,5 +33,5 @@ export type RefreshTokenMutationResponse = RefreshToken200;
 export type RefreshTokenMutation = {
     Response: RefreshToken200;
     Request: RefreshTokenMutationRequest;
-    Errors: RefreshToken404 | RefreshToken409;
+    Errors: RefreshToken403 | RefreshToken404 | RefreshToken409;
 };

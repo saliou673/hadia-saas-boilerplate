@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { DeleteMutationResponse, DeletePathParams, Delete404, Delete409 } from "../../types/Delete.ts";
+import type { DeleteMutationResponse, DeletePathParams, Delete403, Delete404, Delete409 } from "../../types/Delete.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { _delete } from "../../client/admin-configuration-management/_delete.ts";
@@ -16,7 +16,7 @@ export type DeleteMutationKey = ReturnType<typeof deleteMutationKey>
 export function deleteMutationOptions<TContext = unknown>(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const mutationKey = deleteMutationKey()
-        return mutationOptions<DeleteMutationResponse, ResponseErrorConfig<Delete404 | Delete409>, {id: DeletePathParams["id"]}, TContext>({
+        return mutationOptions<DeleteMutationResponse, ResponseErrorConfig<Delete403 | Delete404 | Delete409>, {id: DeletePathParams["id"]}, TContext>({
           mutationKey,
           mutationFn: async({ id }) => {
             return _delete(id, config)
@@ -30,7 +30,7 @@ export function deleteMutationOptions<TContext = unknown>(config: Partial<Reques
  */
 export function useDelete<TContext>(options: 
 {
-  mutation?: UseMutationOptions<DeleteMutationResponse, ResponseErrorConfig<Delete404 | Delete409>, {id: DeletePathParams["id"]}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<DeleteMutationResponse, ResponseErrorConfig<Delete403 | Delete404 | Delete409>, {id: DeletePathParams["id"]}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useDelete<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? deleteMutationKey()
 
-          const baseOptions = deleteMutationOptions(config) as UseMutationOptions<DeleteMutationResponse, ResponseErrorConfig<Delete404 | Delete409>, {id: DeletePathParams["id"]}, TContext>
+          const baseOptions = deleteMutationOptions(config) as UseMutationOptions<DeleteMutationResponse, ResponseErrorConfig<Delete403 | Delete404 | Delete409>, {id: DeletePathParams["id"]}, TContext>
           
 
-          return useMutation<DeleteMutationResponse, ResponseErrorConfig<Delete404 | Delete409>, {id: DeletePathParams["id"]}, TContext>({
+          return useMutation<DeleteMutationResponse, ResponseErrorConfig<Delete403 | Delete404 | Delete409>, {id: DeletePathParams["id"]}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<DeleteMutationResponse, ResponseErrorConfig<Delete404 | Delete409>, {id: DeletePathParams["id"]}, TContext>
+          }, queryClient) as UseMutationResult<DeleteMutationResponse, ResponseErrorConfig<Delete403 | Delete404 | Delete409>, {id: DeletePathParams["id"]}, TContext>
       
 }

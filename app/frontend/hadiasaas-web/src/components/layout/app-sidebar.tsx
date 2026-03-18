@@ -1,13 +1,23 @@
-import {useMemo} from "react";
-import {useGetCurrentUserPermissions} from "@api-client";
-import {useSession} from "next-auth/react";
-import {useLayout} from "@/context/layout-provider";
-import {Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail,} from "@/components/ui/sidebar";
-import {sidebarData} from "./data/sidebar-data";
-import {NavGroup} from "./nav-group";
-import {NavUser} from "./nav-user";
-import {TeamSwitcher} from "./team-switcher";
-import {type NavCollapsible, type NavGroup as NavGroupType, type NavItem,} from "./types";
+import { useMemo } from "react";
+import { useGetCurrentUserPermissions } from "@api-client";
+import { useSession } from "next-auth/react";
+import { useLayout } from "@/context/layout-provider";
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarHeader,
+    SidebarRail,
+} from "@/components/ui/sidebar";
+import { sidebarData } from "./data/sidebar-data";
+import { NavGroup } from "./nav-group";
+import { NavUser } from "./nav-user";
+import { TeamSwitcher } from "./team-switcher";
+import {
+    type NavCollapsible,
+    type NavGroup as NavGroupType,
+    type NavItem,
+} from "./types";
 
 type NavSubItem = NavCollapsible["items"][number];
 
@@ -49,7 +59,7 @@ function filterNavItems(
             continue;
         }
 
-        filteredItems.push({...item, items: filteredChildren});
+        filteredItems.push({ ...item, items: filteredChildren });
     }
 
     return filteredItems;
@@ -68,15 +78,15 @@ function filterNavGroups(
             continue;
         }
 
-        filteredGroups.push({...group, items: filteredItems});
+        filteredGroups.push({ ...group, items: filteredItems });
     }
 
     return filteredGroups;
 }
 
 export function AppSidebar() {
-    const {collapsible, variant} = useLayout();
-    const {status} = useSession();
+    const { collapsible, variant } = useLayout();
+    const { status } = useSession();
     const { data: permissions } = useGetCurrentUserPermissions({
         query: {
             enabled: status === "authenticated",
@@ -99,7 +109,7 @@ export function AppSidebar() {
     return (
         <Sidebar collapsible={collapsible} variant={variant}>
             <SidebarHeader>
-                <TeamSwitcher teams={sidebarData.teams}/>
+                <TeamSwitcher teams={sidebarData.teams} />
 
                 {/* Replace <TeamSwitch /> with the following <AppTitle />
          /* if you want to use the normal app title instead of TeamSwitch dropdown */}
@@ -110,9 +120,9 @@ export function AppSidebar() {
                 ))}
             </SidebarContent>
             <SidebarFooter>
-                <NavUser/>
+                <NavUser />
             </SidebarFooter>
-            <SidebarRail/>
+            <SidebarRail />
         </Sidebar>
     );
 }

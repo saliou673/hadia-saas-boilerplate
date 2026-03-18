@@ -12,6 +12,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type Init2FactorSetup200 = object;
 
 /**
+ * @description Forbidden
+*/
+export type Init2FactorSetup403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type Init2FactorSetup404 = ValidationErrorResponseDTO;
@@ -28,5 +33,5 @@ export type Init2FactorSetupMutationResponse = Init2FactorSetup200;
 export type Init2FactorSetupMutation = {
     Response: Init2FactorSetup200;
     Request: Init2FactorSetupMutationRequest;
-    Errors: Init2FactorSetup404 | Init2FactorSetup409;
+    Errors: Init2FactorSetup403 | Init2FactorSetup404 | Init2FactorSetup409;
 };

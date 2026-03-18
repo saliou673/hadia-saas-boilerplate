@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { GetAppConfigurationByCategoryAndCodeQueryResponse, GetAppConfigurationByCategoryAndCodePathParams, GetAppConfigurationByCategoryAndCode404, GetAppConfigurationByCategoryAndCode409 } from "../../types/GetAppConfigurationByCategoryAndCode.ts";
+import type { GetAppConfigurationByCategoryAndCodeQueryResponse, GetAppConfigurationByCategoryAndCodePathParams, GetAppConfigurationByCategoryAndCode403, GetAppConfigurationByCategoryAndCode404, GetAppConfigurationByCategoryAndCode409 } from "../../types/GetAppConfigurationByCategoryAndCode.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getGetAppConfigurationByCategoryAndCodeUrl(category: GetAppConfigurationByCategoryAndCodePathParams["category"], code: GetAppConfigurationByCategoryAndCodePathParams["code"]) {
@@ -20,6 +20,6 @@ export async function getAppConfigurationByCategoryAndCode(category: GetAppConfi
 
 
 
-  const res = await request<GetAppConfigurationByCategoryAndCodeQueryResponse, ResponseErrorConfig<GetAppConfigurationByCategoryAndCode404 | GetAppConfigurationByCategoryAndCode409>, unknown>({ method : "GET", url : getGetAppConfigurationByCategoryAndCodeUrl(category, code).url.toString(), ... requestConfig })
+  const res = await request<GetAppConfigurationByCategoryAndCodeQueryResponse, ResponseErrorConfig<GetAppConfigurationByCategoryAndCode403 | GetAppConfigurationByCategoryAndCode404 | GetAppConfigurationByCategoryAndCode409>, unknown>({ method : "GET", url : getGetAppConfigurationByCategoryAndCodeUrl(category, code).url.toString(), ... requestConfig })
   return res.data
 }

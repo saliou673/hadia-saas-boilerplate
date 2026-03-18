@@ -18,6 +18,11 @@ export type ActivateAccountQueryParams = {
 export type ActivateAccount200 = any;
 
 /**
+ * @description Forbidden
+*/
+export type ActivateAccount403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type ActivateAccount404 = ValidationErrorResponseDTO;
@@ -32,5 +37,5 @@ export type ActivateAccountQueryResponse = ActivateAccount200;
 export type ActivateAccountQuery = {
     Response: ActivateAccount200;
     QueryParams: ActivateAccountQueryParams;
-    Errors: ActivateAccount404 | ActivateAccount409;
+    Errors: ActivateAccount403 | ActivateAccount404 | ActivateAccount409;
 };

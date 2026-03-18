@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetAppConfigurationByCategoryAndCodeQueryResponse, GetAppConfigurationByCategoryAndCodePathParams, GetAppConfigurationByCategoryAndCode404, GetAppConfigurationByCategoryAndCode409 } from "../../types/GetAppConfigurationByCategoryAndCode.ts";
+import type { GetAppConfigurationByCategoryAndCodeQueryResponse, GetAppConfigurationByCategoryAndCodePathParams, GetAppConfigurationByCategoryAndCode403, GetAppConfigurationByCategoryAndCode404, GetAppConfigurationByCategoryAndCode409 } from "../../types/GetAppConfigurationByCategoryAndCode.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 import { getAppConfigurationByCategoryAndCode } from "../../client/configuration-management/getAppConfigurationByCategoryAndCode.ts";
@@ -16,7 +16,7 @@ export type GetAppConfigurationByCategoryAndCodeSuspenseQueryKey = ReturnType<ty
 export function getAppConfigurationByCategoryAndCodeSuspenseQueryOptions(category: GetAppConfigurationByCategoryAndCodePathParams["category"], code: GetAppConfigurationByCategoryAndCodePathParams["code"], config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getAppConfigurationByCategoryAndCodeSuspenseQueryKey(category, code)
-        return queryOptions<GetAppConfigurationByCategoryAndCodeQueryResponse, ResponseErrorConfig<GetAppConfigurationByCategoryAndCode404 | GetAppConfigurationByCategoryAndCode409>, GetAppConfigurationByCategoryAndCodeQueryResponse, typeof queryKey>({
+        return queryOptions<GetAppConfigurationByCategoryAndCodeQueryResponse, ResponseErrorConfig<GetAppConfigurationByCategoryAndCode403 | GetAppConfigurationByCategoryAndCode404 | GetAppConfigurationByCategoryAndCode409>, GetAppConfigurationByCategoryAndCodeQueryResponse, typeof queryKey>({
          enabled: !!(category&& code),
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getAppConfigurationByCategoryAndCodeSuspenseQueryOptions(categor
  */
 export function useGetAppConfigurationByCategoryAndCodeSuspense<TData = GetAppConfigurationByCategoryAndCodeQueryResponse, TQueryKey extends QueryKey = GetAppConfigurationByCategoryAndCodeSuspenseQueryKey>(category: GetAppConfigurationByCategoryAndCodePathParams["category"], code: GetAppConfigurationByCategoryAndCodePathParams["code"], options: 
 {
-  query?: Partial<UseSuspenseQueryOptions<GetAppConfigurationByCategoryAndCodeQueryResponse, ResponseErrorConfig<GetAppConfigurationByCategoryAndCode404 | GetAppConfigurationByCategoryAndCode409>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<GetAppConfigurationByCategoryAndCodeQueryResponse, ResponseErrorConfig<GetAppConfigurationByCategoryAndCode403 | GetAppConfigurationByCategoryAndCode404 | GetAppConfigurationByCategoryAndCode409>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetAppConfigurationByCategoryAndCodeSuspense<TData = GetAppCo
           ...getAppConfigurationByCategoryAndCodeSuspenseQueryOptions(category, code, config),
           queryKey,
           ...queryOptions
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetAppConfigurationByCategoryAndCode404 | GetAppConfigurationByCategoryAndCode409>> & { queryKey: TQueryKey }
+         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetAppConfigurationByCategoryAndCode403 | GetAppConfigurationByCategoryAndCode404 | GetAppConfigurationByCategoryAndCode409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

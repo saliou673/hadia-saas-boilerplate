@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { CheckUserPermissionAsAdminQueryResponse, CheckUserPermissionAsAdminPathParams, CheckUserPermissionAsAdminQueryParams, CheckUserPermissionAsAdmin404, CheckUserPermissionAsAdmin409 } from "../../types/CheckUserPermissionAsAdmin.ts";
+import type { CheckUserPermissionAsAdminQueryResponse, CheckUserPermissionAsAdminPathParams, CheckUserPermissionAsAdminQueryParams, CheckUserPermissionAsAdmin403, CheckUserPermissionAsAdmin404, CheckUserPermissionAsAdmin409 } from "../../types/CheckUserPermissionAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 import { checkUserPermissionAsAdmin } from "../../client/admin-user-management/checkUserPermissionAsAdmin.ts";
@@ -16,7 +16,7 @@ export type CheckUserPermissionAsAdminSuspenseQueryKey = ReturnType<typeof check
 export function checkUserPermissionAsAdminSuspenseQueryOptions(id: CheckUserPermissionAsAdminPathParams["id"], params: CheckUserPermissionAsAdminQueryParams, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = checkUserPermissionAsAdminSuspenseQueryKey(id, params)
-        return queryOptions<CheckUserPermissionAsAdminQueryResponse, ResponseErrorConfig<CheckUserPermissionAsAdmin404 | CheckUserPermissionAsAdmin409>, CheckUserPermissionAsAdminQueryResponse, typeof queryKey>({
+        return queryOptions<CheckUserPermissionAsAdminQueryResponse, ResponseErrorConfig<CheckUserPermissionAsAdmin403 | CheckUserPermissionAsAdmin404 | CheckUserPermissionAsAdmin409>, CheckUserPermissionAsAdminQueryResponse, typeof queryKey>({
          enabled: !!(id&& params),
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function checkUserPermissionAsAdminSuspenseQueryOptions(id: CheckUserPerm
  */
 export function useCheckUserPermissionAsAdminSuspense<TData = CheckUserPermissionAsAdminQueryResponse, TQueryKey extends QueryKey = CheckUserPermissionAsAdminSuspenseQueryKey>(id: CheckUserPermissionAsAdminPathParams["id"], params: CheckUserPermissionAsAdminQueryParams, options: 
 {
-  query?: Partial<UseSuspenseQueryOptions<CheckUserPermissionAsAdminQueryResponse, ResponseErrorConfig<CheckUserPermissionAsAdmin404 | CheckUserPermissionAsAdmin409>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<CheckUserPermissionAsAdminQueryResponse, ResponseErrorConfig<CheckUserPermissionAsAdmin403 | CheckUserPermissionAsAdmin404 | CheckUserPermissionAsAdmin409>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useCheckUserPermissionAsAdminSuspense<TData = CheckUserPermissio
           ...checkUserPermissionAsAdminSuspenseQueryOptions(id, params, config),
           queryKey,
           ...queryOptions
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<CheckUserPermissionAsAdmin404 | CheckUserPermissionAsAdmin409>> & { queryKey: TQueryKey }
+         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<CheckUserPermissionAsAdmin403 | CheckUserPermissionAsAdmin404 | CheckUserPermissionAsAdmin409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

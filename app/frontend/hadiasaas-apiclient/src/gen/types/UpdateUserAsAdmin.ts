@@ -20,6 +20,11 @@ export type UpdateUserAsAdminPathParams = {
 export type UpdateUserAsAdmin200 = UserDetails;
 
 /**
+ * @description Forbidden
+*/
+export type UpdateUserAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type UpdateUserAsAdmin404 = ValidationErrorResponseDTO;
@@ -37,5 +42,5 @@ export type UpdateUserAsAdminMutation = {
     Response: UpdateUserAsAdmin200;
     Request: UpdateUserAsAdminMutationRequest;
     PathParams: UpdateUserAsAdminPathParams;
-    Errors: UpdateUserAsAdmin404 | UpdateUserAsAdmin409;
+    Errors: UpdateUserAsAdmin403 | UpdateUserAsAdmin404 | UpdateUserAsAdmin409;
 };

@@ -7,10 +7,7 @@
 export const appConfigurationCategoryFilterEqualsEnum = {
     CURRENCY: "CURRENCY",
     TWO_FACTOR: "TWO_FACTOR",
-    PAYMENT_MODE: "PAYMENT_MODE",
-    STORAGE: "STORAGE",
-    TAX: "TAX",
-    ENTERPRISE: "ENTERPRISE"
+    PAYMENT_MODE: "PAYMENT_MODE"
 } as const;
 
 export type AppConfigurationCategoryFilterEqualsEnumKey = (typeof appConfigurationCategoryFilterEqualsEnum)[keyof typeof appConfigurationCategoryFilterEqualsEnum];
@@ -18,10 +15,7 @@ export type AppConfigurationCategoryFilterEqualsEnumKey = (typeof appConfigurati
 export const appConfigurationCategoryFilterNotEqualsEnum = {
     CURRENCY: "CURRENCY",
     TWO_FACTOR: "TWO_FACTOR",
-    PAYMENT_MODE: "PAYMENT_MODE",
-    STORAGE: "STORAGE",
-    TAX: "TAX",
-    ENTERPRISE: "ENTERPRISE"
+    PAYMENT_MODE: "PAYMENT_MODE"
 } as const;
 
 export type AppConfigurationCategoryFilterNotEqualsEnumKey = (typeof appConfigurationCategoryFilterNotEqualsEnum)[keyof typeof appConfigurationCategoryFilterNotEqualsEnum];
@@ -29,10 +23,7 @@ export type AppConfigurationCategoryFilterNotEqualsEnumKey = (typeof appConfigur
 export const appConfigurationCategoryFilterInEnum = {
     CURRENCY: "CURRENCY",
     TWO_FACTOR: "TWO_FACTOR",
-    PAYMENT_MODE: "PAYMENT_MODE",
-    STORAGE: "STORAGE",
-    TAX: "TAX",
-    ENTERPRISE: "ENTERPRISE"
+    PAYMENT_MODE: "PAYMENT_MODE"
 } as const;
 
 export type AppConfigurationCategoryFilterInEnumKey = (typeof appConfigurationCategoryFilterInEnum)[keyof typeof appConfigurationCategoryFilterInEnum];
@@ -40,10 +31,7 @@ export type AppConfigurationCategoryFilterInEnumKey = (typeof appConfigurationCa
 export const appConfigurationCategoryFilterNotInEnum = {
     CURRENCY: "CURRENCY",
     TWO_FACTOR: "TWO_FACTOR",
-    PAYMENT_MODE: "PAYMENT_MODE",
-    STORAGE: "STORAGE",
-    TAX: "TAX",
-    ENTERPRISE: "ENTERPRISE"
+    PAYMENT_MODE: "PAYMENT_MODE"
 } as const;
 
 export type AppConfigurationCategoryFilterNotInEnumKey = (typeof appConfigurationCategoryFilterNotInEnum)[keyof typeof appConfigurationCategoryFilterNotInEnum];

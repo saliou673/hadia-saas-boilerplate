@@ -12,6 +12,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type ChangePassword200 = any;
 
 /**
+ * @description Forbidden
+*/
+export type ChangePassword403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type ChangePassword404 = ValidationErrorResponseDTO;
@@ -28,5 +33,5 @@ export type ChangePasswordMutationResponse = ChangePassword200;
 export type ChangePasswordMutation = {
     Response: ChangePassword200;
     Request: ChangePasswordMutationRequest;
-    Errors: ChangePassword404 | ChangePassword409;
+    Errors: ChangePassword403 | ChangePassword404 | ChangePassword409;
 };

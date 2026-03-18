@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetUserDetailsQueryResponse, GetUserDetails404, GetUserDetails409 } from "../../types/GetUserDetails.ts";
+import type { GetUserDetailsQueryResponse, GetUserDetails403, GetUserDetails404, GetUserDetails409 } from "../../types/GetUserDetails.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
 import { getUserDetails } from "../../client/user-account-management/getUserDetails.ts";
@@ -16,7 +16,7 @@ export type GetUserDetailsQueryKey = ReturnType<typeof getUserDetailsQueryKey>
 export function getUserDetailsQueryOptions(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getUserDetailsQueryKey()
-        return queryOptions<GetUserDetailsQueryResponse, ResponseErrorConfig<GetUserDetails404 | GetUserDetails409>, GetUserDetailsQueryResponse, typeof queryKey>({
+        return queryOptions<GetUserDetailsQueryResponse, ResponseErrorConfig<GetUserDetails403 | GetUserDetails404 | GetUserDetails409>, GetUserDetailsQueryResponse, typeof queryKey>({
          
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getUserDetailsQueryOptions(config: Partial<RequestConfig> & { cl
  */
 export function useGetUserDetails<TData = GetUserDetailsQueryResponse, TQueryData = GetUserDetailsQueryResponse, TQueryKey extends QueryKey = GetUserDetailsQueryKey>(options: 
 {
-  query?: Partial<QueryObserverOptions<GetUserDetailsQueryResponse, ResponseErrorConfig<GetUserDetails404 | GetUserDetails409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<QueryObserverOptions<GetUserDetailsQueryResponse, ResponseErrorConfig<GetUserDetails403 | GetUserDetails404 | GetUserDetails409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetUserDetails<TData = GetUserDetailsQueryResponse, TQueryDat
           ...getUserDetailsQueryOptions(config),
           queryKey,
           ...queryOptions
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetUserDetails404 | GetUserDetails409>> & { queryKey: TQueryKey }
+         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetUserDetails403 | GetUserDetails404 | GetUserDetails409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

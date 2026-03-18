@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { GetUserSubscriptionByIdAsAdminQueryResponse, GetUserSubscriptionByIdAsAdminPathParams, GetUserSubscriptionByIdAsAdmin404, GetUserSubscriptionByIdAsAdmin409 } from "../../types/GetUserSubscriptionByIdAsAdmin.ts";
+import type { GetUserSubscriptionByIdAsAdminQueryResponse, GetUserSubscriptionByIdAsAdminPathParams, GetUserSubscriptionByIdAsAdmin403, GetUserSubscriptionByIdAsAdmin404, GetUserSubscriptionByIdAsAdmin409 } from "../../types/GetUserSubscriptionByIdAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getGetUserSubscriptionByIdAsAdminUrl(id: GetUserSubscriptionByIdAsAdminPathParams["id"]) {
@@ -20,6 +20,6 @@ export async function getUserSubscriptionByIdAsAdmin(id: GetUserSubscriptionById
 
 
 
-  const res = await request<GetUserSubscriptionByIdAsAdminQueryResponse, ResponseErrorConfig<GetUserSubscriptionByIdAsAdmin404 | GetUserSubscriptionByIdAsAdmin409>, unknown>({ method : "GET", url : getGetUserSubscriptionByIdAsAdminUrl(id).url.toString(), ... requestConfig })
+  const res = await request<GetUserSubscriptionByIdAsAdminQueryResponse, ResponseErrorConfig<GetUserSubscriptionByIdAsAdmin403 | GetUserSubscriptionByIdAsAdmin404 | GetUserSubscriptionByIdAsAdmin409>, unknown>({ method : "GET", url : getGetUserSubscriptionByIdAsAdminUrl(id).url.toString(), ... requestConfig })
   return res.data
 }

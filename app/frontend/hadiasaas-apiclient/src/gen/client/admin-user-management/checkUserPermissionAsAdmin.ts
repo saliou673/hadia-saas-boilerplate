@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { CheckUserPermissionAsAdminQueryResponse, CheckUserPermissionAsAdminPathParams, CheckUserPermissionAsAdminQueryParams, CheckUserPermissionAsAdmin404, CheckUserPermissionAsAdmin409 } from "../../types/CheckUserPermissionAsAdmin.ts";
+import type { CheckUserPermissionAsAdminQueryResponse, CheckUserPermissionAsAdminPathParams, CheckUserPermissionAsAdminQueryParams, CheckUserPermissionAsAdmin403, CheckUserPermissionAsAdmin404, CheckUserPermissionAsAdmin409 } from "../../types/CheckUserPermissionAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getCheckUserPermissionAsAdminUrl(id: CheckUserPermissionAsAdminPathParams["id"]) {
@@ -20,6 +20,6 @@ export async function checkUserPermissionAsAdmin(id: CheckUserPermissionAsAdminP
 
 
 
-  const res = await request<CheckUserPermissionAsAdminQueryResponse, ResponseErrorConfig<CheckUserPermissionAsAdmin404 | CheckUserPermissionAsAdmin409>, unknown>({ method : "GET", url : getCheckUserPermissionAsAdminUrl(id).url.toString(), params, ... requestConfig })
+  const res = await request<CheckUserPermissionAsAdminQueryResponse, ResponseErrorConfig<CheckUserPermissionAsAdmin403 | CheckUserPermissionAsAdmin404 | CheckUserPermissionAsAdmin409>, unknown>({ method : "GET", url : getCheckUserPermissionAsAdminUrl(id).url.toString(), params, ... requestConfig })
   return res.data
 }

@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { RenewSubscriptionMutationResponse, RenewSubscriptionPathParams, RenewSubscription404, RenewSubscription409 } from "../../types/RenewSubscription.ts";
+import type { RenewSubscriptionMutationResponse, RenewSubscriptionPathParams, RenewSubscription403, RenewSubscription404, RenewSubscription409 } from "../../types/RenewSubscription.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getRenewSubscriptionUrl(id: RenewSubscriptionPathParams["id"]) {
@@ -20,6 +20,6 @@ export async function renewSubscription(id: RenewSubscriptionPathParams["id"], c
 
 
 
-  const res = await request<RenewSubscriptionMutationResponse, ResponseErrorConfig<RenewSubscription404 | RenewSubscription409>, unknown>({ method : "POST", url : getRenewSubscriptionUrl(id).url.toString(), ... requestConfig })
+  const res = await request<RenewSubscriptionMutationResponse, ResponseErrorConfig<RenewSubscription403 | RenewSubscription404 | RenewSubscription409>, unknown>({ method : "POST", url : getRenewSubscriptionUrl(id).url.toString(), ... requestConfig })
   return res.data
 }

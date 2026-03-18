@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { RefreshTokenMutationRequest, RefreshTokenMutationResponse, RefreshToken404, RefreshToken409 } from "../../types/RefreshToken.ts";
+import type { RefreshTokenMutationRequest, RefreshTokenMutationResponse, RefreshToken403, RefreshToken404, RefreshToken409 } from "../../types/RefreshToken.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getRefreshTokenUrl() {
@@ -20,6 +20,6 @@ export async function refreshToken(data: RefreshTokenMutationRequest, config: Pa
 
   const requestData = data
 
-  const res = await request<RefreshTokenMutationResponse, ResponseErrorConfig<RefreshToken404 | RefreshToken409>, RefreshTokenMutationRequest>({ method : "POST", url : getRefreshTokenUrl().url.toString(), data : requestData, ... requestConfig, headers : { 'Content-Type': 'text/plain', ...requestConfig.headers } })
+  const res = await request<RefreshTokenMutationResponse, ResponseErrorConfig<RefreshToken403 | RefreshToken404 | RefreshToken409>, RefreshTokenMutationRequest>({ method : "POST", url : getRefreshTokenUrl().url.toString(), data : requestData, ... requestConfig, headers : { 'Content-Type': 'text/plain', ...requestConfig.headers } })
   return res.data
 }

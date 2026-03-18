@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { UpdateSubscriptionPlanAsAdminMutationRequest, UpdateSubscriptionPlanAsAdminMutationResponse, UpdateSubscriptionPlanAsAdminPathParams, UpdateSubscriptionPlanAsAdmin404, UpdateSubscriptionPlanAsAdmin409 } from "../../types/UpdateSubscriptionPlanAsAdmin.ts";
+import type { UpdateSubscriptionPlanAsAdminMutationRequest, UpdateSubscriptionPlanAsAdminMutationResponse, UpdateSubscriptionPlanAsAdminPathParams, UpdateSubscriptionPlanAsAdmin403, UpdateSubscriptionPlanAsAdmin404, UpdateSubscriptionPlanAsAdmin409 } from "../../types/UpdateSubscriptionPlanAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getUpdateSubscriptionPlanAsAdminUrl(id: UpdateSubscriptionPlanAsAdminPathParams["id"]) {
@@ -20,6 +20,6 @@ export async function updateSubscriptionPlanAsAdmin(id: UpdateSubscriptionPlanAs
 
   const requestData = data
 
-  const res = await request<UpdateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<UpdateSubscriptionPlanAsAdmin404 | UpdateSubscriptionPlanAsAdmin409>, UpdateSubscriptionPlanAsAdminMutationRequest>({ method : "PUT", url : getUpdateSubscriptionPlanAsAdminUrl(id).url.toString(), data : requestData, ... requestConfig })
+  const res = await request<UpdateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<UpdateSubscriptionPlanAsAdmin403 | UpdateSubscriptionPlanAsAdmin404 | UpdateSubscriptionPlanAsAdmin409>, UpdateSubscriptionPlanAsAdminMutationRequest>({ method : "PUT", url : getUpdateSubscriptionPlanAsAdminUrl(id).url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

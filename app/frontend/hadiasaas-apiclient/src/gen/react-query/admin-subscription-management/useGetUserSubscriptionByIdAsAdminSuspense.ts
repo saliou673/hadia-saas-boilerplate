@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetUserSubscriptionByIdAsAdminQueryResponse, GetUserSubscriptionByIdAsAdminPathParams, GetUserSubscriptionByIdAsAdmin404, GetUserSubscriptionByIdAsAdmin409 } from "../../types/GetUserSubscriptionByIdAsAdmin.ts";
+import type { GetUserSubscriptionByIdAsAdminQueryResponse, GetUserSubscriptionByIdAsAdminPathParams, GetUserSubscriptionByIdAsAdmin403, GetUserSubscriptionByIdAsAdmin404, GetUserSubscriptionByIdAsAdmin409 } from "../../types/GetUserSubscriptionByIdAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 import { getUserSubscriptionByIdAsAdmin } from "../../client/admin-subscription-management/getUserSubscriptionByIdAsAdmin.ts";
@@ -16,7 +16,7 @@ export type GetUserSubscriptionByIdAsAdminSuspenseQueryKey = ReturnType<typeof g
 export function getUserSubscriptionByIdAsAdminSuspenseQueryOptions(id: GetUserSubscriptionByIdAsAdminPathParams["id"], config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getUserSubscriptionByIdAsAdminSuspenseQueryKey(id)
-        return queryOptions<GetUserSubscriptionByIdAsAdminQueryResponse, ResponseErrorConfig<GetUserSubscriptionByIdAsAdmin404 | GetUserSubscriptionByIdAsAdmin409>, GetUserSubscriptionByIdAsAdminQueryResponse, typeof queryKey>({
+        return queryOptions<GetUserSubscriptionByIdAsAdminQueryResponse, ResponseErrorConfig<GetUserSubscriptionByIdAsAdmin403 | GetUserSubscriptionByIdAsAdmin404 | GetUserSubscriptionByIdAsAdmin409>, GetUserSubscriptionByIdAsAdminQueryResponse, typeof queryKey>({
          enabled: !!(id),
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getUserSubscriptionByIdAsAdminSuspenseQueryOptions(id: GetUserSu
  */
 export function useGetUserSubscriptionByIdAsAdminSuspense<TData = GetUserSubscriptionByIdAsAdminQueryResponse, TQueryKey extends QueryKey = GetUserSubscriptionByIdAsAdminSuspenseQueryKey>(id: GetUserSubscriptionByIdAsAdminPathParams["id"], options: 
 {
-  query?: Partial<UseSuspenseQueryOptions<GetUserSubscriptionByIdAsAdminQueryResponse, ResponseErrorConfig<GetUserSubscriptionByIdAsAdmin404 | GetUserSubscriptionByIdAsAdmin409>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<GetUserSubscriptionByIdAsAdminQueryResponse, ResponseErrorConfig<GetUserSubscriptionByIdAsAdmin403 | GetUserSubscriptionByIdAsAdmin404 | GetUserSubscriptionByIdAsAdmin409>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetUserSubscriptionByIdAsAdminSuspense<TData = GetUserSubscri
           ...getUserSubscriptionByIdAsAdminSuspenseQueryOptions(id, config),
           queryKey,
           ...queryOptions
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetUserSubscriptionByIdAsAdmin404 | GetUserSubscriptionByIdAsAdmin409>> & { queryKey: TQueryKey }
+         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetUserSubscriptionByIdAsAdmin403 | GetUserSubscriptionByIdAsAdmin404 | GetUserSubscriptionByIdAsAdmin409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

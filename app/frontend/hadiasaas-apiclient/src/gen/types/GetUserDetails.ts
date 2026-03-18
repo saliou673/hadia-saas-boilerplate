@@ -12,6 +12,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type GetUserDetails200 = UserSummary;
 
 /**
+ * @description Forbidden
+*/
+export type GetUserDetails403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type GetUserDetails404 = ValidationErrorResponseDTO;
@@ -25,5 +30,5 @@ export type GetUserDetailsQueryResponse = GetUserDetails200;
 
 export type GetUserDetailsQuery = {
     Response: GetUserDetails200;
-    Errors: GetUserDetails404 | GetUserDetails409;
+    Errors: GetUserDetails403 | GetUserDetails404 | GetUserDetails409;
 };

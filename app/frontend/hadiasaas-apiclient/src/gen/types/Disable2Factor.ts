@@ -12,6 +12,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type Disable2Factor204 = any;
 
 /**
+ * @description Forbidden
+*/
+export type Disable2Factor403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type Disable2Factor404 = ValidationErrorResponseDTO;
@@ -28,5 +33,5 @@ export type Disable2FactorMutationResponse = Disable2Factor204;
 export type Disable2FactorMutation = {
     Response: Disable2Factor204;
     Request: Disable2FactorMutationRequest;
-    Errors: Disable2Factor404 | Disable2Factor409;
+    Errors: Disable2Factor403 | Disable2Factor404 | Disable2Factor409;
 };

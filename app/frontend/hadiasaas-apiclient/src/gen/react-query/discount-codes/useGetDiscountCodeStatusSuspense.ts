@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetDiscountCodeStatusQueryResponse, GetDiscountCodeStatusPathParams, GetDiscountCodeStatus404, GetDiscountCodeStatus409 } from "../../types/GetDiscountCodeStatus.ts";
+import type { GetDiscountCodeStatusQueryResponse, GetDiscountCodeStatusPathParams, GetDiscountCodeStatus403, GetDiscountCodeStatus404, GetDiscountCodeStatus409 } from "../../types/GetDiscountCodeStatus.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 import { getDiscountCodeStatus } from "../../client/discount-codes/getDiscountCodeStatus.ts";
@@ -16,7 +16,7 @@ export type GetDiscountCodeStatusSuspenseQueryKey = ReturnType<typeof getDiscoun
 export function getDiscountCodeStatusSuspenseQueryOptions(code: GetDiscountCodeStatusPathParams["code"], config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getDiscountCodeStatusSuspenseQueryKey(code)
-        return queryOptions<GetDiscountCodeStatusQueryResponse, ResponseErrorConfig<GetDiscountCodeStatus404 | GetDiscountCodeStatus409>, GetDiscountCodeStatusQueryResponse, typeof queryKey>({
+        return queryOptions<GetDiscountCodeStatusQueryResponse, ResponseErrorConfig<GetDiscountCodeStatus403 | GetDiscountCodeStatus404 | GetDiscountCodeStatus409>, GetDiscountCodeStatusQueryResponse, typeof queryKey>({
          enabled: !!(code),
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getDiscountCodeStatusSuspenseQueryOptions(code: GetDiscountCodeS
  */
 export function useGetDiscountCodeStatusSuspense<TData = GetDiscountCodeStatusQueryResponse, TQueryKey extends QueryKey = GetDiscountCodeStatusSuspenseQueryKey>(code: GetDiscountCodeStatusPathParams["code"], options: 
 {
-  query?: Partial<UseSuspenseQueryOptions<GetDiscountCodeStatusQueryResponse, ResponseErrorConfig<GetDiscountCodeStatus404 | GetDiscountCodeStatus409>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<GetDiscountCodeStatusQueryResponse, ResponseErrorConfig<GetDiscountCodeStatus403 | GetDiscountCodeStatus404 | GetDiscountCodeStatus409>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetDiscountCodeStatusSuspense<TData = GetDiscountCodeStatusQu
           ...getDiscountCodeStatusSuspenseQueryOptions(code, config),
           queryKey,
           ...queryOptions
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetDiscountCodeStatus404 | GetDiscountCodeStatus409>> & { queryKey: TQueryKey }
+         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetDiscountCodeStatus403 | GetDiscountCodeStatus404 | GetDiscountCodeStatus409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { RequestActivationCodeMutationRequest, RequestActivationCodeMutationResponse, RequestActivationCode404, RequestActivationCode409 } from "../../types/RequestActivationCode.ts";
+import type { RequestActivationCodeMutationRequest, RequestActivationCodeMutationResponse, RequestActivationCode403, RequestActivationCode404, RequestActivationCode409 } from "../../types/RequestActivationCode.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { requestActivationCode } from "../../client/user-account-management/requestActivationCode.ts";
@@ -16,7 +16,7 @@ export type RequestActivationCodeMutationKey = ReturnType<typeof requestActivati
 export function requestActivationCodeMutationOptions<TContext = unknown>(config: Partial<RequestConfig<RequestActivationCodeMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = requestActivationCodeMutationKey()
-        return mutationOptions<RequestActivationCodeMutationResponse, ResponseErrorConfig<RequestActivationCode404 | RequestActivationCode409>, {data: RequestActivationCodeMutationRequest}, TContext>({
+        return mutationOptions<RequestActivationCodeMutationResponse, ResponseErrorConfig<RequestActivationCode403 | RequestActivationCode404 | RequestActivationCode409>, {data: RequestActivationCodeMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return requestActivationCode(data, config)
@@ -30,7 +30,7 @@ export function requestActivationCodeMutationOptions<TContext = unknown>(config:
  */
 export function useRequestActivationCode<TContext>(options: 
 {
-  mutation?: UseMutationOptions<RequestActivationCodeMutationResponse, ResponseErrorConfig<RequestActivationCode404 | RequestActivationCode409>, {data: RequestActivationCodeMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<RequestActivationCodeMutationResponse, ResponseErrorConfig<RequestActivationCode403 | RequestActivationCode404 | RequestActivationCode409>, {data: RequestActivationCodeMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<RequestActivationCodeMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useRequestActivationCode<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? requestActivationCodeMutationKey()
 
-          const baseOptions = requestActivationCodeMutationOptions(config) as UseMutationOptions<RequestActivationCodeMutationResponse, ResponseErrorConfig<RequestActivationCode404 | RequestActivationCode409>, {data: RequestActivationCodeMutationRequest}, TContext>
+          const baseOptions = requestActivationCodeMutationOptions(config) as UseMutationOptions<RequestActivationCodeMutationResponse, ResponseErrorConfig<RequestActivationCode403 | RequestActivationCode404 | RequestActivationCode409>, {data: RequestActivationCodeMutationRequest}, TContext>
           
 
-          return useMutation<RequestActivationCodeMutationResponse, ResponseErrorConfig<RequestActivationCode404 | RequestActivationCode409>, {data: RequestActivationCodeMutationRequest}, TContext>({
+          return useMutation<RequestActivationCodeMutationResponse, ResponseErrorConfig<RequestActivationCode403 | RequestActivationCode404 | RequestActivationCode409>, {data: RequestActivationCodeMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<RequestActivationCodeMutationResponse, ResponseErrorConfig<RequestActivationCode404 | RequestActivationCode409>, {data: RequestActivationCodeMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<RequestActivationCodeMutationResponse, ResponseErrorConfig<RequestActivationCode403 | RequestActivationCode404 | RequestActivationCode409>, {data: RequestActivationCodeMutationRequest}, TContext>
       
 }

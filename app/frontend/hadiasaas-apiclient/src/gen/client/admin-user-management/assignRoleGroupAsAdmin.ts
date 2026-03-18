@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { AssignRoleGroupAsAdminMutationRequest, AssignRoleGroupAsAdminMutationResponse, AssignRoleGroupAsAdminPathParams, AssignRoleGroupAsAdmin404, AssignRoleGroupAsAdmin409 } from "../../types/AssignRoleGroupAsAdmin.ts";
+import type { AssignRoleGroupAsAdminMutationRequest, AssignRoleGroupAsAdminMutationResponse, AssignRoleGroupAsAdminPathParams, AssignRoleGroupAsAdmin403, AssignRoleGroupAsAdmin404, AssignRoleGroupAsAdmin409 } from "../../types/AssignRoleGroupAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getAssignRoleGroupAsAdminUrl(id: AssignRoleGroupAsAdminPathParams["id"]) {
@@ -20,6 +20,6 @@ export async function assignRoleGroupAsAdmin(id: AssignRoleGroupAsAdminPathParam
 
   const requestData = data
 
-  const res = await request<AssignRoleGroupAsAdminMutationResponse, ResponseErrorConfig<AssignRoleGroupAsAdmin404 | AssignRoleGroupAsAdmin409>, AssignRoleGroupAsAdminMutationRequest>({ method : "POST", url : getAssignRoleGroupAsAdminUrl(id).url.toString(), data : requestData, ... requestConfig })
+  const res = await request<AssignRoleGroupAsAdminMutationResponse, ResponseErrorConfig<AssignRoleGroupAsAdmin403 | AssignRoleGroupAsAdmin404 | AssignRoleGroupAsAdmin409>, AssignRoleGroupAsAdminMutationRequest>({ method : "POST", url : getAssignRoleGroupAsAdminUrl(id).url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

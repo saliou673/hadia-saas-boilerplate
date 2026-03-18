@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { RevokeRoleGroupAsAdminMutationResponse, RevokeRoleGroupAsAdminPathParams, RevokeRoleGroupAsAdmin404, RevokeRoleGroupAsAdmin409 } from "../../types/RevokeRoleGroupAsAdmin.ts";
+import type { RevokeRoleGroupAsAdminMutationResponse, RevokeRoleGroupAsAdminPathParams, RevokeRoleGroupAsAdmin403, RevokeRoleGroupAsAdmin404, RevokeRoleGroupAsAdmin409 } from "../../types/RevokeRoleGroupAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { revokeRoleGroupAsAdmin } from "../../client/admin-user-management/revokeRoleGroupAsAdmin.ts";
@@ -16,7 +16,7 @@ export type RevokeRoleGroupAsAdminMutationKey = ReturnType<typeof revokeRoleGrou
 export function revokeRoleGroupAsAdminMutationOptions<TContext = unknown>(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const mutationKey = revokeRoleGroupAsAdminMutationKey()
-        return mutationOptions<RevokeRoleGroupAsAdminMutationResponse, ResponseErrorConfig<RevokeRoleGroupAsAdmin404 | RevokeRoleGroupAsAdmin409>, {id: RevokeRoleGroupAsAdminPathParams["id"], roleGroupId: RevokeRoleGroupAsAdminPathParams["roleGroupId"]}, TContext>({
+        return mutationOptions<RevokeRoleGroupAsAdminMutationResponse, ResponseErrorConfig<RevokeRoleGroupAsAdmin403 | RevokeRoleGroupAsAdmin404 | RevokeRoleGroupAsAdmin409>, {id: RevokeRoleGroupAsAdminPathParams["id"], roleGroupId: RevokeRoleGroupAsAdminPathParams["roleGroupId"]}, TContext>({
           mutationKey,
           mutationFn: async({ id, roleGroupId }) => {
             return revokeRoleGroupAsAdmin(id, roleGroupId, config)
@@ -30,7 +30,7 @@ export function revokeRoleGroupAsAdminMutationOptions<TContext = unknown>(config
  */
 export function useRevokeRoleGroupAsAdmin<TContext>(options: 
 {
-  mutation?: UseMutationOptions<RevokeRoleGroupAsAdminMutationResponse, ResponseErrorConfig<RevokeRoleGroupAsAdmin404 | RevokeRoleGroupAsAdmin409>, {id: RevokeRoleGroupAsAdminPathParams["id"], roleGroupId: RevokeRoleGroupAsAdminPathParams["roleGroupId"]}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<RevokeRoleGroupAsAdminMutationResponse, ResponseErrorConfig<RevokeRoleGroupAsAdmin403 | RevokeRoleGroupAsAdmin404 | RevokeRoleGroupAsAdmin409>, {id: RevokeRoleGroupAsAdminPathParams["id"], roleGroupId: RevokeRoleGroupAsAdminPathParams["roleGroupId"]}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useRevokeRoleGroupAsAdmin<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? revokeRoleGroupAsAdminMutationKey()
 
-          const baseOptions = revokeRoleGroupAsAdminMutationOptions(config) as UseMutationOptions<RevokeRoleGroupAsAdminMutationResponse, ResponseErrorConfig<RevokeRoleGroupAsAdmin404 | RevokeRoleGroupAsAdmin409>, {id: RevokeRoleGroupAsAdminPathParams["id"], roleGroupId: RevokeRoleGroupAsAdminPathParams["roleGroupId"]}, TContext>
+          const baseOptions = revokeRoleGroupAsAdminMutationOptions(config) as UseMutationOptions<RevokeRoleGroupAsAdminMutationResponse, ResponseErrorConfig<RevokeRoleGroupAsAdmin403 | RevokeRoleGroupAsAdmin404 | RevokeRoleGroupAsAdmin409>, {id: RevokeRoleGroupAsAdminPathParams["id"], roleGroupId: RevokeRoleGroupAsAdminPathParams["roleGroupId"]}, TContext>
           
 
-          return useMutation<RevokeRoleGroupAsAdminMutationResponse, ResponseErrorConfig<RevokeRoleGroupAsAdmin404 | RevokeRoleGroupAsAdmin409>, {id: RevokeRoleGroupAsAdminPathParams["id"], roleGroupId: RevokeRoleGroupAsAdminPathParams["roleGroupId"]}, TContext>({
+          return useMutation<RevokeRoleGroupAsAdminMutationResponse, ResponseErrorConfig<RevokeRoleGroupAsAdmin403 | RevokeRoleGroupAsAdmin404 | RevokeRoleGroupAsAdmin409>, {id: RevokeRoleGroupAsAdminPathParams["id"], roleGroupId: RevokeRoleGroupAsAdminPathParams["roleGroupId"]}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<RevokeRoleGroupAsAdminMutationResponse, ResponseErrorConfig<RevokeRoleGroupAsAdmin404 | RevokeRoleGroupAsAdmin409>, {id: RevokeRoleGroupAsAdminPathParams["id"], roleGroupId: RevokeRoleGroupAsAdminPathParams["roleGroupId"]}, TContext>
+          }, queryClient) as UseMutationResult<RevokeRoleGroupAsAdminMutationResponse, ResponseErrorConfig<RevokeRoleGroupAsAdmin403 | RevokeRoleGroupAsAdmin404 | RevokeRoleGroupAsAdmin409>, {id: RevokeRoleGroupAsAdminPathParams["id"], roleGroupId: RevokeRoleGroupAsAdminPathParams["roleGroupId"]}, TContext>
       
 }

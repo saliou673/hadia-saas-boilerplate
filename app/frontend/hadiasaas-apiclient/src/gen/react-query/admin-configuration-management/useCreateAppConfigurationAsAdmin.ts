@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { CreateAppConfigurationAsAdminMutationRequest, CreateAppConfigurationAsAdminMutationResponse, CreateAppConfigurationAsAdmin404, CreateAppConfigurationAsAdmin409 } from "../../types/CreateAppConfigurationAsAdmin.ts";
+import type { CreateAppConfigurationAsAdminMutationRequest, CreateAppConfigurationAsAdminMutationResponse, CreateAppConfigurationAsAdmin403, CreateAppConfigurationAsAdmin404, CreateAppConfigurationAsAdmin409 } from "../../types/CreateAppConfigurationAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { createAppConfigurationAsAdmin } from "../../client/admin-configuration-management/createAppConfigurationAsAdmin.ts";
@@ -16,7 +16,7 @@ export type CreateAppConfigurationAsAdminMutationKey = ReturnType<typeof createA
 export function createAppConfigurationAsAdminMutationOptions<TContext = unknown>(config: Partial<RequestConfig<CreateAppConfigurationAsAdminMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = createAppConfigurationAsAdminMutationKey()
-        return mutationOptions<CreateAppConfigurationAsAdminMutationResponse, ResponseErrorConfig<CreateAppConfigurationAsAdmin404 | CreateAppConfigurationAsAdmin409>, {data: CreateAppConfigurationAsAdminMutationRequest}, TContext>({
+        return mutationOptions<CreateAppConfigurationAsAdminMutationResponse, ResponseErrorConfig<CreateAppConfigurationAsAdmin403 | CreateAppConfigurationAsAdmin404 | CreateAppConfigurationAsAdmin409>, {data: CreateAppConfigurationAsAdminMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return createAppConfigurationAsAdmin(data, config)
@@ -30,7 +30,7 @@ export function createAppConfigurationAsAdminMutationOptions<TContext = unknown>
  */
 export function useCreateAppConfigurationAsAdmin<TContext>(options: 
 {
-  mutation?: UseMutationOptions<CreateAppConfigurationAsAdminMutationResponse, ResponseErrorConfig<CreateAppConfigurationAsAdmin404 | CreateAppConfigurationAsAdmin409>, {data: CreateAppConfigurationAsAdminMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<CreateAppConfigurationAsAdminMutationResponse, ResponseErrorConfig<CreateAppConfigurationAsAdmin403 | CreateAppConfigurationAsAdmin404 | CreateAppConfigurationAsAdmin409>, {data: CreateAppConfigurationAsAdminMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<CreateAppConfigurationAsAdminMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useCreateAppConfigurationAsAdmin<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? createAppConfigurationAsAdminMutationKey()
 
-          const baseOptions = createAppConfigurationAsAdminMutationOptions(config) as UseMutationOptions<CreateAppConfigurationAsAdminMutationResponse, ResponseErrorConfig<CreateAppConfigurationAsAdmin404 | CreateAppConfigurationAsAdmin409>, {data: CreateAppConfigurationAsAdminMutationRequest}, TContext>
+          const baseOptions = createAppConfigurationAsAdminMutationOptions(config) as UseMutationOptions<CreateAppConfigurationAsAdminMutationResponse, ResponseErrorConfig<CreateAppConfigurationAsAdmin403 | CreateAppConfigurationAsAdmin404 | CreateAppConfigurationAsAdmin409>, {data: CreateAppConfigurationAsAdminMutationRequest}, TContext>
           
 
-          return useMutation<CreateAppConfigurationAsAdminMutationResponse, ResponseErrorConfig<CreateAppConfigurationAsAdmin404 | CreateAppConfigurationAsAdmin409>, {data: CreateAppConfigurationAsAdminMutationRequest}, TContext>({
+          return useMutation<CreateAppConfigurationAsAdminMutationResponse, ResponseErrorConfig<CreateAppConfigurationAsAdmin403 | CreateAppConfigurationAsAdmin404 | CreateAppConfigurationAsAdmin409>, {data: CreateAppConfigurationAsAdminMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<CreateAppConfigurationAsAdminMutationResponse, ResponseErrorConfig<CreateAppConfigurationAsAdmin404 | CreateAppConfigurationAsAdmin409>, {data: CreateAppConfigurationAsAdminMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<CreateAppConfigurationAsAdminMutationResponse, ResponseErrorConfig<CreateAppConfigurationAsAdmin403 | CreateAppConfigurationAsAdmin404 | CreateAppConfigurationAsAdmin409>, {data: CreateAppConfigurationAsAdminMutationRequest}, TContext>
       
 }

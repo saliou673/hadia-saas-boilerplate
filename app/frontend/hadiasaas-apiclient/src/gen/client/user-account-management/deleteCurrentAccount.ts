@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { DeleteCurrentAccountMutationResponse, DeleteCurrentAccount404, DeleteCurrentAccount409 } from "../../types/DeleteCurrentAccount.ts";
+import type { DeleteCurrentAccountMutationResponse, DeleteCurrentAccount403, DeleteCurrentAccount404, DeleteCurrentAccount409 } from "../../types/DeleteCurrentAccount.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getDeleteCurrentAccountUrl() {
@@ -20,6 +20,6 @@ export async function deleteCurrentAccount(config: Partial<RequestConfig> & { cl
 
 
 
-  const res = await request<DeleteCurrentAccountMutationResponse, ResponseErrorConfig<DeleteCurrentAccount404 | DeleteCurrentAccount409>, unknown>({ method : "DELETE", url : getDeleteCurrentAccountUrl().url.toString(), ... requestConfig })
+  const res = await request<DeleteCurrentAccountMutationResponse, ResponseErrorConfig<DeleteCurrentAccount403 | DeleteCurrentAccount404 | DeleteCurrentAccount409>, unknown>({ method : "DELETE", url : getDeleteCurrentAccountUrl().url.toString(), ... requestConfig })
   return res.data
 }

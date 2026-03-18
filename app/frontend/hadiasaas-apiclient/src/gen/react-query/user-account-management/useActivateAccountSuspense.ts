@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { ActivateAccountQueryResponse, ActivateAccountQueryParams, ActivateAccount404, ActivateAccount409 } from "../../types/ActivateAccount.ts";
+import type { ActivateAccountQueryResponse, ActivateAccountQueryParams, ActivateAccount403, ActivateAccount404, ActivateAccount409 } from "../../types/ActivateAccount.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 import { activateAccount } from "../../client/user-account-management/activateAccount.ts";
@@ -16,7 +16,7 @@ export type ActivateAccountSuspenseQueryKey = ReturnType<typeof activateAccountS
 export function activateAccountSuspenseQueryOptions(params: ActivateAccountQueryParams, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = activateAccountSuspenseQueryKey(params)
-        return queryOptions<ActivateAccountQueryResponse, ResponseErrorConfig<ActivateAccount404 | ActivateAccount409>, ActivateAccountQueryResponse, typeof queryKey>({
+        return queryOptions<ActivateAccountQueryResponse, ResponseErrorConfig<ActivateAccount403 | ActivateAccount404 | ActivateAccount409>, ActivateAccountQueryResponse, typeof queryKey>({
          enabled: !!(params),
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function activateAccountSuspenseQueryOptions(params: ActivateAccountQuery
  */
 export function useActivateAccountSuspense<TData = ActivateAccountQueryResponse, TQueryKey extends QueryKey = ActivateAccountSuspenseQueryKey>(params: ActivateAccountQueryParams, options: 
 {
-  query?: Partial<UseSuspenseQueryOptions<ActivateAccountQueryResponse, ResponseErrorConfig<ActivateAccount404 | ActivateAccount409>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<ActivateAccountQueryResponse, ResponseErrorConfig<ActivateAccount403 | ActivateAccount404 | ActivateAccount409>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useActivateAccountSuspense<TData = ActivateAccountQueryResponse,
           ...activateAccountSuspenseQueryOptions(params, config),
           queryKey,
           ...queryOptions
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<ActivateAccount404 | ActivateAccount409>> & { queryKey: TQueryKey }
+         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<ActivateAccount403 | ActivateAccount404 | ActivateAccount409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { DeleteMutationResponse, DeletePathParams, Delete404, Delete409 } from "../../types/Delete.ts";
+import type { DeleteMutationResponse, DeletePathParams, Delete403, Delete404, Delete409 } from "../../types/Delete.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getDeleteUrl(id: DeletePathParams["id"]) {
@@ -20,6 +20,6 @@ export async function _delete(id: DeletePathParams["id"], config: Partial<Reques
 
 
 
-  const res = await request<DeleteMutationResponse, ResponseErrorConfig<Delete404 | Delete409>, unknown>({ method : "DELETE", url : getDeleteUrl(id).url.toString(), ... requestConfig })
+  const res = await request<DeleteMutationResponse, ResponseErrorConfig<Delete403 | Delete404 | Delete409>, unknown>({ method : "DELETE", url : getDeleteUrl(id).url.toString(), ... requestConfig })
   return res.data
 }

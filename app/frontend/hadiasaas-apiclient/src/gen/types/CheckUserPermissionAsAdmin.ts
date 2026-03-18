@@ -26,6 +26,11 @@ export type CheckUserPermissionAsAdminQueryParams = {
 export type CheckUserPermissionAsAdmin200 = PermissionCheckResponse;
 
 /**
+ * @description Forbidden
+*/
+export type CheckUserPermissionAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type CheckUserPermissionAsAdmin404 = ValidationErrorResponseDTO;
@@ -41,5 +46,5 @@ export type CheckUserPermissionAsAdminQuery = {
     Response: CheckUserPermissionAsAdmin200;
     PathParams: CheckUserPermissionAsAdminPathParams;
     QueryParams: CheckUserPermissionAsAdminQueryParams;
-    Errors: CheckUserPermissionAsAdmin404 | CheckUserPermissionAsAdmin409;
+    Errors: CheckUserPermissionAsAdmin403 | CheckUserPermissionAsAdmin404 | CheckUserPermissionAsAdmin409;
 };

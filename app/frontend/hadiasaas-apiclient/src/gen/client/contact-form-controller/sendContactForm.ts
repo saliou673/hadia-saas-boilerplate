@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { SendContactFormMutationRequest, SendContactFormMutationResponse, SendContactForm404, SendContactForm409 } from "../../types/SendContactForm.ts";
+import type { SendContactFormMutationRequest, SendContactFormMutationResponse, SendContactForm403, SendContactForm404, SendContactForm409 } from "../../types/SendContactForm.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getSendContactFormUrl() {
@@ -20,6 +20,6 @@ export async function sendContactForm(data: SendContactFormMutationRequest, conf
 
   const requestData = data
 
-  const res = await request<SendContactFormMutationResponse, ResponseErrorConfig<SendContactForm404 | SendContactForm409>, SendContactFormMutationRequest>({ method : "POST", url : getSendContactFormUrl().url.toString(), data : requestData, ... requestConfig })
+  const res = await request<SendContactFormMutationResponse, ResponseErrorConfig<SendContactForm403 | SendContactForm404 | SendContactForm409>, SendContactFormMutationRequest>({ method : "POST", url : getSendContactFormUrl().url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

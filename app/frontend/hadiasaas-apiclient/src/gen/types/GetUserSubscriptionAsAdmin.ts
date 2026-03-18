@@ -25,6 +25,11 @@ export type GetUserSubscriptionAsAdminQueryParams = {
 export type GetUserSubscriptionAsAdmin200 = PaginatedResultUserSubscription;
 
 /**
+ * @description Forbidden
+*/
+export type GetUserSubscriptionAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type GetUserSubscriptionAsAdmin404 = ValidationErrorResponseDTO;
@@ -39,5 +44,5 @@ export type GetUserSubscriptionAsAdminQueryResponse = GetUserSubscriptionAsAdmin
 export type GetUserSubscriptionAsAdminQuery = {
     Response: GetUserSubscriptionAsAdmin200;
     QueryParams: GetUserSubscriptionAsAdminQueryParams;
-    Errors: GetUserSubscriptionAsAdmin404 | GetUserSubscriptionAsAdmin409;
+    Errors: GetUserSubscriptionAsAdmin403 | GetUserSubscriptionAsAdmin404 | GetUserSubscriptionAsAdmin409;
 };

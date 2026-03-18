@@ -11,6 +11,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type Logout204 = any;
 
 /**
+ * @description Forbidden
+*/
+export type Logout403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type Logout404 = ValidationErrorResponseDTO;
@@ -24,5 +29,5 @@ export type LogoutMutationResponse = Logout204;
 
 export type LogoutMutation = {
     Response: Logout204;
-    Errors: Logout404 | Logout409;
+    Errors: Logout403 | Logout404 | Logout409;
 };

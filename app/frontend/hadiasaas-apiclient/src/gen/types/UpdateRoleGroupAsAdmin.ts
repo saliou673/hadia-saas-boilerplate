@@ -20,6 +20,11 @@ export type UpdateRoleGroupAsAdminPathParams = {
 export type UpdateRoleGroupAsAdmin200 = RoleGroup;
 
 /**
+ * @description Forbidden
+*/
+export type UpdateRoleGroupAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type UpdateRoleGroupAsAdmin404 = ValidationErrorResponseDTO;
@@ -37,5 +42,5 @@ export type UpdateRoleGroupAsAdminMutation = {
     Response: UpdateRoleGroupAsAdmin200;
     Request: UpdateRoleGroupAsAdminMutationRequest;
     PathParams: UpdateRoleGroupAsAdminPathParams;
-    Errors: UpdateRoleGroupAsAdmin404 | UpdateRoleGroupAsAdmin409;
+    Errors: UpdateRoleGroupAsAdmin403 | UpdateRoleGroupAsAdmin404 | UpdateRoleGroupAsAdmin409;
 };

@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { ChangePasswordMutationRequest, ChangePasswordMutationResponse, ChangePassword404, ChangePassword409 } from "../../types/ChangePassword.ts";
+import type { ChangePasswordMutationRequest, ChangePasswordMutationResponse, ChangePassword403, ChangePassword404, ChangePassword409 } from "../../types/ChangePassword.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getChangePasswordUrl() {
@@ -20,6 +20,6 @@ export async function changePassword(data: ChangePasswordMutationRequest, config
 
   const requestData = data
 
-  const res = await request<ChangePasswordMutationResponse, ResponseErrorConfig<ChangePassword404 | ChangePassword409>, ChangePasswordMutationRequest>({ method : "PATCH", url : getChangePasswordUrl().url.toString(), data : requestData, ... requestConfig })
+  const res = await request<ChangePasswordMutationResponse, ResponseErrorConfig<ChangePassword403 | ChangePassword404 | ChangePassword409>, ChangePasswordMutationRequest>({ method : "PATCH", url : getChangePasswordUrl().url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

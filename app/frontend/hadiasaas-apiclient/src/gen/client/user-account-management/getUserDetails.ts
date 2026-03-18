@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { GetUserDetailsQueryResponse, GetUserDetails404, GetUserDetails409 } from "../../types/GetUserDetails.ts";
+import type { GetUserDetailsQueryResponse, GetUserDetails403, GetUserDetails404, GetUserDetails409 } from "../../types/GetUserDetails.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getGetUserDetailsUrl() {
@@ -20,6 +20,6 @@ export async function getUserDetails(config: Partial<RequestConfig> & { client?:
 
 
 
-  const res = await request<GetUserDetailsQueryResponse, ResponseErrorConfig<GetUserDetails404 | GetUserDetails409>, unknown>({ method : "GET", url : getGetUserDetailsUrl().url.toString(), ... requestConfig })
+  const res = await request<GetUserDetailsQueryResponse, ResponseErrorConfig<GetUserDetails403 | GetUserDetails404 | GetUserDetails409>, unknown>({ method : "GET", url : getGetUserDetailsUrl().url.toString(), ... requestConfig })
   return res.data
 }

@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { CreatePublicUserAccountMutationRequest, CreatePublicUserAccountMutationResponse, CreatePublicUserAccount404, CreatePublicUserAccount409 } from "../../types/CreatePublicUserAccount.ts";
+import type { CreatePublicUserAccountMutationRequest, CreatePublicUserAccountMutationResponse, CreatePublicUserAccount403, CreatePublicUserAccount404, CreatePublicUserAccount409 } from "../../types/CreatePublicUserAccount.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getCreatePublicUserAccountUrl() {
@@ -20,6 +20,6 @@ export async function createPublicUserAccount(data: CreatePublicUserAccountMutat
 
   const requestData = data
 
-  const res = await request<CreatePublicUserAccountMutationResponse, ResponseErrorConfig<CreatePublicUserAccount404 | CreatePublicUserAccount409>, CreatePublicUserAccountMutationRequest>({ method : "POST", url : getCreatePublicUserAccountUrl().url.toString(), data : requestData, ... requestConfig })
+  const res = await request<CreatePublicUserAccountMutationResponse, ResponseErrorConfig<CreatePublicUserAccount403 | CreatePublicUserAccount404 | CreatePublicUserAccount409>, CreatePublicUserAccountMutationRequest>({ method : "POST", url : getCreatePublicUserAccountUrl().url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

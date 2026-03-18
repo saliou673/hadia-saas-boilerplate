@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { CreateUserAsAdminMutationRequest, CreateUserAsAdminMutationResponse, CreateUserAsAdmin404, CreateUserAsAdmin409 } from "../../types/CreateUserAsAdmin.ts";
+import type { CreateUserAsAdminMutationRequest, CreateUserAsAdminMutationResponse, CreateUserAsAdmin403, CreateUserAsAdmin404, CreateUserAsAdmin409 } from "../../types/CreateUserAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { createUserAsAdmin } from "../../client/admin-user-management/createUserAsAdmin.ts";
@@ -16,7 +16,7 @@ export type CreateUserAsAdminMutationKey = ReturnType<typeof createUserAsAdminMu
 export function createUserAsAdminMutationOptions<TContext = unknown>(config: Partial<RequestConfig<CreateUserAsAdminMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = createUserAsAdminMutationKey()
-        return mutationOptions<CreateUserAsAdminMutationResponse, ResponseErrorConfig<CreateUserAsAdmin404 | CreateUserAsAdmin409>, {data: CreateUserAsAdminMutationRequest}, TContext>({
+        return mutationOptions<CreateUserAsAdminMutationResponse, ResponseErrorConfig<CreateUserAsAdmin403 | CreateUserAsAdmin404 | CreateUserAsAdmin409>, {data: CreateUserAsAdminMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return createUserAsAdmin(data, config)
@@ -30,7 +30,7 @@ export function createUserAsAdminMutationOptions<TContext = unknown>(config: Par
  */
 export function useCreateUserAsAdmin<TContext>(options: 
 {
-  mutation?: UseMutationOptions<CreateUserAsAdminMutationResponse, ResponseErrorConfig<CreateUserAsAdmin404 | CreateUserAsAdmin409>, {data: CreateUserAsAdminMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<CreateUserAsAdminMutationResponse, ResponseErrorConfig<CreateUserAsAdmin403 | CreateUserAsAdmin404 | CreateUserAsAdmin409>, {data: CreateUserAsAdminMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<CreateUserAsAdminMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useCreateUserAsAdmin<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? createUserAsAdminMutationKey()
 
-          const baseOptions = createUserAsAdminMutationOptions(config) as UseMutationOptions<CreateUserAsAdminMutationResponse, ResponseErrorConfig<CreateUserAsAdmin404 | CreateUserAsAdmin409>, {data: CreateUserAsAdminMutationRequest}, TContext>
+          const baseOptions = createUserAsAdminMutationOptions(config) as UseMutationOptions<CreateUserAsAdminMutationResponse, ResponseErrorConfig<CreateUserAsAdmin403 | CreateUserAsAdmin404 | CreateUserAsAdmin409>, {data: CreateUserAsAdminMutationRequest}, TContext>
           
 
-          return useMutation<CreateUserAsAdminMutationResponse, ResponseErrorConfig<CreateUserAsAdmin404 | CreateUserAsAdmin409>, {data: CreateUserAsAdminMutationRequest}, TContext>({
+          return useMutation<CreateUserAsAdminMutationResponse, ResponseErrorConfig<CreateUserAsAdmin403 | CreateUserAsAdmin404 | CreateUserAsAdmin409>, {data: CreateUserAsAdminMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<CreateUserAsAdminMutationResponse, ResponseErrorConfig<CreateUserAsAdmin404 | CreateUserAsAdmin409>, {data: CreateUserAsAdminMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<CreateUserAsAdminMutationResponse, ResponseErrorConfig<CreateUserAsAdmin403 | CreateUserAsAdmin404 | CreateUserAsAdmin409>, {data: CreateUserAsAdminMutationRequest}, TContext>
       
 }

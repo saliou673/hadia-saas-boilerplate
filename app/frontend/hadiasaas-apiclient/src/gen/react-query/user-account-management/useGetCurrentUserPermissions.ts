@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetCurrentUserPermissionsQueryResponse, GetCurrentUserPermissions404, GetCurrentUserPermissions409 } from "../../types/GetCurrentUserPermissions.ts";
+import type { GetCurrentUserPermissionsQueryResponse, GetCurrentUserPermissions403, GetCurrentUserPermissions404, GetCurrentUserPermissions409 } from "../../types/GetCurrentUserPermissions.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
 import { getCurrentUserPermissions } from "../../client/user-account-management/getCurrentUserPermissions.ts";
@@ -16,7 +16,7 @@ export type GetCurrentUserPermissionsQueryKey = ReturnType<typeof getCurrentUser
 export function getCurrentUserPermissionsQueryOptions(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getCurrentUserPermissionsQueryKey()
-        return queryOptions<GetCurrentUserPermissionsQueryResponse, ResponseErrorConfig<GetCurrentUserPermissions404 | GetCurrentUserPermissions409>, GetCurrentUserPermissionsQueryResponse, typeof queryKey>({
+        return queryOptions<GetCurrentUserPermissionsQueryResponse, ResponseErrorConfig<GetCurrentUserPermissions403 | GetCurrentUserPermissions404 | GetCurrentUserPermissions409>, GetCurrentUserPermissionsQueryResponse, typeof queryKey>({
          
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getCurrentUserPermissionsQueryOptions(config: Partial<RequestCon
  */
 export function useGetCurrentUserPermissions<TData = GetCurrentUserPermissionsQueryResponse, TQueryData = GetCurrentUserPermissionsQueryResponse, TQueryKey extends QueryKey = GetCurrentUserPermissionsQueryKey>(options: 
 {
-  query?: Partial<QueryObserverOptions<GetCurrentUserPermissionsQueryResponse, ResponseErrorConfig<GetCurrentUserPermissions404 | GetCurrentUserPermissions409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<QueryObserverOptions<GetCurrentUserPermissionsQueryResponse, ResponseErrorConfig<GetCurrentUserPermissions403 | GetCurrentUserPermissions404 | GetCurrentUserPermissions409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetCurrentUserPermissions<TData = GetCurrentUserPermissionsQu
           ...getCurrentUserPermissionsQueryOptions(config),
           queryKey,
           ...queryOptions
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetCurrentUserPermissions404 | GetCurrentUserPermissions409>> & { queryKey: TQueryKey }
+         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetCurrentUserPermissions403 | GetCurrentUserPermissions404 | GetCurrentUserPermissions409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetDiscountCodesAsAdminQueryResponse, GetDiscountCodesAsAdminQueryParams, GetDiscountCodesAsAdmin404, GetDiscountCodesAsAdmin409 } from "../../types/GetDiscountCodesAsAdmin.ts";
+import type { GetDiscountCodesAsAdminQueryResponse, GetDiscountCodesAsAdminQueryParams, GetDiscountCodesAsAdmin403, GetDiscountCodesAsAdmin404, GetDiscountCodesAsAdmin409 } from "../../types/GetDiscountCodesAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 import { getDiscountCodesAsAdmin } from "../../client/admin-discount-code-management/getDiscountCodesAsAdmin.ts";
@@ -16,7 +16,7 @@ export type GetDiscountCodesAsAdminSuspenseQueryKey = ReturnType<typeof getDisco
 export function getDiscountCodesAsAdminSuspenseQueryOptions(params: GetDiscountCodesAsAdminQueryParams, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getDiscountCodesAsAdminSuspenseQueryKey(params)
-        return queryOptions<GetDiscountCodesAsAdminQueryResponse, ResponseErrorConfig<GetDiscountCodesAsAdmin404 | GetDiscountCodesAsAdmin409>, GetDiscountCodesAsAdminQueryResponse, typeof queryKey>({
+        return queryOptions<GetDiscountCodesAsAdminQueryResponse, ResponseErrorConfig<GetDiscountCodesAsAdmin403 | GetDiscountCodesAsAdmin404 | GetDiscountCodesAsAdmin409>, GetDiscountCodesAsAdminQueryResponse, typeof queryKey>({
          enabled: !!(params),
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getDiscountCodesAsAdminSuspenseQueryOptions(params: GetDiscountC
  */
 export function useGetDiscountCodesAsAdminSuspense<TData = GetDiscountCodesAsAdminQueryResponse, TQueryKey extends QueryKey = GetDiscountCodesAsAdminSuspenseQueryKey>(params: GetDiscountCodesAsAdminQueryParams, options: 
 {
-  query?: Partial<UseSuspenseQueryOptions<GetDiscountCodesAsAdminQueryResponse, ResponseErrorConfig<GetDiscountCodesAsAdmin404 | GetDiscountCodesAsAdmin409>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<GetDiscountCodesAsAdminQueryResponse, ResponseErrorConfig<GetDiscountCodesAsAdmin403 | GetDiscountCodesAsAdmin404 | GetDiscountCodesAsAdmin409>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetDiscountCodesAsAdminSuspense<TData = GetDiscountCodesAsAdm
           ...getDiscountCodesAsAdminSuspenseQueryOptions(params, config),
           queryKey,
           ...queryOptions
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetDiscountCodesAsAdmin404 | GetDiscountCodesAsAdmin409>> & { queryKey: TQueryKey }
+         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetDiscountCodesAsAdmin403 | GetDiscountCodesAsAdmin404 | GetDiscountCodesAsAdmin409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

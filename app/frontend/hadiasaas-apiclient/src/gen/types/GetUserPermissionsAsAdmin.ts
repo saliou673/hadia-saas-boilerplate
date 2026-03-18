@@ -19,6 +19,11 @@ export type GetUserPermissionsAsAdminPathParams = {
 export type GetUserPermissionsAsAdmin200 = Permission[];
 
 /**
+ * @description Forbidden
+*/
+export type GetUserPermissionsAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type GetUserPermissionsAsAdmin404 = ValidationErrorResponseDTO;
@@ -33,5 +38,5 @@ export type GetUserPermissionsAsAdminQueryResponse = GetUserPermissionsAsAdmin20
 export type GetUserPermissionsAsAdminQuery = {
     Response: GetUserPermissionsAsAdmin200;
     PathParams: GetUserPermissionsAsAdminPathParams;
-    Errors: GetUserPermissionsAsAdmin404 | GetUserPermissionsAsAdmin409;
+    Errors: GetUserPermissionsAsAdmin403 | GetUserPermissionsAsAdmin404 | GetUserPermissionsAsAdmin409;
 };

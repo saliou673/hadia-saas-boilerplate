@@ -20,6 +20,11 @@ export type UpdateDiscountCodeAsAdminPathParams = {
 export type UpdateDiscountCodeAsAdmin200 = DiscountCodeDTO;
 
 /**
+ * @description Forbidden
+*/
+export type UpdateDiscountCodeAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type UpdateDiscountCodeAsAdmin404 = ValidationErrorResponseDTO;
@@ -37,5 +42,5 @@ export type UpdateDiscountCodeAsAdminMutation = {
     Response: UpdateDiscountCodeAsAdmin200;
     Request: UpdateDiscountCodeAsAdminMutationRequest;
     PathParams: UpdateDiscountCodeAsAdminPathParams;
-    Errors: UpdateDiscountCodeAsAdmin404 | UpdateDiscountCodeAsAdmin409;
+    Errors: UpdateDiscountCodeAsAdmin403 | UpdateDiscountCodeAsAdmin404 | UpdateDiscountCodeAsAdmin409;
 };

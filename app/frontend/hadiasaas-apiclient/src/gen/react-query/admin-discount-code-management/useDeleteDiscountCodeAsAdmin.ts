@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { DeleteDiscountCodeAsAdminMutationResponse, DeleteDiscountCodeAsAdminPathParams, DeleteDiscountCodeAsAdmin404, DeleteDiscountCodeAsAdmin409 } from "../../types/DeleteDiscountCodeAsAdmin.ts";
+import type { DeleteDiscountCodeAsAdminMutationResponse, DeleteDiscountCodeAsAdminPathParams, DeleteDiscountCodeAsAdmin403, DeleteDiscountCodeAsAdmin404, DeleteDiscountCodeAsAdmin409 } from "../../types/DeleteDiscountCodeAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { deleteDiscountCodeAsAdmin } from "../../client/admin-discount-code-management/deleteDiscountCodeAsAdmin.ts";
@@ -16,7 +16,7 @@ export type DeleteDiscountCodeAsAdminMutationKey = ReturnType<typeof deleteDisco
 export function deleteDiscountCodeAsAdminMutationOptions<TContext = unknown>(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const mutationKey = deleteDiscountCodeAsAdminMutationKey()
-        return mutationOptions<DeleteDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<DeleteDiscountCodeAsAdmin404 | DeleteDiscountCodeAsAdmin409>, {id: DeleteDiscountCodeAsAdminPathParams["id"]}, TContext>({
+        return mutationOptions<DeleteDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<DeleteDiscountCodeAsAdmin403 | DeleteDiscountCodeAsAdmin404 | DeleteDiscountCodeAsAdmin409>, {id: DeleteDiscountCodeAsAdminPathParams["id"]}, TContext>({
           mutationKey,
           mutationFn: async({ id }) => {
             return deleteDiscountCodeAsAdmin(id, config)
@@ -30,7 +30,7 @@ export function deleteDiscountCodeAsAdminMutationOptions<TContext = unknown>(con
  */
 export function useDeleteDiscountCodeAsAdmin<TContext>(options: 
 {
-  mutation?: UseMutationOptions<DeleteDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<DeleteDiscountCodeAsAdmin404 | DeleteDiscountCodeAsAdmin409>, {id: DeleteDiscountCodeAsAdminPathParams["id"]}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<DeleteDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<DeleteDiscountCodeAsAdmin403 | DeleteDiscountCodeAsAdmin404 | DeleteDiscountCodeAsAdmin409>, {id: DeleteDiscountCodeAsAdminPathParams["id"]}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useDeleteDiscountCodeAsAdmin<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? deleteDiscountCodeAsAdminMutationKey()
 
-          const baseOptions = deleteDiscountCodeAsAdminMutationOptions(config) as UseMutationOptions<DeleteDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<DeleteDiscountCodeAsAdmin404 | DeleteDiscountCodeAsAdmin409>, {id: DeleteDiscountCodeAsAdminPathParams["id"]}, TContext>
+          const baseOptions = deleteDiscountCodeAsAdminMutationOptions(config) as UseMutationOptions<DeleteDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<DeleteDiscountCodeAsAdmin403 | DeleteDiscountCodeAsAdmin404 | DeleteDiscountCodeAsAdmin409>, {id: DeleteDiscountCodeAsAdminPathParams["id"]}, TContext>
           
 
-          return useMutation<DeleteDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<DeleteDiscountCodeAsAdmin404 | DeleteDiscountCodeAsAdmin409>, {id: DeleteDiscountCodeAsAdminPathParams["id"]}, TContext>({
+          return useMutation<DeleteDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<DeleteDiscountCodeAsAdmin403 | DeleteDiscountCodeAsAdmin404 | DeleteDiscountCodeAsAdmin409>, {id: DeleteDiscountCodeAsAdminPathParams["id"]}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<DeleteDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<DeleteDiscountCodeAsAdmin404 | DeleteDiscountCodeAsAdmin409>, {id: DeleteDiscountCodeAsAdminPathParams["id"]}, TContext>
+          }, queryClient) as UseMutationResult<DeleteDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<DeleteDiscountCodeAsAdmin403 | DeleteDiscountCodeAsAdmin404 | DeleteDiscountCodeAsAdmin409>, {id: DeleteDiscountCodeAsAdminPathParams["id"]}, TContext>
       
 }

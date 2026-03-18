@@ -13,6 +13,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type VerifyLoginChallenge200 = JwtToken;
 
 /**
+ * @description Forbidden
+*/
+export type VerifyLoginChallenge403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type VerifyLoginChallenge404 = ValidationErrorResponseDTO;
@@ -29,5 +34,5 @@ export type VerifyLoginChallengeMutationResponse = VerifyLoginChallenge200;
 export type VerifyLoginChallengeMutation = {
     Response: VerifyLoginChallenge200;
     Request: VerifyLoginChallengeMutationRequest;
-    Errors: VerifyLoginChallenge404 | VerifyLoginChallenge409;
+    Errors: VerifyLoginChallenge403 | VerifyLoginChallenge404 | VerifyLoginChallenge409;
 };

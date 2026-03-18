@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { DeleteRoleGroupAsAdminMutationResponse, DeleteRoleGroupAsAdminPathParams, DeleteRoleGroupAsAdmin404, DeleteRoleGroupAsAdmin409 } from "../../types/DeleteRoleGroupAsAdmin.ts";
+import type { DeleteRoleGroupAsAdminMutationResponse, DeleteRoleGroupAsAdminPathParams, DeleteRoleGroupAsAdmin403, DeleteRoleGroupAsAdmin404, DeleteRoleGroupAsAdmin409 } from "../../types/DeleteRoleGroupAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getDeleteRoleGroupAsAdminUrl(id: DeleteRoleGroupAsAdminPathParams["id"]) {
@@ -20,6 +20,6 @@ export async function deleteRoleGroupAsAdmin(id: DeleteRoleGroupAsAdminPathParam
 
 
 
-  const res = await request<DeleteRoleGroupAsAdminMutationResponse, ResponseErrorConfig<DeleteRoleGroupAsAdmin404 | DeleteRoleGroupAsAdmin409>, unknown>({ method : "DELETE", url : getDeleteRoleGroupAsAdminUrl(id).url.toString(), ... requestConfig })
+  const res = await request<DeleteRoleGroupAsAdminMutationResponse, ResponseErrorConfig<DeleteRoleGroupAsAdmin403 | DeleteRoleGroupAsAdmin404 | DeleteRoleGroupAsAdmin409>, unknown>({ method : "DELETE", url : getDeleteRoleGroupAsAdminUrl(id).url.toString(), ... requestConfig })
   return res.data
 }

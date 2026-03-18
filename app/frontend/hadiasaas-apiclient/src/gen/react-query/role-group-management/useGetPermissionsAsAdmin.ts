@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetPermissionsAsAdminQueryResponse, GetPermissionsAsAdminQueryParams, GetPermissionsAsAdmin404, GetPermissionsAsAdmin409 } from "../../types/GetPermissionsAsAdmin.ts";
+import type { GetPermissionsAsAdminQueryResponse, GetPermissionsAsAdminQueryParams, GetPermissionsAsAdmin403, GetPermissionsAsAdmin404, GetPermissionsAsAdmin409 } from "../../types/GetPermissionsAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
 import { getPermissionsAsAdmin } from "../../client/role-group-management/getPermissionsAsAdmin.ts";
@@ -16,7 +16,7 @@ export type GetPermissionsAsAdminQueryKey = ReturnType<typeof getPermissionsAsAd
 export function getPermissionsAsAdminQueryOptions(params: GetPermissionsAsAdminQueryParams, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getPermissionsAsAdminQueryKey(params)
-        return queryOptions<GetPermissionsAsAdminQueryResponse, ResponseErrorConfig<GetPermissionsAsAdmin404 | GetPermissionsAsAdmin409>, GetPermissionsAsAdminQueryResponse, typeof queryKey>({
+        return queryOptions<GetPermissionsAsAdminQueryResponse, ResponseErrorConfig<GetPermissionsAsAdmin403 | GetPermissionsAsAdmin404 | GetPermissionsAsAdmin409>, GetPermissionsAsAdminQueryResponse, typeof queryKey>({
          enabled: !!(params),
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getPermissionsAsAdminQueryOptions(params: GetPermissionsAsAdminQ
  */
 export function useGetPermissionsAsAdmin<TData = GetPermissionsAsAdminQueryResponse, TQueryData = GetPermissionsAsAdminQueryResponse, TQueryKey extends QueryKey = GetPermissionsAsAdminQueryKey>(params: GetPermissionsAsAdminQueryParams, options: 
 {
-  query?: Partial<QueryObserverOptions<GetPermissionsAsAdminQueryResponse, ResponseErrorConfig<GetPermissionsAsAdmin404 | GetPermissionsAsAdmin409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<QueryObserverOptions<GetPermissionsAsAdminQueryResponse, ResponseErrorConfig<GetPermissionsAsAdmin403 | GetPermissionsAsAdmin404 | GetPermissionsAsAdmin409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetPermissionsAsAdmin<TData = GetPermissionsAsAdminQueryRespo
           ...getPermissionsAsAdminQueryOptions(params, config),
           queryKey,
           ...queryOptions
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetPermissionsAsAdmin404 | GetPermissionsAsAdmin409>> & { queryKey: TQueryKey }
+         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetPermissionsAsAdmin403 | GetPermissionsAsAdmin404 | GetPermissionsAsAdmin409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

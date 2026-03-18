@@ -25,6 +25,11 @@ export type GetMySubscriptionsQueryParams = {
 export type GetMySubscriptions200 = PaginatedResultUserSubscription;
 
 /**
+ * @description Forbidden
+*/
+export type GetMySubscriptions403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type GetMySubscriptions404 = ValidationErrorResponseDTO;
@@ -39,5 +44,5 @@ export type GetMySubscriptionsQueryResponse = GetMySubscriptions200;
 export type GetMySubscriptionsQuery = {
     Response: GetMySubscriptions200;
     QueryParams: GetMySubscriptionsQueryParams;
-    Errors: GetMySubscriptions404 | GetMySubscriptions409;
+    Errors: GetMySubscriptions403 | GetMySubscriptions404 | GetMySubscriptions409;
 };

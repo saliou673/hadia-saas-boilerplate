@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetSubscriptionPlansQueryResponse, GetSubscriptionPlansQueryParams, GetSubscriptionPlans404, GetSubscriptionPlans409 } from "../../types/GetSubscriptionPlans.ts";
+import type { GetSubscriptionPlansQueryResponse, GetSubscriptionPlansQueryParams, GetSubscriptionPlans403, GetSubscriptionPlans404, GetSubscriptionPlans409 } from "../../types/GetSubscriptionPlans.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 import { getSubscriptionPlans } from "../../client/subscription-plans/getSubscriptionPlans.ts";
@@ -16,7 +16,7 @@ export type GetSubscriptionPlansSuspenseQueryKey = ReturnType<typeof getSubscrip
 export function getSubscriptionPlansSuspenseQueryOptions(params?: GetSubscriptionPlansQueryParams, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getSubscriptionPlansSuspenseQueryKey(params)
-        return queryOptions<GetSubscriptionPlansQueryResponse, ResponseErrorConfig<GetSubscriptionPlans404 | GetSubscriptionPlans409>, GetSubscriptionPlansQueryResponse, typeof queryKey>({
+        return queryOptions<GetSubscriptionPlansQueryResponse, ResponseErrorConfig<GetSubscriptionPlans403 | GetSubscriptionPlans404 | GetSubscriptionPlans409>, GetSubscriptionPlansQueryResponse, typeof queryKey>({
          
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getSubscriptionPlansSuspenseQueryOptions(params?: GetSubscriptio
  */
 export function useGetSubscriptionPlansSuspense<TData = GetSubscriptionPlansQueryResponse, TQueryKey extends QueryKey = GetSubscriptionPlansSuspenseQueryKey>(params?: GetSubscriptionPlansQueryParams, options: 
 {
-  query?: Partial<UseSuspenseQueryOptions<GetSubscriptionPlansQueryResponse, ResponseErrorConfig<GetSubscriptionPlans404 | GetSubscriptionPlans409>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<GetSubscriptionPlansQueryResponse, ResponseErrorConfig<GetSubscriptionPlans403 | GetSubscriptionPlans404 | GetSubscriptionPlans409>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetSubscriptionPlansSuspense<TData = GetSubscriptionPlansQuer
           ...getSubscriptionPlansSuspenseQueryOptions(params, config),
           queryKey,
           ...queryOptions
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetSubscriptionPlans404 | GetSubscriptionPlans409>> & { queryKey: TQueryKey }
+         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetSubscriptionPlans403 | GetSubscriptionPlans404 | GetSubscriptionPlans409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

@@ -13,6 +13,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type SubscribeToPlan201 = UserSubscription;
 
 /**
+ * @description Forbidden
+*/
+export type SubscribeToPlan403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type SubscribeToPlan404 = ValidationErrorResponseDTO;
@@ -29,5 +34,5 @@ export type SubscribeToPlanMutationResponse = SubscribeToPlan201;
 export type SubscribeToPlanMutation = {
     Response: SubscribeToPlan201;
     Request: SubscribeToPlanMutationRequest;
-    Errors: SubscribeToPlan404 | SubscribeToPlan409;
+    Errors: SubscribeToPlan403 | SubscribeToPlan404 | SubscribeToPlan409;
 };

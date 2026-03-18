@@ -12,6 +12,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type GetCategoriesAsAdmin200 = AppConfigurationCategory[];
 
 /**
+ * @description Forbidden
+*/
+export type GetCategoriesAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type GetCategoriesAsAdmin404 = ValidationErrorResponseDTO;
@@ -25,5 +30,5 @@ export type GetCategoriesAsAdminQueryResponse = GetCategoriesAsAdmin200;
 
 export type GetCategoriesAsAdminQuery = {
     Response: GetCategoriesAsAdmin200;
-    Errors: GetCategoriesAsAdmin404 | GetCategoriesAsAdmin409;
+    Errors: GetCategoriesAsAdmin403 | GetCategoriesAsAdmin404 | GetCategoriesAsAdmin409;
 };

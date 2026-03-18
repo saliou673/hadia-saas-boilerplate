@@ -19,6 +19,11 @@ export type CancelUserSubscriptionAsAdminPathParams = {
 export type CancelUserSubscriptionAsAdmin200 = UserSubscription;
 
 /**
+ * @description Forbidden
+*/
+export type CancelUserSubscriptionAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type CancelUserSubscriptionAsAdmin404 = ValidationErrorResponseDTO;
@@ -33,5 +38,5 @@ export type CancelUserSubscriptionAsAdminMutationResponse = CancelUserSubscripti
 export type CancelUserSubscriptionAsAdminMutation = {
     Response: CancelUserSubscriptionAsAdmin200;
     PathParams: CancelUserSubscriptionAsAdminPathParams;
-    Errors: CancelUserSubscriptionAsAdmin404 | CancelUserSubscriptionAsAdmin409;
+    Errors: CancelUserSubscriptionAsAdmin403 | CancelUserSubscriptionAsAdmin404 | CancelUserSubscriptionAsAdmin409;
 };

@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetCategoriesAsAdminQueryResponse, GetCategoriesAsAdmin404, GetCategoriesAsAdmin409 } from "../../types/GetCategoriesAsAdmin.ts";
+import type { GetCategoriesAsAdminQueryResponse, GetCategoriesAsAdmin403, GetCategoriesAsAdmin404, GetCategoriesAsAdmin409 } from "../../types/GetCategoriesAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 import { getCategoriesAsAdmin } from "../../client/admin-configuration-management/getCategoriesAsAdmin.ts";
@@ -16,7 +16,7 @@ export type GetCategoriesAsAdminSuspenseQueryKey = ReturnType<typeof getCategori
 export function getCategoriesAsAdminSuspenseQueryOptions(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getCategoriesAsAdminSuspenseQueryKey()
-        return queryOptions<GetCategoriesAsAdminQueryResponse, ResponseErrorConfig<GetCategoriesAsAdmin404 | GetCategoriesAsAdmin409>, GetCategoriesAsAdminQueryResponse, typeof queryKey>({
+        return queryOptions<GetCategoriesAsAdminQueryResponse, ResponseErrorConfig<GetCategoriesAsAdmin403 | GetCategoriesAsAdmin404 | GetCategoriesAsAdmin409>, GetCategoriesAsAdminQueryResponse, typeof queryKey>({
          
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getCategoriesAsAdminSuspenseQueryOptions(config: Partial<Request
  */
 export function useGetCategoriesAsAdminSuspense<TData = GetCategoriesAsAdminQueryResponse, TQueryKey extends QueryKey = GetCategoriesAsAdminSuspenseQueryKey>(options: 
 {
-  query?: Partial<UseSuspenseQueryOptions<GetCategoriesAsAdminQueryResponse, ResponseErrorConfig<GetCategoriesAsAdmin404 | GetCategoriesAsAdmin409>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<GetCategoriesAsAdminQueryResponse, ResponseErrorConfig<GetCategoriesAsAdmin403 | GetCategoriesAsAdmin404 | GetCategoriesAsAdmin409>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetCategoriesAsAdminSuspense<TData = GetCategoriesAsAdminQuer
           ...getCategoriesAsAdminSuspenseQueryOptions(config),
           queryKey,
           ...queryOptions
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetCategoriesAsAdmin404 | GetCategoriesAsAdmin409>> & { queryKey: TQueryKey }
+         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetCategoriesAsAdmin403 | GetCategoriesAsAdmin404 | GetCategoriesAsAdmin409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

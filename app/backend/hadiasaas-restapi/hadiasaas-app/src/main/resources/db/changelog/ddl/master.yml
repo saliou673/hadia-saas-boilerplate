@@ -50,3 +50,19 @@ databaseChangeLog:
   - include:
       file: 00012-user-preference-create-table.sql
       relativeToChangelogFile: true
+
+  - include:
+      file: 00013-storage-settings-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00014-tax-configuration-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00015-enterprise-profile-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00016-security-settings-create-table.sql
+      relativeToChangelogFile: true

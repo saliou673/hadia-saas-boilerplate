@@ -1,13 +1,12 @@
 package com.hadiasaas.infrastructure.adapter.out.billing;
 
-import com.hadiasaas.domain.enumerations.AppConfigurationCategory;
 import com.hadiasaas.domain.exceptions.TechnicalException;
-import com.hadiasaas.domain.models.appconfiguration.AppConfiguration;
+import com.hadiasaas.domain.models.enterpriseprofile.EnterpriseProfile;
 import com.hadiasaas.domain.models.subscription.UserSubscription;
 import com.hadiasaas.domain.models.user.User;
 import com.hadiasaas.domain.ports.out.FileStoragePort;
 import com.hadiasaas.domain.ports.out.SubscriptionBillPort;
-import com.hadiasaas.domain.ports.out.persistenceport.AppConfigurationPersistencePort;
+import com.hadiasaas.domain.ports.out.persistenceport.EnterpriseProfilePersistencePort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -52,16 +51,12 @@ public class PdfBoxSubscriptionBillAdapter implements SubscriptionBillPort {
     private static final float SMALL_FONT_SIZE = 8.5f;
     private static final float HEADER_LOGO_WIDTH = 38f;
     private static final float HEADER_LOGO_HEIGHT = 38f;
-    private static final String ENTERPRISE_NAME = "NAME";
-    private static final String ENTERPRISE_ADDRESS = "ADDRESS";
-    private static final String ENTERPRISE_PHONE_NUMBER = "PHONE_NUMBER";
-    private static final String ENTERPRISE_EMAIL = "EMAIL";
     private static final String LOGO_RESOURCE_PATH = "billing/enterprise-logo.png";
     private static final String REGULAR_FONT_RESOURCE_PATH = "billing/fonts/NotoSans-Regular.ttf";
     private static final String BOLD_FONT_RESOURCE_PATH = "billing/fonts/NotoSans-Bold.ttf";
 
     private final FileStoragePort fileStoragePort;
-    private final AppConfigurationPersistencePort appConfigurationPersistencePort;
+    private final EnterpriseProfilePersistencePort enterpriseProfilePersistencePort;
     private final MessageSource messageSource;
 
     @Override
@@ -298,19 +293,32 @@ public class PdfBoxSubscriptionBillAdapter implements SubscriptionBillPort {
     }
 
     private EnterpriseInformation loadEnterpriseInformation() {
+        EnterpriseProfile profile = enterpriseProfilePersistencePort.find()
+                .orElseThrow(() -> new TechnicalException("Enterprise profile not configured"));
         return new EnterpriseInformation(
-                readEnterpriseValue(ENTERPRISE_NAME),
-                readEnterpriseValue(ENTERPRISE_ADDRESS),
-                readEnterpriseValue(ENTERPRISE_PHONE_NUMBER),
-                readEnterpriseValue(ENTERPRISE_EMAIL)
+                emptyIfNull(profile.getCompanyName()),
+                buildAddress(profile),
+                emptyIfNull(profile.getPhoneNumber()),
+                emptyIfNull(profile.getEmail())
         );
     }
 
-    private String readEnterpriseValue(String code) {
-        AppConfiguration configuration = appConfigurationPersistencePort.findByCategoryAndCode(AppConfigurationCategory.ENTERPRISE, code)
-                .filter(AppConfiguration::isActive)
-                .orElseThrow(() -> new TechnicalException("Missing active enterprise configuration for code: " + code));
-        return configuration.getLabel();
+    private String buildAddress(EnterpriseProfile profile) {
+        List<String> parts = new ArrayList<>();
+        if (StringUtils.isNotBlank(profile.getAddressLine1())) {
+            parts.add(profile.getAddressLine1());
+        }
+        if (StringUtils.isNotBlank(profile.getAddressLine2())) {
+            parts.add(profile.getAddressLine2());
+        }
+        if (StringUtils.isNotBlank(profile.getCity()) && StringUtils.isNotBlank(profile.getPostalCode())) {
+            parts.add(profile.getPostalCode() + " " + profile.getCity());
+        } else if (StringUtils.isNotBlank(profile.getCity())) {
+            parts.add(profile.getCity());
+        } else if (StringUtils.isNotBlank(profile.getPostalCode())) {
+            parts.add(profile.getPostalCode());
+        }
+        return parts.isEmpty() ? "-" : String.join(", ", parts);
     }
 
     private ReceiptData buildReceiptData(User user, UserSubscription subscription, Locale locale) {

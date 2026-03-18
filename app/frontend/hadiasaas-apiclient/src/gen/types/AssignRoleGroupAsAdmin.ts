@@ -19,6 +19,11 @@ export type AssignRoleGroupAsAdminPathParams = {
 export type AssignRoleGroupAsAdmin204 = any;
 
 /**
+ * @description Forbidden
+*/
+export type AssignRoleGroupAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type AssignRoleGroupAsAdmin404 = ValidationErrorResponseDTO;
@@ -36,5 +41,5 @@ export type AssignRoleGroupAsAdminMutation = {
     Response: AssignRoleGroupAsAdmin204;
     Request: AssignRoleGroupAsAdminMutationRequest;
     PathParams: AssignRoleGroupAsAdminPathParams;
-    Errors: AssignRoleGroupAsAdmin404 | AssignRoleGroupAsAdmin409;
+    Errors: AssignRoleGroupAsAdmin403 | AssignRoleGroupAsAdmin404 | AssignRoleGroupAsAdmin409;
 };

@@ -112,9 +112,13 @@ function buildQueryParams(
             code: trimmedCode ? { contains: trimmedCode } : undefined,
             category:
                 categories.length === 1
-                    ? { equals: categories[0] as AppConfigurationCategoryFilterEqualsEnumKey }
+                    ? {
+                          equals: categories[0] as AppConfigurationCategoryFilterEqualsEnumKey,
+                      }
                     : categories.length > 1
-                      ? { in: categories as AppConfigurationCategoryFilterInEnumKey[] }
+                      ? {
+                            in: categories as AppConfigurationCategoryFilterInEnumKey[],
+                        }
                       : undefined,
             active:
                 active.length === 1
@@ -222,12 +226,15 @@ export function ConfigurationsTable({
     );
 
     const { data: categoriesData } = useGetCategoriesAsAdmin();
-    const categoryOptions = (categoriesData ?? []).map(({ value, description }) => ({
-        label: description ?? value ?? "",
-        value: value ?? "",
-    }));
+    const categoryOptions = (categoriesData ?? []).map(
+        ({ value, description }) => ({
+            label: description ?? value ?? "",
+            value: value ?? "",
+        })
+    );
 
-    const { data, isLoading, isError } = useGetAppConfigurationsAsAdmin(queryParams);
+    const { data, isLoading, isError } =
+        useGetAppConfigurationsAsAdmin(queryParams);
 
     const items = data?.items ?? [];
     const totalPages = data?.totalPages ?? 0;

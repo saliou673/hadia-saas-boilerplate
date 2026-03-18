@@ -2,15 +2,18 @@ package com.hadiasaas.application;
 
 import com.hadiasaas.config.ApplicationProperties;
 import com.hadiasaas.domain.exceptions.InvalidRefreshTokenException;
+import com.hadiasaas.domain.exceptions.TwoFactorSetupRequiredException;
 import com.hadiasaas.domain.exceptions.UserNotFoundException;
 import com.hadiasaas.domain.models.auth.*;
 import com.hadiasaas.domain.models.rbac.Permission;
+import com.hadiasaas.domain.models.securitysettings.SecuritySettings;
 import com.hadiasaas.domain.models.user.AuthenticatedUser;
 import com.hadiasaas.domain.models.user.User;
 import com.hadiasaas.domain.ports.in.AuthenticationUseCase;
 import com.hadiasaas.domain.ports.out.JwtTokenPort;
 import com.hadiasaas.domain.ports.out.TwoFactorProviderPort;
 import com.hadiasaas.domain.ports.out.persistenceport.AuthTokenPersistencePort;
+import com.hadiasaas.domain.ports.out.persistenceport.SecuritySettingsPersistencePort;
 import com.hadiasaas.domain.ports.out.persistenceport.TwoFactorChallengePersistencePort;
 import com.hadiasaas.domain.ports.out.persistenceport.UserPersistencePort;
 import lombok.RequiredArgsConstructor;
@@ -26,11 +29,13 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Application service implementing {@link AuthenticationUseCase}: login, token refresh, and logout.
+ */
 @Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
-/** Application service implementing {@link AuthenticationUseCase}: login, token refresh, and logout. */
 public class AuthenticationService implements AuthenticationUseCase {
 
     private final JwtTokenPort jwtTokenPort;
@@ -39,6 +44,7 @@ public class AuthenticationService implements AuthenticationUseCase {
     private final TwoFactorChallengePersistencePort twoFactorChallengePersistencePort;
     private final List<TwoFactorProviderPort> twoFactorProviders;
     private final ApplicationProperties applicationProperties;
+    private final SecuritySettingsPersistencePort securitySettingsPersistencePort;
 
     @Override
     public LoginResult login(String email, String password, boolean rememberMe) {
@@ -46,6 +52,15 @@ public class AuthenticationService implements AuthenticationUseCase {
 
         User user = userPersistencePort.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
+
+        boolean globalTwoFactorRequired = securitySettingsPersistencePort.find()
+                .map(SecuritySettings::isTwoFactorRequired)
+                .orElse(false);
+
+        if (globalTwoFactorRequired && !user.isTwoFactorEnabled()) {
+            throw new TwoFactorSetupRequiredException(
+                    "Two-factor authentication is required for all users. Please set up 2FA before logging in.");
+        }
 
         if (user.isTwoFactorEnabled()) {
             return createTwoFactorChallenge(user, rememberMe);

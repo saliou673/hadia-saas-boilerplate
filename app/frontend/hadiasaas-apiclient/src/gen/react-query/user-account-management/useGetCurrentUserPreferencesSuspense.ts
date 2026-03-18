@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetCurrentUserPreferencesQueryResponse, GetCurrentUserPreferences404, GetCurrentUserPreferences409 } from "../../types/GetCurrentUserPreferences.ts";
+import type { GetCurrentUserPreferencesQueryResponse, GetCurrentUserPreferences403, GetCurrentUserPreferences404, GetCurrentUserPreferences409 } from "../../types/GetCurrentUserPreferences.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 import { getCurrentUserPreferences } from "../../client/user-account-management/getCurrentUserPreferences.ts";
@@ -16,7 +16,7 @@ export type GetCurrentUserPreferencesSuspenseQueryKey = ReturnType<typeof getCur
 export function getCurrentUserPreferencesSuspenseQueryOptions(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getCurrentUserPreferencesSuspenseQueryKey()
-        return queryOptions<GetCurrentUserPreferencesQueryResponse, ResponseErrorConfig<GetCurrentUserPreferences404 | GetCurrentUserPreferences409>, GetCurrentUserPreferencesQueryResponse, typeof queryKey>({
+        return queryOptions<GetCurrentUserPreferencesQueryResponse, ResponseErrorConfig<GetCurrentUserPreferences403 | GetCurrentUserPreferences404 | GetCurrentUserPreferences409>, GetCurrentUserPreferencesQueryResponse, typeof queryKey>({
          
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getCurrentUserPreferencesSuspenseQueryOptions(config: Partial<Re
  */
 export function useGetCurrentUserPreferencesSuspense<TData = GetCurrentUserPreferencesQueryResponse, TQueryKey extends QueryKey = GetCurrentUserPreferencesSuspenseQueryKey>(options: 
 {
-  query?: Partial<UseSuspenseQueryOptions<GetCurrentUserPreferencesQueryResponse, ResponseErrorConfig<GetCurrentUserPreferences404 | GetCurrentUserPreferences409>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<GetCurrentUserPreferencesQueryResponse, ResponseErrorConfig<GetCurrentUserPreferences403 | GetCurrentUserPreferences404 | GetCurrentUserPreferences409>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetCurrentUserPreferencesSuspense<TData = GetCurrentUserPrefe
           ...getCurrentUserPreferencesSuspenseQueryOptions(config),
           queryKey,
           ...queryOptions
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetCurrentUserPreferences404 | GetCurrentUserPreferences409>> & { queryKey: TQueryKey }
+         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetCurrentUserPreferences403 | GetCurrentUserPreferences404 | GetCurrentUserPreferences409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

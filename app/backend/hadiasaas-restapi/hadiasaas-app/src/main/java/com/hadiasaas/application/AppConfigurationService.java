@@ -30,7 +30,6 @@ public class AppConfigurationService implements AppConfigurationUseCase {
                     "Reference data with category " + category + " and code " + code + " already exists"
             );
         }
-        validateStorageActivation(category, true, null);
         AppConfiguration appConfiguration = AppConfiguration.create(category, code, label, description);
         return appConfigurationPersistencePort.save(appConfiguration);
     }
@@ -47,7 +46,6 @@ public class AppConfigurationService implements AppConfigurationUseCase {
             );
         }
 
-        validateStorageActivation(appConfiguration.getCategory(), active, id);
         appConfiguration.update(code, label, description, active);
         return appConfigurationPersistencePort.save(appConfiguration);
     }
@@ -66,7 +64,6 @@ public class AppConfigurationService implements AppConfigurationUseCase {
             );
         }
 
-        validateStorageActivation(category, active, appConfiguration.getId());
         appConfiguration.update(newCode, label, description, active);
         return appConfigurationPersistencePort.save(appConfiguration);
     }
@@ -88,19 +85,5 @@ public class AppConfigurationService implements AppConfigurationUseCase {
     public AppConfiguration getById(Long id) {
         return appConfigurationPersistencePort.findById(id)
                 .orElseThrow(() -> new AppConfigurationNotFoundException("Reference data not found with id: " + id));
-    }
-
-    private void validateStorageActivation(AppConfigurationCategory category, boolean active, Long excludeId) {
-        if (category != AppConfigurationCategory.STORAGE || !active) {
-            return;
-        }
-
-        boolean anotherActiveStorageExists = excludeId == null
-                ? appConfigurationPersistencePort.existsActiveByCategory(category)
-                : appConfigurationPersistencePort.existsActiveByCategoryAndIdNot(category, excludeId);
-
-        if (anotherActiveStorageExists) {
-            throw new AppConfigurationAlreadyExistsException("Only one active storage configuration is allowed");
-        }
     }
 }

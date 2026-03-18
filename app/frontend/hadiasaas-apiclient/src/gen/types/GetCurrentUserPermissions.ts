@@ -12,6 +12,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type GetCurrentUserPermissions200 = Permission[];
 
 /**
+ * @description Forbidden
+*/
+export type GetCurrentUserPermissions403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type GetCurrentUserPermissions404 = ValidationErrorResponseDTO;
@@ -25,5 +30,5 @@ export type GetCurrentUserPermissionsQueryResponse = GetCurrentUserPermissions20
 
 export type GetCurrentUserPermissionsQuery = {
     Response: GetCurrentUserPermissions200;
-    Errors: GetCurrentUserPermissions404 | GetCurrentUserPermissions409;
+    Errors: GetCurrentUserPermissions403 | GetCurrentUserPermissions404 | GetCurrentUserPermissions409;
 };

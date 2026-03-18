@@ -18,6 +18,11 @@ export type DeleteDiscountCodeAsAdminPathParams = {
 export type DeleteDiscountCodeAsAdmin204 = any;
 
 /**
+ * @description Forbidden
+*/
+export type DeleteDiscountCodeAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type DeleteDiscountCodeAsAdmin404 = ValidationErrorResponseDTO;
@@ -32,5 +37,5 @@ export type DeleteDiscountCodeAsAdminMutationResponse = DeleteDiscountCodeAsAdmi
 export type DeleteDiscountCodeAsAdminMutation = {
     Response: DeleteDiscountCodeAsAdmin204;
     PathParams: DeleteDiscountCodeAsAdminPathParams;
-    Errors: DeleteDiscountCodeAsAdmin404 | DeleteDiscountCodeAsAdmin409;
+    Errors: DeleteDiscountCodeAsAdmin403 | DeleteDiscountCodeAsAdmin404 | DeleteDiscountCodeAsAdmin409;
 };

@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { CreateDiscountCodeAsAdminMutationRequest, CreateDiscountCodeAsAdminMutationResponse, CreateDiscountCodeAsAdmin404, CreateDiscountCodeAsAdmin409 } from "../../types/CreateDiscountCodeAsAdmin.ts";
+import type { CreateDiscountCodeAsAdminMutationRequest, CreateDiscountCodeAsAdminMutationResponse, CreateDiscountCodeAsAdmin403, CreateDiscountCodeAsAdmin404, CreateDiscountCodeAsAdmin409 } from "../../types/CreateDiscountCodeAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getCreateDiscountCodeAsAdminUrl() {
@@ -20,6 +20,6 @@ export async function createDiscountCodeAsAdmin(data: CreateDiscountCodeAsAdminM
 
   const requestData = data
 
-  const res = await request<CreateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<CreateDiscountCodeAsAdmin404 | CreateDiscountCodeAsAdmin409>, CreateDiscountCodeAsAdminMutationRequest>({ method : "POST", url : getCreateDiscountCodeAsAdminUrl().url.toString(), data : requestData, ... requestConfig })
+  const res = await request<CreateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<CreateDiscountCodeAsAdmin403 | CreateDiscountCodeAsAdmin404 | CreateDiscountCodeAsAdmin409>, CreateDiscountCodeAsAdminMutationRequest>({ method : "POST", url : getCreateDiscountCodeAsAdminUrl().url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

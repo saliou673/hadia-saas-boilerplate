@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { GetDiscountCodesAsAdminQueryResponse, GetDiscountCodesAsAdminQueryParams, GetDiscountCodesAsAdmin404, GetDiscountCodesAsAdmin409 } from "../../types/GetDiscountCodesAsAdmin.ts";
+import type { GetDiscountCodesAsAdminQueryResponse, GetDiscountCodesAsAdminQueryParams, GetDiscountCodesAsAdmin403, GetDiscountCodesAsAdmin404, GetDiscountCodesAsAdmin409 } from "../../types/GetDiscountCodesAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getGetDiscountCodesAsAdminUrl() {
@@ -20,6 +20,6 @@ export async function getDiscountCodesAsAdmin(params: GetDiscountCodesAsAdminQue
 
 
 
-  const res = await request<GetDiscountCodesAsAdminQueryResponse, ResponseErrorConfig<GetDiscountCodesAsAdmin404 | GetDiscountCodesAsAdmin409>, unknown>({ method : "GET", url : getGetDiscountCodesAsAdminUrl().url.toString(), params, ... requestConfig })
+  const res = await request<GetDiscountCodesAsAdminQueryResponse, ResponseErrorConfig<GetDiscountCodesAsAdmin403 | GetDiscountCodesAsAdmin404 | GetDiscountCodesAsAdmin409>, unknown>({ method : "GET", url : getGetDiscountCodesAsAdminUrl().url.toString(), params, ... requestConfig })
   return res.data
 }

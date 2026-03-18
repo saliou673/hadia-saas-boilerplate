@@ -25,6 +25,11 @@ export type GetDiscountCodesAsAdminQueryParams = {
 export type GetDiscountCodesAsAdmin200 = PaginatedResultDiscountCodeDTO;
 
 /**
+ * @description Forbidden
+*/
+export type GetDiscountCodesAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type GetDiscountCodesAsAdmin404 = ValidationErrorResponseDTO;
@@ -39,5 +44,5 @@ export type GetDiscountCodesAsAdminQueryResponse = GetDiscountCodesAsAdmin200;
 export type GetDiscountCodesAsAdminQuery = {
     Response: GetDiscountCodesAsAdmin200;
     QueryParams: GetDiscountCodesAsAdminQueryParams;
-    Errors: GetDiscountCodesAsAdmin404 | GetDiscountCodesAsAdmin409;
+    Errors: GetDiscountCodesAsAdmin403 | GetDiscountCodesAsAdmin404 | GetDiscountCodesAsAdmin409;
 };

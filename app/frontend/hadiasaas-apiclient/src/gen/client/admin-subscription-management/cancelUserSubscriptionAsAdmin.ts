@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { CancelUserSubscriptionAsAdminMutationResponse, CancelUserSubscriptionAsAdminPathParams, CancelUserSubscriptionAsAdmin404, CancelUserSubscriptionAsAdmin409 } from "../../types/CancelUserSubscriptionAsAdmin.ts";
+import type { CancelUserSubscriptionAsAdminMutationResponse, CancelUserSubscriptionAsAdminPathParams, CancelUserSubscriptionAsAdmin403, CancelUserSubscriptionAsAdmin404, CancelUserSubscriptionAsAdmin409 } from "../../types/CancelUserSubscriptionAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getCancelUserSubscriptionAsAdminUrl(id: CancelUserSubscriptionAsAdminPathParams["id"]) {
@@ -20,6 +20,6 @@ export async function cancelUserSubscriptionAsAdmin(id: CancelUserSubscriptionAs
 
 
 
-  const res = await request<CancelUserSubscriptionAsAdminMutationResponse, ResponseErrorConfig<CancelUserSubscriptionAsAdmin404 | CancelUserSubscriptionAsAdmin409>, unknown>({ method : "PUT", url : getCancelUserSubscriptionAsAdminUrl(id).url.toString(), ... requestConfig })
+  const res = await request<CancelUserSubscriptionAsAdminMutationResponse, ResponseErrorConfig<CancelUserSubscriptionAsAdmin403 | CancelUserSubscriptionAsAdmin404 | CancelUserSubscriptionAsAdmin409>, unknown>({ method : "PUT", url : getCancelUserSubscriptionAsAdminUrl(id).url.toString(), ... requestConfig })
   return res.data
 }

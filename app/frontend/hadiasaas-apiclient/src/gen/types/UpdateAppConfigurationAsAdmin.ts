@@ -20,6 +20,11 @@ export type UpdateAppConfigurationAsAdminPathParams = {
 export type UpdateAppConfigurationAsAdmin200 = AppConfiguration;
 
 /**
+ * @description Forbidden
+*/
+export type UpdateAppConfigurationAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type UpdateAppConfigurationAsAdmin404 = ValidationErrorResponseDTO;
@@ -37,5 +42,5 @@ export type UpdateAppConfigurationAsAdminMutation = {
     Response: UpdateAppConfigurationAsAdmin200;
     Request: UpdateAppConfigurationAsAdminMutationRequest;
     PathParams: UpdateAppConfigurationAsAdminPathParams;
-    Errors: UpdateAppConfigurationAsAdmin404 | UpdateAppConfigurationAsAdmin409;
+    Errors: UpdateAppConfigurationAsAdmin403 | UpdateAppConfigurationAsAdmin404 | UpdateAppConfigurationAsAdmin409;
 };

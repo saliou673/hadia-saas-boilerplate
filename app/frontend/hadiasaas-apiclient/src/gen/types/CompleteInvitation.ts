@@ -12,6 +12,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type CompleteInvitation200 = any;
 
 /**
+ * @description Forbidden
+*/
+export type CompleteInvitation403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type CompleteInvitation404 = ValidationErrorResponseDTO;
@@ -28,5 +33,5 @@ export type CompleteInvitationMutationResponse = CompleteInvitation200;
 export type CompleteInvitationMutation = {
     Response: CompleteInvitation200;
     Request: CompleteInvitationMutationRequest;
-    Errors: CompleteInvitation404 | CompleteInvitation409;
+    Errors: CompleteInvitation403 | CompleteInvitation404 | CompleteInvitation409;
 };

@@ -20,6 +20,11 @@ export type GetPermissionsAsAdminQueryParams = {
 export type GetPermissionsAsAdmin200 = PaginatedResultPermission;
 
 /**
+ * @description Forbidden
+*/
+export type GetPermissionsAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type GetPermissionsAsAdmin404 = ValidationErrorResponseDTO;
@@ -34,5 +39,5 @@ export type GetPermissionsAsAdminQueryResponse = GetPermissionsAsAdmin200;
 export type GetPermissionsAsAdminQuery = {
     Response: GetPermissionsAsAdmin200;
     QueryParams: GetPermissionsAsAdminQueryParams;
-    Errors: GetPermissionsAsAdmin404 | GetPermissionsAsAdmin409;
+    Errors: GetPermissionsAsAdmin403 | GetPermissionsAsAdmin404 | GetPermissionsAsAdmin409;
 };

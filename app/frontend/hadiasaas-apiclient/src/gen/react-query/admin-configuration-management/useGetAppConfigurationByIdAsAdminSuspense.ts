@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetAppConfigurationByIdAsAdminQueryResponse, GetAppConfigurationByIdAsAdminPathParams, GetAppConfigurationByIdAsAdmin404, GetAppConfigurationByIdAsAdmin409 } from "../../types/GetAppConfigurationByIdAsAdmin.ts";
+import type { GetAppConfigurationByIdAsAdminQueryResponse, GetAppConfigurationByIdAsAdminPathParams, GetAppConfigurationByIdAsAdmin403, GetAppConfigurationByIdAsAdmin404, GetAppConfigurationByIdAsAdmin409 } from "../../types/GetAppConfigurationByIdAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 import { getAppConfigurationByIdAsAdmin } from "../../client/admin-configuration-management/getAppConfigurationByIdAsAdmin.ts";
@@ -16,7 +16,7 @@ export type GetAppConfigurationByIdAsAdminSuspenseQueryKey = ReturnType<typeof g
 export function getAppConfigurationByIdAsAdminSuspenseQueryOptions(id: GetAppConfigurationByIdAsAdminPathParams["id"], config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getAppConfigurationByIdAsAdminSuspenseQueryKey(id)
-        return queryOptions<GetAppConfigurationByIdAsAdminQueryResponse, ResponseErrorConfig<GetAppConfigurationByIdAsAdmin404 | GetAppConfigurationByIdAsAdmin409>, GetAppConfigurationByIdAsAdminQueryResponse, typeof queryKey>({
+        return queryOptions<GetAppConfigurationByIdAsAdminQueryResponse, ResponseErrorConfig<GetAppConfigurationByIdAsAdmin403 | GetAppConfigurationByIdAsAdmin404 | GetAppConfigurationByIdAsAdmin409>, GetAppConfigurationByIdAsAdminQueryResponse, typeof queryKey>({
          enabled: !!(id),
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getAppConfigurationByIdAsAdminSuspenseQueryOptions(id: GetAppCon
  */
 export function useGetAppConfigurationByIdAsAdminSuspense<TData = GetAppConfigurationByIdAsAdminQueryResponse, TQueryKey extends QueryKey = GetAppConfigurationByIdAsAdminSuspenseQueryKey>(id: GetAppConfigurationByIdAsAdminPathParams["id"], options: 
 {
-  query?: Partial<UseSuspenseQueryOptions<GetAppConfigurationByIdAsAdminQueryResponse, ResponseErrorConfig<GetAppConfigurationByIdAsAdmin404 | GetAppConfigurationByIdAsAdmin409>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<GetAppConfigurationByIdAsAdminQueryResponse, ResponseErrorConfig<GetAppConfigurationByIdAsAdmin403 | GetAppConfigurationByIdAsAdmin404 | GetAppConfigurationByIdAsAdmin409>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetAppConfigurationByIdAsAdminSuspense<TData = GetAppConfigur
           ...getAppConfigurationByIdAsAdminSuspenseQueryOptions(id, config),
           queryKey,
           ...queryOptions
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetAppConfigurationByIdAsAdmin404 | GetAppConfigurationByIdAsAdmin409>> & { queryKey: TQueryKey }
+         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetAppConfigurationByIdAsAdmin403 | GetAppConfigurationByIdAsAdmin404 | GetAppConfigurationByIdAsAdmin409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { GetMySubscriptionsQueryResponse, GetMySubscriptionsQueryParams, GetMySubscriptions404, GetMySubscriptions409 } from "../../types/GetMySubscriptions.ts";
+import type { GetMySubscriptionsQueryResponse, GetMySubscriptionsQueryParams, GetMySubscriptions403, GetMySubscriptions404, GetMySubscriptions409 } from "../../types/GetMySubscriptions.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getGetMySubscriptionsUrl() {
@@ -20,6 +20,6 @@ export async function getMySubscriptions(params?: GetMySubscriptionsQueryParams,
 
 
 
-  const res = await request<GetMySubscriptionsQueryResponse, ResponseErrorConfig<GetMySubscriptions404 | GetMySubscriptions409>, unknown>({ method : "GET", url : getGetMySubscriptionsUrl().url.toString(), params, ... requestConfig })
+  const res = await request<GetMySubscriptionsQueryResponse, ResponseErrorConfig<GetMySubscriptions403 | GetMySubscriptions404 | GetMySubscriptions409>, unknown>({ method : "GET", url : getGetMySubscriptionsUrl().url.toString(), params, ... requestConfig })
   return res.data
 }

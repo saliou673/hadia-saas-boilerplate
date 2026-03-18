@@ -19,6 +19,11 @@ export type CancelSubscriptionPathParams = {
 export type CancelSubscription200 = UserSubscription;
 
 /**
+ * @description Forbidden
+*/
+export type CancelSubscription403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type CancelSubscription404 = ValidationErrorResponseDTO;
@@ -33,5 +38,5 @@ export type CancelSubscriptionMutationResponse = CancelSubscription200;
 export type CancelSubscriptionMutation = {
     Response: CancelSubscription200;
     PathParams: CancelSubscriptionPathParams;
-    Errors: CancelSubscription404 | CancelSubscription409;
+    Errors: CancelSubscription403 | CancelSubscription404 | CancelSubscription409;
 };

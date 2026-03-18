@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { FinishPasswordResetMutationRequest, FinishPasswordResetMutationResponse, FinishPasswordReset404, FinishPasswordReset409 } from "../../types/FinishPasswordReset.ts";
+import type { FinishPasswordResetMutationRequest, FinishPasswordResetMutationResponse, FinishPasswordReset403, FinishPasswordReset404, FinishPasswordReset409 } from "../../types/FinishPasswordReset.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getFinishPasswordResetUrl() {
@@ -20,6 +20,6 @@ export async function finishPasswordReset(data: FinishPasswordResetMutationReque
 
   const requestData = data
 
-  const res = await request<FinishPasswordResetMutationResponse, ResponseErrorConfig<FinishPasswordReset404 | FinishPasswordReset409>, FinishPasswordResetMutationRequest>({ method : "POST", url : getFinishPasswordResetUrl().url.toString(), data : requestData, ... requestConfig })
+  const res = await request<FinishPasswordResetMutationResponse, ResponseErrorConfig<FinishPasswordReset403 | FinishPasswordReset404 | FinishPasswordReset409>, FinishPasswordResetMutationRequest>({ method : "POST", url : getFinishPasswordResetUrl().url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

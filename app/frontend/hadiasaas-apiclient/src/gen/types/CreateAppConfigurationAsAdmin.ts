@@ -13,6 +13,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type CreateAppConfigurationAsAdmin201 = AppConfiguration;
 
 /**
+ * @description Forbidden
+*/
+export type CreateAppConfigurationAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type CreateAppConfigurationAsAdmin404 = ValidationErrorResponseDTO;
@@ -29,5 +34,5 @@ export type CreateAppConfigurationAsAdminMutationResponse = CreateAppConfigurati
 export type CreateAppConfigurationAsAdminMutation = {
     Response: CreateAppConfigurationAsAdmin201;
     Request: CreateAppConfigurationAsAdminMutationRequest;
-    Errors: CreateAppConfigurationAsAdmin404 | CreateAppConfigurationAsAdmin409;
+    Errors: CreateAppConfigurationAsAdmin403 | CreateAppConfigurationAsAdmin404 | CreateAppConfigurationAsAdmin409;
 };

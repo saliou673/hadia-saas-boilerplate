@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { DeleteCurrentAccountMutationResponse, DeleteCurrentAccount404, DeleteCurrentAccount409 } from "../../types/DeleteCurrentAccount.ts";
+import type { DeleteCurrentAccountMutationResponse, DeleteCurrentAccount403, DeleteCurrentAccount404, DeleteCurrentAccount409 } from "../../types/DeleteCurrentAccount.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { deleteCurrentAccount } from "../../client/user-account-management/deleteCurrentAccount.ts";
@@ -16,7 +16,7 @@ export type DeleteCurrentAccountMutationKey = ReturnType<typeof deleteCurrentAcc
 export function deleteCurrentAccountMutationOptions<TContext = unknown>(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const mutationKey = deleteCurrentAccountMutationKey()
-        return mutationOptions<DeleteCurrentAccountMutationResponse, ResponseErrorConfig<DeleteCurrentAccount404 | DeleteCurrentAccount409>, void, TContext>({
+        return mutationOptions<DeleteCurrentAccountMutationResponse, ResponseErrorConfig<DeleteCurrentAccount403 | DeleteCurrentAccount404 | DeleteCurrentAccount409>, void, TContext>({
           mutationKey,
           mutationFn: async() => {
             return deleteCurrentAccount(config)
@@ -30,7 +30,7 @@ export function deleteCurrentAccountMutationOptions<TContext = unknown>(config: 
  */
 export function useDeleteCurrentAccount<TContext>(options: 
 {
-  mutation?: UseMutationOptions<DeleteCurrentAccountMutationResponse, ResponseErrorConfig<DeleteCurrentAccount404 | DeleteCurrentAccount409>, void, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<DeleteCurrentAccountMutationResponse, ResponseErrorConfig<DeleteCurrentAccount403 | DeleteCurrentAccount404 | DeleteCurrentAccount409>, void, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useDeleteCurrentAccount<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? deleteCurrentAccountMutationKey()
 
-          const baseOptions = deleteCurrentAccountMutationOptions(config) as UseMutationOptions<DeleteCurrentAccountMutationResponse, ResponseErrorConfig<DeleteCurrentAccount404 | DeleteCurrentAccount409>, void, TContext>
+          const baseOptions = deleteCurrentAccountMutationOptions(config) as UseMutationOptions<DeleteCurrentAccountMutationResponse, ResponseErrorConfig<DeleteCurrentAccount403 | DeleteCurrentAccount404 | DeleteCurrentAccount409>, void, TContext>
           
 
-          return useMutation<DeleteCurrentAccountMutationResponse, ResponseErrorConfig<DeleteCurrentAccount404 | DeleteCurrentAccount409>, void, TContext>({
+          return useMutation<DeleteCurrentAccountMutationResponse, ResponseErrorConfig<DeleteCurrentAccount403 | DeleteCurrentAccount404 | DeleteCurrentAccount409>, void, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<DeleteCurrentAccountMutationResponse, ResponseErrorConfig<DeleteCurrentAccount404 | DeleteCurrentAccount409>, void, TContext>
+          }, queryClient) as UseMutationResult<DeleteCurrentAccountMutationResponse, ResponseErrorConfig<DeleteCurrentAccount403 | DeleteCurrentAccount404 | DeleteCurrentAccount409>, void, TContext>
       
 }

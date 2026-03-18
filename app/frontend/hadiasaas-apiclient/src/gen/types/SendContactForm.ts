@@ -12,6 +12,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type SendContactForm204 = any;
 
 /**
+ * @description Forbidden
+*/
+export type SendContactForm403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type SendContactForm404 = ValidationErrorResponseDTO;
@@ -28,5 +33,5 @@ export type SendContactFormMutationResponse = SendContactForm204;
 export type SendContactFormMutation = {
     Response: SendContactForm204;
     Request: SendContactFormMutationRequest;
-    Errors: SendContactForm404 | SendContactForm409;
+    Errors: SendContactForm403 | SendContactForm404 | SendContactForm409;
 };

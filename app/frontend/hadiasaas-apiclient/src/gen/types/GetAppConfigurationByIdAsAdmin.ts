@@ -19,6 +19,11 @@ export type GetAppConfigurationByIdAsAdminPathParams = {
 export type GetAppConfigurationByIdAsAdmin200 = AppConfiguration;
 
 /**
+ * @description Forbidden
+*/
+export type GetAppConfigurationByIdAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type GetAppConfigurationByIdAsAdmin404 = ValidationErrorResponseDTO;
@@ -33,5 +38,5 @@ export type GetAppConfigurationByIdAsAdminQueryResponse = GetAppConfigurationByI
 export type GetAppConfigurationByIdAsAdminQuery = {
     Response: GetAppConfigurationByIdAsAdmin200;
     PathParams: GetAppConfigurationByIdAsAdminPathParams;
-    Errors: GetAppConfigurationByIdAsAdmin404 | GetAppConfigurationByIdAsAdmin409;
+    Errors: GetAppConfigurationByIdAsAdmin403 | GetAppConfigurationByIdAsAdmin404 | GetAppConfigurationByIdAsAdmin409;
 };

@@ -13,6 +13,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type UpdateAccount200 = UserSummary;
 
 /**
+ * @description Forbidden
+*/
+export type UpdateAccount403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type UpdateAccount404 = ValidationErrorResponseDTO;
@@ -29,5 +34,5 @@ export type UpdateAccountMutationResponse = UpdateAccount200;
 export type UpdateAccountMutation = {
     Response: UpdateAccount200;
     Request: UpdateAccountMutationRequest;
-    Errors: UpdateAccount404 | UpdateAccount409;
+    Errors: UpdateAccount403 | UpdateAccount404 | UpdateAccount409;
 };

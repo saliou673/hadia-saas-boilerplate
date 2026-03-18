@@ -107,21 +107,6 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
         assertThat(result.getCode()).isEqualTo("USD");
     }
 
-    @Test
-    @WithMockUser(authorities = "config:manage")
-    void shouldFailToCreateAppConfigurationAsAdminSecondActiveStorageConfiguration() throws Exception {
-        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.STORAGE, "LOCAL", "Local storage", true);
-
-        CreateAppConfigurationRequest request = new CreateAppConfigurationRequest(
-                AppConfigurationCategory.STORAGE, "AWS", "AWS S3", "Remote storage"
-        );
-
-        post(API, request, status().isBadRequest());
-
-        assertThat(appConfigurationRepository.findAllByCategoryAndActiveTrue(AppConfigurationCategory.STORAGE))
-                .extracting(AppConfigurationEntity::getCode, AppConfigurationEntity::isActive)
-                .containsExactly(tuple("LOCAL", true));
-    }
 
     // endregion
 
@@ -198,24 +183,6 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
         assertThat(result.getLabel()).isEqualTo("Updated Franc CFA");
     }
 
-    @Test
-    @WithMockUser(authorities = "config:manage")
-    void shouldFailToActivateSecondStorageConfiguration() throws Exception {
-        createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.STORAGE, "LOCAL", "Local storage", true);
-        AppConfigurationEntity aws = createAppConfigurationAsAdminAppConfiguration(AppConfigurationCategory.STORAGE, "AWS", "AWS S3", false);
-
-        UpdateAppConfigurationRequest request = new UpdateAppConfigurationRequest("AWS", "AWS S3", "Remote storage", true);
-
-        put(API + "/" + aws.getId(), request, status().isBadRequest());
-
-        assertThat(appConfigurationRepository.findAllByCategoryAndActiveTrue(AppConfigurationCategory.STORAGE))
-                .extracting(AppConfigurationEntity::getCode, AppConfigurationEntity::isActive)
-                .containsExactly(tuple("LOCAL", true));
-        assertThat(appConfigurationRepository.findById(aws.getId())).isPresent()
-                .get()
-                .extracting(AppConfigurationEntity::isActive)
-                .isEqualTo(false);
-    }
 
     // endregion
 
@@ -503,7 +470,7 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser(authorities = "config:manage")
-    void shouldReturnAllSixCategoriesWithDescriptions() throws Exception {
+    void shouldReturnAllThreeCategoriesWithDescriptions() throws Exception {
         List<AppConfigurationCategoryDTO> result = get(
                 API + "/categories",
                 new TypeReference<>() {},
@@ -514,10 +481,7 @@ class AdminAppConfigurationControllerTest extends IntegrationTest {
                 .containsExactlyInAnyOrder(
                         tuple(AppConfigurationCategory.CURRENCY, AppConfigurationCategory.CURRENCY.getDescription()),
                         tuple(AppConfigurationCategory.TWO_FACTOR, AppConfigurationCategory.TWO_FACTOR.getDescription()),
-                        tuple(AppConfigurationCategory.PAYMENT_MODE, AppConfigurationCategory.PAYMENT_MODE.getDescription()),
-                        tuple(AppConfigurationCategory.STORAGE, AppConfigurationCategory.STORAGE.getDescription()),
-                        tuple(AppConfigurationCategory.TAX, AppConfigurationCategory.TAX.getDescription()),
-                        tuple(AppConfigurationCategory.ENTERPRISE, AppConfigurationCategory.ENTERPRISE.getDescription())
+                        tuple(AppConfigurationCategory.PAYMENT_MODE, AppConfigurationCategory.PAYMENT_MODE.getDescription())
                 );
     }
 

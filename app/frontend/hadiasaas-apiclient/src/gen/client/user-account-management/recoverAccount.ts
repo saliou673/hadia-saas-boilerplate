@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { RecoverAccountMutationRequest, RecoverAccountMutationResponse, RecoverAccount404, RecoverAccount409 } from "../../types/RecoverAccount.ts";
+import type { RecoverAccountMutationRequest, RecoverAccountMutationResponse, RecoverAccount403, RecoverAccount404, RecoverAccount409 } from "../../types/RecoverAccount.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getRecoverAccountUrl() {
@@ -20,6 +20,6 @@ export async function recoverAccount(data: RecoverAccountMutationRequest, config
 
   const requestData = data
 
-  const res = await request<RecoverAccountMutationResponse, ResponseErrorConfig<RecoverAccount404 | RecoverAccount409>, RecoverAccountMutationRequest>({ method : "POST", url : getRecoverAccountUrl().url.toString(), data : requestData, ... requestConfig })
+  const res = await request<RecoverAccountMutationResponse, ResponseErrorConfig<RecoverAccount403 | RecoverAccount404 | RecoverAccount409>, RecoverAccountMutationRequest>({ method : "POST", url : getRecoverAccountUrl().url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { GetCurrentUserPermissionsQueryResponse, GetCurrentUserPermissions404, GetCurrentUserPermissions409 } from "../../types/GetCurrentUserPermissions.ts";
+import type { GetCurrentUserPermissionsQueryResponse, GetCurrentUserPermissions403, GetCurrentUserPermissions404, GetCurrentUserPermissions409 } from "../../types/GetCurrentUserPermissions.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getGetCurrentUserPermissionsUrl() {
@@ -20,6 +20,6 @@ export async function getCurrentUserPermissions(config: Partial<RequestConfig> &
 
 
 
-  const res = await request<GetCurrentUserPermissionsQueryResponse, ResponseErrorConfig<GetCurrentUserPermissions404 | GetCurrentUserPermissions409>, unknown>({ method : "GET", url : getGetCurrentUserPermissionsUrl().url.toString(), ... requestConfig })
+  const res = await request<GetCurrentUserPermissionsQueryResponse, ResponseErrorConfig<GetCurrentUserPermissions403 | GetCurrentUserPermissions404 | GetCurrentUserPermissions409>, unknown>({ method : "GET", url : getGetCurrentUserPermissionsUrl().url.toString(), ... requestConfig })
   return res.data
 }

@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { GetAppConfigurationsAsAdminQueryResponse, GetAppConfigurationsAsAdminQueryParams, GetAppConfigurationsAsAdmin404, GetAppConfigurationsAsAdmin409 } from "../../types/GetAppConfigurationsAsAdmin.ts";
+import type { GetAppConfigurationsAsAdminQueryResponse, GetAppConfigurationsAsAdminQueryParams, GetAppConfigurationsAsAdmin403, GetAppConfigurationsAsAdmin404, GetAppConfigurationsAsAdmin409 } from "../../types/GetAppConfigurationsAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getGetAppConfigurationsAsAdminUrl() {
@@ -20,6 +20,6 @@ export async function getAppConfigurationsAsAdmin(params: GetAppConfigurationsAs
 
 
 
-  const res = await request<GetAppConfigurationsAsAdminQueryResponse, ResponseErrorConfig<GetAppConfigurationsAsAdmin404 | GetAppConfigurationsAsAdmin409>, unknown>({ method : "GET", url : getGetAppConfigurationsAsAdminUrl().url.toString(), params, ... requestConfig })
+  const res = await request<GetAppConfigurationsAsAdminQueryResponse, ResponseErrorConfig<GetAppConfigurationsAsAdmin403 | GetAppConfigurationsAsAdmin404 | GetAppConfigurationsAsAdmin409>, unknown>({ method : "GET", url : getGetAppConfigurationsAsAdminUrl().url.toString(), params, ... requestConfig })
   return res.data
 }

@@ -11,6 +11,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type DeleteCurrentAccount204 = any;
 
 /**
+ * @description Forbidden
+*/
+export type DeleteCurrentAccount403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type DeleteCurrentAccount404 = ValidationErrorResponseDTO;
@@ -24,5 +29,5 @@ export type DeleteCurrentAccountMutationResponse = DeleteCurrentAccount204;
 
 export type DeleteCurrentAccountMutation = {
     Response: DeleteCurrentAccount204;
-    Errors: DeleteCurrentAccount404 | DeleteCurrentAccount409;
+    Errors: DeleteCurrentAccount403 | DeleteCurrentAccount404 | DeleteCurrentAccount409;
 };

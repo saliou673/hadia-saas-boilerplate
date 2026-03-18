@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { Init2FactorSetupMutationRequest, Init2FactorSetupMutationResponse, Init2FactorSetup404, Init2FactorSetup409 } from "../../types/Init2FactorSetup.ts";
+import type { Init2FactorSetupMutationRequest, Init2FactorSetupMutationResponse, Init2FactorSetup403, Init2FactorSetup404, Init2FactorSetup409 } from "../../types/Init2FactorSetup.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { init2FactorSetup } from "../../client/two-factor-authentication-management/init2FactorSetup.ts";
@@ -16,7 +16,7 @@ export type Init2FactorSetupMutationKey = ReturnType<typeof init2FactorSetupMuta
 export function init2FactorSetupMutationOptions<TContext = unknown>(config: Partial<RequestConfig<Init2FactorSetupMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = init2FactorSetupMutationKey()
-        return mutationOptions<Init2FactorSetupMutationResponse, ResponseErrorConfig<Init2FactorSetup404 | Init2FactorSetup409>, {data: Init2FactorSetupMutationRequest}, TContext>({
+        return mutationOptions<Init2FactorSetupMutationResponse, ResponseErrorConfig<Init2FactorSetup403 | Init2FactorSetup404 | Init2FactorSetup409>, {data: Init2FactorSetupMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return init2FactorSetup(data, config)
@@ -30,7 +30,7 @@ export function init2FactorSetupMutationOptions<TContext = unknown>(config: Part
  */
 export function useInit2FactorSetup<TContext>(options: 
 {
-  mutation?: UseMutationOptions<Init2FactorSetupMutationResponse, ResponseErrorConfig<Init2FactorSetup404 | Init2FactorSetup409>, {data: Init2FactorSetupMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<Init2FactorSetupMutationResponse, ResponseErrorConfig<Init2FactorSetup403 | Init2FactorSetup404 | Init2FactorSetup409>, {data: Init2FactorSetupMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<Init2FactorSetupMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useInit2FactorSetup<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? init2FactorSetupMutationKey()
 
-          const baseOptions = init2FactorSetupMutationOptions(config) as UseMutationOptions<Init2FactorSetupMutationResponse, ResponseErrorConfig<Init2FactorSetup404 | Init2FactorSetup409>, {data: Init2FactorSetupMutationRequest}, TContext>
+          const baseOptions = init2FactorSetupMutationOptions(config) as UseMutationOptions<Init2FactorSetupMutationResponse, ResponseErrorConfig<Init2FactorSetup403 | Init2FactorSetup404 | Init2FactorSetup409>, {data: Init2FactorSetupMutationRequest}, TContext>
           
 
-          return useMutation<Init2FactorSetupMutationResponse, ResponseErrorConfig<Init2FactorSetup404 | Init2FactorSetup409>, {data: Init2FactorSetupMutationRequest}, TContext>({
+          return useMutation<Init2FactorSetupMutationResponse, ResponseErrorConfig<Init2FactorSetup403 | Init2FactorSetup404 | Init2FactorSetup409>, {data: Init2FactorSetupMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<Init2FactorSetupMutationResponse, ResponseErrorConfig<Init2FactorSetup404 | Init2FactorSetup409>, {data: Init2FactorSetupMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<Init2FactorSetupMutationResponse, ResponseErrorConfig<Init2FactorSetup403 | Init2FactorSetup404 | Init2FactorSetup409>, {data: Init2FactorSetupMutationRequest}, TContext>
       
 }
