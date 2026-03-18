@@ -6,10 +6,12 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
+/**
+ * Response DTO representing the enterprise profile.
+ */
 @Schema(name = "EnterpriseProfile")
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Getter
-/** Response DTO representing the enterprise profile. */
 public class EnterpriseProfileDTO extends AuditableDTO {
 
     private Long id;

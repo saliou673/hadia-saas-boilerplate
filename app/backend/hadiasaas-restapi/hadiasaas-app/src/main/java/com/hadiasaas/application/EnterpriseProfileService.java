@@ -9,11 +9,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Application service implementing {@link EnterpriseProfileUseCase}: upsert for the singleton enterprise profile.
+ */
 @Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
-/** Application service implementing {@link EnterpriseProfileUseCase}: upsert for the singleton enterprise profile. */
 public class EnterpriseProfileService implements EnterpriseProfileUseCase {
 
     private final EnterpriseProfilePersistencePort enterpriseProfilePersistencePort;
@@ -43,9 +45,19 @@ public class EnterpriseProfileService implements EnterpriseProfileUseCase {
                 ));
 
         if (profile.getId() != null) {
-            profile.update(companyName, legalForm, registrationNumber, vatNumber,
-                    addressLine1, addressLine2, city, postalCode, countryCode,
-                    phoneNumber, email, website, logoUrl);
+            profile.update(companyName,
+                           legalForm,
+                           registrationNumber,
+                           vatNumber,
+                           addressLine1,
+                           addressLine2,
+                           city,
+                           postalCode,
+                           countryCode,
+                           phoneNumber,
+                           email,
+                           website,
+                           logoUrl);
         }
 
         return enterpriseProfilePersistencePort.save(profile);

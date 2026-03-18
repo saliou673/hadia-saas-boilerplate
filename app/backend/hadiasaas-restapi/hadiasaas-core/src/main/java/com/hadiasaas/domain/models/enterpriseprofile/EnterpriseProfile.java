@@ -75,9 +75,23 @@ public class EnterpriseProfile extends Auditable<Long> {
             String website,
             String logoUrl
     ) {
-        return new EnterpriseProfile(null, companyName, legalForm, registrationNumber, vatNumber,
-                addressLine1, addressLine2, city, postalCode, countryCode, phoneNumber, email, website, logoUrl,
-                null, null, null);
+        return new EnterpriseProfile(null,
+                                     companyName,
+                                     legalForm,
+                                     registrationNumber,
+                                     vatNumber,
+                                     addressLine1,
+                                     addressLine2,
+                                     city,
+                                     postalCode,
+                                     countryCode,
+                                     phoneNumber,
+                                     email,
+                                     website,
+                                     logoUrl,
+                                     null,
+                                     null,
+                                     null);
     }
 
     public static EnterpriseProfile rehydrate(
@@ -99,9 +113,23 @@ public class EnterpriseProfile extends Auditable<Long> {
             Instant lastUpdateDate,
             String lastUpdatedBy
     ) {
-        return new EnterpriseProfile(id, companyName, legalForm, registrationNumber, vatNumber,
-                addressLine1, addressLine2, city, postalCode, countryCode, phoneNumber, email, website, logoUrl,
-                creationDate, lastUpdateDate, lastUpdatedBy);
+        return new EnterpriseProfile(id,
+                                     companyName,
+                                     legalForm,
+                                     registrationNumber,
+                                     vatNumber,
+                                     addressLine1,
+                                     addressLine2,
+                                     city,
+                                     postalCode,
+                                     countryCode,
+                                     phoneNumber,
+                                     email,
+                                     website,
+                                     logoUrl,
+                                     creationDate,
+                                     lastUpdateDate,
+                                     lastUpdatedBy);
     }
 
     public void update(

@@ -12,11 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
+/**
+ * Application service implementing {@link TaxConfigurationUseCase}: CRUD for tax configurations.
+ */
 @Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
-/** Application service implementing {@link TaxConfigurationUseCase}: CRUD for tax configurations. */
 public class TaxConfigurationService implements TaxConfigurationUseCase {
 
     private final TaxConfigurationPersistencePort taxConfigurationPersistencePort;

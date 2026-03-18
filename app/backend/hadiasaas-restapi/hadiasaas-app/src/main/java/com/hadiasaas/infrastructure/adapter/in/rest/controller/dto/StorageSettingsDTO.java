@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
+/**
+ * Response DTO representing a storage settings entry.
+ */
 @Schema(name = "StorageSettings")
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Getter
-/** Response DTO representing a storage settings entry. */
 public class StorageSettingsDTO extends AuditableDTO {
 
     private Long id;

@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS app_enterprise_profile
     address_line2       TEXT,
     city                VARCHAR(100),
     postal_code         VARCHAR(20),
-    country_code        CHAR(2),
+    country_code        VARCHAR(2),
     phone_number        VARCHAR(50),
     email               VARCHAR(255),
     website             TEXT,

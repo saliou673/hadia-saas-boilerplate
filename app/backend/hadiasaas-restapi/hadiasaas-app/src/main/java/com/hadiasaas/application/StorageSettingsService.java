@@ -11,17 +11,23 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Application service implementing {@link StorageSettingsUseCase}: CRUD for storage settings.
+ */
 @Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
-/** Application service implementing {@link StorageSettingsUseCase}: CRUD for storage settings. */
 public class StorageSettingsService implements StorageSettingsUseCase {
 
     private final StorageSettingsPersistencePort storageSettingsPersistencePort;
 
     @Override
-    public StorageSettings create(StorageProvider provider, String bucketName, String region, String endpoint, boolean active) {
+    public StorageSettings create(StorageProvider provider,
+                                  String bucketName,
+                                  String region,
+                                  String endpoint,
+                                  boolean active) {
         log.debug("Creating storage settings: provider={}", provider);
         if (active && storageSettingsPersistencePort.existsActiveExcluding(null)) {
             throw new StorageSettingsAlreadyActiveException("Only one active storage configuration is allowed");
@@ -31,7 +37,12 @@ public class StorageSettingsService implements StorageSettingsUseCase {
     }
 
     @Override
-    public StorageSettings update(Long id, StorageProvider provider, String bucketName, String region, String endpoint, boolean active) {
+    public StorageSettings update(Long id,
+                                  StorageProvider provider,
+                                  String bucketName,
+                                  String region,
+                                  String endpoint,
+                                  boolean active) {
         log.debug("Updating storage settings id={}", id);
         StorageSettings storageSettings = storageSettingsPersistencePort.findById(id)
                 .orElseThrow(() -> new StorageSettingsNotFoundException("Storage settings not found with id: " + id));

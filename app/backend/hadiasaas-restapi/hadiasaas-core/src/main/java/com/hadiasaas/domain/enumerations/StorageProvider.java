@@ -16,6 +16,8 @@ public enum StorageProvider {
     AZURE_BLOB("AZURE_BLOB"),
     GCS("GCS");
 
-    /** Code used to look up the matching {@code StorageStrategy} bean. */
+    /**
+     * Code used to look up the matching {@code StorageStrategy} bean.
+     */
     private final String strategyCode;
 }

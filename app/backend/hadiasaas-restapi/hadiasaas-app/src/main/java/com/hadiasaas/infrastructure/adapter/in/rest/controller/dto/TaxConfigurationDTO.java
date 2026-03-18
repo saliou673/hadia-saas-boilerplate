@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.Instant;
 
+/**
+ * Response DTO representing a tax configuration entry.
+ */
 @Schema(name = "TaxConfiguration")
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Getter
-/** Response DTO representing a tax configuration entry. */
 public class TaxConfigurationDTO extends AuditableDTO {
 
     private Long id;

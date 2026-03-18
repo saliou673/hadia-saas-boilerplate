@@ -48,7 +48,7 @@ public class EnterpriseProfileEntity extends AuditableEntity<Long> implements Se
     @Column(name = "postal_code")
     private String postalCode;
 
-    @Column(name = "country_code", length = 2)
+    @Column(name = "country_code")
     private String countryCode;
 
     @Column(name = "phone_number")

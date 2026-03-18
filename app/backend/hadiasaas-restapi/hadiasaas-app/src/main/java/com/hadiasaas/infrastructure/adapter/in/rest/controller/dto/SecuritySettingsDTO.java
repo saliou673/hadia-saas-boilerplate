@@ -6,10 +6,12 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
+/**
+ * Response DTO representing the security settings.
+ */
 @Schema(name = "SecuritySettings")
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Getter
-/** Response DTO representing the security settings. */
 public class SecuritySettingsDTO extends AuditableDTO {
 
     private Long id;

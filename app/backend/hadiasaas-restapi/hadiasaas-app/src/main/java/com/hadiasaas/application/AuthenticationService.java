@@ -6,6 +6,7 @@ import com.hadiasaas.domain.exceptions.TwoFactorSetupRequiredException;
 import com.hadiasaas.domain.exceptions.UserNotFoundException;
 import com.hadiasaas.domain.models.auth.*;
 import com.hadiasaas.domain.models.rbac.Permission;
+import com.hadiasaas.domain.models.securitysettings.SecuritySettings;
 import com.hadiasaas.domain.models.user.AuthenticatedUser;
 import com.hadiasaas.domain.models.user.User;
 import com.hadiasaas.domain.ports.in.AuthenticationUseCase;
@@ -28,11 +29,13 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Application service implementing {@link AuthenticationUseCase}: login, token refresh, and logout.
+ */
 @Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
-/** Application service implementing {@link AuthenticationUseCase}: login, token refresh, and logout. */
 public class AuthenticationService implements AuthenticationUseCase {
 
     private final JwtTokenPort jwtTokenPort;
@@ -51,7 +54,7 @@ public class AuthenticationService implements AuthenticationUseCase {
                 .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
 
         boolean globalTwoFactorRequired = securitySettingsPersistencePort.find()
-                .map(s -> s.isTwoFactorRequired())
+                .map(SecuritySettings::isTwoFactorRequired)
                 .orElse(false);
 
         if (globalTwoFactorRequired && !user.isTwoFactorEnabled()) {
