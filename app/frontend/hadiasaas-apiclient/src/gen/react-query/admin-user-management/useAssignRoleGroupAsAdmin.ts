@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { AssignRoleGroupAsAdminMutationRequest, AssignRoleGroupAsAdminMutationResponse, AssignRoleGroupAsAdminPathParams, AssignRoleGroupAsAdmin404, AssignRoleGroupAsAdmin409 } from "../../types/AssignRoleGroupAsAdmin.ts";
+import type { AssignRoleGroupAsAdminMutationRequest, AssignRoleGroupAsAdminMutationResponse, AssignRoleGroupAsAdminPathParams, AssignRoleGroupAsAdmin403, AssignRoleGroupAsAdmin404, AssignRoleGroupAsAdmin409 } from "../../types/AssignRoleGroupAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { assignRoleGroupAsAdmin } from "../../client/admin-user-management/assignRoleGroupAsAdmin.ts";
@@ -16,7 +16,7 @@ export type AssignRoleGroupAsAdminMutationKey = ReturnType<typeof assignRoleGrou
 export function assignRoleGroupAsAdminMutationOptions<TContext = unknown>(config: Partial<RequestConfig<AssignRoleGroupAsAdminMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = assignRoleGroupAsAdminMutationKey()
-        return mutationOptions<AssignRoleGroupAsAdminMutationResponse, ResponseErrorConfig<AssignRoleGroupAsAdmin404 | AssignRoleGroupAsAdmin409>, {id: AssignRoleGroupAsAdminPathParams["id"], data: AssignRoleGroupAsAdminMutationRequest}, TContext>({
+        return mutationOptions<AssignRoleGroupAsAdminMutationResponse, ResponseErrorConfig<AssignRoleGroupAsAdmin403 | AssignRoleGroupAsAdmin404 | AssignRoleGroupAsAdmin409>, {id: AssignRoleGroupAsAdminPathParams["id"], data: AssignRoleGroupAsAdminMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ id, data }) => {
             return assignRoleGroupAsAdmin(id, data, config)
@@ -30,7 +30,7 @@ export function assignRoleGroupAsAdminMutationOptions<TContext = unknown>(config
  */
 export function useAssignRoleGroupAsAdmin<TContext>(options: 
 {
-  mutation?: UseMutationOptions<AssignRoleGroupAsAdminMutationResponse, ResponseErrorConfig<AssignRoleGroupAsAdmin404 | AssignRoleGroupAsAdmin409>, {id: AssignRoleGroupAsAdminPathParams["id"], data: AssignRoleGroupAsAdminMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<AssignRoleGroupAsAdminMutationResponse, ResponseErrorConfig<AssignRoleGroupAsAdmin403 | AssignRoleGroupAsAdmin404 | AssignRoleGroupAsAdmin409>, {id: AssignRoleGroupAsAdminPathParams["id"], data: AssignRoleGroupAsAdminMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<AssignRoleGroupAsAdminMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useAssignRoleGroupAsAdmin<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? assignRoleGroupAsAdminMutationKey()
 
-          const baseOptions = assignRoleGroupAsAdminMutationOptions(config) as UseMutationOptions<AssignRoleGroupAsAdminMutationResponse, ResponseErrorConfig<AssignRoleGroupAsAdmin404 | AssignRoleGroupAsAdmin409>, {id: AssignRoleGroupAsAdminPathParams["id"], data: AssignRoleGroupAsAdminMutationRequest}, TContext>
+          const baseOptions = assignRoleGroupAsAdminMutationOptions(config) as UseMutationOptions<AssignRoleGroupAsAdminMutationResponse, ResponseErrorConfig<AssignRoleGroupAsAdmin403 | AssignRoleGroupAsAdmin404 | AssignRoleGroupAsAdmin409>, {id: AssignRoleGroupAsAdminPathParams["id"], data: AssignRoleGroupAsAdminMutationRequest}, TContext>
           
 
-          return useMutation<AssignRoleGroupAsAdminMutationResponse, ResponseErrorConfig<AssignRoleGroupAsAdmin404 | AssignRoleGroupAsAdmin409>, {id: AssignRoleGroupAsAdminPathParams["id"], data: AssignRoleGroupAsAdminMutationRequest}, TContext>({
+          return useMutation<AssignRoleGroupAsAdminMutationResponse, ResponseErrorConfig<AssignRoleGroupAsAdmin403 | AssignRoleGroupAsAdmin404 | AssignRoleGroupAsAdmin409>, {id: AssignRoleGroupAsAdminPathParams["id"], data: AssignRoleGroupAsAdminMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<AssignRoleGroupAsAdminMutationResponse, ResponseErrorConfig<AssignRoleGroupAsAdmin404 | AssignRoleGroupAsAdmin409>, {id: AssignRoleGroupAsAdminPathParams["id"], data: AssignRoleGroupAsAdminMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<AssignRoleGroupAsAdminMutationResponse, ResponseErrorConfig<AssignRoleGroupAsAdmin403 | AssignRoleGroupAsAdmin404 | AssignRoleGroupAsAdmin409>, {id: AssignRoleGroupAsAdminPathParams["id"], data: AssignRoleGroupAsAdminMutationRequest}, TContext>
       
 }

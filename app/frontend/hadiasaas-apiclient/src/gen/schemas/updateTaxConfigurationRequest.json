@@ -1,0 +1,1 @@
+{"type":"object","properties":{"code":{"type":"string","maxLength":50,"minLength":0},"name":{"type":"string","minLength":1},"rate":{"type":"number","maximum":1,"minimum":0},"description":{"type":"string"},"active":{"type":"boolean"}},"required":["active","code","name","rate"],"x-readme-ref-name":"UpdateTaxConfigurationRequest"}

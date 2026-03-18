@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { RenewSubscriptionMutationResponse, RenewSubscriptionPathParams, RenewSubscription404, RenewSubscription409 } from "../../types/RenewSubscription.ts";
+import type { RenewSubscriptionMutationResponse, RenewSubscriptionPathParams, RenewSubscription403, RenewSubscription404, RenewSubscription409 } from "../../types/RenewSubscription.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { renewSubscription } from "../../client/subscriptions/renewSubscription.ts";
@@ -16,7 +16,7 @@ export type RenewSubscriptionMutationKey = ReturnType<typeof renewSubscriptionMu
 export function renewSubscriptionMutationOptions<TContext = unknown>(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const mutationKey = renewSubscriptionMutationKey()
-        return mutationOptions<RenewSubscriptionMutationResponse, ResponseErrorConfig<RenewSubscription404 | RenewSubscription409>, {id: RenewSubscriptionPathParams["id"]}, TContext>({
+        return mutationOptions<RenewSubscriptionMutationResponse, ResponseErrorConfig<RenewSubscription403 | RenewSubscription404 | RenewSubscription409>, {id: RenewSubscriptionPathParams["id"]}, TContext>({
           mutationKey,
           mutationFn: async({ id }) => {
             return renewSubscription(id, config)
@@ -30,7 +30,7 @@ export function renewSubscriptionMutationOptions<TContext = unknown>(config: Par
  */
 export function useRenewSubscription<TContext>(options: 
 {
-  mutation?: UseMutationOptions<RenewSubscriptionMutationResponse, ResponseErrorConfig<RenewSubscription404 | RenewSubscription409>, {id: RenewSubscriptionPathParams["id"]}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<RenewSubscriptionMutationResponse, ResponseErrorConfig<RenewSubscription403 | RenewSubscription404 | RenewSubscription409>, {id: RenewSubscriptionPathParams["id"]}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useRenewSubscription<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? renewSubscriptionMutationKey()
 
-          const baseOptions = renewSubscriptionMutationOptions(config) as UseMutationOptions<RenewSubscriptionMutationResponse, ResponseErrorConfig<RenewSubscription404 | RenewSubscription409>, {id: RenewSubscriptionPathParams["id"]}, TContext>
+          const baseOptions = renewSubscriptionMutationOptions(config) as UseMutationOptions<RenewSubscriptionMutationResponse, ResponseErrorConfig<RenewSubscription403 | RenewSubscription404 | RenewSubscription409>, {id: RenewSubscriptionPathParams["id"]}, TContext>
           
 
-          return useMutation<RenewSubscriptionMutationResponse, ResponseErrorConfig<RenewSubscription404 | RenewSubscription409>, {id: RenewSubscriptionPathParams["id"]}, TContext>({
+          return useMutation<RenewSubscriptionMutationResponse, ResponseErrorConfig<RenewSubscription403 | RenewSubscription404 | RenewSubscription409>, {id: RenewSubscriptionPathParams["id"]}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<RenewSubscriptionMutationResponse, ResponseErrorConfig<RenewSubscription404 | RenewSubscription409>, {id: RenewSubscriptionPathParams["id"]}, TContext>
+          }, queryClient) as UseMutationResult<RenewSubscriptionMutationResponse, ResponseErrorConfig<RenewSubscription403 | RenewSubscription404 | RenewSubscription409>, {id: RenewSubscriptionPathParams["id"]}, TContext>
       
 }

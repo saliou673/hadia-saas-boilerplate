@@ -208,4 +208,47 @@ class AuthenticationControllerTest extends IntegrationTest {
 
         post(TWO_FACTOR_VERIFY_ROUTE, verifyRequest, status().isBadRequest());
     }
+
+    // --- Global 2FA enforcement tests ---
+
+    @Test
+    void shouldRejectLoginWhenGlobalTwoFactorRequiredAndUserHasNoTwoFactor() throws Exception {
+        enableGlobalTwoFactorRequirement();
+        createDefaultUser(); // user without 2FA
+        LoginRequest login = new LoginRequest(DEFAULT_USER_EMAIL, DEFAULT_USER_PASSWORD, false);
+
+        post(LOGIN_ROUTE,
+             login,
+             status().isForbidden(),
+             header().doesNotExist(AUTHORIZATION));
+    }
+
+    @Test
+    void shouldAllowLoginWhenGlobalTwoFactorRequiredAndUserHasTwoFactorEnabled() throws Exception {
+        enableGlobalTwoFactorRequirement();
+        createUserWithTwoFactor(DEFAULT_USER_EMAIL, TwoFactorMethodType.EMAIL);
+        LoginRequest login = new LoginRequest(DEFAULT_USER_EMAIL, DEFAULT_USER_PASSWORD, false);
+
+        // Should return 202 with challenge (2FA required — user has it configured)
+        TwoFactorChallengeResponse response = post(LOGIN_ROUTE,
+                                                   login,
+                                                   TwoFactorChallengeResponse.class,
+                                                   status().isAccepted(),
+                                                   header().doesNotExist(AUTHORIZATION));
+
+        assertThat(response).isNotNull();
+        assertThat(response.challengeId()).isNotBlank();
+    }
+
+    @Test
+    void shouldAllowNormalLoginWhenGlobalTwoFactorNotRequired() throws Exception {
+        // No SecuritySettings configured — defaults to twoFactorRequired=false
+        createDefaultUser();
+        LoginRequest login = new LoginRequest(DEFAULT_USER_EMAIL, DEFAULT_USER_PASSWORD, false);
+
+        JwtToken jwtToken = post(LOGIN_ROUTE, login, JwtToken.class, status().isOk());
+
+        assertThat(jwtToken).isNotNull();
+        assertThat(jwtToken.accessToken()).isNotBlank();
+    }
 }

@@ -19,6 +19,11 @@ export type RenewSubscriptionPathParams = {
 export type RenewSubscription201 = UserSubscription;
 
 /**
+ * @description Forbidden
+*/
+export type RenewSubscription403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type RenewSubscription404 = ValidationErrorResponseDTO;
@@ -33,5 +38,5 @@ export type RenewSubscriptionMutationResponse = RenewSubscription201;
 export type RenewSubscriptionMutation = {
     Response: RenewSubscription201;
     PathParams: RenewSubscriptionPathParams;
-    Errors: RenewSubscription404 | RenewSubscription409;
+    Errors: RenewSubscription403 | RenewSubscription404 | RenewSubscription409;
 };

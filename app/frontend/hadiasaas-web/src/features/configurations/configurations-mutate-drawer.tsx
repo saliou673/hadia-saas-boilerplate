@@ -37,7 +37,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { SelectDropdown } from "@/components/select-dropdown";
-import {getAppConfigurationsAsAdminQueryKey} from "../../../../hadiasaas-apiclient";
+import { getAppConfigurationsAsAdminQueryKey } from "../../../../hadiasaas-apiclient";
 
 const formSchema = z.object({
     category: z.string().min(1, "Category is required."),
@@ -67,10 +67,12 @@ export function ConfigurationsMutateDrawer({
     const isUpdate = !!currentRow;
     const queryClient = useQueryClient();
     const { data: categoriesData } = useGetCategoriesAsAdmin();
-    const categoryOptions = (categoriesData ?? []).map(({ value, description }) => ({
-        label: description ?? value ?? "",
-        value: value ?? "",
-    }));
+    const categoryOptions = (categoriesData ?? []).map(
+        ({ value, description }) => ({
+            label: description ?? value ?? "",
+            value: value ?? "",
+        })
+    );
     const form = useForm<ConfigurationForm>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -158,13 +160,10 @@ export function ConfigurationsMutateDrawer({
                 form.reset();
             }
         }
-    }
+    };
 
     return (
-        <Sheet
-            open={open}
-            onOpenChange={handleOpenChange}
-        >
+        <Sheet open={open} onOpenChange={handleOpenChange}>
             <SheetContent className="flex flex-col">
                 <SheetHeader className="text-start">
                     <SheetTitle>

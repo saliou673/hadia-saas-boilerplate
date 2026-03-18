@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { ActivateAccountQueryResponse, ActivateAccountQueryParams, ActivateAccount404, ActivateAccount409 } from "../../types/ActivateAccount.ts";
+import type { ActivateAccountQueryResponse, ActivateAccountQueryParams, ActivateAccount403, ActivateAccount404, ActivateAccount409 } from "../../types/ActivateAccount.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getActivateAccountUrl() {
@@ -20,6 +20,6 @@ export async function activateAccount(params: ActivateAccountQueryParams, config
 
 
 
-  const res = await request<ActivateAccountQueryResponse, ResponseErrorConfig<ActivateAccount404 | ActivateAccount409>, unknown>({ method : "GET", url : getActivateAccountUrl().url.toString(), params, ... requestConfig })
+  const res = await request<ActivateAccountQueryResponse, ResponseErrorConfig<ActivateAccount403 | ActivateAccount404 | ActivateAccount409>, unknown>({ method : "GET", url : getActivateAccountUrl().url.toString(), params, ... requestConfig })
   return res.data
 }

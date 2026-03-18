@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { Confirm2FactorSetupMutationRequest, Confirm2FactorSetupMutationResponse, Confirm2FactorSetup404, Confirm2FactorSetup409 } from "../../types/Confirm2FactorSetup.ts";
+import type { Confirm2FactorSetupMutationRequest, Confirm2FactorSetupMutationResponse, Confirm2FactorSetup403, Confirm2FactorSetup404, Confirm2FactorSetup409 } from "../../types/Confirm2FactorSetup.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getConfirm2FactorSetupUrl() {
@@ -20,6 +20,6 @@ export async function confirm2FactorSetup(data: Confirm2FactorSetupMutationReque
 
   const requestData = data
 
-  const res = await request<Confirm2FactorSetupMutationResponse, ResponseErrorConfig<Confirm2FactorSetup404 | Confirm2FactorSetup409>, Confirm2FactorSetupMutationRequest>({ method : "POST", url : getConfirm2FactorSetupUrl().url.toString(), data : requestData, ... requestConfig })
+  const res = await request<Confirm2FactorSetupMutationResponse, ResponseErrorConfig<Confirm2FactorSetup403 | Confirm2FactorSetup404 | Confirm2FactorSetup409>, Confirm2FactorSetupMutationRequest>({ method : "POST", url : getConfirm2FactorSetupUrl().url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

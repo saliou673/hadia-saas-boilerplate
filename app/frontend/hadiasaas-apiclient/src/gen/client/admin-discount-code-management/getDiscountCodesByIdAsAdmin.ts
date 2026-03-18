@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { GetDiscountCodesByIdAsAdminQueryResponse, GetDiscountCodesByIdAsAdminPathParams, GetDiscountCodesByIdAsAdmin404, GetDiscountCodesByIdAsAdmin409 } from "../../types/GetDiscountCodesByIdAsAdmin.ts";
+import type { GetDiscountCodesByIdAsAdminQueryResponse, GetDiscountCodesByIdAsAdminPathParams, GetDiscountCodesByIdAsAdmin403, GetDiscountCodesByIdAsAdmin404, GetDiscountCodesByIdAsAdmin409 } from "../../types/GetDiscountCodesByIdAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getGetDiscountCodesByIdAsAdminUrl(id: GetDiscountCodesByIdAsAdminPathParams["id"]) {
@@ -20,6 +20,6 @@ export async function getDiscountCodesByIdAsAdmin(id: GetDiscountCodesByIdAsAdmi
 
 
 
-  const res = await request<GetDiscountCodesByIdAsAdminQueryResponse, ResponseErrorConfig<GetDiscountCodesByIdAsAdmin404 | GetDiscountCodesByIdAsAdmin409>, unknown>({ method : "GET", url : getGetDiscountCodesByIdAsAdminUrl(id).url.toString(), ... requestConfig })
+  const res = await request<GetDiscountCodesByIdAsAdminQueryResponse, ResponseErrorConfig<GetDiscountCodesByIdAsAdmin403 | GetDiscountCodesByIdAsAdmin404 | GetDiscountCodesByIdAsAdmin409>, unknown>({ method : "GET", url : getGetDiscountCodesByIdAsAdminUrl(id).url.toString(), ... requestConfig })
   return res.data
 }

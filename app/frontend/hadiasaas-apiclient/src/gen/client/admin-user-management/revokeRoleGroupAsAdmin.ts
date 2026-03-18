@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { RevokeRoleGroupAsAdminMutationResponse, RevokeRoleGroupAsAdminPathParams, RevokeRoleGroupAsAdmin404, RevokeRoleGroupAsAdmin409 } from "../../types/RevokeRoleGroupAsAdmin.ts";
+import type { RevokeRoleGroupAsAdminMutationResponse, RevokeRoleGroupAsAdminPathParams, RevokeRoleGroupAsAdmin403, RevokeRoleGroupAsAdmin404, RevokeRoleGroupAsAdmin409 } from "../../types/RevokeRoleGroupAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getRevokeRoleGroupAsAdminUrl(id: RevokeRoleGroupAsAdminPathParams["id"], roleGroupId: RevokeRoleGroupAsAdminPathParams["roleGroupId"]) {
@@ -20,6 +20,6 @@ export async function revokeRoleGroupAsAdmin(id: RevokeRoleGroupAsAdminPathParam
 
 
 
-  const res = await request<RevokeRoleGroupAsAdminMutationResponse, ResponseErrorConfig<RevokeRoleGroupAsAdmin404 | RevokeRoleGroupAsAdmin409>, unknown>({ method : "DELETE", url : getRevokeRoleGroupAsAdminUrl(id, roleGroupId).url.toString(), ... requestConfig })
+  const res = await request<RevokeRoleGroupAsAdminMutationResponse, ResponseErrorConfig<RevokeRoleGroupAsAdmin403 | RevokeRoleGroupAsAdmin404 | RevokeRoleGroupAsAdmin409>, unknown>({ method : "DELETE", url : getRevokeRoleGroupAsAdminUrl(id, roleGroupId).url.toString(), ... requestConfig })
   return res.data
 }

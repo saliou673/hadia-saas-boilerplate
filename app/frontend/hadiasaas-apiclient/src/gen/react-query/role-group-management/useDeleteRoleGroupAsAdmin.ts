@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { DeleteRoleGroupAsAdminMutationResponse, DeleteRoleGroupAsAdminPathParams, DeleteRoleGroupAsAdmin404, DeleteRoleGroupAsAdmin409 } from "../../types/DeleteRoleGroupAsAdmin.ts";
+import type { DeleteRoleGroupAsAdminMutationResponse, DeleteRoleGroupAsAdminPathParams, DeleteRoleGroupAsAdmin403, DeleteRoleGroupAsAdmin404, DeleteRoleGroupAsAdmin409 } from "../../types/DeleteRoleGroupAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { deleteRoleGroupAsAdmin } from "../../client/role-group-management/deleteRoleGroupAsAdmin.ts";
@@ -16,7 +16,7 @@ export type DeleteRoleGroupAsAdminMutationKey = ReturnType<typeof deleteRoleGrou
 export function deleteRoleGroupAsAdminMutationOptions<TContext = unknown>(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const mutationKey = deleteRoleGroupAsAdminMutationKey()
-        return mutationOptions<DeleteRoleGroupAsAdminMutationResponse, ResponseErrorConfig<DeleteRoleGroupAsAdmin404 | DeleteRoleGroupAsAdmin409>, {id: DeleteRoleGroupAsAdminPathParams["id"]}, TContext>({
+        return mutationOptions<DeleteRoleGroupAsAdminMutationResponse, ResponseErrorConfig<DeleteRoleGroupAsAdmin403 | DeleteRoleGroupAsAdmin404 | DeleteRoleGroupAsAdmin409>, {id: DeleteRoleGroupAsAdminPathParams["id"]}, TContext>({
           mutationKey,
           mutationFn: async({ id }) => {
             return deleteRoleGroupAsAdmin(id, config)
@@ -30,7 +30,7 @@ export function deleteRoleGroupAsAdminMutationOptions<TContext = unknown>(config
  */
 export function useDeleteRoleGroupAsAdmin<TContext>(options: 
 {
-  mutation?: UseMutationOptions<DeleteRoleGroupAsAdminMutationResponse, ResponseErrorConfig<DeleteRoleGroupAsAdmin404 | DeleteRoleGroupAsAdmin409>, {id: DeleteRoleGroupAsAdminPathParams["id"]}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<DeleteRoleGroupAsAdminMutationResponse, ResponseErrorConfig<DeleteRoleGroupAsAdmin403 | DeleteRoleGroupAsAdmin404 | DeleteRoleGroupAsAdmin409>, {id: DeleteRoleGroupAsAdminPathParams["id"]}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useDeleteRoleGroupAsAdmin<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? deleteRoleGroupAsAdminMutationKey()
 
-          const baseOptions = deleteRoleGroupAsAdminMutationOptions(config) as UseMutationOptions<DeleteRoleGroupAsAdminMutationResponse, ResponseErrorConfig<DeleteRoleGroupAsAdmin404 | DeleteRoleGroupAsAdmin409>, {id: DeleteRoleGroupAsAdminPathParams["id"]}, TContext>
+          const baseOptions = deleteRoleGroupAsAdminMutationOptions(config) as UseMutationOptions<DeleteRoleGroupAsAdminMutationResponse, ResponseErrorConfig<DeleteRoleGroupAsAdmin403 | DeleteRoleGroupAsAdmin404 | DeleteRoleGroupAsAdmin409>, {id: DeleteRoleGroupAsAdminPathParams["id"]}, TContext>
           
 
-          return useMutation<DeleteRoleGroupAsAdminMutationResponse, ResponseErrorConfig<DeleteRoleGroupAsAdmin404 | DeleteRoleGroupAsAdmin409>, {id: DeleteRoleGroupAsAdminPathParams["id"]}, TContext>({
+          return useMutation<DeleteRoleGroupAsAdminMutationResponse, ResponseErrorConfig<DeleteRoleGroupAsAdmin403 | DeleteRoleGroupAsAdmin404 | DeleteRoleGroupAsAdmin409>, {id: DeleteRoleGroupAsAdminPathParams["id"]}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<DeleteRoleGroupAsAdminMutationResponse, ResponseErrorConfig<DeleteRoleGroupAsAdmin404 | DeleteRoleGroupAsAdmin409>, {id: DeleteRoleGroupAsAdminPathParams["id"]}, TContext>
+          }, queryClient) as UseMutationResult<DeleteRoleGroupAsAdminMutationResponse, ResponseErrorConfig<DeleteRoleGroupAsAdmin403 | DeleteRoleGroupAsAdmin404 | DeleteRoleGroupAsAdmin409>, {id: DeleteRoleGroupAsAdminPathParams["id"]}, TContext>
       
 }

@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { Disable2FactorMutationRequest, Disable2FactorMutationResponse, Disable2Factor404, Disable2Factor409 } from "../../types/Disable2Factor.ts";
+import type { Disable2FactorMutationRequest, Disable2FactorMutationResponse, Disable2Factor403, Disable2Factor404, Disable2Factor409 } from "../../types/Disable2Factor.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { disable2Factor } from "../../client/two-factor-authentication-management/disable2Factor.ts";
@@ -16,7 +16,7 @@ export type Disable2FactorMutationKey = ReturnType<typeof disable2FactorMutation
 export function disable2FactorMutationOptions<TContext = unknown>(config: Partial<RequestConfig<Disable2FactorMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = disable2FactorMutationKey()
-        return mutationOptions<Disable2FactorMutationResponse, ResponseErrorConfig<Disable2Factor404 | Disable2Factor409>, {data: Disable2FactorMutationRequest}, TContext>({
+        return mutationOptions<Disable2FactorMutationResponse, ResponseErrorConfig<Disable2Factor403 | Disable2Factor404 | Disable2Factor409>, {data: Disable2FactorMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return disable2Factor(data, config)
@@ -30,7 +30,7 @@ export function disable2FactorMutationOptions<TContext = unknown>(config: Partia
  */
 export function useDisable2Factor<TContext>(options: 
 {
-  mutation?: UseMutationOptions<Disable2FactorMutationResponse, ResponseErrorConfig<Disable2Factor404 | Disable2Factor409>, {data: Disable2FactorMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<Disable2FactorMutationResponse, ResponseErrorConfig<Disable2Factor403 | Disable2Factor404 | Disable2Factor409>, {data: Disable2FactorMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<Disable2FactorMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useDisable2Factor<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? disable2FactorMutationKey()
 
-          const baseOptions = disable2FactorMutationOptions(config) as UseMutationOptions<Disable2FactorMutationResponse, ResponseErrorConfig<Disable2Factor404 | Disable2Factor409>, {data: Disable2FactorMutationRequest}, TContext>
+          const baseOptions = disable2FactorMutationOptions(config) as UseMutationOptions<Disable2FactorMutationResponse, ResponseErrorConfig<Disable2Factor403 | Disable2Factor404 | Disable2Factor409>, {data: Disable2FactorMutationRequest}, TContext>
           
 
-          return useMutation<Disable2FactorMutationResponse, ResponseErrorConfig<Disable2Factor404 | Disable2Factor409>, {data: Disable2FactorMutationRequest}, TContext>({
+          return useMutation<Disable2FactorMutationResponse, ResponseErrorConfig<Disable2Factor403 | Disable2Factor404 | Disable2Factor409>, {data: Disable2FactorMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<Disable2FactorMutationResponse, ResponseErrorConfig<Disable2Factor404 | Disable2Factor409>, {data: Disable2FactorMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<Disable2FactorMutationResponse, ResponseErrorConfig<Disable2Factor403 | Disable2Factor404 | Disable2Factor409>, {data: Disable2FactorMutationRequest}, TContext>
       
 }

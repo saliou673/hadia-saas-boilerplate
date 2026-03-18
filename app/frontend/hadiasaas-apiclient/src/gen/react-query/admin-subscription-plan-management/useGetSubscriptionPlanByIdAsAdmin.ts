@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetSubscriptionPlanByIdAsAdminQueryResponse, GetSubscriptionPlanByIdAsAdminPathParams, GetSubscriptionPlanByIdAsAdmin404, GetSubscriptionPlanByIdAsAdmin409 } from "../../types/GetSubscriptionPlanByIdAsAdmin.ts";
+import type { GetSubscriptionPlanByIdAsAdminQueryResponse, GetSubscriptionPlanByIdAsAdminPathParams, GetSubscriptionPlanByIdAsAdmin403, GetSubscriptionPlanByIdAsAdmin404, GetSubscriptionPlanByIdAsAdmin409 } from "../../types/GetSubscriptionPlanByIdAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
 import { getSubscriptionPlanByIdAsAdmin } from "../../client/admin-subscription-plan-management/getSubscriptionPlanByIdAsAdmin.ts";
@@ -16,7 +16,7 @@ export type GetSubscriptionPlanByIdAsAdminQueryKey = ReturnType<typeof getSubscr
 export function getSubscriptionPlanByIdAsAdminQueryOptions(id: GetSubscriptionPlanByIdAsAdminPathParams["id"], config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getSubscriptionPlanByIdAsAdminQueryKey(id)
-        return queryOptions<GetSubscriptionPlanByIdAsAdminQueryResponse, ResponseErrorConfig<GetSubscriptionPlanByIdAsAdmin404 | GetSubscriptionPlanByIdAsAdmin409>, GetSubscriptionPlanByIdAsAdminQueryResponse, typeof queryKey>({
+        return queryOptions<GetSubscriptionPlanByIdAsAdminQueryResponse, ResponseErrorConfig<GetSubscriptionPlanByIdAsAdmin403 | GetSubscriptionPlanByIdAsAdmin404 | GetSubscriptionPlanByIdAsAdmin409>, GetSubscriptionPlanByIdAsAdminQueryResponse, typeof queryKey>({
          enabled: !!(id),
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getSubscriptionPlanByIdAsAdminQueryOptions(id: GetSubscriptionPl
  */
 export function useGetSubscriptionPlanByIdAsAdmin<TData = GetSubscriptionPlanByIdAsAdminQueryResponse, TQueryData = GetSubscriptionPlanByIdAsAdminQueryResponse, TQueryKey extends QueryKey = GetSubscriptionPlanByIdAsAdminQueryKey>(id: GetSubscriptionPlanByIdAsAdminPathParams["id"], options: 
 {
-  query?: Partial<QueryObserverOptions<GetSubscriptionPlanByIdAsAdminQueryResponse, ResponseErrorConfig<GetSubscriptionPlanByIdAsAdmin404 | GetSubscriptionPlanByIdAsAdmin409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<QueryObserverOptions<GetSubscriptionPlanByIdAsAdminQueryResponse, ResponseErrorConfig<GetSubscriptionPlanByIdAsAdmin403 | GetSubscriptionPlanByIdAsAdmin404 | GetSubscriptionPlanByIdAsAdmin409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetSubscriptionPlanByIdAsAdmin<TData = GetSubscriptionPlanByI
           ...getSubscriptionPlanByIdAsAdminQueryOptions(id, config),
           queryKey,
           ...queryOptions
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetSubscriptionPlanByIdAsAdmin404 | GetSubscriptionPlanByIdAsAdmin409>> & { queryKey: TQueryKey }
+         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetSubscriptionPlanByIdAsAdmin403 | GetSubscriptionPlanByIdAsAdmin404 | GetSubscriptionPlanByIdAsAdmin409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

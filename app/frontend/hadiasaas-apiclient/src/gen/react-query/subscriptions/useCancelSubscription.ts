@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { CancelSubscriptionMutationResponse, CancelSubscriptionPathParams, CancelSubscription404, CancelSubscription409 } from "../../types/CancelSubscription.ts";
+import type { CancelSubscriptionMutationResponse, CancelSubscriptionPathParams, CancelSubscription403, CancelSubscription404, CancelSubscription409 } from "../../types/CancelSubscription.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { cancelSubscription } from "../../client/subscriptions/cancelSubscription.ts";
@@ -16,7 +16,7 @@ export type CancelSubscriptionMutationKey = ReturnType<typeof cancelSubscription
 export function cancelSubscriptionMutationOptions<TContext = unknown>(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const mutationKey = cancelSubscriptionMutationKey()
-        return mutationOptions<CancelSubscriptionMutationResponse, ResponseErrorConfig<CancelSubscription404 | CancelSubscription409>, {id: CancelSubscriptionPathParams["id"]}, TContext>({
+        return mutationOptions<CancelSubscriptionMutationResponse, ResponseErrorConfig<CancelSubscription403 | CancelSubscription404 | CancelSubscription409>, {id: CancelSubscriptionPathParams["id"]}, TContext>({
           mutationKey,
           mutationFn: async({ id }) => {
             return cancelSubscription(id, config)
@@ -30,7 +30,7 @@ export function cancelSubscriptionMutationOptions<TContext = unknown>(config: Pa
  */
 export function useCancelSubscription<TContext>(options: 
 {
-  mutation?: UseMutationOptions<CancelSubscriptionMutationResponse, ResponseErrorConfig<CancelSubscription404 | CancelSubscription409>, {id: CancelSubscriptionPathParams["id"]}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<CancelSubscriptionMutationResponse, ResponseErrorConfig<CancelSubscription403 | CancelSubscription404 | CancelSubscription409>, {id: CancelSubscriptionPathParams["id"]}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useCancelSubscription<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? cancelSubscriptionMutationKey()
 
-          const baseOptions = cancelSubscriptionMutationOptions(config) as UseMutationOptions<CancelSubscriptionMutationResponse, ResponseErrorConfig<CancelSubscription404 | CancelSubscription409>, {id: CancelSubscriptionPathParams["id"]}, TContext>
+          const baseOptions = cancelSubscriptionMutationOptions(config) as UseMutationOptions<CancelSubscriptionMutationResponse, ResponseErrorConfig<CancelSubscription403 | CancelSubscription404 | CancelSubscription409>, {id: CancelSubscriptionPathParams["id"]}, TContext>
           
 
-          return useMutation<CancelSubscriptionMutationResponse, ResponseErrorConfig<CancelSubscription404 | CancelSubscription409>, {id: CancelSubscriptionPathParams["id"]}, TContext>({
+          return useMutation<CancelSubscriptionMutationResponse, ResponseErrorConfig<CancelSubscription403 | CancelSubscription404 | CancelSubscription409>, {id: CancelSubscriptionPathParams["id"]}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<CancelSubscriptionMutationResponse, ResponseErrorConfig<CancelSubscription404 | CancelSubscription409>, {id: CancelSubscriptionPathParams["id"]}, TContext>
+          }, queryClient) as UseMutationResult<CancelSubscriptionMutationResponse, ResponseErrorConfig<CancelSubscription403 | CancelSubscription404 | CancelSubscription409>, {id: CancelSubscriptionPathParams["id"]}, TContext>
       
 }

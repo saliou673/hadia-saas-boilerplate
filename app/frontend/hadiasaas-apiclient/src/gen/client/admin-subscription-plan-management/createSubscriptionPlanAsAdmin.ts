@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { CreateSubscriptionPlanAsAdminMutationRequest, CreateSubscriptionPlanAsAdminMutationResponse, CreateSubscriptionPlanAsAdmin404, CreateSubscriptionPlanAsAdmin409 } from "../../types/CreateSubscriptionPlanAsAdmin.ts";
+import type { CreateSubscriptionPlanAsAdminMutationRequest, CreateSubscriptionPlanAsAdminMutationResponse, CreateSubscriptionPlanAsAdmin403, CreateSubscriptionPlanAsAdmin404, CreateSubscriptionPlanAsAdmin409 } from "../../types/CreateSubscriptionPlanAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getCreateSubscriptionPlanAsAdminUrl() {
@@ -20,6 +20,6 @@ export async function createSubscriptionPlanAsAdmin(data: CreateSubscriptionPlan
 
   const requestData = data
 
-  const res = await request<CreateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<CreateSubscriptionPlanAsAdmin404 | CreateSubscriptionPlanAsAdmin409>, CreateSubscriptionPlanAsAdminMutationRequest>({ method : "POST", url : getCreateSubscriptionPlanAsAdminUrl().url.toString(), data : requestData, ... requestConfig })
+  const res = await request<CreateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<CreateSubscriptionPlanAsAdmin403 | CreateSubscriptionPlanAsAdmin404 | CreateSubscriptionPlanAsAdmin409>, CreateSubscriptionPlanAsAdminMutationRequest>({ method : "POST", url : getCreateSubscriptionPlanAsAdminUrl().url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

@@ -2,6 +2,7 @@ package com.hadiasaas.application;
 
 import com.hadiasaas.domain.enumerations.AppConfigurationCategory;
 import com.hadiasaas.domain.enumerations.DiscountType;
+import com.hadiasaas.domain.models.taxconfiguration.TaxConfiguration;
 import com.hadiasaas.domain.enumerations.SubscriptionBillingFrequency;
 import com.hadiasaas.domain.enumerations.UserSubscriptionStatus;
 import com.hadiasaas.domain.exceptions.*;
@@ -44,6 +45,7 @@ public class SubscriptionService implements SubscribeUseCase {
     private final SubscriptionPlanPersistencePort subscriptionPlanPersistencePort;
     private final UserSubscriptionPersistencePort userSubscriptionPersistencePort;
     private final AppConfigurationPersistencePort appConfigurationPersistencePort;
+    private final TaxConfigurationPersistencePort taxConfigurationPersistencePort;
     private final DiscountCodePersistencePort discountCodePersistencePort;
     private final UserPersistencePort userPersistencePort;
     private final CurrentUserEmailPort currentUserEmailPort;
@@ -228,15 +230,15 @@ public class SubscriptionService implements SubscribeUseCase {
     }
 
     private AppliedTax applyTax(BigDecimal priceBeforeTax) {
-        BigDecimal taxRate = appConfigurationPersistencePort.findByCategoryAndCode(AppConfigurationCategory.TAX, "RATE")
-                .filter(config -> config.isActive() && StringUtils.isNotBlank(config.getLabel()))
-                .map(config -> new BigDecimal(config.getLabel()))
+        BigDecimal taxRate = taxConfigurationPersistencePort.findFirstActive()
+                .map(TaxConfiguration::getRate)
                 .orElse(BigDecimal.ZERO);
 
         BigDecimal taxAmount = priceBeforeTax.multiply(taxRate)
-                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+                .setScale(2, RoundingMode.HALF_UP);
 
-        return new AppliedTax(taxRate, taxAmount, priceBeforeTax.add(taxAmount));
+        BigDecimal taxRatePercentage = taxRate.multiply(BigDecimal.valueOf(100)).stripTrailingZeros();
+        return new AppliedTax(taxRatePercentage, taxAmount, priceBeforeTax.add(taxAmount));
     }
 
     private void sendSubscriptionBill(User currentUser, UserSubscription savedSubscription) {

@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetAppConfigurationsAsAdminQueryResponse, GetAppConfigurationsAsAdminQueryParams, GetAppConfigurationsAsAdmin404, GetAppConfigurationsAsAdmin409 } from "../../types/GetAppConfigurationsAsAdmin.ts";
+import type { GetAppConfigurationsAsAdminQueryResponse, GetAppConfigurationsAsAdminQueryParams, GetAppConfigurationsAsAdmin403, GetAppConfigurationsAsAdmin404, GetAppConfigurationsAsAdmin409 } from "../../types/GetAppConfigurationsAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
 import { getAppConfigurationsAsAdmin } from "../../client/admin-configuration-management/getAppConfigurationsAsAdmin.ts";
@@ -16,7 +16,7 @@ export type GetAppConfigurationsAsAdminQueryKey = ReturnType<typeof getAppConfig
 export function getAppConfigurationsAsAdminQueryOptions(params: GetAppConfigurationsAsAdminQueryParams, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getAppConfigurationsAsAdminQueryKey(params)
-        return queryOptions<GetAppConfigurationsAsAdminQueryResponse, ResponseErrorConfig<GetAppConfigurationsAsAdmin404 | GetAppConfigurationsAsAdmin409>, GetAppConfigurationsAsAdminQueryResponse, typeof queryKey>({
+        return queryOptions<GetAppConfigurationsAsAdminQueryResponse, ResponseErrorConfig<GetAppConfigurationsAsAdmin403 | GetAppConfigurationsAsAdmin404 | GetAppConfigurationsAsAdmin409>, GetAppConfigurationsAsAdminQueryResponse, typeof queryKey>({
          enabled: !!(params),
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getAppConfigurationsAsAdminQueryOptions(params: GetAppConfigurat
  */
 export function useGetAppConfigurationsAsAdmin<TData = GetAppConfigurationsAsAdminQueryResponse, TQueryData = GetAppConfigurationsAsAdminQueryResponse, TQueryKey extends QueryKey = GetAppConfigurationsAsAdminQueryKey>(params: GetAppConfigurationsAsAdminQueryParams, options: 
 {
-  query?: Partial<QueryObserverOptions<GetAppConfigurationsAsAdminQueryResponse, ResponseErrorConfig<GetAppConfigurationsAsAdmin404 | GetAppConfigurationsAsAdmin409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<QueryObserverOptions<GetAppConfigurationsAsAdminQueryResponse, ResponseErrorConfig<GetAppConfigurationsAsAdmin403 | GetAppConfigurationsAsAdmin404 | GetAppConfigurationsAsAdmin409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetAppConfigurationsAsAdmin<TData = GetAppConfigurationsAsAdm
           ...getAppConfigurationsAsAdminQueryOptions(params, config),
           queryKey,
           ...queryOptions
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetAppConfigurationsAsAdmin404 | GetAppConfigurationsAsAdmin409>> & { queryKey: TQueryKey }
+         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetAppConfigurationsAsAdmin403 | GetAppConfigurationsAsAdmin404 | GetAppConfigurationsAsAdmin409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

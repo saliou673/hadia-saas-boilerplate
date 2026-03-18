@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { UpdateCurrentUserPreferencesMutationRequest, UpdateCurrentUserPreferencesMutationResponse, UpdateCurrentUserPreferences404, UpdateCurrentUserPreferences409 } from "../../types/UpdateCurrentUserPreferences.ts";
+import type { UpdateCurrentUserPreferencesMutationRequest, UpdateCurrentUserPreferencesMutationResponse, UpdateCurrentUserPreferences403, UpdateCurrentUserPreferences404, UpdateCurrentUserPreferences409 } from "../../types/UpdateCurrentUserPreferences.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { updateCurrentUserPreferences } from "../../client/user-account-management/updateCurrentUserPreferences.ts";
@@ -16,7 +16,7 @@ export type UpdateCurrentUserPreferencesMutationKey = ReturnType<typeof updateCu
 export function updateCurrentUserPreferencesMutationOptions<TContext = unknown>(config: Partial<RequestConfig<UpdateCurrentUserPreferencesMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = updateCurrentUserPreferencesMutationKey()
-        return mutationOptions<UpdateCurrentUserPreferencesMutationResponse, ResponseErrorConfig<UpdateCurrentUserPreferences404 | UpdateCurrentUserPreferences409>, {data: UpdateCurrentUserPreferencesMutationRequest}, TContext>({
+        return mutationOptions<UpdateCurrentUserPreferencesMutationResponse, ResponseErrorConfig<UpdateCurrentUserPreferences403 | UpdateCurrentUserPreferences404 | UpdateCurrentUserPreferences409>, {data: UpdateCurrentUserPreferencesMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return updateCurrentUserPreferences(data, config)
@@ -30,7 +30,7 @@ export function updateCurrentUserPreferencesMutationOptions<TContext = unknown>(
  */
 export function useUpdateCurrentUserPreferences<TContext>(options: 
 {
-  mutation?: UseMutationOptions<UpdateCurrentUserPreferencesMutationResponse, ResponseErrorConfig<UpdateCurrentUserPreferences404 | UpdateCurrentUserPreferences409>, {data: UpdateCurrentUserPreferencesMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<UpdateCurrentUserPreferencesMutationResponse, ResponseErrorConfig<UpdateCurrentUserPreferences403 | UpdateCurrentUserPreferences404 | UpdateCurrentUserPreferences409>, {data: UpdateCurrentUserPreferencesMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<UpdateCurrentUserPreferencesMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useUpdateCurrentUserPreferences<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? updateCurrentUserPreferencesMutationKey()
 
-          const baseOptions = updateCurrentUserPreferencesMutationOptions(config) as UseMutationOptions<UpdateCurrentUserPreferencesMutationResponse, ResponseErrorConfig<UpdateCurrentUserPreferences404 | UpdateCurrentUserPreferences409>, {data: UpdateCurrentUserPreferencesMutationRequest}, TContext>
+          const baseOptions = updateCurrentUserPreferencesMutationOptions(config) as UseMutationOptions<UpdateCurrentUserPreferencesMutationResponse, ResponseErrorConfig<UpdateCurrentUserPreferences403 | UpdateCurrentUserPreferences404 | UpdateCurrentUserPreferences409>, {data: UpdateCurrentUserPreferencesMutationRequest}, TContext>
           
 
-          return useMutation<UpdateCurrentUserPreferencesMutationResponse, ResponseErrorConfig<UpdateCurrentUserPreferences404 | UpdateCurrentUserPreferences409>, {data: UpdateCurrentUserPreferencesMutationRequest}, TContext>({
+          return useMutation<UpdateCurrentUserPreferencesMutationResponse, ResponseErrorConfig<UpdateCurrentUserPreferences403 | UpdateCurrentUserPreferences404 | UpdateCurrentUserPreferences409>, {data: UpdateCurrentUserPreferencesMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<UpdateCurrentUserPreferencesMutationResponse, ResponseErrorConfig<UpdateCurrentUserPreferences404 | UpdateCurrentUserPreferences409>, {data: UpdateCurrentUserPreferencesMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<UpdateCurrentUserPreferencesMutationResponse, ResponseErrorConfig<UpdateCurrentUserPreferences403 | UpdateCurrentUserPreferences404 | UpdateCurrentUserPreferences409>, {data: UpdateCurrentUserPreferencesMutationRequest}, TContext>
       
 }

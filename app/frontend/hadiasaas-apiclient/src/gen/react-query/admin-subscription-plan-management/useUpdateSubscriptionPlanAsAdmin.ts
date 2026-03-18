@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { UpdateSubscriptionPlanAsAdminMutationRequest, UpdateSubscriptionPlanAsAdminMutationResponse, UpdateSubscriptionPlanAsAdminPathParams, UpdateSubscriptionPlanAsAdmin404, UpdateSubscriptionPlanAsAdmin409 } from "../../types/UpdateSubscriptionPlanAsAdmin.ts";
+import type { UpdateSubscriptionPlanAsAdminMutationRequest, UpdateSubscriptionPlanAsAdminMutationResponse, UpdateSubscriptionPlanAsAdminPathParams, UpdateSubscriptionPlanAsAdmin403, UpdateSubscriptionPlanAsAdmin404, UpdateSubscriptionPlanAsAdmin409 } from "../../types/UpdateSubscriptionPlanAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { updateSubscriptionPlanAsAdmin } from "../../client/admin-subscription-plan-management/updateSubscriptionPlanAsAdmin.ts";
@@ -16,7 +16,7 @@ export type UpdateSubscriptionPlanAsAdminMutationKey = ReturnType<typeof updateS
 export function updateSubscriptionPlanAsAdminMutationOptions<TContext = unknown>(config: Partial<RequestConfig<UpdateSubscriptionPlanAsAdminMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = updateSubscriptionPlanAsAdminMutationKey()
-        return mutationOptions<UpdateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<UpdateSubscriptionPlanAsAdmin404 | UpdateSubscriptionPlanAsAdmin409>, {id: UpdateSubscriptionPlanAsAdminPathParams["id"], data: UpdateSubscriptionPlanAsAdminMutationRequest}, TContext>({
+        return mutationOptions<UpdateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<UpdateSubscriptionPlanAsAdmin403 | UpdateSubscriptionPlanAsAdmin404 | UpdateSubscriptionPlanAsAdmin409>, {id: UpdateSubscriptionPlanAsAdminPathParams["id"], data: UpdateSubscriptionPlanAsAdminMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ id, data }) => {
             return updateSubscriptionPlanAsAdmin(id, data, config)
@@ -30,7 +30,7 @@ export function updateSubscriptionPlanAsAdminMutationOptions<TContext = unknown>
  */
 export function useUpdateSubscriptionPlanAsAdmin<TContext>(options: 
 {
-  mutation?: UseMutationOptions<UpdateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<UpdateSubscriptionPlanAsAdmin404 | UpdateSubscriptionPlanAsAdmin409>, {id: UpdateSubscriptionPlanAsAdminPathParams["id"], data: UpdateSubscriptionPlanAsAdminMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<UpdateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<UpdateSubscriptionPlanAsAdmin403 | UpdateSubscriptionPlanAsAdmin404 | UpdateSubscriptionPlanAsAdmin409>, {id: UpdateSubscriptionPlanAsAdminPathParams["id"], data: UpdateSubscriptionPlanAsAdminMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<UpdateSubscriptionPlanAsAdminMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useUpdateSubscriptionPlanAsAdmin<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? updateSubscriptionPlanAsAdminMutationKey()
 
-          const baseOptions = updateSubscriptionPlanAsAdminMutationOptions(config) as UseMutationOptions<UpdateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<UpdateSubscriptionPlanAsAdmin404 | UpdateSubscriptionPlanAsAdmin409>, {id: UpdateSubscriptionPlanAsAdminPathParams["id"], data: UpdateSubscriptionPlanAsAdminMutationRequest}, TContext>
+          const baseOptions = updateSubscriptionPlanAsAdminMutationOptions(config) as UseMutationOptions<UpdateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<UpdateSubscriptionPlanAsAdmin403 | UpdateSubscriptionPlanAsAdmin404 | UpdateSubscriptionPlanAsAdmin409>, {id: UpdateSubscriptionPlanAsAdminPathParams["id"], data: UpdateSubscriptionPlanAsAdminMutationRequest}, TContext>
           
 
-          return useMutation<UpdateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<UpdateSubscriptionPlanAsAdmin404 | UpdateSubscriptionPlanAsAdmin409>, {id: UpdateSubscriptionPlanAsAdminPathParams["id"], data: UpdateSubscriptionPlanAsAdminMutationRequest}, TContext>({
+          return useMutation<UpdateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<UpdateSubscriptionPlanAsAdmin403 | UpdateSubscriptionPlanAsAdmin404 | UpdateSubscriptionPlanAsAdmin409>, {id: UpdateSubscriptionPlanAsAdminPathParams["id"], data: UpdateSubscriptionPlanAsAdminMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<UpdateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<UpdateSubscriptionPlanAsAdmin404 | UpdateSubscriptionPlanAsAdmin409>, {id: UpdateSubscriptionPlanAsAdminPathParams["id"], data: UpdateSubscriptionPlanAsAdminMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<UpdateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<UpdateSubscriptionPlanAsAdmin403 | UpdateSubscriptionPlanAsAdmin404 | UpdateSubscriptionPlanAsAdmin409>, {id: UpdateSubscriptionPlanAsAdminPathParams["id"], data: UpdateSubscriptionPlanAsAdminMutationRequest}, TContext>
       
 }

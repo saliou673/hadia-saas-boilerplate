@@ -13,6 +13,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type CreateSubscriptionPlanAsAdmin201 = SubscriptionPlan;
 
 /**
+ * @description Forbidden
+*/
+export type CreateSubscriptionPlanAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type CreateSubscriptionPlanAsAdmin404 = ValidationErrorResponseDTO;
@@ -29,5 +34,5 @@ export type CreateSubscriptionPlanAsAdminMutationResponse = CreateSubscriptionPl
 export type CreateSubscriptionPlanAsAdminMutation = {
     Response: CreateSubscriptionPlanAsAdmin201;
     Request: CreateSubscriptionPlanAsAdminMutationRequest;
-    Errors: CreateSubscriptionPlanAsAdmin404 | CreateSubscriptionPlanAsAdmin409;
+    Errors: CreateSubscriptionPlanAsAdmin403 | CreateSubscriptionPlanAsAdmin404 | CreateSubscriptionPlanAsAdmin409;
 };

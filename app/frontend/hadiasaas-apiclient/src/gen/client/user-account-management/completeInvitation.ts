@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { CompleteInvitationMutationRequest, CompleteInvitationMutationResponse, CompleteInvitation404, CompleteInvitation409 } from "../../types/CompleteInvitation.ts";
+import type { CompleteInvitationMutationRequest, CompleteInvitationMutationResponse, CompleteInvitation403, CompleteInvitation404, CompleteInvitation409 } from "../../types/CompleteInvitation.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getCompleteInvitationUrl() {
@@ -20,6 +20,6 @@ export async function completeInvitation(data: CompleteInvitationMutationRequest
 
   const requestData = data
 
-  const res = await request<CompleteInvitationMutationResponse, ResponseErrorConfig<CompleteInvitation404 | CompleteInvitation409>, CompleteInvitationMutationRequest>({ method : "POST", url : getCompleteInvitationUrl().url.toString(), data : requestData, ... requestConfig })
+  const res = await request<CompleteInvitationMutationResponse, ResponseErrorConfig<CompleteInvitation403 | CompleteInvitation404 | CompleteInvitation409>, CompleteInvitationMutationRequest>({ method : "POST", url : getCompleteInvitationUrl().url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { DeleteSubscriptionPlanAsAdminMutationResponse, DeleteSubscriptionPlanAsAdminPathParams, DeleteSubscriptionPlanAsAdmin404, DeleteSubscriptionPlanAsAdmin409 } from "../../types/DeleteSubscriptionPlanAsAdmin.ts";
+import type { DeleteSubscriptionPlanAsAdminMutationResponse, DeleteSubscriptionPlanAsAdminPathParams, DeleteSubscriptionPlanAsAdmin403, DeleteSubscriptionPlanAsAdmin404, DeleteSubscriptionPlanAsAdmin409 } from "../../types/DeleteSubscriptionPlanAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { deleteSubscriptionPlanAsAdmin } from "../../client/admin-subscription-plan-management/deleteSubscriptionPlanAsAdmin.ts";
@@ -16,7 +16,7 @@ export type DeleteSubscriptionPlanAsAdminMutationKey = ReturnType<typeof deleteS
 export function deleteSubscriptionPlanAsAdminMutationOptions<TContext = unknown>(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const mutationKey = deleteSubscriptionPlanAsAdminMutationKey()
-        return mutationOptions<DeleteSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<DeleteSubscriptionPlanAsAdmin404 | DeleteSubscriptionPlanAsAdmin409>, {id: DeleteSubscriptionPlanAsAdminPathParams["id"]}, TContext>({
+        return mutationOptions<DeleteSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<DeleteSubscriptionPlanAsAdmin403 | DeleteSubscriptionPlanAsAdmin404 | DeleteSubscriptionPlanAsAdmin409>, {id: DeleteSubscriptionPlanAsAdminPathParams["id"]}, TContext>({
           mutationKey,
           mutationFn: async({ id }) => {
             return deleteSubscriptionPlanAsAdmin(id, config)
@@ -30,7 +30,7 @@ export function deleteSubscriptionPlanAsAdminMutationOptions<TContext = unknown>
  */
 export function useDeleteSubscriptionPlanAsAdmin<TContext>(options: 
 {
-  mutation?: UseMutationOptions<DeleteSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<DeleteSubscriptionPlanAsAdmin404 | DeleteSubscriptionPlanAsAdmin409>, {id: DeleteSubscriptionPlanAsAdminPathParams["id"]}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<DeleteSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<DeleteSubscriptionPlanAsAdmin403 | DeleteSubscriptionPlanAsAdmin404 | DeleteSubscriptionPlanAsAdmin409>, {id: DeleteSubscriptionPlanAsAdminPathParams["id"]}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useDeleteSubscriptionPlanAsAdmin<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? deleteSubscriptionPlanAsAdminMutationKey()
 
-          const baseOptions = deleteSubscriptionPlanAsAdminMutationOptions(config) as UseMutationOptions<DeleteSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<DeleteSubscriptionPlanAsAdmin404 | DeleteSubscriptionPlanAsAdmin409>, {id: DeleteSubscriptionPlanAsAdminPathParams["id"]}, TContext>
+          const baseOptions = deleteSubscriptionPlanAsAdminMutationOptions(config) as UseMutationOptions<DeleteSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<DeleteSubscriptionPlanAsAdmin403 | DeleteSubscriptionPlanAsAdmin404 | DeleteSubscriptionPlanAsAdmin409>, {id: DeleteSubscriptionPlanAsAdminPathParams["id"]}, TContext>
           
 
-          return useMutation<DeleteSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<DeleteSubscriptionPlanAsAdmin404 | DeleteSubscriptionPlanAsAdmin409>, {id: DeleteSubscriptionPlanAsAdminPathParams["id"]}, TContext>({
+          return useMutation<DeleteSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<DeleteSubscriptionPlanAsAdmin403 | DeleteSubscriptionPlanAsAdmin404 | DeleteSubscriptionPlanAsAdmin409>, {id: DeleteSubscriptionPlanAsAdminPathParams["id"]}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<DeleteSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<DeleteSubscriptionPlanAsAdmin404 | DeleteSubscriptionPlanAsAdmin409>, {id: DeleteSubscriptionPlanAsAdminPathParams["id"]}, TContext>
+          }, queryClient) as UseMutationResult<DeleteSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<DeleteSubscriptionPlanAsAdmin403 | DeleteSubscriptionPlanAsAdmin404 | DeleteSubscriptionPlanAsAdmin409>, {id: DeleteSubscriptionPlanAsAdminPathParams["id"]}, TContext>
       
 }

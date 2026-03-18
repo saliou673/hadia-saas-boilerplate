@@ -19,6 +19,11 @@ export type GetDiscountCodesByIdAsAdminPathParams = {
 export type GetDiscountCodesByIdAsAdmin200 = DiscountCodeDTO;
 
 /**
+ * @description Forbidden
+*/
+export type GetDiscountCodesByIdAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type GetDiscountCodesByIdAsAdmin404 = ValidationErrorResponseDTO;
@@ -33,5 +38,5 @@ export type GetDiscountCodesByIdAsAdminQueryResponse = GetDiscountCodesByIdAsAdm
 export type GetDiscountCodesByIdAsAdminQuery = {
     Response: GetDiscountCodesByIdAsAdmin200;
     PathParams: GetDiscountCodesByIdAsAdminPathParams;
-    Errors: GetDiscountCodesByIdAsAdmin404 | GetDiscountCodesByIdAsAdmin409;
+    Errors: GetDiscountCodesByIdAsAdmin403 | GetDiscountCodesByIdAsAdmin404 | GetDiscountCodesByIdAsAdmin409;
 };

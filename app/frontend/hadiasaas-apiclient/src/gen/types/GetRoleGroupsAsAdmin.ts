@@ -20,6 +20,11 @@ export type GetRoleGroupsAsAdminQueryParams = {
 export type GetRoleGroupsAsAdmin200 = PaginatedResultRoleGroup;
 
 /**
+ * @description Forbidden
+*/
+export type GetRoleGroupsAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type GetRoleGroupsAsAdmin404 = ValidationErrorResponseDTO;
@@ -34,5 +39,5 @@ export type GetRoleGroupsAsAdminQueryResponse = GetRoleGroupsAsAdmin200;
 export type GetRoleGroupsAsAdminQuery = {
     Response: GetRoleGroupsAsAdmin200;
     QueryParams: GetRoleGroupsAsAdminQueryParams;
-    Errors: GetRoleGroupsAsAdmin404 | GetRoleGroupsAsAdmin409;
+    Errors: GetRoleGroupsAsAdmin403 | GetRoleGroupsAsAdmin404 | GetRoleGroupsAsAdmin409;
 };

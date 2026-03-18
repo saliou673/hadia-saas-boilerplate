@@ -13,6 +13,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type CreateDiscountCodeAsAdmin201 = DiscountCodeDTO;
 
 /**
+ * @description Forbidden
+*/
+export type CreateDiscountCodeAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type CreateDiscountCodeAsAdmin404 = ValidationErrorResponseDTO;
@@ -29,5 +34,5 @@ export type CreateDiscountCodeAsAdminMutationResponse = CreateDiscountCodeAsAdmi
 export type CreateDiscountCodeAsAdminMutation = {
     Response: CreateDiscountCodeAsAdmin201;
     Request: CreateDiscountCodeAsAdminMutationRequest;
-    Errors: CreateDiscountCodeAsAdmin404 | CreateDiscountCodeAsAdmin409;
+    Errors: CreateDiscountCodeAsAdmin403 | CreateDiscountCodeAsAdmin404 | CreateDiscountCodeAsAdmin409;
 };

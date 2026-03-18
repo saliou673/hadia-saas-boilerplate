@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { AuthenticateMutationRequest, AuthenticateMutationResponse, Authenticate404, Authenticate409 } from "../../types/Authenticate.ts";
+import type { AuthenticateMutationRequest, AuthenticateMutationResponse, Authenticate403, Authenticate404, Authenticate409 } from "../../types/Authenticate.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getAuthenticateUrl() {
@@ -20,6 +20,6 @@ export async function authenticate(data: AuthenticateMutationRequest, config: Pa
 
   const requestData = data
 
-  const res = await request<AuthenticateMutationResponse, ResponseErrorConfig<Authenticate404 | Authenticate409>, AuthenticateMutationRequest>({ method : "POST", url : getAuthenticateUrl().url.toString(), data : requestData, ... requestConfig })
+  const res = await request<AuthenticateMutationResponse, ResponseErrorConfig<Authenticate403 | Authenticate404 | Authenticate409>, AuthenticateMutationRequest>({ method : "POST", url : getAuthenticateUrl().url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

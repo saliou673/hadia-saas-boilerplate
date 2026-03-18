@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { SendContactFormMutationRequest, SendContactFormMutationResponse, SendContactForm404, SendContactForm409 } from "../../types/SendContactForm.ts";
+import type { SendContactFormMutationRequest, SendContactFormMutationResponse, SendContactForm403, SendContactForm404, SendContactForm409 } from "../../types/SendContactForm.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { sendContactForm } from "../../client/contact-form-controller/sendContactForm.ts";
@@ -16,7 +16,7 @@ export type SendContactFormMutationKey = ReturnType<typeof sendContactFormMutati
 export function sendContactFormMutationOptions<TContext = unknown>(config: Partial<RequestConfig<SendContactFormMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = sendContactFormMutationKey()
-        return mutationOptions<SendContactFormMutationResponse, ResponseErrorConfig<SendContactForm404 | SendContactForm409>, {data: SendContactFormMutationRequest}, TContext>({
+        return mutationOptions<SendContactFormMutationResponse, ResponseErrorConfig<SendContactForm403 | SendContactForm404 | SendContactForm409>, {data: SendContactFormMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return sendContactForm(data, config)
@@ -30,7 +30,7 @@ export function sendContactFormMutationOptions<TContext = unknown>(config: Parti
  */
 export function useSendContactForm<TContext>(options: 
 {
-  mutation?: UseMutationOptions<SendContactFormMutationResponse, ResponseErrorConfig<SendContactForm404 | SendContactForm409>, {data: SendContactFormMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<SendContactFormMutationResponse, ResponseErrorConfig<SendContactForm403 | SendContactForm404 | SendContactForm409>, {data: SendContactFormMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<SendContactFormMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useSendContactForm<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? sendContactFormMutationKey()
 
-          const baseOptions = sendContactFormMutationOptions(config) as UseMutationOptions<SendContactFormMutationResponse, ResponseErrorConfig<SendContactForm404 | SendContactForm409>, {data: SendContactFormMutationRequest}, TContext>
+          const baseOptions = sendContactFormMutationOptions(config) as UseMutationOptions<SendContactFormMutationResponse, ResponseErrorConfig<SendContactForm403 | SendContactForm404 | SendContactForm409>, {data: SendContactFormMutationRequest}, TContext>
           
 
-          return useMutation<SendContactFormMutationResponse, ResponseErrorConfig<SendContactForm404 | SendContactForm409>, {data: SendContactFormMutationRequest}, TContext>({
+          return useMutation<SendContactFormMutationResponse, ResponseErrorConfig<SendContactForm403 | SendContactForm404 | SendContactForm409>, {data: SendContactFormMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<SendContactFormMutationResponse, ResponseErrorConfig<SendContactForm404 | SendContactForm409>, {data: SendContactFormMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<SendContactFormMutationResponse, ResponseErrorConfig<SendContactForm403 | SendContactForm404 | SendContactForm409>, {data: SendContactFormMutationRequest}, TContext>
       
 }

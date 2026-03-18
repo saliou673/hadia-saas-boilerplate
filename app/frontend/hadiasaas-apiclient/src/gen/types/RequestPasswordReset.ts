@@ -11,6 +11,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type RequestPasswordReset200 = any;
 
 /**
+ * @description Forbidden
+*/
+export type RequestPasswordReset403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type RequestPasswordReset404 = ValidationErrorResponseDTO;
@@ -27,5 +32,5 @@ export type RequestPasswordResetMutationResponse = RequestPasswordReset200;
 export type RequestPasswordResetMutation = {
     Response: RequestPasswordReset200;
     Request: RequestPasswordResetMutationRequest;
-    Errors: RequestPasswordReset404 | RequestPasswordReset409;
+    Errors: RequestPasswordReset403 | RequestPasswordReset404 | RequestPasswordReset409;
 };

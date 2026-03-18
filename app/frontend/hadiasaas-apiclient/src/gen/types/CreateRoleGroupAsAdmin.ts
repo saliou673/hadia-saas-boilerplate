@@ -13,6 +13,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type CreateRoleGroupAsAdmin201 = RoleGroup;
 
 /**
+ * @description Forbidden
+*/
+export type CreateRoleGroupAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type CreateRoleGroupAsAdmin404 = ValidationErrorResponseDTO;
@@ -29,5 +34,5 @@ export type CreateRoleGroupAsAdminMutationResponse = CreateRoleGroupAsAdmin201;
 export type CreateRoleGroupAsAdminMutation = {
     Response: CreateRoleGroupAsAdmin201;
     Request: CreateRoleGroupAsAdminMutationRequest;
-    Errors: CreateRoleGroupAsAdmin404 | CreateRoleGroupAsAdmin409;
+    Errors: CreateRoleGroupAsAdmin403 | CreateRoleGroupAsAdmin404 | CreateRoleGroupAsAdmin409;
 };

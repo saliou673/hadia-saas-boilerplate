@@ -20,19 +20,7 @@ public enum AppConfigurationCategory {
     /**
      * Supported payment modes (e.g. STRIPE, PAYPAL).
      */
-    PAYMENT_MODE("Supported payment modes (e.g. STRIPE, PAYPAL)"),
-    /**
-     * File storage backend selection (e.g. LOCAL, AWS).
-     */
-    STORAGE("File storage backend selection (e.g. LOCAL, AWS)"),
-    /**
-     * Tax configuration values used during billing.
-     */
-    TAX("Tax configuration values used during billing"),
-    /**
-     * Enterprise information used in generated business documents.
-     */
-    ENTERPRISE("Enterprise information used in generated business documents");
+    PAYMENT_MODE("Supported payment modes (e.g. STRIPE, PAYPAL)");
 
     private final String description;
 }

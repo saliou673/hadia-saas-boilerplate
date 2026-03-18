@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { GetUserSubscriptionAsAdminQueryResponse, GetUserSubscriptionAsAdminQueryParams, GetUserSubscriptionAsAdmin404, GetUserSubscriptionAsAdmin409 } from "../../types/GetUserSubscriptionAsAdmin.ts";
+import type { GetUserSubscriptionAsAdminQueryResponse, GetUserSubscriptionAsAdminQueryParams, GetUserSubscriptionAsAdmin403, GetUserSubscriptionAsAdmin404, GetUserSubscriptionAsAdmin409 } from "../../types/GetUserSubscriptionAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getGetUserSubscriptionAsAdminUrl() {
@@ -20,6 +20,6 @@ export async function getUserSubscriptionAsAdmin(params: GetUserSubscriptionAsAd
 
 
 
-  const res = await request<GetUserSubscriptionAsAdminQueryResponse, ResponseErrorConfig<GetUserSubscriptionAsAdmin404 | GetUserSubscriptionAsAdmin409>, unknown>({ method : "GET", url : getGetUserSubscriptionAsAdminUrl().url.toString(), params, ... requestConfig })
+  const res = await request<GetUserSubscriptionAsAdminQueryResponse, ResponseErrorConfig<GetUserSubscriptionAsAdmin403 | GetUserSubscriptionAsAdmin404 | GetUserSubscriptionAsAdmin409>, unknown>({ method : "GET", url : getGetUserSubscriptionAsAdminUrl().url.toString(), params, ... requestConfig })
   return res.data
 }

@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetUserAsAdminQueryResponse, GetUserAsAdminPathParams, GetUserAsAdmin404, GetUserAsAdmin409 } from "../../types/GetUserAsAdmin.ts";
+import type { GetUserAsAdminQueryResponse, GetUserAsAdminPathParams, GetUserAsAdmin403, GetUserAsAdmin404, GetUserAsAdmin409 } from "../../types/GetUserAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
 import { getUserAsAdmin } from "../../client/admin-user-management/getUserAsAdmin.ts";
@@ -16,7 +16,7 @@ export type GetUserAsAdminQueryKey = ReturnType<typeof getUserAsAdminQueryKey>
 export function getUserAsAdminQueryOptions(id: GetUserAsAdminPathParams["id"], config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getUserAsAdminQueryKey(id)
-        return queryOptions<GetUserAsAdminQueryResponse, ResponseErrorConfig<GetUserAsAdmin404 | GetUserAsAdmin409>, GetUserAsAdminQueryResponse, typeof queryKey>({
+        return queryOptions<GetUserAsAdminQueryResponse, ResponseErrorConfig<GetUserAsAdmin403 | GetUserAsAdmin404 | GetUserAsAdmin409>, GetUserAsAdminQueryResponse, typeof queryKey>({
          enabled: !!(id),
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getUserAsAdminQueryOptions(id: GetUserAsAdminPathParams["id"], c
  */
 export function useGetUserAsAdmin<TData = GetUserAsAdminQueryResponse, TQueryData = GetUserAsAdminQueryResponse, TQueryKey extends QueryKey = GetUserAsAdminQueryKey>(id: GetUserAsAdminPathParams["id"], options: 
 {
-  query?: Partial<QueryObserverOptions<GetUserAsAdminQueryResponse, ResponseErrorConfig<GetUserAsAdmin404 | GetUserAsAdmin409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<QueryObserverOptions<GetUserAsAdminQueryResponse, ResponseErrorConfig<GetUserAsAdmin403 | GetUserAsAdmin404 | GetUserAsAdmin409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetUserAsAdmin<TData = GetUserAsAdminQueryResponse, TQueryDat
           ...getUserAsAdminQueryOptions(id, config),
           queryKey,
           ...queryOptions
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetUserAsAdmin404 | GetUserAsAdmin409>> & { queryKey: TQueryKey }
+         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetUserAsAdmin403 | GetUserAsAdmin404 | GetUserAsAdmin409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

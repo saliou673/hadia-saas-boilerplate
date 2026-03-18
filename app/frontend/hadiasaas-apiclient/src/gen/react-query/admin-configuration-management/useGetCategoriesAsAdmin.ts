@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetCategoriesAsAdminQueryResponse, GetCategoriesAsAdmin404, GetCategoriesAsAdmin409 } from "../../types/GetCategoriesAsAdmin.ts";
+import type { GetCategoriesAsAdminQueryResponse, GetCategoriesAsAdmin403, GetCategoriesAsAdmin404, GetCategoriesAsAdmin409 } from "../../types/GetCategoriesAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
 import { getCategoriesAsAdmin } from "../../client/admin-configuration-management/getCategoriesAsAdmin.ts";
@@ -16,7 +16,7 @@ export type GetCategoriesAsAdminQueryKey = ReturnType<typeof getCategoriesAsAdmi
 export function getCategoriesAsAdminQueryOptions(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getCategoriesAsAdminQueryKey()
-        return queryOptions<GetCategoriesAsAdminQueryResponse, ResponseErrorConfig<GetCategoriesAsAdmin404 | GetCategoriesAsAdmin409>, GetCategoriesAsAdminQueryResponse, typeof queryKey>({
+        return queryOptions<GetCategoriesAsAdminQueryResponse, ResponseErrorConfig<GetCategoriesAsAdmin403 | GetCategoriesAsAdmin404 | GetCategoriesAsAdmin409>, GetCategoriesAsAdminQueryResponse, typeof queryKey>({
          
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getCategoriesAsAdminQueryOptions(config: Partial<RequestConfig> 
  */
 export function useGetCategoriesAsAdmin<TData = GetCategoriesAsAdminQueryResponse, TQueryData = GetCategoriesAsAdminQueryResponse, TQueryKey extends QueryKey = GetCategoriesAsAdminQueryKey>(options: 
 {
-  query?: Partial<QueryObserverOptions<GetCategoriesAsAdminQueryResponse, ResponseErrorConfig<GetCategoriesAsAdmin404 | GetCategoriesAsAdmin409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<QueryObserverOptions<GetCategoriesAsAdminQueryResponse, ResponseErrorConfig<GetCategoriesAsAdmin403 | GetCategoriesAsAdmin404 | GetCategoriesAsAdmin409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetCategoriesAsAdmin<TData = GetCategoriesAsAdminQueryRespons
           ...getCategoriesAsAdminQueryOptions(config),
           queryKey,
           ...queryOptions
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetCategoriesAsAdmin404 | GetCategoriesAsAdmin409>> & { queryKey: TQueryKey }
+         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetCategoriesAsAdmin403 | GetCategoriesAsAdmin404 | GetCategoriesAsAdmin409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { CancelUserSubscriptionAsAdminMutationResponse, CancelUserSubscriptionAsAdminPathParams, CancelUserSubscriptionAsAdmin404, CancelUserSubscriptionAsAdmin409 } from "../../types/CancelUserSubscriptionAsAdmin.ts";
+import type { CancelUserSubscriptionAsAdminMutationResponse, CancelUserSubscriptionAsAdminPathParams, CancelUserSubscriptionAsAdmin403, CancelUserSubscriptionAsAdmin404, CancelUserSubscriptionAsAdmin409 } from "../../types/CancelUserSubscriptionAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { cancelUserSubscriptionAsAdmin } from "../../client/admin-subscription-management/cancelUserSubscriptionAsAdmin.ts";
@@ -16,7 +16,7 @@ export type CancelUserSubscriptionAsAdminMutationKey = ReturnType<typeof cancelU
 export function cancelUserSubscriptionAsAdminMutationOptions<TContext = unknown>(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const mutationKey = cancelUserSubscriptionAsAdminMutationKey()
-        return mutationOptions<CancelUserSubscriptionAsAdminMutationResponse, ResponseErrorConfig<CancelUserSubscriptionAsAdmin404 | CancelUserSubscriptionAsAdmin409>, {id: CancelUserSubscriptionAsAdminPathParams["id"]}, TContext>({
+        return mutationOptions<CancelUserSubscriptionAsAdminMutationResponse, ResponseErrorConfig<CancelUserSubscriptionAsAdmin403 | CancelUserSubscriptionAsAdmin404 | CancelUserSubscriptionAsAdmin409>, {id: CancelUserSubscriptionAsAdminPathParams["id"]}, TContext>({
           mutationKey,
           mutationFn: async({ id }) => {
             return cancelUserSubscriptionAsAdmin(id, config)
@@ -30,7 +30,7 @@ export function cancelUserSubscriptionAsAdminMutationOptions<TContext = unknown>
  */
 export function useCancelUserSubscriptionAsAdmin<TContext>(options: 
 {
-  mutation?: UseMutationOptions<CancelUserSubscriptionAsAdminMutationResponse, ResponseErrorConfig<CancelUserSubscriptionAsAdmin404 | CancelUserSubscriptionAsAdmin409>, {id: CancelUserSubscriptionAsAdminPathParams["id"]}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<CancelUserSubscriptionAsAdminMutationResponse, ResponseErrorConfig<CancelUserSubscriptionAsAdmin403 | CancelUserSubscriptionAsAdmin404 | CancelUserSubscriptionAsAdmin409>, {id: CancelUserSubscriptionAsAdminPathParams["id"]}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useCancelUserSubscriptionAsAdmin<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? cancelUserSubscriptionAsAdminMutationKey()
 
-          const baseOptions = cancelUserSubscriptionAsAdminMutationOptions(config) as UseMutationOptions<CancelUserSubscriptionAsAdminMutationResponse, ResponseErrorConfig<CancelUserSubscriptionAsAdmin404 | CancelUserSubscriptionAsAdmin409>, {id: CancelUserSubscriptionAsAdminPathParams["id"]}, TContext>
+          const baseOptions = cancelUserSubscriptionAsAdminMutationOptions(config) as UseMutationOptions<CancelUserSubscriptionAsAdminMutationResponse, ResponseErrorConfig<CancelUserSubscriptionAsAdmin403 | CancelUserSubscriptionAsAdmin404 | CancelUserSubscriptionAsAdmin409>, {id: CancelUserSubscriptionAsAdminPathParams["id"]}, TContext>
           
 
-          return useMutation<CancelUserSubscriptionAsAdminMutationResponse, ResponseErrorConfig<CancelUserSubscriptionAsAdmin404 | CancelUserSubscriptionAsAdmin409>, {id: CancelUserSubscriptionAsAdminPathParams["id"]}, TContext>({
+          return useMutation<CancelUserSubscriptionAsAdminMutationResponse, ResponseErrorConfig<CancelUserSubscriptionAsAdmin403 | CancelUserSubscriptionAsAdmin404 | CancelUserSubscriptionAsAdmin409>, {id: CancelUserSubscriptionAsAdminPathParams["id"]}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<CancelUserSubscriptionAsAdminMutationResponse, ResponseErrorConfig<CancelUserSubscriptionAsAdmin404 | CancelUserSubscriptionAsAdmin409>, {id: CancelUserSubscriptionAsAdminPathParams["id"]}, TContext>
+          }, queryClient) as UseMutationResult<CancelUserSubscriptionAsAdminMutationResponse, ResponseErrorConfig<CancelUserSubscriptionAsAdmin403 | CancelUserSubscriptionAsAdmin404 | CancelUserSubscriptionAsAdmin409>, {id: CancelUserSubscriptionAsAdminPathParams["id"]}, TContext>
       
 }

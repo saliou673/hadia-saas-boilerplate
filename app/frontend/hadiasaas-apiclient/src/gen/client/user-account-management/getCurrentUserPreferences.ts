@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { GetCurrentUserPreferencesQueryResponse, GetCurrentUserPreferences404, GetCurrentUserPreferences409 } from "../../types/GetCurrentUserPreferences.ts";
+import type { GetCurrentUserPreferencesQueryResponse, GetCurrentUserPreferences403, GetCurrentUserPreferences404, GetCurrentUserPreferences409 } from "../../types/GetCurrentUserPreferences.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getGetCurrentUserPreferencesUrl() {
@@ -20,6 +20,6 @@ export async function getCurrentUserPreferences(config: Partial<RequestConfig> &
 
 
 
-  const res = await request<GetCurrentUserPreferencesQueryResponse, ResponseErrorConfig<GetCurrentUserPreferences404 | GetCurrentUserPreferences409>, unknown>({ method : "GET", url : getGetCurrentUserPreferencesUrl().url.toString(), ... requestConfig })
+  const res = await request<GetCurrentUserPreferencesQueryResponse, ResponseErrorConfig<GetCurrentUserPreferences403 | GetCurrentUserPreferences404 | GetCurrentUserPreferences409>, unknown>({ method : "GET", url : getGetCurrentUserPreferencesUrl().url.toString(), ... requestConfig })
   return res.data
 }

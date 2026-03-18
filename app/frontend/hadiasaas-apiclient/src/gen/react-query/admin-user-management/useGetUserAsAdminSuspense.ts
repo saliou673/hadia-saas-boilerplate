@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetUserAsAdminQueryResponse, GetUserAsAdminPathParams, GetUserAsAdmin404, GetUserAsAdmin409 } from "../../types/GetUserAsAdmin.ts";
+import type { GetUserAsAdminQueryResponse, GetUserAsAdminPathParams, GetUserAsAdmin403, GetUserAsAdmin404, GetUserAsAdmin409 } from "../../types/GetUserAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 import { getUserAsAdmin } from "../../client/admin-user-management/getUserAsAdmin.ts";
@@ -16,7 +16,7 @@ export type GetUserAsAdminSuspenseQueryKey = ReturnType<typeof getUserAsAdminSus
 export function getUserAsAdminSuspenseQueryOptions(id: GetUserAsAdminPathParams["id"], config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getUserAsAdminSuspenseQueryKey(id)
-        return queryOptions<GetUserAsAdminQueryResponse, ResponseErrorConfig<GetUserAsAdmin404 | GetUserAsAdmin409>, GetUserAsAdminQueryResponse, typeof queryKey>({
+        return queryOptions<GetUserAsAdminQueryResponse, ResponseErrorConfig<GetUserAsAdmin403 | GetUserAsAdmin404 | GetUserAsAdmin409>, GetUserAsAdminQueryResponse, typeof queryKey>({
          enabled: !!(id),
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getUserAsAdminSuspenseQueryOptions(id: GetUserAsAdminPathParams[
  */
 export function useGetUserAsAdminSuspense<TData = GetUserAsAdminQueryResponse, TQueryKey extends QueryKey = GetUserAsAdminSuspenseQueryKey>(id: GetUserAsAdminPathParams["id"], options: 
 {
-  query?: Partial<UseSuspenseQueryOptions<GetUserAsAdminQueryResponse, ResponseErrorConfig<GetUserAsAdmin404 | GetUserAsAdmin409>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<GetUserAsAdminQueryResponse, ResponseErrorConfig<GetUserAsAdmin403 | GetUserAsAdmin404 | GetUserAsAdmin409>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetUserAsAdminSuspense<TData = GetUserAsAdminQueryResponse, T
           ...getUserAsAdminSuspenseQueryOptions(id, config),
           queryKey,
           ...queryOptions
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetUserAsAdmin404 | GetUserAsAdmin409>> & { queryKey: TQueryKey }
+         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetUserAsAdmin403 | GetUserAsAdmin404 | GetUserAsAdmin409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

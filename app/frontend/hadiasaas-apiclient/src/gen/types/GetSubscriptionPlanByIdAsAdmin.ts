@@ -19,6 +19,11 @@ export type GetSubscriptionPlanByIdAsAdminPathParams = {
 export type GetSubscriptionPlanByIdAsAdmin200 = SubscriptionPlan;
 
 /**
+ * @description Forbidden
+*/
+export type GetSubscriptionPlanByIdAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type GetSubscriptionPlanByIdAsAdmin404 = ValidationErrorResponseDTO;
@@ -33,5 +38,5 @@ export type GetSubscriptionPlanByIdAsAdminQueryResponse = GetSubscriptionPlanByI
 export type GetSubscriptionPlanByIdAsAdminQuery = {
     Response: GetSubscriptionPlanByIdAsAdmin200;
     PathParams: GetSubscriptionPlanByIdAsAdminPathParams;
-    Errors: GetSubscriptionPlanByIdAsAdmin404 | GetSubscriptionPlanByIdAsAdmin409;
+    Errors: GetSubscriptionPlanByIdAsAdmin403 | GetSubscriptionPlanByIdAsAdmin404 | GetSubscriptionPlanByIdAsAdmin409;
 };

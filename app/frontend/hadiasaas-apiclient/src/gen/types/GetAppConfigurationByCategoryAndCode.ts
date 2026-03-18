@@ -9,10 +9,7 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export const getAppConfigurationByCategoryAndCodePathParamsCategoryEnum = {
     CURRENCY: "CURRENCY",
     TWO_FACTOR: "TWO_FACTOR",
-    PAYMENT_MODE: "PAYMENT_MODE",
-    STORAGE: "STORAGE",
-    TAX: "TAX",
-    ENTERPRISE: "ENTERPRISE"
+    PAYMENT_MODE: "PAYMENT_MODE"
 } as const;
 
 export type GetAppConfigurationByCategoryAndCodePathParamsCategoryEnumKey = (typeof getAppConfigurationByCategoryAndCodePathParamsCategoryEnum)[keyof typeof getAppConfigurationByCategoryAndCodePathParamsCategoryEnum];
@@ -34,6 +31,11 @@ export type GetAppConfigurationByCategoryAndCodePathParams = {
 export type GetAppConfigurationByCategoryAndCode200 = AppConfiguration;
 
 /**
+ * @description Forbidden
+*/
+export type GetAppConfigurationByCategoryAndCode403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type GetAppConfigurationByCategoryAndCode404 = ValidationErrorResponseDTO;
@@ -48,5 +50,5 @@ export type GetAppConfigurationByCategoryAndCodeQueryResponse = GetAppConfigurat
 export type GetAppConfigurationByCategoryAndCodeQuery = {
     Response: GetAppConfigurationByCategoryAndCode200;
     PathParams: GetAppConfigurationByCategoryAndCodePathParams;
-    Errors: GetAppConfigurationByCategoryAndCode404 | GetAppConfigurationByCategoryAndCode409;
+    Errors: GetAppConfigurationByCategoryAndCode403 | GetAppConfigurationByCategoryAndCode404 | GetAppConfigurationByCategoryAndCode409;
 };

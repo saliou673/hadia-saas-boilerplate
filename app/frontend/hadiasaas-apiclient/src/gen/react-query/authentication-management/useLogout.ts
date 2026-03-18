@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { LogoutMutationResponse, Logout404, Logout409 } from "../../types/Logout.ts";
+import type { LogoutMutationResponse, Logout403, Logout404, Logout409 } from "../../types/Logout.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { logout } from "../../client/authentication-management/logout.ts";
@@ -16,7 +16,7 @@ export type LogoutMutationKey = ReturnType<typeof logoutMutationKey>
 export function logoutMutationOptions<TContext = unknown>(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const mutationKey = logoutMutationKey()
-        return mutationOptions<LogoutMutationResponse, ResponseErrorConfig<Logout404 | Logout409>, void, TContext>({
+        return mutationOptions<LogoutMutationResponse, ResponseErrorConfig<Logout403 | Logout404 | Logout409>, void, TContext>({
           mutationKey,
           mutationFn: async() => {
             return logout(config)
@@ -30,7 +30,7 @@ export function logoutMutationOptions<TContext = unknown>(config: Partial<Reques
  */
 export function useLogout<TContext>(options: 
 {
-  mutation?: UseMutationOptions<LogoutMutationResponse, ResponseErrorConfig<Logout404 | Logout409>, void, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<LogoutMutationResponse, ResponseErrorConfig<Logout403 | Logout404 | Logout409>, void, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useLogout<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? logoutMutationKey()
 
-          const baseOptions = logoutMutationOptions(config) as UseMutationOptions<LogoutMutationResponse, ResponseErrorConfig<Logout404 | Logout409>, void, TContext>
+          const baseOptions = logoutMutationOptions(config) as UseMutationOptions<LogoutMutationResponse, ResponseErrorConfig<Logout403 | Logout404 | Logout409>, void, TContext>
           
 
-          return useMutation<LogoutMutationResponse, ResponseErrorConfig<Logout404 | Logout409>, void, TContext>({
+          return useMutation<LogoutMutationResponse, ResponseErrorConfig<Logout403 | Logout404 | Logout409>, void, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<LogoutMutationResponse, ResponseErrorConfig<Logout404 | Logout409>, void, TContext>
+          }, queryClient) as UseMutationResult<LogoutMutationResponse, ResponseErrorConfig<Logout403 | Logout404 | Logout409>, void, TContext>
       
 }

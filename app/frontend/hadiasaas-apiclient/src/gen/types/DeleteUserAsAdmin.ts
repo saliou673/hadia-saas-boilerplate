@@ -18,6 +18,11 @@ export type DeleteUserAsAdminPathParams = {
 export type DeleteUserAsAdmin204 = any;
 
 /**
+ * @description Forbidden
+*/
+export type DeleteUserAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type DeleteUserAsAdmin404 = ValidationErrorResponseDTO;
@@ -32,5 +37,5 @@ export type DeleteUserAsAdminMutationResponse = DeleteUserAsAdmin204;
 export type DeleteUserAsAdminMutation = {
     Response: DeleteUserAsAdmin204;
     PathParams: DeleteUserAsAdminPathParams;
-    Errors: DeleteUserAsAdmin404 | DeleteUserAsAdmin409;
+    Errors: DeleteUserAsAdmin403 | DeleteUserAsAdmin404 | DeleteUserAsAdmin409;
 };

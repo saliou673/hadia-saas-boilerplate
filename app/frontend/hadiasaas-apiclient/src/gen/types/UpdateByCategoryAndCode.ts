@@ -10,10 +10,7 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export const updateByCategoryAndCodePathParamsCategoryEnum = {
     CURRENCY: "CURRENCY",
     TWO_FACTOR: "TWO_FACTOR",
-    PAYMENT_MODE: "PAYMENT_MODE",
-    STORAGE: "STORAGE",
-    TAX: "TAX",
-    ENTERPRISE: "ENTERPRISE"
+    PAYMENT_MODE: "PAYMENT_MODE"
 } as const;
 
 export type UpdateByCategoryAndCodePathParamsCategoryEnumKey = (typeof updateByCategoryAndCodePathParamsCategoryEnum)[keyof typeof updateByCategoryAndCodePathParamsCategoryEnum];
@@ -35,6 +32,11 @@ export type UpdateByCategoryAndCodePathParams = {
 export type UpdateByCategoryAndCode200 = AppConfiguration;
 
 /**
+ * @description Forbidden
+*/
+export type UpdateByCategoryAndCode403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type UpdateByCategoryAndCode404 = ValidationErrorResponseDTO;
@@ -52,5 +54,5 @@ export type UpdateByCategoryAndCodeMutation = {
     Response: UpdateByCategoryAndCode200;
     Request: UpdateByCategoryAndCodeMutationRequest;
     PathParams: UpdateByCategoryAndCodePathParams;
-    Errors: UpdateByCategoryAndCode404 | UpdateByCategoryAndCode409;
+    Errors: UpdateByCategoryAndCode403 | UpdateByCategoryAndCode404 | UpdateByCategoryAndCode409;
 };

@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { UpdateDiscountCodeAsAdminMutationRequest, UpdateDiscountCodeAsAdminMutationResponse, UpdateDiscountCodeAsAdminPathParams, UpdateDiscountCodeAsAdmin404, UpdateDiscountCodeAsAdmin409 } from "../../types/UpdateDiscountCodeAsAdmin.ts";
+import type { UpdateDiscountCodeAsAdminMutationRequest, UpdateDiscountCodeAsAdminMutationResponse, UpdateDiscountCodeAsAdminPathParams, UpdateDiscountCodeAsAdmin403, UpdateDiscountCodeAsAdmin404, UpdateDiscountCodeAsAdmin409 } from "../../types/UpdateDiscountCodeAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { updateDiscountCodeAsAdmin } from "../../client/admin-discount-code-management/updateDiscountCodeAsAdmin.ts";
@@ -16,7 +16,7 @@ export type UpdateDiscountCodeAsAdminMutationKey = ReturnType<typeof updateDisco
 export function updateDiscountCodeAsAdminMutationOptions<TContext = unknown>(config: Partial<RequestConfig<UpdateDiscountCodeAsAdminMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = updateDiscountCodeAsAdminMutationKey()
-        return mutationOptions<UpdateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<UpdateDiscountCodeAsAdmin404 | UpdateDiscountCodeAsAdmin409>, {id: UpdateDiscountCodeAsAdminPathParams["id"], data: UpdateDiscountCodeAsAdminMutationRequest}, TContext>({
+        return mutationOptions<UpdateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<UpdateDiscountCodeAsAdmin403 | UpdateDiscountCodeAsAdmin404 | UpdateDiscountCodeAsAdmin409>, {id: UpdateDiscountCodeAsAdminPathParams["id"], data: UpdateDiscountCodeAsAdminMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ id, data }) => {
             return updateDiscountCodeAsAdmin(id, data, config)
@@ -30,7 +30,7 @@ export function updateDiscountCodeAsAdminMutationOptions<TContext = unknown>(con
  */
 export function useUpdateDiscountCodeAsAdmin<TContext>(options: 
 {
-  mutation?: UseMutationOptions<UpdateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<UpdateDiscountCodeAsAdmin404 | UpdateDiscountCodeAsAdmin409>, {id: UpdateDiscountCodeAsAdminPathParams["id"], data: UpdateDiscountCodeAsAdminMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<UpdateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<UpdateDiscountCodeAsAdmin403 | UpdateDiscountCodeAsAdmin404 | UpdateDiscountCodeAsAdmin409>, {id: UpdateDiscountCodeAsAdminPathParams["id"], data: UpdateDiscountCodeAsAdminMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<UpdateDiscountCodeAsAdminMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useUpdateDiscountCodeAsAdmin<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? updateDiscountCodeAsAdminMutationKey()
 
-          const baseOptions = updateDiscountCodeAsAdminMutationOptions(config) as UseMutationOptions<UpdateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<UpdateDiscountCodeAsAdmin404 | UpdateDiscountCodeAsAdmin409>, {id: UpdateDiscountCodeAsAdminPathParams["id"], data: UpdateDiscountCodeAsAdminMutationRequest}, TContext>
+          const baseOptions = updateDiscountCodeAsAdminMutationOptions(config) as UseMutationOptions<UpdateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<UpdateDiscountCodeAsAdmin403 | UpdateDiscountCodeAsAdmin404 | UpdateDiscountCodeAsAdmin409>, {id: UpdateDiscountCodeAsAdminPathParams["id"], data: UpdateDiscountCodeAsAdminMutationRequest}, TContext>
           
 
-          return useMutation<UpdateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<UpdateDiscountCodeAsAdmin404 | UpdateDiscountCodeAsAdmin409>, {id: UpdateDiscountCodeAsAdminPathParams["id"], data: UpdateDiscountCodeAsAdminMutationRequest}, TContext>({
+          return useMutation<UpdateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<UpdateDiscountCodeAsAdmin403 | UpdateDiscountCodeAsAdmin404 | UpdateDiscountCodeAsAdmin409>, {id: UpdateDiscountCodeAsAdminPathParams["id"], data: UpdateDiscountCodeAsAdminMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<UpdateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<UpdateDiscountCodeAsAdmin404 | UpdateDiscountCodeAsAdmin409>, {id: UpdateDiscountCodeAsAdminPathParams["id"], data: UpdateDiscountCodeAsAdminMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<UpdateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<UpdateDiscountCodeAsAdmin403 | UpdateDiscountCodeAsAdmin404 | UpdateDiscountCodeAsAdmin409>, {id: UpdateDiscountCodeAsAdminPathParams["id"], data: UpdateDiscountCodeAsAdminMutationRequest}, TContext>
       
 }

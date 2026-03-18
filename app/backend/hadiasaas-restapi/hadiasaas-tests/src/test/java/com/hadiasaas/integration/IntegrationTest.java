@@ -10,8 +10,10 @@ import com.hadiasaas.domain.models.auth.TwoFactorMethodType;
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.EmbeddableCredentials;
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.EmbeddableUserInfo;
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.RoleGroupEntity;
+import com.hadiasaas.infrastructure.adapter.out.persistence.entity.SecuritySettingsEntity;
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.UserEntity;
 import com.hadiasaas.infrastructure.adapter.out.persistence.repository.RoleGroupRepository;
+import com.hadiasaas.infrastructure.adapter.out.persistence.repository.SecuritySettingsRepository;
 import com.hadiasaas.infrastructure.adapter.out.persistence.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,9 @@ public class IntegrationTest {
     protected RoleGroupRepository roleGroupRepository;
 
     @Autowired
+    protected SecuritySettingsRepository securitySettingsRepository;
+
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
@@ -65,7 +70,7 @@ public class IntegrationTest {
         // Truncate all transient tables in one shot; CASCADE handles FK-dependent tables
         // (app_user_role_group, refresh_token, two_factor_challenge, stamp, transaction).
         jdbcTemplate.execute(
-                "TRUNCATE TABLE app_user, user_preference, app_configuration, subscription_plan, user_subscription, discount_code RESTART IDENTITY CASCADE"
+                "TRUNCATE TABLE app_user, user_preference, app_configuration, subscription_plan, user_subscription, discount_code, app_security_settings RESTART IDENTITY CASCADE"
         );
         // role_group holds both seed data (last_updated_by='system') and test-created rows.
         // Delete only the test rows; ON DELETE CASCADE handles role_group_permission automatically.
@@ -73,6 +78,15 @@ public class IntegrationTest {
     }
 
     protected <T> T get(String url, TypeReference<T> responseType, ResultMatcher... matchers) throws Exception {
+        String response = mockMvc.perform(MockMvcRequestBuilders.get(url)).andExpectAll(matchers).andReturn().getResponse().getContentAsString();
+        if (response.isEmpty()) {
+            return null;
+        }
+
+        return objectMapper.readValue(response, responseType);
+    }
+
+    protected <T> T get(String url, Class<T> responseType, ResultMatcher... matchers) throws Exception {
         String response = mockMvc.perform(MockMvcRequestBuilders.get(url)).andExpectAll(matchers).andReturn().getResponse().getContentAsString();
         if (response.isEmpty()) {
             return null;
@@ -413,6 +427,14 @@ public class IntegrationTest {
                 resetCode,
                 resetDate
         );
+    }
+
+    protected void enableGlobalTwoFactorRequirement() {
+        SecuritySettingsEntity entity = new SecuritySettingsEntity(null, true);
+        entity.setCreationDate(Instant.now());
+        entity.setLastUpdateDate(Instant.now());
+        entity.setLastUpdatedBy("test");
+        securitySettingsRepository.save(entity);
     }
 
     private void forceUserCreationDate(Long userId, Instant creationDate) {

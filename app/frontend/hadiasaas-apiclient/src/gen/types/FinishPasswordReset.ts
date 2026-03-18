@@ -12,6 +12,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type FinishPasswordReset200 = any;
 
 /**
+ * @description Forbidden
+*/
+export type FinishPasswordReset403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type FinishPasswordReset404 = ValidationErrorResponseDTO;
@@ -28,5 +33,5 @@ export type FinishPasswordResetMutationResponse = FinishPasswordReset200;
 export type FinishPasswordResetMutation = {
     Response: FinishPasswordReset200;
     Request: FinishPasswordResetMutationRequest;
-    Errors: FinishPasswordReset404 | FinishPasswordReset409;
+    Errors: FinishPasswordReset403 | FinishPasswordReset404 | FinishPasswordReset409;
 };

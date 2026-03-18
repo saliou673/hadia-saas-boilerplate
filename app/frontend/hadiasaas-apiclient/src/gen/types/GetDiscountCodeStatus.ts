@@ -19,6 +19,11 @@ export type GetDiscountCodeStatusPathParams = {
 export type GetDiscountCodeStatus200 = DiscountCodeStatusResponse;
 
 /**
+ * @description Forbidden
+*/
+export type GetDiscountCodeStatus403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type GetDiscountCodeStatus404 = ValidationErrorResponseDTO;
@@ -33,5 +38,5 @@ export type GetDiscountCodeStatusQueryResponse = GetDiscountCodeStatus200;
 export type GetDiscountCodeStatusQuery = {
     Response: GetDiscountCodeStatus200;
     PathParams: GetDiscountCodeStatusPathParams;
-    Errors: GetDiscountCodeStatus404 | GetDiscountCodeStatus409;
+    Errors: GetDiscountCodeStatus403 | GetDiscountCodeStatus404 | GetDiscountCodeStatus409;
 };

@@ -12,6 +12,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type CreatePublicUserAccount201 = any;
 
 /**
+ * @description Forbidden
+*/
+export type CreatePublicUserAccount403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type CreatePublicUserAccount404 = ValidationErrorResponseDTO;
@@ -28,5 +33,5 @@ export type CreatePublicUserAccountMutationResponse = CreatePublicUserAccount201
 export type CreatePublicUserAccountMutation = {
     Response: CreatePublicUserAccount201;
     Request: CreatePublicUserAccountMutationRequest;
-    Errors: CreatePublicUserAccount404 | CreatePublicUserAccount409;
+    Errors: CreatePublicUserAccount403 | CreatePublicUserAccount404 | CreatePublicUserAccount409;
 };

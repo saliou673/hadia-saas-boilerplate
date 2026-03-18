@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { DeleteUserAsAdminMutationResponse, DeleteUserAsAdminPathParams, DeleteUserAsAdmin404, DeleteUserAsAdmin409 } from "../../types/DeleteUserAsAdmin.ts";
+import type { DeleteUserAsAdminMutationResponse, DeleteUserAsAdminPathParams, DeleteUserAsAdmin403, DeleteUserAsAdmin404, DeleteUserAsAdmin409 } from "../../types/DeleteUserAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { deleteUserAsAdmin } from "../../client/admin-user-management/deleteUserAsAdmin.ts";
@@ -16,7 +16,7 @@ export type DeleteUserAsAdminMutationKey = ReturnType<typeof deleteUserAsAdminMu
 export function deleteUserAsAdminMutationOptions<TContext = unknown>(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const mutationKey = deleteUserAsAdminMutationKey()
-        return mutationOptions<DeleteUserAsAdminMutationResponse, ResponseErrorConfig<DeleteUserAsAdmin404 | DeleteUserAsAdmin409>, {id: DeleteUserAsAdminPathParams["id"]}, TContext>({
+        return mutationOptions<DeleteUserAsAdminMutationResponse, ResponseErrorConfig<DeleteUserAsAdmin403 | DeleteUserAsAdmin404 | DeleteUserAsAdmin409>, {id: DeleteUserAsAdminPathParams["id"]}, TContext>({
           mutationKey,
           mutationFn: async({ id }) => {
             return deleteUserAsAdmin(id, config)
@@ -30,7 +30,7 @@ export function deleteUserAsAdminMutationOptions<TContext = unknown>(config: Par
  */
 export function useDeleteUserAsAdmin<TContext>(options: 
 {
-  mutation?: UseMutationOptions<DeleteUserAsAdminMutationResponse, ResponseErrorConfig<DeleteUserAsAdmin404 | DeleteUserAsAdmin409>, {id: DeleteUserAsAdminPathParams["id"]}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<DeleteUserAsAdminMutationResponse, ResponseErrorConfig<DeleteUserAsAdmin403 | DeleteUserAsAdmin404 | DeleteUserAsAdmin409>, {id: DeleteUserAsAdminPathParams["id"]}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useDeleteUserAsAdmin<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? deleteUserAsAdminMutationKey()
 
-          const baseOptions = deleteUserAsAdminMutationOptions(config) as UseMutationOptions<DeleteUserAsAdminMutationResponse, ResponseErrorConfig<DeleteUserAsAdmin404 | DeleteUserAsAdmin409>, {id: DeleteUserAsAdminPathParams["id"]}, TContext>
+          const baseOptions = deleteUserAsAdminMutationOptions(config) as UseMutationOptions<DeleteUserAsAdminMutationResponse, ResponseErrorConfig<DeleteUserAsAdmin403 | DeleteUserAsAdmin404 | DeleteUserAsAdmin409>, {id: DeleteUserAsAdminPathParams["id"]}, TContext>
           
 
-          return useMutation<DeleteUserAsAdminMutationResponse, ResponseErrorConfig<DeleteUserAsAdmin404 | DeleteUserAsAdmin409>, {id: DeleteUserAsAdminPathParams["id"]}, TContext>({
+          return useMutation<DeleteUserAsAdminMutationResponse, ResponseErrorConfig<DeleteUserAsAdmin403 | DeleteUserAsAdmin404 | DeleteUserAsAdmin409>, {id: DeleteUserAsAdminPathParams["id"]}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<DeleteUserAsAdminMutationResponse, ResponseErrorConfig<DeleteUserAsAdmin404 | DeleteUserAsAdmin409>, {id: DeleteUserAsAdminPathParams["id"]}, TContext>
+          }, queryClient) as UseMutationResult<DeleteUserAsAdminMutationResponse, ResponseErrorConfig<DeleteUserAsAdmin403 | DeleteUserAsAdmin404 | DeleteUserAsAdmin409>, {id: DeleteUserAsAdminPathParams["id"]}, TContext>
       
 }

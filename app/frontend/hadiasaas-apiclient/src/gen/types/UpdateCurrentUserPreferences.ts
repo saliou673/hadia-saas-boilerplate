@@ -12,6 +12,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type UpdateCurrentUserPreferences200 = UserPreferences;
 
 /**
+ * @description Forbidden
+*/
+export type UpdateCurrentUserPreferences403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type UpdateCurrentUserPreferences404 = ValidationErrorResponseDTO;
@@ -28,5 +33,5 @@ export type UpdateCurrentUserPreferencesMutationResponse = UpdateCurrentUserPref
 export type UpdateCurrentUserPreferencesMutation = {
     Response: UpdateCurrentUserPreferences200;
     Request: UpdateCurrentUserPreferencesMutationRequest;
-    Errors: UpdateCurrentUserPreferences404 | UpdateCurrentUserPreferences409;
+    Errors: UpdateCurrentUserPreferences403 | UpdateCurrentUserPreferences404 | UpdateCurrentUserPreferences409;
 };

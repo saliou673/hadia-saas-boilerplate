@@ -25,6 +25,11 @@ export type GetAppConfigurationsQueryParams = {
 export type GetAppConfigurations200 = PaginatedResultAppConfiguration;
 
 /**
+ * @description Forbidden
+*/
+export type GetAppConfigurations403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type GetAppConfigurations404 = ValidationErrorResponseDTO;
@@ -39,5 +44,5 @@ export type GetAppConfigurationsQueryResponse = GetAppConfigurations200;
 export type GetAppConfigurationsQuery = {
     Response: GetAppConfigurations200;
     QueryParams: GetAppConfigurationsQueryParams;
-    Errors: GetAppConfigurations404 | GetAppConfigurations409;
+    Errors: GetAppConfigurations403 | GetAppConfigurations404 | GetAppConfigurations409;
 };

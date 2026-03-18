@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { SubscribeToPlanMutationRequest, SubscribeToPlanMutationResponse, SubscribeToPlan404, SubscribeToPlan409 } from "../../types/SubscribeToPlan.ts";
+import type { SubscribeToPlanMutationRequest, SubscribeToPlanMutationResponse, SubscribeToPlan403, SubscribeToPlan404, SubscribeToPlan409 } from "../../types/SubscribeToPlan.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getSubscribeToPlanUrl() {
@@ -20,6 +20,6 @@ export async function subscribeToPlan(data: SubscribeToPlanMutationRequest, conf
 
   const requestData = data
 
-  const res = await request<SubscribeToPlanMutationResponse, ResponseErrorConfig<SubscribeToPlan404 | SubscribeToPlan409>, SubscribeToPlanMutationRequest>({ method : "POST", url : getSubscribeToPlanUrl().url.toString(), data : requestData, ... requestConfig })
+  const res = await request<SubscribeToPlanMutationResponse, ResponseErrorConfig<SubscribeToPlan403 | SubscribeToPlan404 | SubscribeToPlan409>, SubscribeToPlanMutationRequest>({ method : "POST", url : getSubscribeToPlanUrl().url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

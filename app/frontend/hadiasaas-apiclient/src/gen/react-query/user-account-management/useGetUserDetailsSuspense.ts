@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetUserDetailsQueryResponse, GetUserDetails404, GetUserDetails409 } from "../../types/GetUserDetails.ts";
+import type { GetUserDetailsQueryResponse, GetUserDetails403, GetUserDetails404, GetUserDetails409 } from "../../types/GetUserDetails.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 import { getUserDetails } from "../../client/user-account-management/getUserDetails.ts";
@@ -16,7 +16,7 @@ export type GetUserDetailsSuspenseQueryKey = ReturnType<typeof getUserDetailsSus
 export function getUserDetailsSuspenseQueryOptions(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getUserDetailsSuspenseQueryKey()
-        return queryOptions<GetUserDetailsQueryResponse, ResponseErrorConfig<GetUserDetails404 | GetUserDetails409>, GetUserDetailsQueryResponse, typeof queryKey>({
+        return queryOptions<GetUserDetailsQueryResponse, ResponseErrorConfig<GetUserDetails403 | GetUserDetails404 | GetUserDetails409>, GetUserDetailsQueryResponse, typeof queryKey>({
          
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getUserDetailsSuspenseQueryOptions(config: Partial<RequestConfig
  */
 export function useGetUserDetailsSuspense<TData = GetUserDetailsQueryResponse, TQueryKey extends QueryKey = GetUserDetailsSuspenseQueryKey>(options: 
 {
-  query?: Partial<UseSuspenseQueryOptions<GetUserDetailsQueryResponse, ResponseErrorConfig<GetUserDetails404 | GetUserDetails409>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<GetUserDetailsQueryResponse, ResponseErrorConfig<GetUserDetails403 | GetUserDetails404 | GetUserDetails409>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetUserDetailsSuspense<TData = GetUserDetailsQueryResponse, T
           ...getUserDetailsSuspenseQueryOptions(config),
           queryKey,
           ...queryOptions
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetUserDetails404 | GetUserDetails409>> & { queryKey: TQueryKey }
+         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetUserDetails403 | GetUserDetails404 | GetUserDetails409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

@@ -13,6 +13,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type CreateUserAsAdmin201 = UserDetails;
 
 /**
+ * @description Forbidden
+*/
+export type CreateUserAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type CreateUserAsAdmin404 = ValidationErrorResponseDTO;
@@ -29,5 +34,5 @@ export type CreateUserAsAdminMutationResponse = CreateUserAsAdmin201;
 export type CreateUserAsAdminMutation = {
     Response: CreateUserAsAdmin201;
     Request: CreateUserAsAdminMutationRequest;
-    Errors: CreateUserAsAdmin404 | CreateUserAsAdmin409;
+    Errors: CreateUserAsAdmin403 | CreateUserAsAdmin404 | CreateUserAsAdmin409;
 };

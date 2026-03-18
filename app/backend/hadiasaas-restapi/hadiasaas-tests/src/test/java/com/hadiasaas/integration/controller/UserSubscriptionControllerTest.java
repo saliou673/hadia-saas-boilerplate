@@ -10,12 +10,18 @@ import com.hadiasaas.infrastructure.adapter.out.payment.StripePaymentGatewayAdap
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.AppConfigurationEntity;
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.DiscountCodeEntity;
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.EmbeddableUserInfo;
+import com.hadiasaas.infrastructure.adapter.out.persistence.entity.EnterpriseProfileEntity;
+import com.hadiasaas.infrastructure.adapter.out.persistence.entity.StorageSettingsEntity;
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.SubscriptionPlanEntity;
+import com.hadiasaas.infrastructure.adapter.out.persistence.entity.TaxConfigurationEntity;
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.UserEntity;
 import com.hadiasaas.infrastructure.adapter.out.persistence.entity.UserSubscriptionEntity;
 import com.hadiasaas.infrastructure.adapter.out.persistence.repository.AppConfigurationRepository;
 import com.hadiasaas.infrastructure.adapter.out.persistence.repository.DiscountCodeRepository;
+import com.hadiasaas.infrastructure.adapter.out.persistence.repository.EnterpriseProfileRepository;
+import com.hadiasaas.infrastructure.adapter.out.persistence.repository.StorageSettingsRepository;
 import com.hadiasaas.infrastructure.adapter.out.persistence.repository.SubscriptionPlanRepository;
+import com.hadiasaas.infrastructure.adapter.out.persistence.repository.TaxConfigurationRepository;
 import com.hadiasaas.infrastructure.adapter.out.persistence.repository.UserSubscriptionRepository;
 import com.hadiasaas.infrastructure.adapter.out.query.PaginatedResult;
 import com.hadiasaas.integration.IntegrationTest;
@@ -68,6 +74,15 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     private AppConfigurationRepository appConfigurationRepository;
 
     @Autowired
+    private TaxConfigurationRepository taxConfigurationRepository;
+
+    @Autowired
+    private StorageSettingsRepository storageSettingsRepository;
+
+    @Autowired
+    private EnterpriseProfileRepository enterpriseProfileRepository;
+
+    @Autowired
     private DiscountCodeRepository discountCodeRepository;
 
     @Autowired
@@ -100,11 +115,8 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     void seedData() {
         createCurrency(CURRENCY_CODE);
         createPaymentMode(PAYMENT_MODE);
-        createEnterpriseConfiguration("NAME", "Hadia SaaS");
-        createEnterpriseConfiguration("ADDRESS", "10 Rue de Paris, 75000 Paris");
-        createEnterpriseConfiguration("PHONE_NUMBER", "+33 1 23 45 67 89");
-        createEnterpriseConfiguration("EMAIL", "contact@hadiasaas.com");
-        createTaxConfiguration("20");
+        createEnterpriseProfile();
+        createTaxConfiguration(new BigDecimal("0.20"));
         when(stripePaymentGatewayAdapter.getModeCode()).thenReturn(PAYMENT_MODE);
         when(stripePaymentGatewayAdapter.process(any())).thenReturn(PaymentResult.success("stripe_test_payment"));
         when(s3Client.putObject(org.mockito.ArgumentMatchers.<PutObjectRequest>any(), org.mockito.ArgumentMatchers.<RequestBody>any()))
@@ -164,7 +176,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @WithMockUser(username = DEFAULT_USER_EMAIL)
     void shouldStoreBillInAwsWhenAwsStrategyIsConfigured() throws Exception {
         createDefaultUser();
-        createStorageConfiguration("AWS", true);
+        createStorageSettings(StorageProvider.AWS_S3, "test-bucket", true);
         SubscriptionPlanEntity plan = createPlan("Multi Plan", new BigDecimal("9.99"), new BigDecimal("89.99"), null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
 
         post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), UserSubscriptionDTO.class, status().isCreated());
@@ -194,8 +206,7 @@ class UserSubscriptionControllerTest extends IntegrationTest {
     @WithMockUser(username = DEFAULT_USER_EMAIL)
     void shouldApplyZeroTaxWhenTaxConfigurationIsMissing() throws Exception {
         createDefaultUser();
-        appConfigurationRepository.findByCategoryAndCode(AppConfigurationCategory.TAX, "RATE")
-                .ifPresent(appConfigurationRepository::delete);
+        taxConfigurationRepository.deleteAll();
         SubscriptionPlanEntity plan = createPlan("No Tax Plan", new BigDecimal("10.00"), null, null, null, null, CURRENCY_CODE, true, SubscriptionPlanType.ONLINE_TRAINING);
 
         UserSubscriptionDTO result = post(API, new SubscribeRequest(plan.getId(), PAYMENT_MODE, SubscriptionBillingFrequency.MONTHLY, null), UserSubscriptionDTO.class, status().isCreated());
@@ -463,28 +474,32 @@ class UserSubscriptionControllerTest extends IntegrationTest {
         appConfigurationRepository.save(entity);
     }
 
-    private void createStorageConfiguration(String code, boolean active) {
-        AppConfigurationEntity entity = new AppConfigurationEntity(null, AppConfigurationCategory.STORAGE, code, code, null, active);
+    private void createStorageSettings(StorageProvider provider, String bucketName, boolean active) {
+        StorageSettingsEntity entity = new StorageSettingsEntity(null, provider, bucketName, null, null, active);
         entity.setCreationDate(Instant.now());
         entity.setLastUpdateDate(Instant.now());
         entity.setLastUpdatedBy("test");
-        appConfigurationRepository.save(entity);
+        storageSettingsRepository.save(entity);
     }
 
-    private void createEnterpriseConfiguration(String code, String value) {
-        AppConfigurationEntity entity = new AppConfigurationEntity(null, AppConfigurationCategory.ENTERPRISE, code, value, null, true);
+    private void createEnterpriseProfile() {
+        EnterpriseProfileEntity entity = new EnterpriseProfileEntity(
+                null, "Hadia SaaS", null, null, null,
+                "10 Rue de Paris, 75000 Paris", null, null, null, null,
+                "+33 1 23 45 67 89", "contact@hadiasaas.com", null, null
+        );
         entity.setCreationDate(Instant.now());
         entity.setLastUpdateDate(Instant.now());
         entity.setLastUpdatedBy("test");
-        appConfigurationRepository.save(entity);
+        enterpriseProfileRepository.save(entity);
     }
 
-    private void createTaxConfiguration(String taxRate) {
-        AppConfigurationEntity entity = new AppConfigurationEntity(null, AppConfigurationCategory.TAX, "RATE", taxRate, null, true);
+    private void createTaxConfiguration(BigDecimal rate) {
+        TaxConfigurationEntity entity = new TaxConfigurationEntity(null, "VAT", "VAT", rate, null, true);
         entity.setCreationDate(Instant.now());
         entity.setLastUpdateDate(Instant.now());
         entity.setLastUpdatedBy("test");
-        appConfigurationRepository.save(entity);
+        taxConfigurationRepository.save(entity);
     }
 
     private void updateUserLanguage(UserEntity user, String languageKey) {

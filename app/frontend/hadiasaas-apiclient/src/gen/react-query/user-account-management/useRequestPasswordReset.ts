@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { RequestPasswordResetMutationRequest, RequestPasswordResetMutationResponse, RequestPasswordReset404, RequestPasswordReset409 } from "../../types/RequestPasswordReset.ts";
+import type { RequestPasswordResetMutationRequest, RequestPasswordResetMutationResponse, RequestPasswordReset403, RequestPasswordReset404, RequestPasswordReset409 } from "../../types/RequestPasswordReset.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { requestPasswordReset } from "../../client/user-account-management/requestPasswordReset.ts";
@@ -16,7 +16,7 @@ export type RequestPasswordResetMutationKey = ReturnType<typeof requestPasswordR
 export function requestPasswordResetMutationOptions<TContext = unknown>(config: Partial<RequestConfig<RequestPasswordResetMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = requestPasswordResetMutationKey()
-        return mutationOptions<RequestPasswordResetMutationResponse, ResponseErrorConfig<RequestPasswordReset404 | RequestPasswordReset409>, {data: RequestPasswordResetMutationRequest}, TContext>({
+        return mutationOptions<RequestPasswordResetMutationResponse, ResponseErrorConfig<RequestPasswordReset403 | RequestPasswordReset404 | RequestPasswordReset409>, {data: RequestPasswordResetMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return requestPasswordReset(data, config)
@@ -30,7 +30,7 @@ export function requestPasswordResetMutationOptions<TContext = unknown>(config: 
  */
 export function useRequestPasswordReset<TContext>(options: 
 {
-  mutation?: UseMutationOptions<RequestPasswordResetMutationResponse, ResponseErrorConfig<RequestPasswordReset404 | RequestPasswordReset409>, {data: RequestPasswordResetMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<RequestPasswordResetMutationResponse, ResponseErrorConfig<RequestPasswordReset403 | RequestPasswordReset404 | RequestPasswordReset409>, {data: RequestPasswordResetMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<RequestPasswordResetMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useRequestPasswordReset<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? requestPasswordResetMutationKey()
 
-          const baseOptions = requestPasswordResetMutationOptions(config) as UseMutationOptions<RequestPasswordResetMutationResponse, ResponseErrorConfig<RequestPasswordReset404 | RequestPasswordReset409>, {data: RequestPasswordResetMutationRequest}, TContext>
+          const baseOptions = requestPasswordResetMutationOptions(config) as UseMutationOptions<RequestPasswordResetMutationResponse, ResponseErrorConfig<RequestPasswordReset403 | RequestPasswordReset404 | RequestPasswordReset409>, {data: RequestPasswordResetMutationRequest}, TContext>
           
 
-          return useMutation<RequestPasswordResetMutationResponse, ResponseErrorConfig<RequestPasswordReset404 | RequestPasswordReset409>, {data: RequestPasswordResetMutationRequest}, TContext>({
+          return useMutation<RequestPasswordResetMutationResponse, ResponseErrorConfig<RequestPasswordReset403 | RequestPasswordReset404 | RequestPasswordReset409>, {data: RequestPasswordResetMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<RequestPasswordResetMutationResponse, ResponseErrorConfig<RequestPasswordReset404 | RequestPasswordReset409>, {data: RequestPasswordResetMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<RequestPasswordResetMutationResponse, ResponseErrorConfig<RequestPasswordReset403 | RequestPasswordReset404 | RequestPasswordReset409>, {data: RequestPasswordResetMutationRequest}, TContext>
       
 }

@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { UpdateCurrentUserPreferencesMutationRequest, UpdateCurrentUserPreferencesMutationResponse, UpdateCurrentUserPreferences404, UpdateCurrentUserPreferences409 } from "../../types/UpdateCurrentUserPreferences.ts";
+import type { UpdateCurrentUserPreferencesMutationRequest, UpdateCurrentUserPreferencesMutationResponse, UpdateCurrentUserPreferences403, UpdateCurrentUserPreferences404, UpdateCurrentUserPreferences409 } from "../../types/UpdateCurrentUserPreferences.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getUpdateCurrentUserPreferencesUrl() {
@@ -20,6 +20,6 @@ export async function updateCurrentUserPreferences(data: UpdateCurrentUserPrefer
 
   const requestData = data
 
-  const res = await request<UpdateCurrentUserPreferencesMutationResponse, ResponseErrorConfig<UpdateCurrentUserPreferences404 | UpdateCurrentUserPreferences409>, UpdateCurrentUserPreferencesMutationRequest>({ method : "PUT", url : getUpdateCurrentUserPreferencesUrl().url.toString(), data : requestData, ... requestConfig })
+  const res = await request<UpdateCurrentUserPreferencesMutationResponse, ResponseErrorConfig<UpdateCurrentUserPreferences403 | UpdateCurrentUserPreferences404 | UpdateCurrentUserPreferences409>, UpdateCurrentUserPreferencesMutationRequest>({ method : "PUT", url : getUpdateCurrentUserPreferencesUrl().url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

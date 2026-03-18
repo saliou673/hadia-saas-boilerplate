@@ -25,6 +25,11 @@ export type GetAppConfigurationsAsAdminQueryParams = {
 export type GetAppConfigurationsAsAdmin200 = PaginatedResultAppConfiguration;
 
 /**
+ * @description Forbidden
+*/
+export type GetAppConfigurationsAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type GetAppConfigurationsAsAdmin404 = ValidationErrorResponseDTO;
@@ -39,5 +44,5 @@ export type GetAppConfigurationsAsAdminQueryResponse = GetAppConfigurationsAsAdm
 export type GetAppConfigurationsAsAdminQuery = {
     Response: GetAppConfigurationsAsAdmin200;
     QueryParams: GetAppConfigurationsAsAdminQueryParams;
-    Errors: GetAppConfigurationsAsAdmin404 | GetAppConfigurationsAsAdmin409;
+    Errors: GetAppConfigurationsAsAdmin403 | GetAppConfigurationsAsAdmin404 | GetAppConfigurationsAsAdmin409;
 };

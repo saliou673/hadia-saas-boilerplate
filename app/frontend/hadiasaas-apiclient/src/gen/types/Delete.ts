@@ -18,6 +18,11 @@ export type DeletePathParams = {
 export type Delete204 = any;
 
 /**
+ * @description Forbidden
+*/
+export type Delete403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type Delete404 = ValidationErrorResponseDTO;
@@ -32,5 +37,5 @@ export type DeleteMutationResponse = Delete204;
 export type DeleteMutation = {
     Response: Delete204;
     PathParams: DeletePathParams;
-    Errors: Delete404 | Delete409;
+    Errors: Delete403 | Delete404 | Delete409;
 };

@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { RecoverAccountMutationRequest, RecoverAccountMutationResponse, RecoverAccount404, RecoverAccount409 } from "../../types/RecoverAccount.ts";
+import type { RecoverAccountMutationRequest, RecoverAccountMutationResponse, RecoverAccount403, RecoverAccount404, RecoverAccount409 } from "../../types/RecoverAccount.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { recoverAccount } from "../../client/user-account-management/recoverAccount.ts";
@@ -16,7 +16,7 @@ export type RecoverAccountMutationKey = ReturnType<typeof recoverAccountMutation
 export function recoverAccountMutationOptions<TContext = unknown>(config: Partial<RequestConfig<RecoverAccountMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = recoverAccountMutationKey()
-        return mutationOptions<RecoverAccountMutationResponse, ResponseErrorConfig<RecoverAccount404 | RecoverAccount409>, {data: RecoverAccountMutationRequest}, TContext>({
+        return mutationOptions<RecoverAccountMutationResponse, ResponseErrorConfig<RecoverAccount403 | RecoverAccount404 | RecoverAccount409>, {data: RecoverAccountMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return recoverAccount(data, config)
@@ -30,7 +30,7 @@ export function recoverAccountMutationOptions<TContext = unknown>(config: Partia
  */
 export function useRecoverAccount<TContext>(options: 
 {
-  mutation?: UseMutationOptions<RecoverAccountMutationResponse, ResponseErrorConfig<RecoverAccount404 | RecoverAccount409>, {data: RecoverAccountMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<RecoverAccountMutationResponse, ResponseErrorConfig<RecoverAccount403 | RecoverAccount404 | RecoverAccount409>, {data: RecoverAccountMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<RecoverAccountMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useRecoverAccount<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? recoverAccountMutationKey()
 
-          const baseOptions = recoverAccountMutationOptions(config) as UseMutationOptions<RecoverAccountMutationResponse, ResponseErrorConfig<RecoverAccount404 | RecoverAccount409>, {data: RecoverAccountMutationRequest}, TContext>
+          const baseOptions = recoverAccountMutationOptions(config) as UseMutationOptions<RecoverAccountMutationResponse, ResponseErrorConfig<RecoverAccount403 | RecoverAccount404 | RecoverAccount409>, {data: RecoverAccountMutationRequest}, TContext>
           
 
-          return useMutation<RecoverAccountMutationResponse, ResponseErrorConfig<RecoverAccount404 | RecoverAccount409>, {data: RecoverAccountMutationRequest}, TContext>({
+          return useMutation<RecoverAccountMutationResponse, ResponseErrorConfig<RecoverAccount403 | RecoverAccount404 | RecoverAccount409>, {data: RecoverAccountMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<RecoverAccountMutationResponse, ResponseErrorConfig<RecoverAccount404 | RecoverAccount409>, {data: RecoverAccountMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<RecoverAccountMutationResponse, ResponseErrorConfig<RecoverAccount403 | RecoverAccount404 | RecoverAccount409>, {data: RecoverAccountMutationRequest}, TContext>
       
 }

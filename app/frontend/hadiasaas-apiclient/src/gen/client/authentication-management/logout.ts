@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { LogoutMutationResponse, Logout404, Logout409 } from "../../types/Logout.ts";
+import type { LogoutMutationResponse, Logout403, Logout404, Logout409 } from "../../types/Logout.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getLogoutUrl() {
@@ -20,6 +20,6 @@ export async function logout(config: Partial<RequestConfig> & { client?: Client 
 
 
 
-  const res = await request<LogoutMutationResponse, ResponseErrorConfig<Logout404 | Logout409>, unknown>({ method : "POST", url : getLogoutUrl().url.toString(), ... requestConfig })
+  const res = await request<LogoutMutationResponse, ResponseErrorConfig<Logout403 | Logout404 | Logout409>, unknown>({ method : "POST", url : getLogoutUrl().url.toString(), ... requestConfig })
   return res.data
 }

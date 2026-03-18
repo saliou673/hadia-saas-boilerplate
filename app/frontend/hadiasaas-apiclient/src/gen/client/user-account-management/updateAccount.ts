@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { UpdateAccountMutationRequest, UpdateAccountMutationResponse, UpdateAccount404, UpdateAccount409 } from "../../types/UpdateAccount.ts";
+import type { UpdateAccountMutationRequest, UpdateAccountMutationResponse, UpdateAccount403, UpdateAccount404, UpdateAccount409 } from "../../types/UpdateAccount.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getUpdateAccountUrl() {
@@ -20,6 +20,6 @@ export async function updateAccount(data: UpdateAccountMutationRequest, config: 
 
   const requestData = data
 
-  const res = await request<UpdateAccountMutationResponse, ResponseErrorConfig<UpdateAccount404 | UpdateAccount409>, UpdateAccountMutationRequest>({ method : "PUT", url : getUpdateAccountUrl().url.toString(), data : requestData, ... requestConfig })
+  const res = await request<UpdateAccountMutationResponse, ResponseErrorConfig<UpdateAccount403 | UpdateAccount404 | UpdateAccount409>, UpdateAccountMutationRequest>({ method : "PUT", url : getUpdateAccountUrl().url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { CreateDiscountCodeAsAdminMutationRequest, CreateDiscountCodeAsAdminMutationResponse, CreateDiscountCodeAsAdmin404, CreateDiscountCodeAsAdmin409 } from "../../types/CreateDiscountCodeAsAdmin.ts";
+import type { CreateDiscountCodeAsAdminMutationRequest, CreateDiscountCodeAsAdminMutationResponse, CreateDiscountCodeAsAdmin403, CreateDiscountCodeAsAdmin404, CreateDiscountCodeAsAdmin409 } from "../../types/CreateDiscountCodeAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { createDiscountCodeAsAdmin } from "../../client/admin-discount-code-management/createDiscountCodeAsAdmin.ts";
@@ -16,7 +16,7 @@ export type CreateDiscountCodeAsAdminMutationKey = ReturnType<typeof createDisco
 export function createDiscountCodeAsAdminMutationOptions<TContext = unknown>(config: Partial<RequestConfig<CreateDiscountCodeAsAdminMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = createDiscountCodeAsAdminMutationKey()
-        return mutationOptions<CreateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<CreateDiscountCodeAsAdmin404 | CreateDiscountCodeAsAdmin409>, {data: CreateDiscountCodeAsAdminMutationRequest}, TContext>({
+        return mutationOptions<CreateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<CreateDiscountCodeAsAdmin403 | CreateDiscountCodeAsAdmin404 | CreateDiscountCodeAsAdmin409>, {data: CreateDiscountCodeAsAdminMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return createDiscountCodeAsAdmin(data, config)
@@ -30,7 +30,7 @@ export function createDiscountCodeAsAdminMutationOptions<TContext = unknown>(con
  */
 export function useCreateDiscountCodeAsAdmin<TContext>(options: 
 {
-  mutation?: UseMutationOptions<CreateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<CreateDiscountCodeAsAdmin404 | CreateDiscountCodeAsAdmin409>, {data: CreateDiscountCodeAsAdminMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<CreateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<CreateDiscountCodeAsAdmin403 | CreateDiscountCodeAsAdmin404 | CreateDiscountCodeAsAdmin409>, {data: CreateDiscountCodeAsAdminMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<CreateDiscountCodeAsAdminMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useCreateDiscountCodeAsAdmin<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? createDiscountCodeAsAdminMutationKey()
 
-          const baseOptions = createDiscountCodeAsAdminMutationOptions(config) as UseMutationOptions<CreateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<CreateDiscountCodeAsAdmin404 | CreateDiscountCodeAsAdmin409>, {data: CreateDiscountCodeAsAdminMutationRequest}, TContext>
+          const baseOptions = createDiscountCodeAsAdminMutationOptions(config) as UseMutationOptions<CreateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<CreateDiscountCodeAsAdmin403 | CreateDiscountCodeAsAdmin404 | CreateDiscountCodeAsAdmin409>, {data: CreateDiscountCodeAsAdminMutationRequest}, TContext>
           
 
-          return useMutation<CreateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<CreateDiscountCodeAsAdmin404 | CreateDiscountCodeAsAdmin409>, {data: CreateDiscountCodeAsAdminMutationRequest}, TContext>({
+          return useMutation<CreateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<CreateDiscountCodeAsAdmin403 | CreateDiscountCodeAsAdmin404 | CreateDiscountCodeAsAdmin409>, {data: CreateDiscountCodeAsAdminMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<CreateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<CreateDiscountCodeAsAdmin404 | CreateDiscountCodeAsAdmin409>, {data: CreateDiscountCodeAsAdminMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<CreateDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<CreateDiscountCodeAsAdmin403 | CreateDiscountCodeAsAdmin404 | CreateDiscountCodeAsAdmin409>, {data: CreateDiscountCodeAsAdminMutationRequest}, TContext>
       
 }

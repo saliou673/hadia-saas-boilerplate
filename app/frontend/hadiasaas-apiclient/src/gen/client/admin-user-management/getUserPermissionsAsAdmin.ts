@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { GetUserPermissionsAsAdminQueryResponse, GetUserPermissionsAsAdminPathParams, GetUserPermissionsAsAdmin404, GetUserPermissionsAsAdmin409 } from "../../types/GetUserPermissionsAsAdmin.ts";
+import type { GetUserPermissionsAsAdminQueryResponse, GetUserPermissionsAsAdminPathParams, GetUserPermissionsAsAdmin403, GetUserPermissionsAsAdmin404, GetUserPermissionsAsAdmin409 } from "../../types/GetUserPermissionsAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getGetUserPermissionsAsAdminUrl(id: GetUserPermissionsAsAdminPathParams["id"]) {
@@ -20,6 +20,6 @@ export async function getUserPermissionsAsAdmin(id: GetUserPermissionsAsAdminPat
 
 
 
-  const res = await request<GetUserPermissionsAsAdminQueryResponse, ResponseErrorConfig<GetUserPermissionsAsAdmin404 | GetUserPermissionsAsAdmin409>, unknown>({ method : "GET", url : getGetUserPermissionsAsAdminUrl(id).url.toString(), ... requestConfig })
+  const res = await request<GetUserPermissionsAsAdminQueryResponse, ResponseErrorConfig<GetUserPermissionsAsAdmin403 | GetUserPermissionsAsAdmin404 | GetUserPermissionsAsAdmin409>, unknown>({ method : "GET", url : getGetUserPermissionsAsAdminUrl(id).url.toString(), ... requestConfig })
   return res.data
 }

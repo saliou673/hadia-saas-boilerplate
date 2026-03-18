@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { GetRoleGroupsAsAdminQueryResponse, GetRoleGroupsAsAdminQueryParams, GetRoleGroupsAsAdmin404, GetRoleGroupsAsAdmin409 } from "../../types/GetRoleGroupsAsAdmin.ts";
+import type { GetRoleGroupsAsAdminQueryResponse, GetRoleGroupsAsAdminQueryParams, GetRoleGroupsAsAdmin403, GetRoleGroupsAsAdmin404, GetRoleGroupsAsAdmin409 } from "../../types/GetRoleGroupsAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getGetRoleGroupsAsAdminUrl() {
@@ -20,6 +20,6 @@ export async function getRoleGroupsAsAdmin(params: GetRoleGroupsAsAdminQueryPara
 
 
 
-  const res = await request<GetRoleGroupsAsAdminQueryResponse, ResponseErrorConfig<GetRoleGroupsAsAdmin404 | GetRoleGroupsAsAdmin409>, unknown>({ method : "GET", url : getGetRoleGroupsAsAdminUrl().url.toString(), params, ... requestConfig })
+  const res = await request<GetRoleGroupsAsAdminQueryResponse, ResponseErrorConfig<GetRoleGroupsAsAdmin403 | GetRoleGroupsAsAdmin404 | GetRoleGroupsAsAdmin409>, unknown>({ method : "GET", url : getGetRoleGroupsAsAdminUrl().url.toString(), params, ... requestConfig })
   return res.data
 }

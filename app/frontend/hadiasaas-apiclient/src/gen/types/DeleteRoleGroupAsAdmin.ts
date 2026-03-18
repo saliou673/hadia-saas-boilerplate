@@ -18,6 +18,11 @@ export type DeleteRoleGroupAsAdminPathParams = {
 export type DeleteRoleGroupAsAdmin204 = any;
 
 /**
+ * @description Forbidden
+*/
+export type DeleteRoleGroupAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type DeleteRoleGroupAsAdmin404 = ValidationErrorResponseDTO;
@@ -32,5 +37,5 @@ export type DeleteRoleGroupAsAdminMutationResponse = DeleteRoleGroupAsAdmin204;
 export type DeleteRoleGroupAsAdminMutation = {
     Response: DeleteRoleGroupAsAdmin204;
     PathParams: DeleteRoleGroupAsAdminPathParams;
-    Errors: DeleteRoleGroupAsAdmin404 | DeleteRoleGroupAsAdmin409;
+    Errors: DeleteRoleGroupAsAdmin403 | DeleteRoleGroupAsAdmin404 | DeleteRoleGroupAsAdmin409;
 };

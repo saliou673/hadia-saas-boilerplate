@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { UpdateByCategoryAndCodeMutationRequest, UpdateByCategoryAndCodeMutationResponse, UpdateByCategoryAndCodePathParams, UpdateByCategoryAndCode404, UpdateByCategoryAndCode409 } from "../../types/UpdateByCategoryAndCode.ts";
+import type { UpdateByCategoryAndCodeMutationRequest, UpdateByCategoryAndCodeMutationResponse, UpdateByCategoryAndCodePathParams, UpdateByCategoryAndCode403, UpdateByCategoryAndCode404, UpdateByCategoryAndCode409 } from "../../types/UpdateByCategoryAndCode.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { updateByCategoryAndCode } from "../../client/admin-configuration-management/updateByCategoryAndCode.ts";
@@ -16,7 +16,7 @@ export type UpdateByCategoryAndCodeMutationKey = ReturnType<typeof updateByCateg
 export function updateByCategoryAndCodeMutationOptions<TContext = unknown>(config: Partial<RequestConfig<UpdateByCategoryAndCodeMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = updateByCategoryAndCodeMutationKey()
-        return mutationOptions<UpdateByCategoryAndCodeMutationResponse, ResponseErrorConfig<UpdateByCategoryAndCode404 | UpdateByCategoryAndCode409>, {category: UpdateByCategoryAndCodePathParams["category"], code: UpdateByCategoryAndCodePathParams["code"], data: UpdateByCategoryAndCodeMutationRequest}, TContext>({
+        return mutationOptions<UpdateByCategoryAndCodeMutationResponse, ResponseErrorConfig<UpdateByCategoryAndCode403 | UpdateByCategoryAndCode404 | UpdateByCategoryAndCode409>, {category: UpdateByCategoryAndCodePathParams["category"], code: UpdateByCategoryAndCodePathParams["code"], data: UpdateByCategoryAndCodeMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ category, code, data }) => {
             return updateByCategoryAndCode(category, code, data, config)
@@ -30,7 +30,7 @@ export function updateByCategoryAndCodeMutationOptions<TContext = unknown>(confi
  */
 export function useUpdateByCategoryAndCode<TContext>(options: 
 {
-  mutation?: UseMutationOptions<UpdateByCategoryAndCodeMutationResponse, ResponseErrorConfig<UpdateByCategoryAndCode404 | UpdateByCategoryAndCode409>, {category: UpdateByCategoryAndCodePathParams["category"], code: UpdateByCategoryAndCodePathParams["code"], data: UpdateByCategoryAndCodeMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<UpdateByCategoryAndCodeMutationResponse, ResponseErrorConfig<UpdateByCategoryAndCode403 | UpdateByCategoryAndCode404 | UpdateByCategoryAndCode409>, {category: UpdateByCategoryAndCodePathParams["category"], code: UpdateByCategoryAndCodePathParams["code"], data: UpdateByCategoryAndCodeMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<UpdateByCategoryAndCodeMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useUpdateByCategoryAndCode<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? updateByCategoryAndCodeMutationKey()
 
-          const baseOptions = updateByCategoryAndCodeMutationOptions(config) as UseMutationOptions<UpdateByCategoryAndCodeMutationResponse, ResponseErrorConfig<UpdateByCategoryAndCode404 | UpdateByCategoryAndCode409>, {category: UpdateByCategoryAndCodePathParams["category"], code: UpdateByCategoryAndCodePathParams["code"], data: UpdateByCategoryAndCodeMutationRequest}, TContext>
+          const baseOptions = updateByCategoryAndCodeMutationOptions(config) as UseMutationOptions<UpdateByCategoryAndCodeMutationResponse, ResponseErrorConfig<UpdateByCategoryAndCode403 | UpdateByCategoryAndCode404 | UpdateByCategoryAndCode409>, {category: UpdateByCategoryAndCodePathParams["category"], code: UpdateByCategoryAndCodePathParams["code"], data: UpdateByCategoryAndCodeMutationRequest}, TContext>
           
 
-          return useMutation<UpdateByCategoryAndCodeMutationResponse, ResponseErrorConfig<UpdateByCategoryAndCode404 | UpdateByCategoryAndCode409>, {category: UpdateByCategoryAndCodePathParams["category"], code: UpdateByCategoryAndCodePathParams["code"], data: UpdateByCategoryAndCodeMutationRequest}, TContext>({
+          return useMutation<UpdateByCategoryAndCodeMutationResponse, ResponseErrorConfig<UpdateByCategoryAndCode403 | UpdateByCategoryAndCode404 | UpdateByCategoryAndCode409>, {category: UpdateByCategoryAndCodePathParams["category"], code: UpdateByCategoryAndCodePathParams["code"], data: UpdateByCategoryAndCodeMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<UpdateByCategoryAndCodeMutationResponse, ResponseErrorConfig<UpdateByCategoryAndCode404 | UpdateByCategoryAndCode409>, {category: UpdateByCategoryAndCodePathParams["category"], code: UpdateByCategoryAndCodePathParams["code"], data: UpdateByCategoryAndCodeMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<UpdateByCategoryAndCodeMutationResponse, ResponseErrorConfig<UpdateByCategoryAndCode403 | UpdateByCategoryAndCode404 | UpdateByCategoryAndCode409>, {category: UpdateByCategoryAndCodePathParams["category"], code: UpdateByCategoryAndCodePathParams["code"], data: UpdateByCategoryAndCodeMutationRequest}, TContext>
       
 }

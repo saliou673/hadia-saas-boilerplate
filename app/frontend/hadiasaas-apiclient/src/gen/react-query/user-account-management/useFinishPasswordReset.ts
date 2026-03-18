@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { FinishPasswordResetMutationRequest, FinishPasswordResetMutationResponse, FinishPasswordReset404, FinishPasswordReset409 } from "../../types/FinishPasswordReset.ts";
+import type { FinishPasswordResetMutationRequest, FinishPasswordResetMutationResponse, FinishPasswordReset403, FinishPasswordReset404, FinishPasswordReset409 } from "../../types/FinishPasswordReset.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { finishPasswordReset } from "../../client/user-account-management/finishPasswordReset.ts";
@@ -16,7 +16,7 @@ export type FinishPasswordResetMutationKey = ReturnType<typeof finishPasswordRes
 export function finishPasswordResetMutationOptions<TContext = unknown>(config: Partial<RequestConfig<FinishPasswordResetMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = finishPasswordResetMutationKey()
-        return mutationOptions<FinishPasswordResetMutationResponse, ResponseErrorConfig<FinishPasswordReset404 | FinishPasswordReset409>, {data: FinishPasswordResetMutationRequest}, TContext>({
+        return mutationOptions<FinishPasswordResetMutationResponse, ResponseErrorConfig<FinishPasswordReset403 | FinishPasswordReset404 | FinishPasswordReset409>, {data: FinishPasswordResetMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return finishPasswordReset(data, config)
@@ -30,7 +30,7 @@ export function finishPasswordResetMutationOptions<TContext = unknown>(config: P
  */
 export function useFinishPasswordReset<TContext>(options: 
 {
-  mutation?: UseMutationOptions<FinishPasswordResetMutationResponse, ResponseErrorConfig<FinishPasswordReset404 | FinishPasswordReset409>, {data: FinishPasswordResetMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<FinishPasswordResetMutationResponse, ResponseErrorConfig<FinishPasswordReset403 | FinishPasswordReset404 | FinishPasswordReset409>, {data: FinishPasswordResetMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<FinishPasswordResetMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useFinishPasswordReset<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? finishPasswordResetMutationKey()
 
-          const baseOptions = finishPasswordResetMutationOptions(config) as UseMutationOptions<FinishPasswordResetMutationResponse, ResponseErrorConfig<FinishPasswordReset404 | FinishPasswordReset409>, {data: FinishPasswordResetMutationRequest}, TContext>
+          const baseOptions = finishPasswordResetMutationOptions(config) as UseMutationOptions<FinishPasswordResetMutationResponse, ResponseErrorConfig<FinishPasswordReset403 | FinishPasswordReset404 | FinishPasswordReset409>, {data: FinishPasswordResetMutationRequest}, TContext>
           
 
-          return useMutation<FinishPasswordResetMutationResponse, ResponseErrorConfig<FinishPasswordReset404 | FinishPasswordReset409>, {data: FinishPasswordResetMutationRequest}, TContext>({
+          return useMutation<FinishPasswordResetMutationResponse, ResponseErrorConfig<FinishPasswordReset403 | FinishPasswordReset404 | FinishPasswordReset409>, {data: FinishPasswordResetMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<FinishPasswordResetMutationResponse, ResponseErrorConfig<FinishPasswordReset404 | FinishPasswordReset409>, {data: FinishPasswordResetMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<FinishPasswordResetMutationResponse, ResponseErrorConfig<FinishPasswordReset403 | FinishPasswordReset404 | FinishPasswordReset409>, {data: FinishPasswordResetMutationRequest}, TContext>
       
 }

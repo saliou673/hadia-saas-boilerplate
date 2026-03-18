@@ -55,23 +55,6 @@ public interface AppConfigurationPersistencePort {
     boolean existsActiveByCategoryAndCode(AppConfigurationCategory category, String code);
 
     /**
-     * Checks whether any active entry exists for the given category.
-     *
-     * @param category the configuration category
-     * @return {@code true} if at least one active entry exists for that category
-     */
-    boolean existsActiveByCategory(AppConfigurationCategory category);
-
-    /**
-     * Checks whether an active entry exists for the given category, excluding one specific entry.
-     *
-     * @param category  the configuration category
-     * @param excludeId the identifier to exclude from the check
-     * @return {@code true} if another active entry exists for that category
-     */
-    boolean existsActiveByCategoryAndIdNot(AppConfigurationCategory category, Long excludeId);
-
-    /**
      * Finds a configuration entry by its category and code.
      *
      * @param category the configuration category

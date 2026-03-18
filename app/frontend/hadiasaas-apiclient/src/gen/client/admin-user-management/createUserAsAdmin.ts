@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { CreateUserAsAdminMutationRequest, CreateUserAsAdminMutationResponse, CreateUserAsAdmin404, CreateUserAsAdmin409 } from "../../types/CreateUserAsAdmin.ts";
+import type { CreateUserAsAdminMutationRequest, CreateUserAsAdminMutationResponse, CreateUserAsAdmin403, CreateUserAsAdmin404, CreateUserAsAdmin409 } from "../../types/CreateUserAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getCreateUserAsAdminUrl() {
@@ -20,6 +20,6 @@ export async function createUserAsAdmin(data: CreateUserAsAdminMutationRequest, 
 
   const requestData = data
 
-  const res = await request<CreateUserAsAdminMutationResponse, ResponseErrorConfig<CreateUserAsAdmin404 | CreateUserAsAdmin409>, CreateUserAsAdminMutationRequest>({ method : "POST", url : getCreateUserAsAdminUrl().url.toString(), data : requestData, ... requestConfig })
+  const res = await request<CreateUserAsAdminMutationResponse, ResponseErrorConfig<CreateUserAsAdmin403 | CreateUserAsAdmin404 | CreateUserAsAdmin409>, CreateUserAsAdminMutationRequest>({ method : "POST", url : getCreateUserAsAdminUrl().url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

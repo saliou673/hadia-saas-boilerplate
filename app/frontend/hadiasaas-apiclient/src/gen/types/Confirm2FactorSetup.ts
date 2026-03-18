@@ -12,6 +12,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type Confirm2FactorSetup204 = any;
 
 /**
+ * @description Forbidden
+*/
+export type Confirm2FactorSetup403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type Confirm2FactorSetup404 = ValidationErrorResponseDTO;
@@ -28,5 +33,5 @@ export type Confirm2FactorSetupMutationResponse = Confirm2FactorSetup204;
 export type Confirm2FactorSetupMutation = {
     Response: Confirm2FactorSetup204;
     Request: Confirm2FactorSetupMutationRequest;
-    Errors: Confirm2FactorSetup404 | Confirm2FactorSetup409;
+    Errors: Confirm2FactorSetup403 | Confirm2FactorSetup404 | Confirm2FactorSetup409;
 };

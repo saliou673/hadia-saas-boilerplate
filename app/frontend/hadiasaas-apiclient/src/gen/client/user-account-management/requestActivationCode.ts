@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { RequestActivationCodeMutationRequest, RequestActivationCodeMutationResponse, RequestActivationCode404, RequestActivationCode409 } from "../../types/RequestActivationCode.ts";
+import type { RequestActivationCodeMutationRequest, RequestActivationCodeMutationResponse, RequestActivationCode403, RequestActivationCode404, RequestActivationCode409 } from "../../types/RequestActivationCode.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getRequestActivationCodeUrl() {
@@ -20,6 +20,6 @@ export async function requestActivationCode(data: RequestActivationCodeMutationR
 
   const requestData = data
 
-  const res = await request<RequestActivationCodeMutationResponse, ResponseErrorConfig<RequestActivationCode404 | RequestActivationCode409>, RequestActivationCodeMutationRequest>({ method : "POST", url : getRequestActivationCodeUrl().url.toString(), data : requestData, ... requestConfig, headers : { 'Content-Type': 'text/plain', ...requestConfig.headers } })
+  const res = await request<RequestActivationCodeMutationResponse, ResponseErrorConfig<RequestActivationCode403 | RequestActivationCode404 | RequestActivationCode409>, RequestActivationCodeMutationRequest>({ method : "POST", url : getRequestActivationCodeUrl().url.toString(), data : requestData, ... requestConfig, headers : { 'Content-Type': 'text/plain', ...requestConfig.headers } })
   return res.data
 }

@@ -22,6 +22,11 @@ export type RevokeRoleGroupAsAdminPathParams = {
 export type RevokeRoleGroupAsAdmin204 = any;
 
 /**
+ * @description Forbidden
+*/
+export type RevokeRoleGroupAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type RevokeRoleGroupAsAdmin404 = ValidationErrorResponseDTO;
@@ -36,5 +41,5 @@ export type RevokeRoleGroupAsAdminMutationResponse = RevokeRoleGroupAsAdmin204;
 export type RevokeRoleGroupAsAdminMutation = {
     Response: RevokeRoleGroupAsAdmin204;
     PathParams: RevokeRoleGroupAsAdminPathParams;
-    Errors: RevokeRoleGroupAsAdmin404 | RevokeRoleGroupAsAdmin409;
+    Errors: RevokeRoleGroupAsAdmin403 | RevokeRoleGroupAsAdmin404 | RevokeRoleGroupAsAdmin409;
 };

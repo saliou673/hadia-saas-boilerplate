@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetRoleGroupsAsAdminQueryResponse, GetRoleGroupsAsAdminQueryParams, GetRoleGroupsAsAdmin404, GetRoleGroupsAsAdmin409 } from "../../types/GetRoleGroupsAsAdmin.ts";
+import type { GetRoleGroupsAsAdminQueryResponse, GetRoleGroupsAsAdminQueryParams, GetRoleGroupsAsAdmin403, GetRoleGroupsAsAdmin404, GetRoleGroupsAsAdmin409 } from "../../types/GetRoleGroupsAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
 import { getRoleGroupsAsAdmin } from "../../client/role-group-management/getRoleGroupsAsAdmin.ts";
@@ -16,7 +16,7 @@ export type GetRoleGroupsAsAdminQueryKey = ReturnType<typeof getRoleGroupsAsAdmi
 export function getRoleGroupsAsAdminQueryOptions(params: GetRoleGroupsAsAdminQueryParams, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getRoleGroupsAsAdminQueryKey(params)
-        return queryOptions<GetRoleGroupsAsAdminQueryResponse, ResponseErrorConfig<GetRoleGroupsAsAdmin404 | GetRoleGroupsAsAdmin409>, GetRoleGroupsAsAdminQueryResponse, typeof queryKey>({
+        return queryOptions<GetRoleGroupsAsAdminQueryResponse, ResponseErrorConfig<GetRoleGroupsAsAdmin403 | GetRoleGroupsAsAdmin404 | GetRoleGroupsAsAdmin409>, GetRoleGroupsAsAdminQueryResponse, typeof queryKey>({
          enabled: !!(params),
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getRoleGroupsAsAdminQueryOptions(params: GetRoleGroupsAsAdminQue
  */
 export function useGetRoleGroupsAsAdmin<TData = GetRoleGroupsAsAdminQueryResponse, TQueryData = GetRoleGroupsAsAdminQueryResponse, TQueryKey extends QueryKey = GetRoleGroupsAsAdminQueryKey>(params: GetRoleGroupsAsAdminQueryParams, options: 
 {
-  query?: Partial<QueryObserverOptions<GetRoleGroupsAsAdminQueryResponse, ResponseErrorConfig<GetRoleGroupsAsAdmin404 | GetRoleGroupsAsAdmin409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<QueryObserverOptions<GetRoleGroupsAsAdminQueryResponse, ResponseErrorConfig<GetRoleGroupsAsAdmin403 | GetRoleGroupsAsAdmin404 | GetRoleGroupsAsAdmin409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetRoleGroupsAsAdmin<TData = GetRoleGroupsAsAdminQueryRespons
           ...getRoleGroupsAsAdminQueryOptions(params, config),
           queryKey,
           ...queryOptions
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetRoleGroupsAsAdmin404 | GetRoleGroupsAsAdmin409>> & { queryKey: TQueryKey }
+         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetRoleGroupsAsAdmin403 | GetRoleGroupsAsAdmin404 | GetRoleGroupsAsAdmin409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

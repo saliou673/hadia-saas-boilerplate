@@ -25,6 +25,11 @@ export type GetUsersAsAdminQueryParams = {
 export type GetUsersAsAdmin200 = PaginatedResultUserDetails;
 
 /**
+ * @description Forbidden
+*/
+export type GetUsersAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type GetUsersAsAdmin404 = ValidationErrorResponseDTO;
@@ -39,5 +44,5 @@ export type GetUsersAsAdminQueryResponse = GetUsersAsAdmin200;
 export type GetUsersAsAdminQuery = {
     Response: GetUsersAsAdmin200;
     QueryParams: GetUsersAsAdminQueryParams;
-    Errors: GetUsersAsAdmin404 | GetUsersAsAdmin409;
+    Errors: GetUsersAsAdmin403 | GetUsersAsAdmin404 | GetUsersAsAdmin409;
 };

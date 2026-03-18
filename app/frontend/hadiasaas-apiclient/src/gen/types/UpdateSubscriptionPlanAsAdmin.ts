@@ -20,6 +20,11 @@ export type UpdateSubscriptionPlanAsAdminPathParams = {
 export type UpdateSubscriptionPlanAsAdmin200 = SubscriptionPlan;
 
 /**
+ * @description Forbidden
+*/
+export type UpdateSubscriptionPlanAsAdmin403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type UpdateSubscriptionPlanAsAdmin404 = ValidationErrorResponseDTO;
@@ -37,5 +42,5 @@ export type UpdateSubscriptionPlanAsAdminMutation = {
     Response: UpdateSubscriptionPlanAsAdmin200;
     Request: UpdateSubscriptionPlanAsAdminMutationRequest;
     PathParams: UpdateSubscriptionPlanAsAdminPathParams;
-    Errors: UpdateSubscriptionPlanAsAdmin404 | UpdateSubscriptionPlanAsAdmin409;
+    Errors: UpdateSubscriptionPlanAsAdmin403 | UpdateSubscriptionPlanAsAdmin404 | UpdateSubscriptionPlanAsAdmin409;
 };

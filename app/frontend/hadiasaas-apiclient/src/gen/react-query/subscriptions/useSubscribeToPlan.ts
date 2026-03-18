@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { SubscribeToPlanMutationRequest, SubscribeToPlanMutationResponse, SubscribeToPlan404, SubscribeToPlan409 } from "../../types/SubscribeToPlan.ts";
+import type { SubscribeToPlanMutationRequest, SubscribeToPlanMutationResponse, SubscribeToPlan403, SubscribeToPlan404, SubscribeToPlan409 } from "../../types/SubscribeToPlan.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { subscribeToPlan } from "../../client/subscriptions/subscribeToPlan.ts";
@@ -16,7 +16,7 @@ export type SubscribeToPlanMutationKey = ReturnType<typeof subscribeToPlanMutati
 export function subscribeToPlanMutationOptions<TContext = unknown>(config: Partial<RequestConfig<SubscribeToPlanMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = subscribeToPlanMutationKey()
-        return mutationOptions<SubscribeToPlanMutationResponse, ResponseErrorConfig<SubscribeToPlan404 | SubscribeToPlan409>, {data: SubscribeToPlanMutationRequest}, TContext>({
+        return mutationOptions<SubscribeToPlanMutationResponse, ResponseErrorConfig<SubscribeToPlan403 | SubscribeToPlan404 | SubscribeToPlan409>, {data: SubscribeToPlanMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return subscribeToPlan(data, config)
@@ -30,7 +30,7 @@ export function subscribeToPlanMutationOptions<TContext = unknown>(config: Parti
  */
 export function useSubscribeToPlan<TContext>(options: 
 {
-  mutation?: UseMutationOptions<SubscribeToPlanMutationResponse, ResponseErrorConfig<SubscribeToPlan404 | SubscribeToPlan409>, {data: SubscribeToPlanMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<SubscribeToPlanMutationResponse, ResponseErrorConfig<SubscribeToPlan403 | SubscribeToPlan404 | SubscribeToPlan409>, {data: SubscribeToPlanMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<SubscribeToPlanMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useSubscribeToPlan<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? subscribeToPlanMutationKey()
 
-          const baseOptions = subscribeToPlanMutationOptions(config) as UseMutationOptions<SubscribeToPlanMutationResponse, ResponseErrorConfig<SubscribeToPlan404 | SubscribeToPlan409>, {data: SubscribeToPlanMutationRequest}, TContext>
+          const baseOptions = subscribeToPlanMutationOptions(config) as UseMutationOptions<SubscribeToPlanMutationResponse, ResponseErrorConfig<SubscribeToPlan403 | SubscribeToPlan404 | SubscribeToPlan409>, {data: SubscribeToPlanMutationRequest}, TContext>
           
 
-          return useMutation<SubscribeToPlanMutationResponse, ResponseErrorConfig<SubscribeToPlan404 | SubscribeToPlan409>, {data: SubscribeToPlanMutationRequest}, TContext>({
+          return useMutation<SubscribeToPlanMutationResponse, ResponseErrorConfig<SubscribeToPlan403 | SubscribeToPlan404 | SubscribeToPlan409>, {data: SubscribeToPlanMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<SubscribeToPlanMutationResponse, ResponseErrorConfig<SubscribeToPlan404 | SubscribeToPlan409>, {data: SubscribeToPlanMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<SubscribeToPlanMutationResponse, ResponseErrorConfig<SubscribeToPlan403 | SubscribeToPlan404 | SubscribeToPlan409>, {data: SubscribeToPlanMutationRequest}, TContext>
       
 }

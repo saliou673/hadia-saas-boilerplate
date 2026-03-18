@@ -38,6 +38,13 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.UNAUTHORIZED, "Invalid Refresh Token", ex.getMessage());
     }
 
+    @ExceptionHandler(TwoFactorSetupRequiredException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ResponseEntity<ValidationErrorResponseDTO> handleTwoFactorSetupRequired(TwoFactorSetupRequiredException ex) {
+        logError(ex);
+        return buildErrorResponse(HttpStatus.FORBIDDEN, "2FA Setup Required", ex.getMessage());
+    }
+
     @ExceptionHandler(AuthFunctionalException.class)
     public ResponseEntity<ValidationErrorResponseDTO> handleAuthenticationExceptions(AuthFunctionalException ex) {
         logError(ex);

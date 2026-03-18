@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { DeleteDiscountCodeAsAdminMutationResponse, DeleteDiscountCodeAsAdminPathParams, DeleteDiscountCodeAsAdmin404, DeleteDiscountCodeAsAdmin409 } from "../../types/DeleteDiscountCodeAsAdmin.ts";
+import type { DeleteDiscountCodeAsAdminMutationResponse, DeleteDiscountCodeAsAdminPathParams, DeleteDiscountCodeAsAdmin403, DeleteDiscountCodeAsAdmin404, DeleteDiscountCodeAsAdmin409 } from "../../types/DeleteDiscountCodeAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getDeleteDiscountCodeAsAdminUrl(id: DeleteDiscountCodeAsAdminPathParams["id"]) {
@@ -20,6 +20,6 @@ export async function deleteDiscountCodeAsAdmin(id: DeleteDiscountCodeAsAdminPat
 
 
 
-  const res = await request<DeleteDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<DeleteDiscountCodeAsAdmin404 | DeleteDiscountCodeAsAdmin409>, unknown>({ method : "DELETE", url : getDeleteDiscountCodeAsAdminUrl(id).url.toString(), ... requestConfig })
+  const res = await request<DeleteDiscountCodeAsAdminMutationResponse, ResponseErrorConfig<DeleteDiscountCodeAsAdmin403 | DeleteDiscountCodeAsAdmin404 | DeleteDiscountCodeAsAdmin409>, unknown>({ method : "DELETE", url : getDeleteDiscountCodeAsAdminUrl(id).url.toString(), ... requestConfig })
   return res.data
 }

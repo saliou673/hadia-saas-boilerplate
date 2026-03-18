@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetCurrentUserPreferencesQueryResponse, GetCurrentUserPreferences404, GetCurrentUserPreferences409 } from "../../types/GetCurrentUserPreferences.ts";
+import type { GetCurrentUserPreferencesQueryResponse, GetCurrentUserPreferences403, GetCurrentUserPreferences404, GetCurrentUserPreferences409 } from "../../types/GetCurrentUserPreferences.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
 import { getCurrentUserPreferences } from "../../client/user-account-management/getCurrentUserPreferences.ts";
@@ -16,7 +16,7 @@ export type GetCurrentUserPreferencesQueryKey = ReturnType<typeof getCurrentUser
 export function getCurrentUserPreferencesQueryOptions(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getCurrentUserPreferencesQueryKey()
-        return queryOptions<GetCurrentUserPreferencesQueryResponse, ResponseErrorConfig<GetCurrentUserPreferences404 | GetCurrentUserPreferences409>, GetCurrentUserPreferencesQueryResponse, typeof queryKey>({
+        return queryOptions<GetCurrentUserPreferencesQueryResponse, ResponseErrorConfig<GetCurrentUserPreferences403 | GetCurrentUserPreferences404 | GetCurrentUserPreferences409>, GetCurrentUserPreferencesQueryResponse, typeof queryKey>({
          
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getCurrentUserPreferencesQueryOptions(config: Partial<RequestCon
  */
 export function useGetCurrentUserPreferences<TData = GetCurrentUserPreferencesQueryResponse, TQueryData = GetCurrentUserPreferencesQueryResponse, TQueryKey extends QueryKey = GetCurrentUserPreferencesQueryKey>(options: 
 {
-  query?: Partial<QueryObserverOptions<GetCurrentUserPreferencesQueryResponse, ResponseErrorConfig<GetCurrentUserPreferences404 | GetCurrentUserPreferences409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<QueryObserverOptions<GetCurrentUserPreferencesQueryResponse, ResponseErrorConfig<GetCurrentUserPreferences403 | GetCurrentUserPreferences404 | GetCurrentUserPreferences409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetCurrentUserPreferences<TData = GetCurrentUserPreferencesQu
           ...getCurrentUserPreferencesQueryOptions(config),
           queryKey,
           ...queryOptions
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetCurrentUserPreferences404 | GetCurrentUserPreferences409>> & { queryKey: TQueryKey }
+         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetCurrentUserPreferences403 | GetCurrentUserPreferences404 | GetCurrentUserPreferences409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

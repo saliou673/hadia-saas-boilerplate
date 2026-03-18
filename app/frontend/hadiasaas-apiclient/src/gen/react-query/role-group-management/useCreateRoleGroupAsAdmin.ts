@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { CreateRoleGroupAsAdminMutationRequest, CreateRoleGroupAsAdminMutationResponse, CreateRoleGroupAsAdmin404, CreateRoleGroupAsAdmin409 } from "../../types/CreateRoleGroupAsAdmin.ts";
+import type { CreateRoleGroupAsAdminMutationRequest, CreateRoleGroupAsAdminMutationResponse, CreateRoleGroupAsAdmin403, CreateRoleGroupAsAdmin404, CreateRoleGroupAsAdmin409 } from "../../types/CreateRoleGroupAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { createRoleGroupAsAdmin } from "../../client/role-group-management/createRoleGroupAsAdmin.ts";
@@ -16,7 +16,7 @@ export type CreateRoleGroupAsAdminMutationKey = ReturnType<typeof createRoleGrou
 export function createRoleGroupAsAdminMutationOptions<TContext = unknown>(config: Partial<RequestConfig<CreateRoleGroupAsAdminMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = createRoleGroupAsAdminMutationKey()
-        return mutationOptions<CreateRoleGroupAsAdminMutationResponse, ResponseErrorConfig<CreateRoleGroupAsAdmin404 | CreateRoleGroupAsAdmin409>, {data: CreateRoleGroupAsAdminMutationRequest}, TContext>({
+        return mutationOptions<CreateRoleGroupAsAdminMutationResponse, ResponseErrorConfig<CreateRoleGroupAsAdmin403 | CreateRoleGroupAsAdmin404 | CreateRoleGroupAsAdmin409>, {data: CreateRoleGroupAsAdminMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return createRoleGroupAsAdmin(data, config)
@@ -30,7 +30,7 @@ export function createRoleGroupAsAdminMutationOptions<TContext = unknown>(config
  */
 export function useCreateRoleGroupAsAdmin<TContext>(options: 
 {
-  mutation?: UseMutationOptions<CreateRoleGroupAsAdminMutationResponse, ResponseErrorConfig<CreateRoleGroupAsAdmin404 | CreateRoleGroupAsAdmin409>, {data: CreateRoleGroupAsAdminMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<CreateRoleGroupAsAdminMutationResponse, ResponseErrorConfig<CreateRoleGroupAsAdmin403 | CreateRoleGroupAsAdmin404 | CreateRoleGroupAsAdmin409>, {data: CreateRoleGroupAsAdminMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<CreateRoleGroupAsAdminMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useCreateRoleGroupAsAdmin<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? createRoleGroupAsAdminMutationKey()
 
-          const baseOptions = createRoleGroupAsAdminMutationOptions(config) as UseMutationOptions<CreateRoleGroupAsAdminMutationResponse, ResponseErrorConfig<CreateRoleGroupAsAdmin404 | CreateRoleGroupAsAdmin409>, {data: CreateRoleGroupAsAdminMutationRequest}, TContext>
+          const baseOptions = createRoleGroupAsAdminMutationOptions(config) as UseMutationOptions<CreateRoleGroupAsAdminMutationResponse, ResponseErrorConfig<CreateRoleGroupAsAdmin403 | CreateRoleGroupAsAdmin404 | CreateRoleGroupAsAdmin409>, {data: CreateRoleGroupAsAdminMutationRequest}, TContext>
           
 
-          return useMutation<CreateRoleGroupAsAdminMutationResponse, ResponseErrorConfig<CreateRoleGroupAsAdmin404 | CreateRoleGroupAsAdmin409>, {data: CreateRoleGroupAsAdminMutationRequest}, TContext>({
+          return useMutation<CreateRoleGroupAsAdminMutationResponse, ResponseErrorConfig<CreateRoleGroupAsAdmin403 | CreateRoleGroupAsAdmin404 | CreateRoleGroupAsAdmin409>, {data: CreateRoleGroupAsAdminMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<CreateRoleGroupAsAdminMutationResponse, ResponseErrorConfig<CreateRoleGroupAsAdmin404 | CreateRoleGroupAsAdmin409>, {data: CreateRoleGroupAsAdminMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<CreateRoleGroupAsAdminMutationResponse, ResponseErrorConfig<CreateRoleGroupAsAdmin403 | CreateRoleGroupAsAdmin404 | CreateRoleGroupAsAdmin409>, {data: CreateRoleGroupAsAdminMutationRequest}, TContext>
       
 }

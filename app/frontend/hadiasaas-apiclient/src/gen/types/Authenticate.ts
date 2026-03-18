@@ -12,6 +12,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type Authenticate200 = object;
 
 /**
+ * @description Forbidden
+*/
+export type Authenticate403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type Authenticate404 = ValidationErrorResponseDTO;
@@ -28,5 +33,5 @@ export type AuthenticateMutationResponse = Authenticate200;
 export type AuthenticateMutation = {
     Response: Authenticate200;
     Request: AuthenticateMutationRequest;
-    Errors: Authenticate404 | Authenticate409;
+    Errors: Authenticate403 | Authenticate404 | Authenticate409;
 };

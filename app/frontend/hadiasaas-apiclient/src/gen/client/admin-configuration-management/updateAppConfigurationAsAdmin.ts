@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { UpdateAppConfigurationAsAdminMutationRequest, UpdateAppConfigurationAsAdminMutationResponse, UpdateAppConfigurationAsAdminPathParams, UpdateAppConfigurationAsAdmin404, UpdateAppConfigurationAsAdmin409 } from "../../types/UpdateAppConfigurationAsAdmin.ts";
+import type { UpdateAppConfigurationAsAdminMutationRequest, UpdateAppConfigurationAsAdminMutationResponse, UpdateAppConfigurationAsAdminPathParams, UpdateAppConfigurationAsAdmin403, UpdateAppConfigurationAsAdmin404, UpdateAppConfigurationAsAdmin409 } from "../../types/UpdateAppConfigurationAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getUpdateAppConfigurationAsAdminUrl(id: UpdateAppConfigurationAsAdminPathParams["id"]) {
@@ -20,6 +20,6 @@ export async function updateAppConfigurationAsAdmin(id: UpdateAppConfigurationAs
 
   const requestData = data
 
-  const res = await request<UpdateAppConfigurationAsAdminMutationResponse, ResponseErrorConfig<UpdateAppConfigurationAsAdmin404 | UpdateAppConfigurationAsAdmin409>, UpdateAppConfigurationAsAdminMutationRequest>({ method : "PUT", url : getUpdateAppConfigurationAsAdminUrl(id).url.toString(), data : requestData, ... requestConfig })
+  const res = await request<UpdateAppConfigurationAsAdminMutationResponse, ResponseErrorConfig<UpdateAppConfigurationAsAdmin403 | UpdateAppConfigurationAsAdmin404 | UpdateAppConfigurationAsAdmin409>, UpdateAppConfigurationAsAdminMutationRequest>({ method : "PUT", url : getUpdateAppConfigurationAsAdminUrl(id).url.toString(), data : requestData, ... requestConfig })
   return res.data
 }

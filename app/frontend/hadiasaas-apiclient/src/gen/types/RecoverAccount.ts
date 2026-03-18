@@ -12,6 +12,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type RecoverAccount200 = any;
 
 /**
+ * @description Forbidden
+*/
+export type RecoverAccount403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type RecoverAccount404 = ValidationErrorResponseDTO;
@@ -28,5 +33,5 @@ export type RecoverAccountMutationResponse = RecoverAccount200;
 export type RecoverAccountMutation = {
     Response: RecoverAccount200;
     Request: RecoverAccountMutationRequest;
-    Errors: RecoverAccount404 | RecoverAccount409;
+    Errors: RecoverAccount403 | RecoverAccount404 | RecoverAccount409;
 };

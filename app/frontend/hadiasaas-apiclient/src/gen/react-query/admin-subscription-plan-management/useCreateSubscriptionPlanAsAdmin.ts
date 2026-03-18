@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { CreateSubscriptionPlanAsAdminMutationRequest, CreateSubscriptionPlanAsAdminMutationResponse, CreateSubscriptionPlanAsAdmin404, CreateSubscriptionPlanAsAdmin409 } from "../../types/CreateSubscriptionPlanAsAdmin.ts";
+import type { CreateSubscriptionPlanAsAdminMutationRequest, CreateSubscriptionPlanAsAdminMutationResponse, CreateSubscriptionPlanAsAdmin403, CreateSubscriptionPlanAsAdmin404, CreateSubscriptionPlanAsAdmin409 } from "../../types/CreateSubscriptionPlanAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { createSubscriptionPlanAsAdmin } from "../../client/admin-subscription-plan-management/createSubscriptionPlanAsAdmin.ts";
@@ -16,7 +16,7 @@ export type CreateSubscriptionPlanAsAdminMutationKey = ReturnType<typeof createS
 export function createSubscriptionPlanAsAdminMutationOptions<TContext = unknown>(config: Partial<RequestConfig<CreateSubscriptionPlanAsAdminMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = createSubscriptionPlanAsAdminMutationKey()
-        return mutationOptions<CreateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<CreateSubscriptionPlanAsAdmin404 | CreateSubscriptionPlanAsAdmin409>, {data: CreateSubscriptionPlanAsAdminMutationRequest}, TContext>({
+        return mutationOptions<CreateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<CreateSubscriptionPlanAsAdmin403 | CreateSubscriptionPlanAsAdmin404 | CreateSubscriptionPlanAsAdmin409>, {data: CreateSubscriptionPlanAsAdminMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return createSubscriptionPlanAsAdmin(data, config)
@@ -30,7 +30,7 @@ export function createSubscriptionPlanAsAdminMutationOptions<TContext = unknown>
  */
 export function useCreateSubscriptionPlanAsAdmin<TContext>(options: 
 {
-  mutation?: UseMutationOptions<CreateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<CreateSubscriptionPlanAsAdmin404 | CreateSubscriptionPlanAsAdmin409>, {data: CreateSubscriptionPlanAsAdminMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<CreateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<CreateSubscriptionPlanAsAdmin403 | CreateSubscriptionPlanAsAdmin404 | CreateSubscriptionPlanAsAdmin409>, {data: CreateSubscriptionPlanAsAdminMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<CreateSubscriptionPlanAsAdminMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useCreateSubscriptionPlanAsAdmin<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? createSubscriptionPlanAsAdminMutationKey()
 
-          const baseOptions = createSubscriptionPlanAsAdminMutationOptions(config) as UseMutationOptions<CreateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<CreateSubscriptionPlanAsAdmin404 | CreateSubscriptionPlanAsAdmin409>, {data: CreateSubscriptionPlanAsAdminMutationRequest}, TContext>
+          const baseOptions = createSubscriptionPlanAsAdminMutationOptions(config) as UseMutationOptions<CreateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<CreateSubscriptionPlanAsAdmin403 | CreateSubscriptionPlanAsAdmin404 | CreateSubscriptionPlanAsAdmin409>, {data: CreateSubscriptionPlanAsAdminMutationRequest}, TContext>
           
 
-          return useMutation<CreateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<CreateSubscriptionPlanAsAdmin404 | CreateSubscriptionPlanAsAdmin409>, {data: CreateSubscriptionPlanAsAdminMutationRequest}, TContext>({
+          return useMutation<CreateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<CreateSubscriptionPlanAsAdmin403 | CreateSubscriptionPlanAsAdmin404 | CreateSubscriptionPlanAsAdmin409>, {data: CreateSubscriptionPlanAsAdminMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<CreateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<CreateSubscriptionPlanAsAdmin404 | CreateSubscriptionPlanAsAdmin409>, {data: CreateSubscriptionPlanAsAdminMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<CreateSubscriptionPlanAsAdminMutationResponse, ResponseErrorConfig<CreateSubscriptionPlanAsAdmin403 | CreateSubscriptionPlanAsAdmin404 | CreateSubscriptionPlanAsAdmin409>, {data: CreateSubscriptionPlanAsAdminMutationRequest}, TContext>
       
 }

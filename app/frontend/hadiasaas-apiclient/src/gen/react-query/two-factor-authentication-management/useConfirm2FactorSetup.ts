@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { Confirm2FactorSetupMutationRequest, Confirm2FactorSetupMutationResponse, Confirm2FactorSetup404, Confirm2FactorSetup409 } from "../../types/Confirm2FactorSetup.ts";
+import type { Confirm2FactorSetupMutationRequest, Confirm2FactorSetupMutationResponse, Confirm2FactorSetup403, Confirm2FactorSetup404, Confirm2FactorSetup409 } from "../../types/Confirm2FactorSetup.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { UseMutationOptions, UseMutationResult, QueryClient } from "@tanstack/react-query";
 import { confirm2FactorSetup } from "../../client/two-factor-authentication-management/confirm2FactorSetup.ts";
@@ -16,7 +16,7 @@ export type Confirm2FactorSetupMutationKey = ReturnType<typeof confirm2FactorSet
 export function confirm2FactorSetupMutationOptions<TContext = unknown>(config: Partial<RequestConfig<Confirm2FactorSetupMutationRequest>> & { client?: Client } = {}) {
 
         const mutationKey = confirm2FactorSetupMutationKey()
-        return mutationOptions<Confirm2FactorSetupMutationResponse, ResponseErrorConfig<Confirm2FactorSetup404 | Confirm2FactorSetup409>, {data: Confirm2FactorSetupMutationRequest}, TContext>({
+        return mutationOptions<Confirm2FactorSetupMutationResponse, ResponseErrorConfig<Confirm2FactorSetup403 | Confirm2FactorSetup404 | Confirm2FactorSetup409>, {data: Confirm2FactorSetupMutationRequest}, TContext>({
           mutationKey,
           mutationFn: async({ data }) => {
             return confirm2FactorSetup(data, config)
@@ -30,7 +30,7 @@ export function confirm2FactorSetupMutationOptions<TContext = unknown>(config: P
  */
 export function useConfirm2FactorSetup<TContext>(options: 
 {
-  mutation?: UseMutationOptions<Confirm2FactorSetupMutationResponse, ResponseErrorConfig<Confirm2FactorSetup404 | Confirm2FactorSetup409>, {data: Confirm2FactorSetupMutationRequest}, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<Confirm2FactorSetupMutationResponse, ResponseErrorConfig<Confirm2FactorSetup403 | Confirm2FactorSetup404 | Confirm2FactorSetup409>, {data: Confirm2FactorSetupMutationRequest}, TContext> & { client?: QueryClient },
   client?: Partial<RequestConfig<Confirm2FactorSetupMutationRequest>> & { client?: Client },
 }
  = {}) {
@@ -39,13 +39,13 @@ export function useConfirm2FactorSetup<TContext>(options:
           const { client: queryClient, ...mutationOptions } = mutation;
           const mutationKey = mutationOptions.mutationKey ?? confirm2FactorSetupMutationKey()
 
-          const baseOptions = confirm2FactorSetupMutationOptions(config) as UseMutationOptions<Confirm2FactorSetupMutationResponse, ResponseErrorConfig<Confirm2FactorSetup404 | Confirm2FactorSetup409>, {data: Confirm2FactorSetupMutationRequest}, TContext>
+          const baseOptions = confirm2FactorSetupMutationOptions(config) as UseMutationOptions<Confirm2FactorSetupMutationResponse, ResponseErrorConfig<Confirm2FactorSetup403 | Confirm2FactorSetup404 | Confirm2FactorSetup409>, {data: Confirm2FactorSetupMutationRequest}, TContext>
           
 
-          return useMutation<Confirm2FactorSetupMutationResponse, ResponseErrorConfig<Confirm2FactorSetup404 | Confirm2FactorSetup409>, {data: Confirm2FactorSetupMutationRequest}, TContext>({
+          return useMutation<Confirm2FactorSetupMutationResponse, ResponseErrorConfig<Confirm2FactorSetup403 | Confirm2FactorSetup404 | Confirm2FactorSetup409>, {data: Confirm2FactorSetupMutationRequest}, TContext>({
             ...baseOptions,
             mutationKey,
             ...mutationOptions,
-          }, queryClient) as UseMutationResult<Confirm2FactorSetupMutationResponse, ResponseErrorConfig<Confirm2FactorSetup404 | Confirm2FactorSetup409>, {data: Confirm2FactorSetupMutationRequest}, TContext>
+          }, queryClient) as UseMutationResult<Confirm2FactorSetupMutationResponse, ResponseErrorConfig<Confirm2FactorSetup403 | Confirm2FactorSetup404 | Confirm2FactorSetup409>, {data: Confirm2FactorSetupMutationRequest}, TContext>
       
 }

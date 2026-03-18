@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GetAppConfigurationsQueryResponse, GetAppConfigurationsQueryParams, GetAppConfigurations404, GetAppConfigurations409 } from "../../types/GetAppConfigurations.ts";
+import type { GetAppConfigurationsQueryResponse, GetAppConfigurationsQueryParams, GetAppConfigurations403, GetAppConfigurations404, GetAppConfigurations409 } from "../../types/GetAppConfigurations.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
 import { getAppConfigurations } from "../../client/configuration-management/getAppConfigurations.ts";
@@ -16,7 +16,7 @@ export type GetAppConfigurationsQueryKey = ReturnType<typeof getAppConfiguration
 export function getAppConfigurationsQueryOptions(params: GetAppConfigurationsQueryParams, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getAppConfigurationsQueryKey(params)
-        return queryOptions<GetAppConfigurationsQueryResponse, ResponseErrorConfig<GetAppConfigurations404 | GetAppConfigurations409>, GetAppConfigurationsQueryResponse, typeof queryKey>({
+        return queryOptions<GetAppConfigurationsQueryResponse, ResponseErrorConfig<GetAppConfigurations403 | GetAppConfigurations404 | GetAppConfigurations409>, GetAppConfigurationsQueryResponse, typeof queryKey>({
          enabled: !!(params),
          queryKey,
          queryFn: async ({ signal }) => {
@@ -31,7 +31,7 @@ export function getAppConfigurationsQueryOptions(params: GetAppConfigurationsQue
  */
 export function useGetAppConfigurations<TData = GetAppConfigurationsQueryResponse, TQueryData = GetAppConfigurationsQueryResponse, TQueryKey extends QueryKey = GetAppConfigurationsQueryKey>(params: GetAppConfigurationsQueryParams, options: 
 {
-  query?: Partial<QueryObserverOptions<GetAppConfigurationsQueryResponse, ResponseErrorConfig<GetAppConfigurations404 | GetAppConfigurations409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<QueryObserverOptions<GetAppConfigurationsQueryResponse, ResponseErrorConfig<GetAppConfigurations403 | GetAppConfigurations404 | GetAppConfigurations409>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
@@ -45,7 +45,7 @@ export function useGetAppConfigurations<TData = GetAppConfigurationsQueryRespons
           ...getAppConfigurationsQueryOptions(params, config),
           queryKey,
           ...queryOptions
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetAppConfigurations404 | GetAppConfigurations409>> & { queryKey: TQueryKey }
+         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GetAppConfigurations403 | GetAppConfigurations404 | GetAppConfigurations409>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

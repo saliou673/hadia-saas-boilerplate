@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { GetCategoriesAsAdminQueryResponse, GetCategoriesAsAdmin404, GetCategoriesAsAdmin409 } from "../../types/GetCategoriesAsAdmin.ts";
+import type { GetCategoriesAsAdminQueryResponse, GetCategoriesAsAdmin403, GetCategoriesAsAdmin404, GetCategoriesAsAdmin409 } from "../../types/GetCategoriesAsAdmin.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getGetCategoriesAsAdminUrl() {
@@ -20,6 +20,6 @@ export async function getCategoriesAsAdmin(config: Partial<RequestConfig> & { cl
 
 
 
-  const res = await request<GetCategoriesAsAdminQueryResponse, ResponseErrorConfig<GetCategoriesAsAdmin404 | GetCategoriesAsAdmin409>, unknown>({ method : "GET", url : getGetCategoriesAsAdminUrl().url.toString(), ... requestConfig })
+  const res = await request<GetCategoriesAsAdminQueryResponse, ResponseErrorConfig<GetCategoriesAsAdmin403 | GetCategoriesAsAdmin404 | GetCategoriesAsAdmin409>, unknown>({ method : "GET", url : getGetCategoriesAsAdminUrl().url.toString(), ... requestConfig })
   return res.data
 }

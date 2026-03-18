@@ -4,7 +4,7 @@
 */
 
 import fetch from "@kubb/plugin-client/clients/axios";
-import type { GetAppConfigurationsQueryResponse, GetAppConfigurationsQueryParams, GetAppConfigurations404, GetAppConfigurations409 } from "../../types/GetAppConfigurations.ts";
+import type { GetAppConfigurationsQueryResponse, GetAppConfigurationsQueryParams, GetAppConfigurations403, GetAppConfigurations404, GetAppConfigurations409 } from "../../types/GetAppConfigurations.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 
 function getGetAppConfigurationsUrl() {
@@ -20,6 +20,6 @@ export async function getAppConfigurations(params: GetAppConfigurationsQueryPara
 
 
 
-  const res = await request<GetAppConfigurationsQueryResponse, ResponseErrorConfig<GetAppConfigurations404 | GetAppConfigurations409>, unknown>({ method : "GET", url : getGetAppConfigurationsUrl().url.toString(), params, ... requestConfig })
+  const res = await request<GetAppConfigurationsQueryResponse, ResponseErrorConfig<GetAppConfigurations403 | GetAppConfigurations404 | GetAppConfigurations409>, unknown>({ method : "GET", url : getGetAppConfigurationsUrl().url.toString(), params, ... requestConfig })
   return res.data
 }

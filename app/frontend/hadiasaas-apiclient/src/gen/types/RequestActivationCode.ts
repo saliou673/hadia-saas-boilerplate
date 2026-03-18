@@ -11,6 +11,11 @@ import type { ValidationErrorResponseDTO } from "./ValidationErrorResponseDTO.ts
 export type RequestActivationCode200 = any;
 
 /**
+ * @description Forbidden
+*/
+export type RequestActivationCode403 = ValidationErrorResponseDTO;
+
+/**
  * @description Not Found
 */
 export type RequestActivationCode404 = ValidationErrorResponseDTO;
@@ -27,5 +32,5 @@ export type RequestActivationCodeMutationResponse = RequestActivationCode200;
 export type RequestActivationCodeMutation = {
     Response: RequestActivationCode200;
     Request: RequestActivationCodeMutationRequest;
-    Errors: RequestActivationCode404 | RequestActivationCode409;
+    Errors: RequestActivationCode403 | RequestActivationCode404 | RequestActivationCode409;
 };
