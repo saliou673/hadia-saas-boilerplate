@@ -19,8 +19,8 @@ export function ForgotPassword() {
                         Forgot Password
                     </CardTitle>
                     <CardDescription>
-                        Enter your registered email and <br /> we will send you
-                        a link to reset your password.
+                        Enter your registered email and we will send you a code
+                        to reset your password.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
