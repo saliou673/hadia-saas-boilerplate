@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
     Card,
     CardContent,
@@ -8,6 +9,10 @@ import {
 } from "@/components/ui/card";
 import { AuthLayout } from "@/features/auth/auth-layout";
 import { SignInForm } from "./sign-in-form";
+
+export const metadata: Metadata = {
+    title: "Sign In",
+};
 
 type SignInPageProps = {
     searchParams?: Promise<{ redirect?: string }>;
