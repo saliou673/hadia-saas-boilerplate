@@ -3,7 +3,10 @@ import type { Metadata } from "next";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-    title: "Hadia SaaS",
+    title: {
+        default: "Hadia SaaS",
+        template: "%s | Hadia SaaS",
+    },
     description: "Hadia SaaS dashboard",
 };
 
