@@ -81,6 +81,12 @@ export const sidebarData: SidebarData = {
                     requiredPermission: "user:read",
                 },
                 {
+                    title: "Role Groups",
+                    url: "/role-groups",
+                    icon: ShieldCheck,
+                    requiredPermission: "role-group:read",
+                },
+                {
                     title: "Subscription Plans",
                     url: "/subscription-plans",
                     icon: CreditCard,
