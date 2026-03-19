@@ -218,7 +218,7 @@ public class EmailNotificationAdapterPort implements NotificationSenderPort {
         context.setVariable(ACCOUNT_VALIDATION_ROUTE, mail.routes().accountValidation());
         context.setVariable(RESET_PASSWORD_ROUTE, mail.routes().resetPassword());
         context.setVariable(LOGIN_ROUTE, mail.routes().resetPassword());
-        context.setVariable(RECOVERY_PERIOD_DAYS, applicationProperties.getAccount().softDeletedUserRetentionPeriod());
+        context.setVariable(RECOVERY_PERIOD_DAYS, applicationProperties.getAccount().softDeletedUserRetentionPeriod().toDays());
         setCodeLifetimeVariables(context, locale);
         String content = templateEngine.process(templateName, context);
         String subject = messageSource.getMessage(titleKey, null, locale);
