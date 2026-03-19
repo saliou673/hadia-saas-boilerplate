@@ -8,6 +8,8 @@ const PUBLIC_PATHS = new Set([
     "/sign-in-2",
     "/forgot-password",
     "/otp",
+    "/recover-account",
+    "/account/invitation",
     "/errors/unauthorized",
 ]);
 

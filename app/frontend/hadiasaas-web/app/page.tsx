@@ -18,6 +18,12 @@ export default function HomePage() {
                 >
                     Dashboard
                 </Link>
+                <Link
+                    className="underline underline-offset-4"
+                    href="/recover-account"
+                >
+                    Recover account
+                </Link>
             </div>
         </main>
     );
