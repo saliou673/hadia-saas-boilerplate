@@ -301,7 +301,12 @@ export function UsersTable({ canDeleteUsers, canUpdateUsers }: DataTableProps) {
                     },
                 ]}
             />
-            <div className={cn("overflow-hidden rounded-md border transition-opacity", isFetching && "opacity-60")}>
+            <div
+                className={cn(
+                    "overflow-hidden rounded-md border transition-opacity",
+                    isFetching && "opacity-60"
+                )}
+            >
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (

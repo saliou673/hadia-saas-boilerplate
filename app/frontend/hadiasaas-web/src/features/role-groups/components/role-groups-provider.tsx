@@ -24,9 +24,7 @@ export function RoleGroupsProvider({
     const [currentRow, setCurrentRow] = useState<RoleGroupRow | null>(null);
 
     return (
-        <RoleGroupsContext
-            value={{ open, setOpen, currentRow, setCurrentRow }}
-        >
+        <RoleGroupsContext value={{ open, setOpen, currentRow, setCurrentRow }}>
             {children}
         </RoleGroupsContext>
     );

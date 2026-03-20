@@ -16,6 +16,7 @@ import {
     useRevokeRoleGroupAsAdmin,
     useUpdateUserAsAdmin,
 } from "@api-client";
+import { getUsersAsAdminQueryKey } from "@api-client";
 import { toast } from "sonner";
 import { handleServerError } from "@/lib/handle-server-error";
 import { Button } from "@/components/ui/button";
@@ -40,7 +41,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SelectDropdown } from "@/components/select-dropdown";
-import { getUsersAsAdminQueryKey } from "@api-client";
 import { genderOptions } from "../data/data";
 import {
     mapRoleGroupToOption,

@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useDeleteCurrentAccount } from "@api-client";
-import { signIn, signOut, useSession } from "next-auth/react";
 import { AlertTriangle } from "lucide-react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { toast } from "sonner";
-import { PasswordInput } from "@/components/password-input";
 import { Label } from "@/components/ui/label";
 import { ConfirmDialog } from "@/components/confirm-dialog";
+import { PasswordInput } from "@/components/password-input";
 
 interface DeleteAccountDialogProps {
     open: boolean;

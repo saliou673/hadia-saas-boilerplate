@@ -6,7 +6,9 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Domain entity representing a purchasable subscription plan.
@@ -80,7 +82,11 @@ public class SubscriptionPlan extends Auditable<Long> {
         this.price = price;
         this.durationDays = durationDays;
         this.currencyCode = currencyCode;
-        this.features = features != null ? new ArrayList<>(features) : new ArrayList<>();
+        if (features == null) {
+            this.features = new ArrayList<>();
+        } else {
+            this.features = features.stream().filter(Objects::nonNull).toList();
+        }
         this.active = active;
     }
 

@@ -58,9 +58,7 @@ function flattenToQueryString(
             }
         }
     } else if (typeof value === "object") {
-        for (const [k, v] of Object.entries(
-            value as Record<string, unknown>
-        )) {
+        for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
             if (v !== null && v !== undefined) {
                 flattenToQueryString(v, prefix ? `${prefix}.${k}` : k, parts);
             }
