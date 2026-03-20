@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useState, useMemo } from "react";
+import {
+    createContext,
+    useCallback,
+    useContext,
+    useEffect,
+    useState,
+    useMemo,
+} from "react";
 import { getCookie, setCookie, removeCookie } from "@/lib/cookies";
 
 type Theme = "dark" | "light" | "system";
@@ -38,9 +45,23 @@ export function ThemeProvider({
     storageKey = THEME_COOKIE_NAME,
     ...props
 }: ThemeProviderProps) {
+    // Initialise from cookie. The lazy initialiser only runs once — on the
+    // server it cannot read document.cookie, so we default to `defaultTheme`
+    // and then re-sync on the client after hydration (see mount effect below).
     const [theme, _setTheme] = useState<Theme>(
         () => (getCookie(storageKey) as Theme) || defaultTheme
     );
+
+    // Re-read the cookie on the client after hydration.
+    // Necessary because Next.js SSR runs the useState initialiser on the server
+    // where document is undefined, so the cookie is never read on first load.
+    useEffect(() => {
+        const stored = getCookie(storageKey) as Theme | undefined;
+        if (stored && stored !== theme) {
+            _setTheme(stored);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []); // intentionally run once on mount only
 
     // Optimized: Memoize the resolved theme calculation to prevent unnecessary re-computations
     const resolvedTheme = useMemo((): ResolvedTheme => {
@@ -77,15 +98,18 @@ export function ThemeProvider({
         return () => mediaQuery.removeEventListener("change", handleChange);
     }, [theme, resolvedTheme]);
 
-    const setTheme = (theme: Theme) => {
-        setCookie(storageKey, theme, THEME_COOKIE_MAX_AGE);
-        _setTheme(theme);
-    };
+    const setTheme = useCallback(
+        (theme: Theme) => {
+            setCookie(storageKey, theme, THEME_COOKIE_MAX_AGE);
+            _setTheme(theme);
+        },
+        [storageKey]
+    );
 
-    const resetTheme = () => {
+    const resetTheme = useCallback(() => {
         removeCookie(storageKey);
         _setTheme(DEFAULT_THEME);
-    };
+    }, [storageKey]);
 
     const contextValue = {
         defaultTheme,

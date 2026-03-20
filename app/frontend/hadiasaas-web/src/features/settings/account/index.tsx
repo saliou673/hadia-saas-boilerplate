@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { ContentSection } from "../components/content-section";
 import { AccountForm } from "./account-form";
 import { DeleteAccountDialog } from "./delete-account-dialog";

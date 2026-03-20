@@ -4,10 +4,13 @@ import { useRef, useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+    useRequestPasswordReset,
+    useFinishPasswordReset,
+} from "hadiasaas-apiclient";
 import { ArrowRight, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
-import { useRequestPasswordReset, useFinishPasswordReset } from "hadiasaas-apiclient";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -82,7 +85,9 @@ export function ForgotPasswordForm({
                 onError: (error) => {
                     const status = error.response?.status;
                     if (status === 404) {
-                        toast.error("No account found with this email address.");
+                        toast.error(
+                            "No account found with this email address."
+                        );
                     } else if (status === 409) {
                         const message =
                             (
@@ -208,7 +213,9 @@ export function ForgotPasswordForm({
                         className="mt-2"
                         disabled={code.length < 4 || isFinishPending}
                     >
-                        {isFinishPending && <Loader2 className="animate-spin" />}
+                        {isFinishPending && (
+                            <Loader2 className="animate-spin" />
+                        )}
                         Reset Password
                     </Button>
                 </form>
