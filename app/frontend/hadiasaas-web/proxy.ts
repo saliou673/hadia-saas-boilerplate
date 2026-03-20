@@ -14,6 +14,7 @@ const PUBLIC_PATHS = new Set([
     "/errors/unauthorized",
     "/privacy",
     "/terms",
+    "/cookie-policy",
 ]);
 
 const authSecret =
