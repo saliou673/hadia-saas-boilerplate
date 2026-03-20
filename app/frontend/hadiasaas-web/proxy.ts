@@ -12,6 +12,8 @@ const PUBLIC_PATHS = new Set([
     "/recover-account",
     "/account/invitation",
     "/errors/unauthorized",
+    "/privacy",
+    "/terms",
 ]);
 
 const authSecret =
