@@ -11,6 +11,7 @@ const NAV_LINKS = [
     { label: "Features", href: "#features" },
     { label: "How it works", href: "#process" },
     { label: "Pricing", href: "#pricing" },
+    { label: "Contact", href: "/contact" },
 ];
 
 export function LandingNavbar() {

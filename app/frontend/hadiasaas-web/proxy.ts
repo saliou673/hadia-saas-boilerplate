@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 const PUBLIC_PATHS = new Set([
     "/",
+    "/contact",
     "/sign-in",
     "/sign-up",
     "/sign-in-2",
@@ -11,6 +12,9 @@ const PUBLIC_PATHS = new Set([
     "/recover-account",
     "/account/invitation",
     "/errors/unauthorized",
+    "/privacy",
+    "/terms",
+    "/cookie-policy",
 ]);
 
 const authSecret =
