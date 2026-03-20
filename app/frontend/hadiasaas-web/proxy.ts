@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 const PUBLIC_PATHS = new Set([
     "/",
+    "/contact",
     "/sign-in",
     "/sign-up",
     "/sign-in-2",
