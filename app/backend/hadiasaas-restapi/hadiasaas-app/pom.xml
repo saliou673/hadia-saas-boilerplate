@@ -189,6 +189,13 @@
             <groupId>io.github.resilience4j</groupId>
             <artifactId>resilience4j-all</artifactId>
         </dependency>
+
+        <!-- Stripe payment SDK -->
+        <dependency>
+            <groupId>com.stripe</groupId>
+            <artifactId>stripe-java</artifactId>
+            <version>${stripe.java.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

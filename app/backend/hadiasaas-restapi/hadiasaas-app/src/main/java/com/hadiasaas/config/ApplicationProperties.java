@@ -52,6 +52,10 @@ public class ApplicationProperties {
      * File storage configuration.
      */
     private Storage storage;
+    /**
+     * Stripe payment gateway configuration.
+     */
+    private Stripe stripe;
 
     public Jwt getJwt() {
         return this.security.authentication().jwt();
@@ -90,6 +94,8 @@ public class ApplicationProperties {
     }
 
     public record Contact(List<String> recipientEmails) {}
+
+    public record Stripe(String secretKey, String webhookSecret) {}
 
     public record Storage(String uploadDir, Aws aws) {
         public Storage {
