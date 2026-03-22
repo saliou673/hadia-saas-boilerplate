@@ -9,6 +9,7 @@ import com.hadiasaas.domain.exceptions.*;
 import com.hadiasaas.domain.models.discountcode.DiscountCode;
 import com.hadiasaas.domain.models.subscription.PaymentRequest;
 import com.hadiasaas.domain.models.subscription.PaymentResult;
+import com.hadiasaas.domain.models.subscription.StripePaymentIntentResult;
 import com.hadiasaas.domain.models.subscription.UserSubscription;
 import com.hadiasaas.domain.models.subscriptionplan.SubscriptionPlan;
 import com.hadiasaas.domain.models.user.User;
@@ -16,6 +17,7 @@ import com.hadiasaas.domain.ports.in.SubscribeUseCase;
 import com.hadiasaas.domain.ports.out.CurrentUserEmailPort;
 import com.hadiasaas.domain.ports.out.NotificationSenderPort;
 import com.hadiasaas.domain.ports.out.PaymentGatewayPort;
+import com.hadiasaas.domain.ports.out.StripeGatewayPort;
 import com.hadiasaas.domain.ports.out.SubscriptionBillPort;
 import com.hadiasaas.domain.ports.out.persistenceport.*;
 import jakarta.annotation.Nullable;
@@ -52,9 +54,11 @@ public class SubscriptionService implements SubscribeUseCase {
     private final NotificationSenderPort notificationSenderPort;
     private final SubscriptionBillPort subscriptionBillPort;
     private final List<PaymentGatewayPort> paymentGateways;
+    private final StripeGatewayPort stripeGatewayPort;
 
     @Override
-    public UserSubscription subscribe(Long planId, String paymentMode, SubscriptionBillingFrequency billingFrequency, @Nullable String discountCode) {
+    public UserSubscription subscribe(Long planId, String paymentMode, SubscriptionBillingFrequency billingFrequency,
+                                      @Nullable String discountCode, @Nullable String stripePaymentIntentId) {
         User currentUser = resolveCurrentUser();
         log.debug("Subscribing userId={} to planId={} via paymentMode={}, billingFrequency={}, discountCode={}",
                   currentUser.getId(), planId, paymentMode, billingFrequency, discountCode);
@@ -75,7 +79,7 @@ public class SubscriptionService implements SubscribeUseCase {
         BigDecimal originalPrice = resolvePrice(plan, billingFrequency);
         AppliedDiscount appliedDiscount = applyDiscountIfPresent(plan, originalPrice, discountCode);
         AppliedTax appliedTax = applyTax(appliedDiscount.finalPrice());
-        PaymentResult result = processPayment(plan, appliedTax.totalPrice(), billingFrequency, currentUser.getId(), paymentMode);
+        PaymentResult result = processPayment(plan, appliedTax.totalPrice(), billingFrequency, currentUser.getId(), paymentMode, stripePaymentIntentId);
 
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = computeEndDate(billingFrequency, startDate, plan.getDurationDays());
@@ -112,6 +116,31 @@ public class SubscriptionService implements SubscribeUseCase {
     }
 
     @Override
+    public StripePaymentIntentResult createStripePaymentIntent(Long planId, SubscriptionBillingFrequency billingFrequency,
+                                                               @Nullable String discountCode) {
+        User currentUser = resolveCurrentUser();
+        log.debug("Creating Stripe PaymentIntent for userId={}, planId={}, billingFrequency={}", currentUser.getId(), planId, billingFrequency);
+
+        SubscriptionPlan plan = subscriptionPlanPersistencePort.findById(planId)
+                .orElseThrow(() -> new SubscriptionPlanNotFoundException("Subscription plan not found with id: " + planId));
+
+        if (!plan.isActive()) {
+            throw new SubscriptionPlanNotActiveException("Subscription plan '" + plan.getTitle() + "' is not active");
+        }
+
+        BigDecimal originalPrice = resolvePrice(plan, billingFrequency);
+        AppliedDiscount appliedDiscount = applyDiscountIfPresent(plan, originalPrice, discountCode);
+        AppliedTax appliedTax = applyTax(appliedDiscount.finalPrice());
+
+        return stripeGatewayPort.createPaymentIntent(
+                appliedTax.totalPrice(),
+                plan.getCurrencyCode(),
+                plan.getTitle(),
+                currentUser.getId()
+        );
+    }
+
+    @Override
     public UserSubscription renew(Long subscriptionId) {
         User currentUser = resolveCurrentUser();
         log.debug("Renewing subscriptionId={} for userId={}", subscriptionId, currentUser.getId());
@@ -132,7 +161,7 @@ public class SubscriptionService implements SubscribeUseCase {
 
         validatePaymentMode(existing.getPaymentMode());
 
-        PaymentResult result = processPayment(plan, existing.getPricePaid(), existing.getBillingFrequency(), currentUser.getId(), existing.getPaymentMode());
+        PaymentResult result = processPayment(plan, existing.getPricePaid(), existing.getBillingFrequency(), currentUser.getId(), existing.getPaymentMode(), null);
         if (!result.isSuccess()) {
             throw new PaymentProcessingException("Renewal payment failed: " + result.getErrorMessage());
         }
@@ -266,7 +295,8 @@ public class SubscriptionService implements SubscribeUseCase {
                                          BigDecimal price,
                                          SubscriptionBillingFrequency billingFrequency,
                                          Long userId,
-                                         String paymentMode) {
+                                         String paymentMode,
+                                         @Nullable String stripePaymentIntentId) {
         Map<String, PaymentGatewayPort> gatewayMap = paymentGateways.stream()
                 .collect(Collectors.toMap(PaymentGatewayPort::getModeCode, Function.identity()));
 
@@ -275,11 +305,15 @@ public class SubscriptionService implements SubscribeUseCase {
             throw new InvalidPaymentModeException("No payment gateway implementation found for mode: " + paymentMode);
         }
 
-        PaymentRequest request = new PaymentRequest(price,
-                                                    plan.getCurrencyCode(),
-                                                    userId,
-                                                    plan.getTitle(),
-                                                    billingFrequency);
+        PaymentRequest request = PaymentRequest.builder()
+                .amount(price)
+                .currencyCode(plan.getCurrencyCode())
+                .userId(userId)
+                .planTitle(plan.getTitle())
+                .billingFrequency(billingFrequency)
+                .paymentIntentId(stripePaymentIntentId)
+                .build();
+
         return gateway.process(request);
     }
 

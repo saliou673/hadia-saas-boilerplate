@@ -142,7 +142,11 @@ function PlanCard({ plan, highlighted, yearly }: PlanCardProps) {
                 }`}
                 variant={highlighted ? "default" : "ghost"}
             >
-                <Link href="/sign-up">{ctaLabel}</Link>
+                <Link
+                    href={`/sign-up?planId=${plan.id}&billing=${yearly && plan.yearlyPrice ? "YEARLY" : "MONTHLY"}`}
+                >
+                    {ctaLabel}
+                </Link>
             </Button>
 
             {/* Feature list */}

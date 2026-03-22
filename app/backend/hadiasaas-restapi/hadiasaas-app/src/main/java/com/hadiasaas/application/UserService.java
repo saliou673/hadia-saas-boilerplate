@@ -53,7 +53,17 @@ public class UserService implements AccountUseCase {
 
     @Override
     public void createPublicUser(User user) {
-        createUser(user, Set.of(UserGroupConstants.USER));
+        ensureEmailUniqueness(user);
+        assignRoleGroups(user, Set.of(UserGroupConstants.USER));
+        secureCredentials(user);
+        // Auto-activate: public sign-ups get immediate access so users can
+        // subscribe right after registration without waiting for an email link.
+        user.activate(Instant.now());
+        // Still assign a code and send a verification email so the user can
+        // confirm ownership of their address at their own pace (non-blocking).
+        assignActivationCode(user);
+        User saved = userPersistencePort.save(user);
+        notificationSenderPort.sendActivationNotification(saved);
     }
 
     @Override
@@ -100,7 +110,15 @@ public class UserService implements AccountUseCase {
         User user = userPersistencePort.findByActivationCode(activationCode)
                 .orElseThrow(() -> new ActivationCodeNotFoundException("User with activation code " + activationCode + " not found"));
 
-        user.activate(Instant.now());
+        try {
+            // For regular (non-auto-activated) accounts this marks them active.
+            // For auto-activated accounts (public sign-ups) it is a no-op: the
+            // user clicked the verification link after already being active.
+            user.activate(Instant.now());
+        } catch (UserAlreadyActivatedException ignored) {
+            // Email already confirmed via auto-activation — treat as success.
+            log.debug("User with activationCode={} was already active (email verification confirmed)", activationCode);
+        }
 
         userPersistencePort.save(user);
         notificationSenderPort.sendCreationNotification(user);

@@ -1,63 +1,52 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-import { AuthLayout } from "@/features/auth/auth-layout";
+import { Logo } from "@/assets/logo";
 import { SignUpForm } from "./sign-up-form";
+import type { SubscribeRequestBillingFrequencyEnumKey } from "@api-client";
 
 export const metadata: Metadata = {
     title: "Sign Up",
 };
 
-export default function SignUpPage() {
+const VALID_BILLING = new Set(["MONTHLY", "YEARLY", "LIFETIME"]);
+
+export default async function SignUpPage({
+    searchParams,
+}: {
+    searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+    const params = await searchParams;
+
+    const planIdRaw = params.planId;
+    const billingRaw = params.billing;
+
+    const planIdStr = Array.isArray(planIdRaw) ? planIdRaw[0] : planIdRaw;
+    const billingStr = Array.isArray(billingRaw) ? billingRaw[0] : billingRaw;
+
+    const initialPlanId =
+        planIdStr && /^\d+$/.test(planIdStr)
+            ? parseInt(planIdStr, 10)
+            : undefined;
+
+    const initialBilling =
+        billingStr && VALID_BILLING.has(billingStr)
+            ? (billingStr as SubscribeRequestBillingFrequencyEnumKey)
+            : undefined;
+
     return (
-        <AuthLayout>
-            <Card className="gap-4">
-                <CardHeader>
-                    <CardTitle className="text-lg tracking-tight">
-                        Create an account
-                    </CardTitle>
-                    <CardDescription>
-                        Enter your email and password to create an account.{" "}
-                        <br />
-                        Already have an account?{" "}
-                        <Link
-                            href="/sign-in"
-                            className="underline underline-offset-4 hover:text-primary"
-                        >
-                            Sign In
-                        </Link>
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <SignUpForm />
-                </CardContent>
-                <CardFooter>
-                    <p className="px-8 text-center text-sm text-muted-foreground">
-                        By creating an account, you agree to our{" "}
-                        <a
-                            href="/terms"
-                            className="underline underline-offset-4 hover:text-primary"
-                        >
-                            Terms of Service
-                        </a>{" "}
-                        and{" "}
-                        <a
-                            href="/privacy"
-                            className="underline underline-offset-4 hover:text-primary"
-                        >
-                            Privacy Policy
-                        </a>
-                        .
-                    </p>
-                </CardFooter>
-            </Card>
-        </AuthLayout>
+        <div className="container grid min-h-svh max-w-none items-center justify-center">
+            <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-8 px-4 py-10">
+                {/* Logo */}
+                <div className="flex items-center gap-2">
+                    <Logo />
+                    <span className="text-xl font-medium">Shadcn Admin</span>
+                </div>
+
+                {/* Multi-step sign-up form */}
+                <SignUpForm
+                    initialPlanId={initialPlanId}
+                    initialBilling={initialBilling}
+                />
+            </div>
+        </div>
     );
 }

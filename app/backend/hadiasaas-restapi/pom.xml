@@ -55,6 +55,8 @@
         <!-- Tests -->
         <testcontainers.version>2.0.2</testcontainers.version>
         <aws.sdk.version>2.42.4</aws.sdk.version>
+        <!-- Payment -->
+        <stripe.java.version>31.4.1</stripe.java.version>
     </properties>
 
     <dependencyManagement>
