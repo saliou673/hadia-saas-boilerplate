@@ -1,10 +1,13 @@
 package com.hadiasaas.infrastructure.adapter.in.rest.controller;
 
+import com.hadiasaas.domain.models.subscription.StripePaymentIntentResult;
 import com.hadiasaas.domain.models.subscription.UserSubscription;
 import com.hadiasaas.domain.ports.in.SubscribeUseCase;
 import com.hadiasaas.domain.ports.in.UserSubscriptionQueryUseCase;
+import com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.StripePaymentIntentDTO;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.dto.UserSubscriptionDTO;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.mapper.UserSubscriptionDtoMapper;
+import com.hadiasaas.infrastructure.adapter.in.rest.controller.requests.StripePaymentIntentRequest;
 import com.hadiasaas.infrastructure.adapter.in.rest.controller.requests.SubscribeRequest;
 import com.hadiasaas.infrastructure.adapter.out.query.PaginatedResult;
 import com.hadiasaas.util.PaginationConstants;
@@ -38,9 +41,31 @@ public class UserSubscriptionController {
                 request.planId(),
                 request.paymentMode(),
                 request.billingFrequency(),
-                request.discountCode()
+                request.discountCode(),
+                request.stripePaymentIntentId()
         );
         return userSubscriptionDtoMapper.toDTO(subscription);
+    }
+
+    /**
+     * Create a Stripe PaymentIntent so the frontend can collect card details.
+     * The returned {@code clientSecret} must be passed to {@code stripe.confirmCardPayment()}.
+     * After confirmation, call {@code POST /api/v1/subscriptions} with the {@code stripePaymentIntentId}.
+     */
+    @PostMapping("/stripe/payment-intent")
+    @ResponseStatus(HttpStatus.CREATED)
+    public StripePaymentIntentDTO createStripePaymentIntent(@Valid @RequestBody StripePaymentIntentRequest request) {
+        StripePaymentIntentResult result = subscribeUseCase.createStripePaymentIntent(
+                request.planId(),
+                request.billingFrequency(),
+                request.discountCode()
+        );
+        return new StripePaymentIntentDTO(
+                result.getClientSecret(),
+                result.getPaymentIntentId(),
+                result.getAmountInSmallestUnit(),
+                result.getCurrency()
+        );
     }
 
     @GetMapping("/me")

@@ -11,10 +11,12 @@ import jakarta.validation.constraints.Size;
 /**
  * Request to subscribe the current user to a plan.
  *
- * @param planId           ID of the plan to subscribe to
- * @param paymentMode      payment mode code (e.g. STRIPE, PAYPAL)
- * @param billingFrequency chosen billing cycle (MONTHLY, YEARLY, or LIFETIME)
- * @param discountCode     optional discount code applied at checkout
+ * @param planId                  ID of the plan to subscribe to
+ * @param paymentMode             payment mode code (e.g. STRIPE, PAYPAL)
+ * @param billingFrequency        chosen billing cycle (MONTHLY, YEARLY, or LIFETIME)
+ * @param discountCode            optional discount code applied at checkout
+ * @param stripePaymentIntentId   optional Stripe PaymentIntent ID (pi_...) confirmed on the
+ *                                frontend; required when paymentMode is STRIPE
  */
 public record SubscribeRequest(
         @NotNull(message = "planId is required")
@@ -29,6 +31,10 @@ public record SubscribeRequest(
 
         @Nullable
         @Size(max = 50, message = "discountCode must not exceed 50 characters")
-        String discountCode
+        String discountCode,
+
+        @Nullable
+        @Size(max = 100, message = "stripePaymentIntentId must not exceed 100 characters")
+        String stripePaymentIntentId
 ) {
 }
