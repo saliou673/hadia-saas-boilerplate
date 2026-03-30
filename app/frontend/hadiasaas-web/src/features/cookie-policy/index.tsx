@@ -17,9 +17,9 @@ export function CookiePolicy() {
                     </h2>
                     <p className="mt-4 text-gray-600 dark:text-zinc-400">
                         Cookies are small text files stored on your device when
-                        you visit a website. They help us recognize your browser,
-                        remember your preferences, and improve your experience on
-                        our platform.
+                        you visit a website. They help us recognize your
+                        browser, remember your preferences, and improve your
+                        experience on our platform.
                     </p>
                 </section>
 

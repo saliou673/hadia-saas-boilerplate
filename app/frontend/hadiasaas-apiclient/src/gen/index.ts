@@ -83,6 +83,7 @@ export type { UpdateRoleGroupAsAdminMutationKey } from "./react-query/role-group
 export type { GetSubscriptionPlansQueryKey } from "./react-query/subscription-plans/useGetSubscriptionPlans.ts";
 export type { GetSubscriptionPlansSuspenseQueryKey } from "./react-query/subscription-plans/useGetSubscriptionPlansSuspense.ts";
 export type { CancelSubscriptionMutationKey } from "./react-query/subscriptions/useCancelSubscription.ts";
+export type { CreateStripePaymentIntentMutationKey } from "./react-query/subscriptions/useCreateStripePaymentIntent.ts";
 export type { GetMySubscriptionsQueryKey } from "./react-query/subscriptions/useGetMySubscriptions.ts";
 export type { GetMySubscriptionsSuspenseQueryKey } from "./react-query/subscriptions/useGetMySubscriptionsSuspense.ts";
 export type { RenewSubscriptionMutationKey } from "./react-query/subscriptions/useRenewSubscription.ts";
@@ -95,6 +96,7 @@ export type { ActivateAccountQueryKey } from "./react-query/user-account-managem
 export type { ActivateAccountSuspenseQueryKey } from "./react-query/user-account-management/useActivateAccountSuspense.ts";
 export type { ChangePasswordMutationKey } from "./react-query/user-account-management/useChangePassword.ts";
 export type { CompleteInvitationMutationKey } from "./react-query/user-account-management/useCompleteInvitation.ts";
+export type { ConfirmEmailChangeMutationKey } from "./react-query/user-account-management/useConfirmEmailChange.ts";
 export type { CreatePublicUserAccountMutationKey } from "./react-query/user-account-management/useCreatePublicUserAccount.ts";
 export type { DeleteCurrentAccountMutationKey } from "./react-query/user-account-management/useDeleteCurrentAccount.ts";
 export type { FinishPasswordResetMutationKey } from "./react-query/user-account-management/useFinishPasswordReset.ts";
@@ -106,6 +108,7 @@ export type { GetUserDetailsQueryKey } from "./react-query/user-account-manageme
 export type { GetUserDetailsSuspenseQueryKey } from "./react-query/user-account-management/useGetUserDetailsSuspense.ts";
 export type { RecoverAccountMutationKey } from "./react-query/user-account-management/useRecoverAccount.ts";
 export type { RequestActivationCodeMutationKey } from "./react-query/user-account-management/useRequestActivationCode.ts";
+export type { RequestEmailChangeMutationKey } from "./react-query/user-account-management/useRequestEmailChange.ts";
 export type { RequestPasswordResetMutationKey } from "./react-query/user-account-management/useRequestPasswordReset.ts";
 export type { UpdateAccountMutationKey } from "./react-query/user-account-management/useUpdateAccount.ts";
 export type { UpdateCurrentUserPreferencesMutationKey } from "./react-query/user-account-management/useUpdateCurrentUserPreferences.ts";
@@ -215,6 +218,15 @@ export type {
     Confirm2FactorSetupMutationRequest,
     Confirm2FactorSetupMutationResponse,
 } from "./types/Confirm2FactorSetup.ts";
+export type {
+    ConfirmEmailChange204,
+    ConfirmEmailChange403,
+    ConfirmEmailChange404,
+    ConfirmEmailChange409,
+    ConfirmEmailChangeMutation,
+    ConfirmEmailChangeMutationRequest,
+    ConfirmEmailChangeMutationResponse,
+} from "./types/ConfirmEmailChange.ts";
 export type { ContactFormRequest } from "./types/ContactFormRequest.ts";
 export type {
     CreateAdminUserRequest,
@@ -278,6 +290,15 @@ export type {
     CreateStorageSettingsRequest,
     CreateStorageSettingsRequestProviderEnumKey,
 } from "./types/CreateStorageSettingsRequest.ts";
+export type {
+    CreateStripePaymentIntent201,
+    CreateStripePaymentIntent403,
+    CreateStripePaymentIntent404,
+    CreateStripePaymentIntent409,
+    CreateStripePaymentIntentMutation,
+    CreateStripePaymentIntentMutationRequest,
+    CreateStripePaymentIntentMutationResponse,
+} from "./types/CreateStripePaymentIntent.ts";
 export type {
     CreateSubscriptionPlanAsAdmin201,
     CreateSubscriptionPlanAsAdmin403,
@@ -416,6 +437,8 @@ export type {
     DiscountTypeFilterNotEqualsEnumKey,
     DiscountTypeFilterNotInEnumKey,
 } from "./types/DiscountTypeFilter.ts";
+export type { EmailChangeConfirmRequest } from "./types/EmailChangeConfirmRequest.ts";
+export type { EmailChangeRequest } from "./types/EmailChangeRequest.ts";
 export type { EnterpriseProfile } from "./types/EnterpriseProfile.ts";
 export type {
     FinishPasswordReset200,
@@ -756,6 +779,15 @@ export type {
     RequestActivationCodeMutationResponse,
 } from "./types/RequestActivationCode.ts";
 export type {
+    RequestEmailChange204,
+    RequestEmailChange403,
+    RequestEmailChange404,
+    RequestEmailChange409,
+    RequestEmailChangeMutation,
+    RequestEmailChangeMutationRequest,
+    RequestEmailChangeMutationResponse,
+} from "./types/RequestEmailChange.ts";
+export type {
     RequestPasswordReset200,
     RequestPasswordReset403,
     RequestPasswordReset404,
@@ -797,6 +829,11 @@ export type {
 } from "./types/StorageSettings.ts";
 export type { StorageSettingsFilter } from "./types/StorageSettingsFilter.ts";
 export type { StringFilter } from "./types/StringFilter.ts";
+export type { StripePaymentIntent } from "./types/StripePaymentIntent.ts";
+export type {
+    StripePaymentIntentRequest,
+    StripePaymentIntentRequestBillingFrequencyEnumKey,
+} from "./types/StripePaymentIntentRequest.ts";
 export type {
     SubscribeRequest,
     SubscribeRequestBillingFrequencyEnumKey,
@@ -1079,6 +1116,7 @@ export { updateRoleGroupAsAdmin } from "./client/role-group-management/updateRol
 export { getSubscriptionPlans } from "./client/subscription-plans/getSubscriptionPlans.ts";
 export { subscriptionplans } from "./client/subscription-plans/subscriptionplans.ts";
 export { cancelSubscription } from "./client/subscriptions/cancelSubscription.ts";
+export { createStripePaymentIntent } from "./client/subscriptions/createStripePaymentIntent.ts";
 export { getMySubscriptions } from "./client/subscriptions/getMySubscriptions.ts";
 export { renewSubscription } from "./client/subscriptions/renewSubscription.ts";
 export { subscribeToPlan } from "./client/subscriptions/subscribeToPlan.ts";
@@ -1091,6 +1129,7 @@ export { verifyLoginChallenge } from "./client/two-factor-authentication-managem
 export { activateAccount } from "./client/user-account-management/activateAccount.ts";
 export { changePassword } from "./client/user-account-management/changePassword.ts";
 export { completeInvitation } from "./client/user-account-management/completeInvitation.ts";
+export { confirmEmailChange } from "./client/user-account-management/confirmEmailChange.ts";
 export { createPublicUserAccount } from "./client/user-account-management/createPublicUserAccount.ts";
 export { deleteCurrentAccount } from "./client/user-account-management/deleteCurrentAccount.ts";
 export { finishPasswordReset } from "./client/user-account-management/finishPasswordReset.ts";
@@ -1099,6 +1138,7 @@ export { getCurrentUserPreferences } from "./client/user-account-management/getC
 export { getUserDetails } from "./client/user-account-management/getUserDetails.ts";
 export { recoverAccount } from "./client/user-account-management/recoverAccount.ts";
 export { requestActivationCode } from "./client/user-account-management/requestActivationCode.ts";
+export { requestEmailChange } from "./client/user-account-management/requestEmailChange.ts";
 export { requestPasswordReset } from "./client/user-account-management/requestPasswordReset.ts";
 export { updateAccount } from "./client/user-account-management/updateAccount.ts";
 export { updateCurrentUserPreferences } from "./client/user-account-management/updateCurrentUserPreferences.ts";
@@ -1358,6 +1398,9 @@ export { useGetSubscriptionPlansSuspense } from "./react-query/subscription-plan
 export { cancelSubscriptionMutationKey } from "./react-query/subscriptions/useCancelSubscription.ts";
 export { cancelSubscriptionMutationOptions } from "./react-query/subscriptions/useCancelSubscription.ts";
 export { useCancelSubscription } from "./react-query/subscriptions/useCancelSubscription.ts";
+export { createStripePaymentIntentMutationKey } from "./react-query/subscriptions/useCreateStripePaymentIntent.ts";
+export { createStripePaymentIntentMutationOptions } from "./react-query/subscriptions/useCreateStripePaymentIntent.ts";
+export { useCreateStripePaymentIntent } from "./react-query/subscriptions/useCreateStripePaymentIntent.ts";
 export { getMySubscriptionsQueryKey } from "./react-query/subscriptions/useGetMySubscriptions.ts";
 export { getMySubscriptionsQueryOptions } from "./react-query/subscriptions/useGetMySubscriptions.ts";
 export { useGetMySubscriptions } from "./react-query/subscriptions/useGetMySubscriptions.ts";
@@ -1394,6 +1437,9 @@ export { useChangePassword } from "./react-query/user-account-management/useChan
 export { completeInvitationMutationKey } from "./react-query/user-account-management/useCompleteInvitation.ts";
 export { completeInvitationMutationOptions } from "./react-query/user-account-management/useCompleteInvitation.ts";
 export { useCompleteInvitation } from "./react-query/user-account-management/useCompleteInvitation.ts";
+export { confirmEmailChangeMutationKey } from "./react-query/user-account-management/useConfirmEmailChange.ts";
+export { confirmEmailChangeMutationOptions } from "./react-query/user-account-management/useConfirmEmailChange.ts";
+export { useConfirmEmailChange } from "./react-query/user-account-management/useConfirmEmailChange.ts";
 export { createPublicUserAccountMutationKey } from "./react-query/user-account-management/useCreatePublicUserAccount.ts";
 export { createPublicUserAccountMutationOptions } from "./react-query/user-account-management/useCreatePublicUserAccount.ts";
 export { useCreatePublicUserAccount } from "./react-query/user-account-management/useCreatePublicUserAccount.ts";
@@ -1427,6 +1473,9 @@ export { useRecoverAccount } from "./react-query/user-account-management/useReco
 export { requestActivationCodeMutationKey } from "./react-query/user-account-management/useRequestActivationCode.ts";
 export { requestActivationCodeMutationOptions } from "./react-query/user-account-management/useRequestActivationCode.ts";
 export { useRequestActivationCode } from "./react-query/user-account-management/useRequestActivationCode.ts";
+export { requestEmailChangeMutationKey } from "./react-query/user-account-management/useRequestEmailChange.ts";
+export { requestEmailChangeMutationOptions } from "./react-query/user-account-management/useRequestEmailChange.ts";
+export { useRequestEmailChange } from "./react-query/user-account-management/useRequestEmailChange.ts";
 export { requestPasswordResetMutationKey } from "./react-query/user-account-management/useRequestPasswordReset.ts";
 export { requestPasswordResetMutationOptions } from "./react-query/user-account-management/useRequestPasswordReset.ts";
 export { useRequestPasswordReset } from "./react-query/user-account-management/useRequestPasswordReset.ts";
@@ -1461,6 +1510,7 @@ export { storageProviderFilterInEnum } from "./types/StorageProviderFilter.ts";
 export { storageProviderFilterNotEqualsEnum } from "./types/StorageProviderFilter.ts";
 export { storageProviderFilterNotInEnum } from "./types/StorageProviderFilter.ts";
 export { storageSettingsProviderEnum } from "./types/StorageSettings.ts";
+export { stripePaymentIntentRequestBillingFrequencyEnum } from "./types/StripePaymentIntentRequest.ts";
 export { subscribeRequestBillingFrequencyEnum } from "./types/SubscribeRequest.ts";
 export { twoFactorSetupRequestTypeEnum } from "./types/TwoFactorSetupRequest.ts";
 export { updateByCategoryAndCodePathParamsCategoryEnum } from "./types/UpdateByCategoryAndCode.ts";

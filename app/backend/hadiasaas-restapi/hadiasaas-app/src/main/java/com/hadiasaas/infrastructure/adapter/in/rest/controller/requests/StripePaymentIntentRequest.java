@@ -6,7 +6,6 @@ import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-@Schema(name = "StripePaymentIntentRequest")
 /**
  * Request to create a Stripe PaymentIntent for a given plan before card confirmation.
  */

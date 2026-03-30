@@ -93,4 +93,27 @@ public interface NotificationSenderPort {
      * @param contactForm the submitted contact form
      */
     void sendContactFormConfirmationToUser(ContactForm contactForm);
+
+    /**
+     * Sends an OTP code to the new email address to confirm an email-change request.
+     *
+     * @param user     the user requesting the email change (still holds the old email)
+     * @param newEmail the new email address where the OTP must be sent
+     */
+    void sendEmailChangeOtpNotification(User user, String newEmail);
+
+    /**
+     * Notifies the old email address that the email has been changed (security alert).
+     *
+     * @param user     the user after the email change (already holds the new email)
+     * @param oldEmail the previous email address to notify
+     */
+    void sendEmailChangedOldAddressNotification(User user, String oldEmail);
+
+    /**
+     * Notifies the new email address that it has been confirmed and is now active.
+     *
+     * @param user the user after the email change (already holds the new email)
+     */
+    void sendEmailChangedNewAddressNotification(User user);
 }

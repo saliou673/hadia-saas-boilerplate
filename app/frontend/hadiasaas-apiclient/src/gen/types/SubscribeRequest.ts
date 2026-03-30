@@ -34,4 +34,10 @@ export type SubscribeRequest = {
      * @type string | undefined
      */
     discountCode?: string;
+    /**
+     * @minLength 0
+     * @maxLength 100
+     * @type string | undefined
+     */
+    stripePaymentIntentId?: string;
 };

@@ -19,7 +19,7 @@ public class UserCredentials {
     /**
      * Validated lowercase email address.
      */
-    private final Email email;
+    private Email email;
     /**
      * BCrypt hash of the user's password.
      */
@@ -40,6 +40,18 @@ public class UserCredentials {
      * Timestamp of the last password-reset request.
      */
     private Instant resetDate;
+    /**
+     * New email address pending confirmation ({@code null} when not in an email-change flow).
+     */
+    private String pendingEmail;
+    /**
+     * One-time code used to confirm an email change ({@code null} when not in an email-change flow).
+     */
+    private String emailChangeCode;
+    /**
+     * Timestamp of the last email-change request ({@code null} when not in an email-change flow).
+     */
+    private Instant emailChangeCodeDate;
 
     public UserCredentials(
             String email,
@@ -47,7 +59,10 @@ public class UserCredentials {
             String activationCode,
             Instant activationDate,
             String resetCode,
-            Instant resetDate
+            Instant resetDate,
+            String pendingEmail,
+            String emailChangeCode,
+            Instant emailChangeCodeDate
     ) {
         this.email = new Email(email);
 
@@ -58,6 +73,9 @@ public class UserCredentials {
         this.activationDate = activationDate;
         this.resetCode = resetCode;
         this.resetDate = resetDate;
+        this.pendingEmail = pendingEmail;
+        this.emailChangeCode = emailChangeCode;
+        this.emailChangeCodeDate = emailChangeCodeDate;
     }
 
     protected void changePassword(String newPasswordHash, Instant resetDate) {
@@ -86,6 +104,11 @@ public class UserCredentials {
         this.activationDate = null;
     }
 
+    protected void confirmEmail(Instant confirmationDate) {
+        this.activationCode = null;
+        this.activationDate = confirmationDate;
+    }
+
     protected void updateResetCode(String newResetCode, @NonNull Instant resetDate) {
         checkRequiredField(newResetCode, "resetCode");
         this.resetCode = newResetCode;
@@ -94,6 +117,20 @@ public class UserCredentials {
 
     public String getEmail() {
         return email.value();
+    }
+
+    protected void requestEmailChange(String newEmail, String code, Instant codeDate) {
+        Email validated = new Email(newEmail);
+        this.pendingEmail = validated.value();
+        this.emailChangeCode = code;
+        this.emailChangeCodeDate = codeDate;
+    }
+
+    protected void confirmEmailChange() {
+        this.email = new Email(this.pendingEmail);
+        this.pendingEmail = null;
+        this.emailChangeCode = null;
+        this.emailChangeCodeDate = null;
     }
 
 }

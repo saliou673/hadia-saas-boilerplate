@@ -104,6 +104,15 @@ export type {
     Confirm2FactorSetupMutationRequest,
     Confirm2FactorSetupMutationResponse,
 } from "./Confirm2FactorSetup.ts";
+export type {
+    ConfirmEmailChange204,
+    ConfirmEmailChange403,
+    ConfirmEmailChange404,
+    ConfirmEmailChange409,
+    ConfirmEmailChangeMutation,
+    ConfirmEmailChangeMutationRequest,
+    ConfirmEmailChangeMutationResponse,
+} from "./ConfirmEmailChange.ts";
 export type { ContactFormRequest } from "./ContactFormRequest.ts";
 export type {
     CreateAdminUserRequest,
@@ -167,6 +176,15 @@ export type {
     CreateStorageSettingsRequest,
     CreateStorageSettingsRequestProviderEnumKey,
 } from "./CreateStorageSettingsRequest.ts";
+export type {
+    CreateStripePaymentIntent201,
+    CreateStripePaymentIntent403,
+    CreateStripePaymentIntent404,
+    CreateStripePaymentIntent409,
+    CreateStripePaymentIntentMutation,
+    CreateStripePaymentIntentMutationRequest,
+    CreateStripePaymentIntentMutationResponse,
+} from "./CreateStripePaymentIntent.ts";
 export type {
     CreateSubscriptionPlanAsAdmin201,
     CreateSubscriptionPlanAsAdmin403,
@@ -305,6 +323,8 @@ export type {
     DiscountTypeFilterNotEqualsEnumKey,
     DiscountTypeFilterNotInEnumKey,
 } from "./DiscountTypeFilter.ts";
+export type { EmailChangeConfirmRequest } from "./EmailChangeConfirmRequest.ts";
+export type { EmailChangeRequest } from "./EmailChangeRequest.ts";
 export type { EnterpriseProfile } from "./EnterpriseProfile.ts";
 export type {
     FinishPasswordReset200,
@@ -645,6 +665,15 @@ export type {
     RequestActivationCodeMutationResponse,
 } from "./RequestActivationCode.ts";
 export type {
+    RequestEmailChange204,
+    RequestEmailChange403,
+    RequestEmailChange404,
+    RequestEmailChange409,
+    RequestEmailChangeMutation,
+    RequestEmailChangeMutationRequest,
+    RequestEmailChangeMutationResponse,
+} from "./RequestEmailChange.ts";
+export type {
     RequestPasswordReset200,
     RequestPasswordReset403,
     RequestPasswordReset404,
@@ -686,6 +715,11 @@ export type {
 } from "./StorageSettings.ts";
 export type { StorageSettingsFilter } from "./StorageSettingsFilter.ts";
 export type { StringFilter } from "./StringFilter.ts";
+export type { StripePaymentIntent } from "./StripePaymentIntent.ts";
+export type {
+    StripePaymentIntentRequest,
+    StripePaymentIntentRequestBillingFrequencyEnumKey,
+} from "./StripePaymentIntentRequest.ts";
 export type {
     SubscribeRequest,
     SubscribeRequestBillingFrequencyEnumKey,
@@ -919,6 +953,7 @@ export { storageProviderFilterInEnum } from "./StorageProviderFilter.ts";
 export { storageProviderFilterNotEqualsEnum } from "./StorageProviderFilter.ts";
 export { storageProviderFilterNotInEnum } from "./StorageProviderFilter.ts";
 export { storageSettingsProviderEnum } from "./StorageSettings.ts";
+export { stripePaymentIntentRequestBillingFrequencyEnum } from "./StripePaymentIntentRequest.ts";
 export { subscribeRequestBillingFrequencyEnum } from "./SubscribeRequest.ts";
 export { twoFactorSetupRequestTypeEnum } from "./TwoFactorSetupRequest.ts";
 export { updateByCategoryAndCodePathParamsCategoryEnum } from "./UpdateByCategoryAndCode.ts";

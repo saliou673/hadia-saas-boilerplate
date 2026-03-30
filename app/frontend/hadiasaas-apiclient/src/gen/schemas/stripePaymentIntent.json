@@ -1,0 +1,10 @@
+{
+    "type": "object",
+    "properties": {
+        "clientSecret": { "type": "string" },
+        "paymentIntentId": { "type": "string" },
+        "amountInSmallestUnit": { "type": "integer", "format": "int64" },
+        "currency": { "type": "string" }
+    },
+    "x-readme-ref-name": "StripePaymentIntent"
+}

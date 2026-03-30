@@ -5,6 +5,7 @@
 import { activateAccount } from "./activateAccount.ts";
 import { changePassword } from "./changePassword.ts";
 import { completeInvitation } from "./completeInvitation.ts";
+import { confirmEmailChange } from "./confirmEmailChange.ts";
 import { createPublicUserAccount } from "./createPublicUserAccount.ts";
 import { deleteCurrentAccount } from "./deleteCurrentAccount.ts";
 import { finishPasswordReset } from "./finishPasswordReset.ts";
@@ -13,6 +14,7 @@ import { getCurrentUserPreferences } from "./getCurrentUserPreferences.ts";
 import { getUserDetails } from "./getUserDetails.ts";
 import { recoverAccount } from "./recoverAccount.ts";
 import { requestActivationCode } from "./requestActivationCode.ts";
+import { requestEmailChange } from "./requestEmailChange.ts";
 import { requestPasswordReset } from "./requestPasswordReset.ts";
 import { updateAccount } from "./updateAccount.ts";
 import { updateCurrentUserPreferences } from "./updateCurrentUserPreferences.ts";
@@ -28,6 +30,8 @@ export function useraccountmanagement() {
         finishPasswordReset,
         createPublicUserAccount,
         recoverAccount,
+        requestEmailChange,
+        confirmEmailChange,
         completeInvitation,
         requestActivationCode,
         changePassword,

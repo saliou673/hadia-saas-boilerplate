@@ -83,6 +83,7 @@ export type { UpdateRoleGroupAsAdminMutationKey } from "./role-group-management/
 export type { GetSubscriptionPlansQueryKey } from "./subscription-plans/useGetSubscriptionPlans.ts";
 export type { GetSubscriptionPlansSuspenseQueryKey } from "./subscription-plans/useGetSubscriptionPlansSuspense.ts";
 export type { CancelSubscriptionMutationKey } from "./subscriptions/useCancelSubscription.ts";
+export type { CreateStripePaymentIntentMutationKey } from "./subscriptions/useCreateStripePaymentIntent.ts";
 export type { GetMySubscriptionsQueryKey } from "./subscriptions/useGetMySubscriptions.ts";
 export type { GetMySubscriptionsSuspenseQueryKey } from "./subscriptions/useGetMySubscriptionsSuspense.ts";
 export type { RenewSubscriptionMutationKey } from "./subscriptions/useRenewSubscription.ts";
@@ -95,6 +96,7 @@ export type { ActivateAccountQueryKey } from "./user-account-management/useActiv
 export type { ActivateAccountSuspenseQueryKey } from "./user-account-management/useActivateAccountSuspense.ts";
 export type { ChangePasswordMutationKey } from "./user-account-management/useChangePassword.ts";
 export type { CompleteInvitationMutationKey } from "./user-account-management/useCompleteInvitation.ts";
+export type { ConfirmEmailChangeMutationKey } from "./user-account-management/useConfirmEmailChange.ts";
 export type { CreatePublicUserAccountMutationKey } from "./user-account-management/useCreatePublicUserAccount.ts";
 export type { DeleteCurrentAccountMutationKey } from "./user-account-management/useDeleteCurrentAccount.ts";
 export type { FinishPasswordResetMutationKey } from "./user-account-management/useFinishPasswordReset.ts";
@@ -106,6 +108,7 @@ export type { GetUserDetailsQueryKey } from "./user-account-management/useGetUse
 export type { GetUserDetailsSuspenseQueryKey } from "./user-account-management/useGetUserDetailsSuspense.ts";
 export type { RecoverAccountMutationKey } from "./user-account-management/useRecoverAccount.ts";
 export type { RequestActivationCodeMutationKey } from "./user-account-management/useRequestActivationCode.ts";
+export type { RequestEmailChangeMutationKey } from "./user-account-management/useRequestEmailChange.ts";
 export type { RequestPasswordResetMutationKey } from "./user-account-management/useRequestPasswordReset.ts";
 export type { UpdateAccountMutationKey } from "./user-account-management/useUpdateAccount.ts";
 export type { UpdateCurrentUserPreferencesMutationKey } from "./user-account-management/useUpdateCurrentUserPreferences.ts";
@@ -364,6 +367,9 @@ export { useGetSubscriptionPlansSuspense } from "./subscription-plans/useGetSubs
 export { cancelSubscriptionMutationKey } from "./subscriptions/useCancelSubscription.ts";
 export { cancelSubscriptionMutationOptions } from "./subscriptions/useCancelSubscription.ts";
 export { useCancelSubscription } from "./subscriptions/useCancelSubscription.ts";
+export { createStripePaymentIntentMutationKey } from "./subscriptions/useCreateStripePaymentIntent.ts";
+export { createStripePaymentIntentMutationOptions } from "./subscriptions/useCreateStripePaymentIntent.ts";
+export { useCreateStripePaymentIntent } from "./subscriptions/useCreateStripePaymentIntent.ts";
 export { getMySubscriptionsQueryKey } from "./subscriptions/useGetMySubscriptions.ts";
 export { getMySubscriptionsQueryOptions } from "./subscriptions/useGetMySubscriptions.ts";
 export { useGetMySubscriptions } from "./subscriptions/useGetMySubscriptions.ts";
@@ -400,6 +406,9 @@ export { useChangePassword } from "./user-account-management/useChangePassword.t
 export { completeInvitationMutationKey } from "./user-account-management/useCompleteInvitation.ts";
 export { completeInvitationMutationOptions } from "./user-account-management/useCompleteInvitation.ts";
 export { useCompleteInvitation } from "./user-account-management/useCompleteInvitation.ts";
+export { confirmEmailChangeMutationKey } from "./user-account-management/useConfirmEmailChange.ts";
+export { confirmEmailChangeMutationOptions } from "./user-account-management/useConfirmEmailChange.ts";
+export { useConfirmEmailChange } from "./user-account-management/useConfirmEmailChange.ts";
 export { createPublicUserAccountMutationKey } from "./user-account-management/useCreatePublicUserAccount.ts";
 export { createPublicUserAccountMutationOptions } from "./user-account-management/useCreatePublicUserAccount.ts";
 export { useCreatePublicUserAccount } from "./user-account-management/useCreatePublicUserAccount.ts";
@@ -433,6 +442,9 @@ export { useRecoverAccount } from "./user-account-management/useRecoverAccount.t
 export { requestActivationCodeMutationKey } from "./user-account-management/useRequestActivationCode.ts";
 export { requestActivationCodeMutationOptions } from "./user-account-management/useRequestActivationCode.ts";
 export { useRequestActivationCode } from "./user-account-management/useRequestActivationCode.ts";
+export { requestEmailChangeMutationKey } from "./user-account-management/useRequestEmailChange.ts";
+export { requestEmailChangeMutationOptions } from "./user-account-management/useRequestEmailChange.ts";
+export { useRequestEmailChange } from "./user-account-management/useRequestEmailChange.ts";
 export { requestPasswordResetMutationKey } from "./user-account-management/useRequestPasswordReset.ts";
 export { requestPasswordResetMutationOptions } from "./user-account-management/useRequestPasswordReset.ts";
 export { useRequestPasswordReset } from "./user-account-management/useRequestPasswordReset.ts";

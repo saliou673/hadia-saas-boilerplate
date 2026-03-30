@@ -3,6 +3,7 @@
  * Do not edit manually.
  */
 import { cancelSubscription } from "./cancelSubscription.ts";
+import { createStripePaymentIntent } from "./createStripePaymentIntent.ts";
 import { getMySubscriptions } from "./getMySubscriptions.ts";
 import { renewSubscription } from "./renewSubscription.ts";
 import { subscribeToPlan } from "./subscribeToPlan.ts";
@@ -12,6 +13,7 @@ export function subscriptions() {
         cancelSubscription,
         subscribeToPlan,
         renewSubscription,
+        createStripePaymentIntent,
         getMySubscriptions,
     };
 }

@@ -28,6 +28,12 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>, JpaSpec
 
     boolean existsByUserCredentialsResetCode(String resetCode);
 
+    Optional<UserEntity> findOneByUserCredentialsEmailChangeCode(String emailChangeCode);
+
+    boolean existsByUserCredentialsEmailChangeCode(String emailChangeCode);
+
+    boolean existsByUserCredentialsPendingEmailAndIdNot(String pendingEmail, Long id);
+
     @Modifying
     int deleteAllByUserCredentialsActivationCodeIsNotNullAndStatusIsNotAndCreationDateBefore(UserStatus status, Instant dateTime);
 

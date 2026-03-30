@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAmount;
 import java.util.*;
 import java.util.function.Predicate;
@@ -112,12 +113,13 @@ public class UserService implements AccountUseCase {
 
         try {
             // For regular (non-auto-activated) accounts this marks them active.
-            // For auto-activated accounts (public sign-ups) it is a no-op: the
-            // user clicked the verification link after already being active.
+            // For auto-activated accounts (public sign-ups) it is a no-op on status,
+            // but we still clear the activation code below to confirm email ownership.
             user.activate(Instant.now());
         } catch (UserAlreadyActivatedException ignored) {
-            // Email already confirmed via auto-activation — treat as success.
+            // Auto-activated account: clear the code and stamp the confirmation date.
             log.debug("User with activationCode={} was already active (email verification confirmed)", activationCode);
+            user.confirmEmail(Instant.now());
         }
 
         userPersistencePort.save(user);
@@ -268,6 +270,58 @@ public class UserService implements AccountUseCase {
         log.info("Deleting soft-deleted users since {}", date);
         int count = userPersistencePort.deleteByStatusAndLastUpdateDateBefore(UserStatus.DEACTIVATED, date);
         log.info("{} soft-deleted users permanently removed", count);
+    }
+
+    @Override
+    public void requestEmailChange(String newEmail) {
+        String currentEmail = getCurrentUserEmail();
+        User user = getUserByEmailOrThrow(currentEmail);
+
+        String normalizedNew = newEmail.toLowerCase().trim();
+        if (normalizedNew.equals(user.getUserCredentials().getEmail())) {
+            throw new FunctionalException("New email must be different from current email");
+        }
+
+        Instant lastRequest = user.getUserCredentials().getEmailChangeCodeDate();
+        if (lastRequest != null && lastRequest.isAfter(Instant.now().minus(1, ChronoUnit.MINUTES))) {
+            throw new FunctionalException("Please wait before requesting another email change code");
+        }
+
+        userPersistencePort.findByEmail(normalizedNew).ifPresent(existingUser -> {
+            throw new UserAlreadyExistsException("Email " + normalizedNew + " is already in use");
+        });
+
+        if (userPersistencePort.existsPendingEmailForAnotherUser(normalizedNew, user.getId())) {
+            throw new UserAlreadyExistsException("Email " + normalizedNew + " is already in use");
+        }
+
+        String code = generateUniqueCode(userPersistencePort::existsByEmailChangeCode, "emailChange");
+        user.requestEmailChange(normalizedNew, code, Instant.now());
+        User saved = userPersistencePort.save(user);
+        notificationSenderPort.sendEmailChangeOtpNotification(saved, normalizedNew);
+    }
+
+    @Override
+    public void confirmEmailChange(String code) {
+        String currentEmail = getCurrentUserEmail();
+        User user = getUserByEmailOrThrow(currentEmail);
+
+        if (user.getUserCredentials().getEmailChangeCode() == null
+                || !user.getUserCredentials().getEmailChangeCode().equals(code)) {
+            throw new FunctionalException("Invalid email change code");
+        }
+
+        Instant codeDate = user.getUserCredentials().getEmailChangeCodeDate();
+        if (codeDate == null || codeDate.isBefore(Instant.now().minus(getResetCodeValidityPeriod()))) {
+            throw new FunctionalException("Email change code has expired");
+        }
+
+        String oldEmail = user.getUserCredentials().getEmail();
+        user.confirmEmailChange();
+        authTokenPersistencePort.deleteAllForUser(user);
+        User saved = userPersistencePort.save(user);
+        notificationSenderPort.sendEmailChangedOldAddressNotification(saved, oldEmail);
+        notificationSenderPort.sendEmailChangedNewAddressNotification(saved);
     }
 
     private String getCurrentUserEmail() {

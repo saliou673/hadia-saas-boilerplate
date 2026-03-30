@@ -43,5 +43,8 @@ public interface CreateUserRequestMapper {
     @Mapping(target = "resetDate", ignore = true)
     @Mapping(target = "activationCode", ignore = true)
     @Mapping(target = "activationDate", ignore = true)
+    @Mapping(target = "pendingEmail", ignore = true)
+    @Mapping(target = "emailChangeCode", ignore = true)
+    @Mapping(target = "emailChangeCodeDate", ignore = true)
     UserCredentials toUserCredentials(CreateUserRequest request);
 }

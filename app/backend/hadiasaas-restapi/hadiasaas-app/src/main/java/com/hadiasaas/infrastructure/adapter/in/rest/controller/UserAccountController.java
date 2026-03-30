@@ -196,4 +196,28 @@ public class UserAccountController {
         accountUseCase.completeInvitation(request.code(), request.newPassword());
     }
 
+    /**
+     * Initiates an email-change flow by sending an OTP to the new email address.
+     *
+     * @param request the desired new email address.
+     */
+    @PostMapping("/me/email/change-request")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('user:update:own')")
+    public void requestEmailChange(@RequestBody @Valid EmailChangeRequest request) {
+        accountUseCase.requestEmailChange(request.newEmail());
+    }
+
+    /**
+     * Confirms an email-change request by validating the OTP code.
+     *
+     * @param request the OTP code sent to the new email address.
+     */
+    @PostMapping("/me/email/change-confirm")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('user:update:own')")
+    public void confirmEmailChange(@RequestBody @Valid EmailChangeConfirmRequest request) {
+        accountUseCase.confirmEmailChange(request.code());
+    }
+
 }

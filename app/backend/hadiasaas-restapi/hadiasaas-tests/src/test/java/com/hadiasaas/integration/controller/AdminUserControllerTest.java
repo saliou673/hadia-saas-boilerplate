@@ -720,7 +720,7 @@ class AdminUserControllerTest extends IntegrationTest {
                 DomainConstants.DEFAULT_LANGUAGE, null));
         user.setUserCredentials(new EmbeddableCredentials(
                 email.toLowerCase(), passwordEncoder.encode(DEFAULT_USER_PASSWORD),
-                null, Instant.now(), null, null));
+                null, Instant.now(), null, null, null, null, null));
         user.setStatus(status);
         user.setRoleGroups(Set.of(adminRoleGroup));
         user.setCreationDate(Instant.now());

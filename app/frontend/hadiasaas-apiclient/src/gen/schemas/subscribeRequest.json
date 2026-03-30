@@ -7,7 +7,12 @@
             "type": "string",
             "enum": ["MONTHLY", "YEARLY", "LIFETIME", "CUSTOM"]
         },
-        "discountCode": { "type": "string", "maxLength": 50, "minLength": 0 }
+        "discountCode": { "type": "string", "maxLength": 50, "minLength": 0 },
+        "stripePaymentIntentId": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+        }
     },
     "required": ["billingFrequency", "paymentMode", "planId"],
     "x-readme-ref-name": "SubscribeRequest"

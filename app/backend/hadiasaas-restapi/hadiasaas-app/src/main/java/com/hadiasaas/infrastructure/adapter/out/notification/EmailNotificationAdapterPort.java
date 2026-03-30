@@ -294,6 +294,66 @@ public class EmailNotificationAdapterPort implements NotificationSenderPort {
         this.sendEmailSync(contactForm.senderEmail(), subject, content);
     }
 
+    @Override
+    @Async
+    public void sendEmailChangeOtpNotification(User user, String newEmail) {
+        UserInfo userInfo = user.getUserInfo();
+        String firstName = userInfo.firstName();
+        String emailChangeCode = user.getUserCredentials().getEmailChangeCode();
+        String languageKey = userInfo.languageKey();
+
+        if (StringUtils.isBlank(newEmail)) {
+            log.debug("New email is blank, cannot send email change OTP");
+            return;
+        }
+
+        Locale locale = resolveLocale(languageKey);
+        Context context = new Context(locale);
+        context.setVariable("firstName", firstName);
+        context.setVariable("code", emailChangeCode);
+        context.setVariable(BASE_URL, getBaseUrl());
+        setCodeLifetimeVariables(context, locale);
+        String content = templateEngine.process("mail/emailChangeOtpEmail", context);
+        String subject = messageSource.getMessage("email.email-change.title", null, locale);
+        this.sendEmailSync(newEmail, subject, content);
+    }
+
+    @Override
+    @Async
+    public void sendEmailChangedOldAddressNotification(User user, String oldEmail) {
+        if (StringUtils.isBlank(oldEmail)) {
+            log.debug("Old email is blank, cannot send email-changed security notice");
+            return;
+        }
+        UserInfo userInfo = user.getUserInfo();
+        Locale locale = resolveLocale(userInfo.languageKey());
+        Context context = new Context(locale);
+        context.setVariable("firstName", userInfo.firstName());
+        context.setVariable("newEmail", user.getUserCredentials().getEmail());
+        context.setVariable(BASE_URL, getBaseUrl());
+        String content = templateEngine.process("mail/emailChangedOldAddressEmail", context);
+        String subject = messageSource.getMessage("email.email-changed-old.title", null, locale);
+        this.sendEmailSync(oldEmail, subject, content);
+    }
+
+    @Override
+    @Async
+    public void sendEmailChangedNewAddressNotification(User user) {
+        NotificationRecipient recipient = getNotificationRecipient(user);
+        String newEmail = recipient.email();
+        if (StringUtils.isBlank(newEmail)) {
+            log.debug("New email is blank, cannot send email-confirmed notice");
+            return;
+        }
+        Locale locale = resolveLocale(recipient.languageKey());
+        Context context = new Context(locale);
+        context.setVariable("firstName", recipient.firstName());
+        context.setVariable(BASE_URL, getBaseUrl());
+        String content = templateEngine.process("mail/emailChangedNewAddressEmail", context);
+        String subject = messageSource.getMessage("email.email-changed-new.title", null, locale);
+        this.sendEmailSync(newEmail, subject, content);
+    }
+
     public String getBaseUrl() {
         if (StringUtils.isNotBlank(applicationProperties.getWebAppOrigin())) {
             return applicationProperties.getWebAppOrigin();

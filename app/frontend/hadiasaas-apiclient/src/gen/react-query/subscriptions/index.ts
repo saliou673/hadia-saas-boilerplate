@@ -1,4 +1,5 @@
 export type { CancelSubscriptionMutationKey } from "./useCancelSubscription.ts";
+export type { CreateStripePaymentIntentMutationKey } from "./useCreateStripePaymentIntent.ts";
 export type { GetMySubscriptionsQueryKey } from "./useGetMySubscriptions.ts";
 export type { GetMySubscriptionsSuspenseQueryKey } from "./useGetMySubscriptionsSuspense.ts";
 export type { RenewSubscriptionMutationKey } from "./useRenewSubscription.ts";
@@ -6,6 +7,9 @@ export type { SubscribeToPlanMutationKey } from "./useSubscribeToPlan.ts";
 export { cancelSubscriptionMutationKey } from "./useCancelSubscription.ts";
 export { cancelSubscriptionMutationOptions } from "./useCancelSubscription.ts";
 export { useCancelSubscription } from "./useCancelSubscription.ts";
+export { createStripePaymentIntentMutationKey } from "./useCreateStripePaymentIntent.ts";
+export { createStripePaymentIntentMutationOptions } from "./useCreateStripePaymentIntent.ts";
+export { useCreateStripePaymentIntent } from "./useCreateStripePaymentIntent.ts";
 export { getMySubscriptionsQueryKey } from "./useGetMySubscriptions.ts";
 export { getMySubscriptionsQueryOptions } from "./useGetMySubscriptions.ts";
 export { useGetMySubscriptions } from "./useGetMySubscriptions.ts";

@@ -1,13 +1,11 @@
 package com.hadiasaas.infrastructure.adapter.in.rest.controller.requests;
 
 import com.hadiasaas.domain.enumerations.AppConfigurationCategory;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-@Schema(name = "CreateAppConfigurationRequest")
 public record CreateAppConfigurationRequest(
         @NotNull(message = "category is required")
         AppConfigurationCategory category,

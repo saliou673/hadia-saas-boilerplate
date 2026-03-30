@@ -425,7 +425,10 @@ public class IntegrationTest {
                 activationCode,
                 activationDate,
                 resetCode,
-                resetDate
+                resetDate,
+                null,
+                null,
+                null
         );
     }
 
