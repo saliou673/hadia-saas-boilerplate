@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-@Schema(name = "PasswordResetRequest")
 /**
  * Request to complete a password-reset flow using a one-time reset code.
  *

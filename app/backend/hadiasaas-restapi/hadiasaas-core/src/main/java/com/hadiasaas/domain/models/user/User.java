@@ -196,6 +196,10 @@ public class User extends Auditable<Long> {
         this.userCredentials.updateActivationCode(activationCode);
     }
 
+    public void confirmEmail(Instant confirmationDate) {
+        this.userCredentials.confirmEmail(confirmationDate);
+    }
+
     public void updateResetCode(String resetCode, Instant resetDate) {
         this.userCredentials.updateResetCode(resetCode, resetDate);
     }
@@ -221,5 +225,13 @@ public class User extends Auditable<Long> {
 
     public void updatePreferences(UserPreferences preferences) {
         this.preferences = Objects.requireNonNull(preferences, "preferences must not be null");
+    }
+
+    public void requestEmailChange(String newEmail, String code, Instant codeDate) {
+        this.userCredentials.requestEmailChange(newEmail, code, codeDate);
+    }
+
+    public void confirmEmailChange() {
+        this.userCredentials.confirmEmailChange();
     }
 }

@@ -1,7 +1,7 @@
+import type { SubscribeRequestBillingFrequencyEnumKey } from "@api-client";
 import type { Metadata } from "next";
 import { Logo } from "@/assets/logo";
 import { SignUpForm } from "./sign-up-form";
-import type { SubscribeRequestBillingFrequencyEnumKey } from "@api-client";
 
 export const metadata: Metadata = {
     title: "Sign Up",

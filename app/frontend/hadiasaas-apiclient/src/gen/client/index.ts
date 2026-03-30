@@ -72,6 +72,7 @@ export { updateRoleGroupAsAdmin } from "./role-group-management/updateRoleGroupA
 export { getSubscriptionPlans } from "./subscription-plans/getSubscriptionPlans.ts";
 export { subscriptionplans } from "./subscription-plans/subscriptionplans.ts";
 export { cancelSubscription } from "./subscriptions/cancelSubscription.ts";
+export { createStripePaymentIntent } from "./subscriptions/createStripePaymentIntent.ts";
 export { getMySubscriptions } from "./subscriptions/getMySubscriptions.ts";
 export { renewSubscription } from "./subscriptions/renewSubscription.ts";
 export { subscribeToPlan } from "./subscriptions/subscribeToPlan.ts";
@@ -84,6 +85,7 @@ export { verifyLoginChallenge } from "./two-factor-authentication-management/ver
 export { activateAccount } from "./user-account-management/activateAccount.ts";
 export { changePassword } from "./user-account-management/changePassword.ts";
 export { completeInvitation } from "./user-account-management/completeInvitation.ts";
+export { confirmEmailChange } from "./user-account-management/confirmEmailChange.ts";
 export { createPublicUserAccount } from "./user-account-management/createPublicUserAccount.ts";
 export { deleteCurrentAccount } from "./user-account-management/deleteCurrentAccount.ts";
 export { finishPasswordReset } from "./user-account-management/finishPasswordReset.ts";
@@ -92,6 +94,7 @@ export { getCurrentUserPreferences } from "./user-account-management/getCurrentU
 export { getUserDetails } from "./user-account-management/getUserDetails.ts";
 export { recoverAccount } from "./user-account-management/recoverAccount.ts";
 export { requestActivationCode } from "./user-account-management/requestActivationCode.ts";
+export { requestEmailChange } from "./user-account-management/requestEmailChange.ts";
 export { requestPasswordReset } from "./user-account-management/requestPasswordReset.ts";
 export { updateAccount } from "./user-account-management/updateAccount.ts";
 export { updateCurrentUserPreferences } from "./user-account-management/updateCurrentUserPreferences.ts";

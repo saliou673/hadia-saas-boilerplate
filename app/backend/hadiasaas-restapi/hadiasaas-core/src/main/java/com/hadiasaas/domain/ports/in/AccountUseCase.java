@@ -149,4 +149,19 @@ public interface AccountUseCase {
      * Permanently deletes soft-deleted users past their retention period (scheduled cleanup).
      */
     void removeSoftDeletedUsers();
+
+    /**
+     * Initiates an email-change flow by generating an OTP and sending it to the new email address.
+     *
+     * @param newEmail the desired new email address
+     */
+    void requestEmailChange(String newEmail);
+
+    /**
+     * Confirms an email-change request by validating the OTP code.
+     * On success the user's email is updated and all auth tokens are invalidated.
+     *
+     * @param code the OTP code sent to the new email address
+     */
+    void confirmEmailChange(String code);
 }

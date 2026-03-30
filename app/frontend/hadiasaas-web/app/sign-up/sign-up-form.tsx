@@ -14,14 +14,29 @@ import type {
     SubscribeRequestBillingFrequencyEnumKey,
     AppConfiguration,
 } from "@api-client";
+import { axiosInstance } from "@api-client";
+import {
+    Elements,
+    PaymentElement,
+    useStripe,
+    useElements,
+} from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+    Check,
+    Zap,
+    AlertCircle,
+    Loader2,
+    CreditCard,
+    Lock,
+} from "lucide-react";
 import { signIn, getSession } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Check, Zap, AlertCircle, Loader2, CreditCard, Lock } from "lucide-react";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { IconFacebook, IconGithub } from "@/assets/brand-icons";
 import { setApiAccessToken } from "@/lib/apiclient-interceptors";
-import { axiosInstance } from "@api-client";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -33,14 +48,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/password-input";
-import { IconFacebook, IconGithub } from "@/assets/brand-icons";
-import { loadStripe } from "@stripe/stripe-js";
-import {
-    Elements,
-    PaymentElement,
-    useStripe,
-    useElements,
-} from "@stripe/react-stripe-js";
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -173,9 +180,7 @@ function AccountStep({
             if (result?.error) {
                 // Account was created but auto-sign-in failed (e.g. email
                 // verification required). Send to sign-in page.
-                toast.success(
-                    "Account created! Please sign in to continue."
-                );
+                toast.success("Account created! Please sign in to continue.");
                 router.push("/sign-in");
                 return;
             }
@@ -190,9 +195,7 @@ function AccountStep({
             if (accountCreated) {
                 // Registration succeeded but sign-in threw — redirect to
                 // sign-in so the user isn't stuck.
-                toast.success(
-                    "Account created! Please sign in to continue."
-                );
+                toast.success("Account created! Please sign in to continue.");
                 router.push("/sign-in");
             } else {
                 // Registration itself failed — show the server message if any.
@@ -202,7 +205,9 @@ function AccountStep({
                             response?: { data?: { message?: string } };
                         }
                     )?.response?.data?.message ?? null;
-                setError(serverMsg ?? "Unable to create account. Please try again.");
+                setError(
+                    serverMsg ?? "Unable to create account. Please try again."
+                );
             }
         } finally {
             setIsLoading(false);
@@ -483,9 +488,7 @@ function PlanSelectionStep({ onSelect }: PlanSelectionStepProps) {
                     <span
                         className={cn(
                             "text-sm font-medium transition-colors",
-                            yearly
-                                ? "text-foreground"
-                                : "text-muted-foreground"
+                            yearly ? "text-foreground" : "text-muted-foreground"
                         )}
                     >
                         Yearly
@@ -630,7 +633,12 @@ interface StripeCardFormProps {
     paymentIntentId: string;
 }
 
-function StripeCardForm({ plan, billing, clientSecret, paymentIntentId }: StripeCardFormProps) {
+function StripeCardForm({
+    plan,
+    billing,
+    clientSecret,
+    paymentIntentId,
+}: StripeCardFormProps) {
     const router = useRouter();
     const stripe = useStripe();
     const elements = useElements();
@@ -655,7 +663,9 @@ function StripeCardForm({ plan, billing, clientSecret, paymentIntentId }: Stripe
             });
 
             if (stripeError) {
-                setSubmitError(stripeError.message ?? "Payment failed. Please try again.");
+                setSubmitError(
+                    stripeError.message ?? "Payment failed. Please try again."
+                );
                 return;
             }
 
@@ -671,7 +681,9 @@ function StripeCardForm({ plan, billing, clientSecret, paymentIntentId }: Stripe
             router.push("/dashboard");
             router.refresh();
         } catch {
-            setSubmitError("Subscription failed. Please try again or contact support.");
+            setSubmitError(
+                "Subscription failed. Please try again or contact support."
+            );
         } finally {
             setIsSubmitting(false);
         }
@@ -687,7 +699,11 @@ function StripeCardForm({ plan, billing, clientSecret, paymentIntentId }: Stripe
                 <p className="text-sm text-destructive">{submitError}</p>
             )}
 
-            <Button type="submit" disabled={!stripe || isSubmitting} className="w-full">
+            <Button
+                type="submit"
+                disabled={!stripe || isSubmitting}
+                className="w-full"
+            >
                 {isSubmitting ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
@@ -712,7 +728,11 @@ interface GenericCheckoutFormProps {
     effectiveMode: string;
 }
 
-function GenericCheckoutForm({ plan, billing, effectiveMode }: GenericCheckoutFormProps) {
+function GenericCheckoutForm({
+    plan,
+    billing,
+    effectiveMode,
+}: GenericCheckoutFormProps) {
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
@@ -730,7 +750,9 @@ function GenericCheckoutForm({ plan, billing, effectiveMode }: GenericCheckoutFo
             router.push("/dashboard");
             router.refresh();
         } catch {
-            setSubmitError("Subscription failed. Please try again or contact support.");
+            setSubmitError(
+                "Subscription failed. Please try again or contact support."
+            );
         } finally {
             setIsSubmitting(false);
         }
@@ -741,8 +763,14 @@ function GenericCheckoutForm({ plan, billing, effectiveMode }: GenericCheckoutFo
             {submitError && (
                 <p className="text-sm text-destructive">{submitError}</p>
             )}
-            <Button onClick={handleSubmit} disabled={isSubmitting} className="w-full">
-                {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            <Button
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className="w-full"
+            >
+                {isSubmitting && (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
                 Complete subscription
             </Button>
         </div>
@@ -753,8 +781,12 @@ function GenericCheckoutForm({ plan, billing, effectiveMode }: GenericCheckoutFo
 
 function CheckoutStep({ plan, billing }: CheckoutStepProps) {
     const [selectedMode, setSelectedMode] = useState<string | null>(null);
-    const [stripeClientSecret, setStripeClientSecret] = useState<string | null>(null);
-    const [stripePaymentIntentId, setStripePaymentIntentId] = useState<string | null>(null);
+    const [stripeClientSecret, setStripeClientSecret] = useState<string | null>(
+        null
+    );
+    const [stripePaymentIntentId, setStripePaymentIntentId] = useState<
+        string | null
+    >(null);
     const [isCreatingIntent, setIsCreatingIntent] = useState(false);
     const [intentError, setIntentError] = useState<string | null>(null);
 
@@ -792,7 +824,9 @@ function CheckoutStep({ plan, billing }: CheckoutStepProps) {
                 setStripePaymentIntentId(intentData.paymentIntentId);
             })
             .catch(() => {
-                setIntentError("Failed to initiate Stripe payment. Please try again.");
+                setIntentError(
+                    "Failed to initiate Stripe payment. Please try again."
+                );
             })
             .finally(() => {
                 setIsCreatingIntent(false);
@@ -827,7 +861,7 @@ function CheckoutStep({ plan, billing }: CheckoutStepProps) {
 
             {/* Order summary */}
             <div className="rounded-lg border bg-muted/40 p-4">
-                <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                <p className="mb-2 text-xs font-medium tracking-wide text-muted-foreground uppercase">
                     Order Summary
                 </p>
                 <div className="flex items-center justify-between text-sm">
@@ -865,7 +899,9 @@ function CheckoutStep({ plan, billing }: CheckoutStepProps) {
                                 name="paymentMode"
                                 value={mode.code}
                                 checked={effectiveMode === mode.code}
-                                onChange={() => handleModeChange(mode.code ?? "")}
+                                onChange={() =>
+                                    handleModeChange(mode.code ?? "")
+                                }
                                 className="accent-primary"
                             />
                             {mode.code === "STRIPE" && (
@@ -899,40 +935,50 @@ function CheckoutStep({ plan, billing }: CheckoutStepProps) {
                         </div>
                     )}
                     {intentError && (
-                        <p className="text-sm text-destructive">{intentError}</p>
+                        <p className="text-sm text-destructive">
+                            {intentError}
+                        </p>
                     )}
-                    {!isCreatingIntent && stripeClientSecret && stripePaymentIntentId && stripePromise && (
-                        <Elements
-                            stripe={stripePromise}
-                            options={{
-                                clientSecret: stripeClientSecret,
-                                appearance: { theme: "stripe" },
-                            }}
-                        >
-                            <StripeCardForm
-                                plan={plan}
-                                billing={billing}
-                                clientSecret={stripeClientSecret}
-                                paymentIntentId={stripePaymentIntentId}
-                            />
-                        </Elements>
-                    )}
-                    {!isCreatingIntent && !stripeClientSecret && !intentError && (
-                        <div className="flex items-center justify-center py-6">
-                            <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
-                        </div>
-                    )}
+                    {!isCreatingIntent &&
+                        stripeClientSecret &&
+                        stripePaymentIntentId &&
+                        stripePromise && (
+                            <Elements
+                                stripe={stripePromise}
+                                options={{
+                                    clientSecret: stripeClientSecret,
+                                    appearance: { theme: "stripe" },
+                                }}
+                            >
+                                <StripeCardForm
+                                    plan={plan}
+                                    billing={billing}
+                                    clientSecret={stripeClientSecret}
+                                    paymentIntentId={stripePaymentIntentId}
+                                />
+                            </Elements>
+                        )}
+                    {!isCreatingIntent &&
+                        !stripeClientSecret &&
+                        !intentError && (
+                            <div className="flex items-center justify-center py-6">
+                                <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+                            </div>
+                        )}
                 </div>
             )}
 
             {/* Non-Stripe fallback */}
-            {!isPending && !isError && effectiveMode && effectiveMode !== "STRIPE" && (
-                <GenericCheckoutForm
-                    plan={plan}
-                    billing={billing}
-                    effectiveMode={effectiveMode}
-                />
-            )}
+            {!isPending &&
+                !isError &&
+                effectiveMode &&
+                effectiveMode !== "STRIPE" && (
+                    <GenericCheckoutForm
+                        plan={plan}
+                        billing={billing}
+                        effectiveMode={effectiveMode}
+                    />
+                )}
         </div>
     );
 }
@@ -953,10 +999,11 @@ export function SignUpForm({ initialPlanId, initialBilling }: SignUpFormProps) {
         );
 
     // In flow 1, the plan is known from the URL. Fetch all plans and pick it.
-    const { data: plansData, isPending: isLoadingPlan } = useGetSubscriptionPlans(
-        { size: 50 },
-        { query: { enabled: !!initialPlanId } }
-    );
+    const { data: plansData, isPending: isLoadingPlan } =
+        useGetSubscriptionPlans(
+            { size: 50 },
+            { query: { enabled: !!initialPlanId } }
+        );
 
     useEffect(() => {
         if (initialPlanId && plansData?.items && !selectedPlan) {

@@ -71,6 +71,9 @@ public class DefaultUserInitializer {
                 null,
                 null,
                 null,
+                null,
+                null,
+                null,
                 null
         );
         User user = User.create(userInfo, credentials);

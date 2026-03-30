@@ -149,6 +149,32 @@ public class UserPersistenceAdapter implements UserPersistencePort, UserDetailsP
         );
     }
 
+    @Override
+    public Optional<User> findByEmailChangeCode(String code) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> userRepository.findOneByUserCredentialsEmailChangeCode(code)
+                        .map(userMapper::toDomain)
+                        .map(this::enrichPreferences),
+                "Error fetching user by email change code: " + code
+        );
+    }
+
+    @Override
+    public boolean existsByEmailChangeCode(String code) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> userRepository.existsByUserCredentialsEmailChangeCode(code),
+                "Error checking existing user email change code: " + code
+        );
+    }
+
+    @Override
+    public boolean existsPendingEmailForAnotherUser(String email, Long excludeUserId) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> userRepository.existsByUserCredentialsPendingEmailAndIdNot(email, excludeUserId),
+                "Error checking pending email uniqueness for: " + email
+        );
+    }
+
     private User enrichPreferences(User user) {
         userPreferenceRepository.findById(user.getId())
                 .map(UserPreferenceEntity::getPreferences)

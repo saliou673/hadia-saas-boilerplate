@@ -1,7 +1,6 @@
 package com.hadiasaas.infrastructure.adapter.in.rest.controller.requests;
 
 import com.hadiasaas.domain.enumerations.UserGender;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 
@@ -19,7 +18,6 @@ import java.time.LocalDate;
  * @param languageKey optional preferred locale key
  * @param imageUrl    optional profile picture URL
  */
-@Schema(name = "UpdateUserRequest")
 public record UpdateUserRequest(
 
         @NotBlank(message = "firstName must not be blank")

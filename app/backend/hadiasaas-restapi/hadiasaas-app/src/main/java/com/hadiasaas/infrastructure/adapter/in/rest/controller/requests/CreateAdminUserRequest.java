@@ -14,7 +14,6 @@ import java.util.Set;
 /**
  * The request to create a new user from admin endpoints.
  */
-@Schema(name = "CreateAdminUserRequest")
 public record CreateAdminUserRequest(
         @NotBlank(message = "Email is required")
         @Pattern(regexp = DomainConstants.EMAIL_REGEX_PATTERN, message = "Invalid email")

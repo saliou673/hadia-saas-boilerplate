@@ -99,4 +99,29 @@ public interface UserPersistencePort {
      * @param existingUser the user to remove
      */
     void remove(User existingUser);
+
+    /**
+     * Find a user by their email-change OTP code.
+     *
+     * @param code the email-change code
+     * @return an Optional containing the user if found, or empty if not found
+     */
+    Optional<User> findByEmailChangeCode(String code);
+
+    /**
+     * Check whether an email-change code already exists.
+     *
+     * @param code the email-change code to check
+     * @return true if the code already exists
+     */
+    boolean existsByEmailChangeCode(String code);
+
+    /**
+     * Check whether any user other than the given one already has this email as a pending change target.
+     *
+     * @param email         the candidate new email address
+     * @param excludeUserId the user id to exclude from the check (the requesting user)
+     * @return true if another user already has this address pending
+     */
+    boolean existsPendingEmailForAnotherUser(String email, Long excludeUserId);
 }

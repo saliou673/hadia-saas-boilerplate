@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { ContentSection } from "../components/content-section";
 import { AccountForm } from "./account-form";
 import { DeleteAccountDialog } from "./delete-account-dialog";
+import { EmailChangeSection } from "./email-change-section";
 
 export function SettingsAccount() {
     const [deleteOpen, setDeleteOpen] = useState(false);
@@ -17,6 +18,10 @@ export function SettingsAccount() {
         >
             <div className="space-y-10">
                 <AccountForm />
+                <div className="space-y-4">
+                    <Separator />
+                    <EmailChangeSection />
+                </div>
                 <div className="space-y-4">
                     <Separator />
                     <div>

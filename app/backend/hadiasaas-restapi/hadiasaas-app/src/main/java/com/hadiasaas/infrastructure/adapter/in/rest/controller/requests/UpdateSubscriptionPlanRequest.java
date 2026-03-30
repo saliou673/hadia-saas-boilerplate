@@ -1,13 +1,11 @@
 package com.hadiasaas.infrastructure.adapter.in.rest.controller.requests;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-@Schema(name = "UpdateSubscriptionPlanRequest")
 /**
  * Request to update an existing subscription plan.
  * At least one price field must be non-null.

@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-@Schema(name = "InvitationCompleteRequest")
 /**
  * Request to complete an admin-created user invitation by setting the initial password.
  *

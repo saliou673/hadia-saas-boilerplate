@@ -33,6 +33,8 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,6 +42,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserAccountControllerTest extends IntegrationTest {
     private static final String API_ACCOUNTS_BASE_URL = "/api/v1/accounts";
     private static final String API_REGISTER = API_ACCOUNTS_BASE_URL + "/register";
+    private static final String API_EMAIL_CHANGE_REQUEST = API_ACCOUNTS_BASE_URL + "/me/email/change-request";
+    private static final String API_EMAIL_CHANGE_CONFIRM = API_ACCOUNTS_BASE_URL + "/me/email/change-confirm";
     private static final String API_ACTIVATE = API_ACCOUNTS_BASE_URL + "/activation";
     private static final String API_RESEND_ACTIVATION = API_ACCOUNTS_BASE_URL + "/activation/resend";
     private static final String API_ACCOUNT = API_ACCOUNTS_BASE_URL + "/me";
@@ -73,7 +77,7 @@ class UserAccountControllerTest extends IntegrationTest {
         assertThat(savedUser).isPresent();
         assertThat(savedUser.get().getUserCredentials().getEmail())
                 .isEqualTo(request.email().toLowerCase());
-        assertThat(savedUser.get().getStatus()).isEqualTo(UserStatus.NOT_ACTIVATED);
+        assertThat(savedUser.get().getStatus()).isEqualTo(UserStatus.ACTIVATED);
         assertThat(savedUser.get().getUserInfo().getFirstName()).isEqualTo(request.firstName());
         assertThat(savedUser.get().getUserInfo().getLastName()).isEqualTo(request.lastName());
 
@@ -516,24 +520,25 @@ class UserAccountControllerTest extends IntegrationTest {
 
     @Test
     void shouldPerformCompleteRegistrationAndActivationFlow() throws Exception {
-        // 1. Register user
+        // 1. Register user — auto-activated on sign-up, verification email sent non-blocking
         CreateUserRequest registerRequest = createValidUserRequest();
         doNothing().when(notificationSenderPort).sendActivationNotification(any());
 
         post(API_REGISTER, registerRequest, status().isCreated());
 
         UserEntity createdUser = userRepository.findOneByUserCredentialsEmailIgnoreCase(registerRequest.email()).orElseThrow();
-        assertThat(createdUser.getStatus()).isEqualTo(UserStatus.NOT_ACTIVATED);
+        assertThat(createdUser.getStatus()).isEqualTo(UserStatus.ACTIVATED);
+        assertThat(createdUser.getUserCredentials().getActivationCode()).isNotNull();
 
-        // 2. Activate user
+        // 2. User confirms email ownership via the activation link
         String activationCode = createdUser.getUserCredentials().getActivationCode();
         get(API_ACTIVATE + "?code=" + activationCode, status().isOk());
 
-        // Verify user is activated
-        UserEntity activatedUser = userRepository.findOneByUserCredentialsEmailIgnoreCase(registerRequest.email()).orElseThrow();
-        assertThat(activatedUser.isActivated()).isTrue();
-        assertThat(activatedUser.getUserCredentials().getActivationCode()).isNull();
-        assertThat(activatedUser.getUserCredentials().getActivationDate()).isNotNull();
+        // Verify activation code is cleared after confirmation
+        UserEntity confirmedUser = userRepository.findOneByUserCredentialsEmailIgnoreCase(registerRequest.email()).orElseThrow();
+        assertThat(confirmedUser.isActivated()).isTrue();
+        assertThat(confirmedUser.getUserCredentials().getActivationCode()).isNull();
+        assertThat(confirmedUser.getUserCredentials().getActivationDate()).isNotNull();
 
         verify(notificationSenderPort).sendActivationNotification(any());
     }
@@ -653,6 +658,193 @@ class UserAccountControllerTest extends IntegrationTest {
         assertThat(activatedUser.getUserCredentials().getActivationDate()).isNotNull();
         assertThat(passwordEncoder.matches(chosenPassword, activatedUser.getUserCredentials().getPasswordHash())).isTrue();
     }
+
+    // region email change
+
+    @Test
+    @WithMockUser(username = "test@example.com", authorities = "user:update:own")
+    void shouldRequestEmailChangeSuccessfully() throws Exception {
+        createUser("test@example.com");
+
+        doNothing().when(notificationSenderPort).sendEmailChangeOtpNotification(any(), anyString());
+
+        EmailChangeRequest request = new EmailChangeRequest("newemail@example.com");
+        post(API_EMAIL_CHANGE_REQUEST, request, status().isNoContent());
+
+        UserEntity updatedUser = userRepository.findOneByUserCredentialsEmailIgnoreCase("test@example.com").orElseThrow();
+        assertThat(updatedUser.getUserCredentials().getPendingEmail()).isEqualTo("newemail@example.com");
+        assertThat(updatedUser.getUserCredentials().getEmailChangeCode()).isNotNull();
+        assertThat(updatedUser.getUserCredentials().getEmailChangeCodeDate()).isNotNull();
+
+        verify(notificationSenderPort).sendEmailChangeOtpNotification(any(), eq("newemail@example.com"));
+    }
+
+    @Test
+    @WithMockUser(username = "test@example.com", authorities = "user:update:own")
+    void shouldFailToRequestEmailChangeWhenNewEmailIsSameAsCurrent() throws Exception {
+        createUser("test@example.com");
+
+        EmailChangeRequest request = new EmailChangeRequest("test@example.com");
+        post(API_EMAIL_CHANGE_REQUEST, request, status().isBadRequest());
+
+        verify(notificationSenderPort, never()).sendEmailChangeOtpNotification(any(), anyString());
+    }
+
+    @Test
+    @WithMockUser(username = "test@example.com", authorities = "user:update:own")
+    void shouldFailToRequestEmailChangeWhenEmailIsAlreadyTaken() throws Exception {
+        createUser("test@example.com");
+        createUser("taken@example.com");
+
+        EmailChangeRequest request = new EmailChangeRequest("taken@example.com");
+        post(API_EMAIL_CHANGE_REQUEST, request, status().isConflict());
+
+        verify(notificationSenderPort, never()).sendEmailChangeOtpNotification(any(), anyString());
+    }
+
+    @Test
+    void shouldFailToRequestEmailChangeWhenUnauthenticated() throws Exception {
+        EmailChangeRequest request = new EmailChangeRequest("newemail@example.com");
+        post(API_EMAIL_CHANGE_REQUEST, request, status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(username = "test@example.com", authorities = "user:update:own")
+    void shouldFailToRequestEmailChangeWhenRateLimited() throws Exception {
+        UserEntity user = createUser("test@example.com");
+        user.getUserCredentials().setEmailChangeCodeDate(Instant.now().minus(30, ChronoUnit.SECONDS));
+        userRepository.save(user);
+
+        EmailChangeRequest request = new EmailChangeRequest("newemail@example.com");
+        post(API_EMAIL_CHANGE_REQUEST, request, status().isBadRequest());
+
+        verify(notificationSenderPort, never()).sendEmailChangeOtpNotification(any(), anyString());
+    }
+
+    @Test
+    @WithMockUser(username = "test@example.com", authorities = "user:update:own")
+    void shouldFailToRequestEmailChangeWhenEmailIsPendingByAnotherUser() throws Exception {
+        createUser("test@example.com");
+
+        // Another user already has "pending@example.com" as their pending email
+        UserEntity other = createUser("other@example.com");
+        other.getUserCredentials().setPendingEmail("pending@example.com");
+        userRepository.save(other);
+
+        EmailChangeRequest request = new EmailChangeRequest("pending@example.com");
+        post(API_EMAIL_CHANGE_REQUEST, request, status().isConflict());
+
+        verify(notificationSenderPort, never()).sendEmailChangeOtpNotification(any(), anyString());
+    }
+
+    @Test
+    @WithMockUser(username = "test@example.com", authorities = "user:update:own")
+    void shouldConfirmEmailChangeSuccessfully() throws Exception {
+        UserEntity user = createUser("test@example.com");
+        user.getUserCredentials().setPendingEmail("newemail@example.com");
+        user.getUserCredentials().setEmailChangeCode("CH01");
+        user.getUserCredentials().setEmailChangeCodeDate(Instant.now());
+        userRepository.save(user);
+
+        doNothing().when(notificationSenderPort).sendEmailChangedOldAddressNotification(any(), anyString());
+        doNothing().when(notificationSenderPort).sendEmailChangedNewAddressNotification(any());
+
+        EmailChangeConfirmRequest request = new EmailChangeConfirmRequest("CH01");
+        post(API_EMAIL_CHANGE_CONFIRM, request, status().isNoContent());
+
+        UserEntity updatedUser = userRepository.findById(user.getId()).orElseThrow();
+        assertThat(updatedUser.getUserCredentials().getEmail()).isEqualTo("newemail@example.com");
+        assertThat(updatedUser.getUserCredentials().getPendingEmail()).isNull();
+        assertThat(updatedUser.getUserCredentials().getEmailChangeCode()).isNull();
+        assertThat(updatedUser.getUserCredentials().getEmailChangeCodeDate()).isNull();
+
+        verify(notificationSenderPort).sendEmailChangedOldAddressNotification(any(), eq("test@example.com"));
+        verify(notificationSenderPort).sendEmailChangedNewAddressNotification(any());
+    }
+
+    @Test
+    @WithMockUser(username = "test@example.com", authorities = "user:update:own")
+    void shouldFailToConfirmEmailChangeWithWrongCode() throws Exception {
+        UserEntity user = createUser("test@example.com");
+        user.getUserCredentials().setPendingEmail("newemail@example.com");
+        user.getUserCredentials().setEmailChangeCode("CH01");
+        user.getUserCredentials().setEmailChangeCodeDate(Instant.now());
+        userRepository.save(user);
+
+        EmailChangeConfirmRequest request = new EmailChangeConfirmRequest("NOPE");
+        post(API_EMAIL_CHANGE_CONFIRM, request, status().isBadRequest());
+
+        UserEntity unchangedUser = userRepository.findById(user.getId()).orElseThrow();
+        assertThat(unchangedUser.getUserCredentials().getEmail()).isEqualTo("test@example.com");
+        verify(notificationSenderPort, never()).sendEmailChangedOldAddressNotification(any(), anyString());
+        verify(notificationSenderPort, never()).sendEmailChangedNewAddressNotification(any());
+    }
+
+    @Test
+    @WithMockUser(username = "test@example.com", authorities = "user:update:own")
+    void shouldFailToConfirmEmailChangeWithExpiredCode() throws Exception {
+        UserEntity user = createUser("test@example.com");
+        user.getUserCredentials().setPendingEmail("newemail@example.com");
+        user.getUserCredentials().setEmailChangeCode("XPRD");
+        user.getUserCredentials().setEmailChangeCodeDate(Instant.now().minus(2, ChronoUnit.DAYS));
+        userRepository.save(user);
+
+        EmailChangeConfirmRequest request = new EmailChangeConfirmRequest("XPRD");
+        post(API_EMAIL_CHANGE_CONFIRM, request, status().isBadRequest());
+
+        UserEntity unchangedUser = userRepository.findById(user.getId()).orElseThrow();
+        assertThat(unchangedUser.getUserCredentials().getEmail()).isEqualTo("test@example.com");
+    }
+
+    @Test
+    @WithMockUser(username = "test@example.com", authorities = "user:update:own")
+    void shouldFailToConfirmEmailChangeWithNoOutstandingRequest() throws Exception {
+        createUser("test@example.com");
+
+        EmailChangeConfirmRequest request = new EmailChangeConfirmRequest("NONE");
+        post(API_EMAIL_CHANGE_CONFIRM, request, status().isBadRequest());
+    }
+
+    @Test
+    void shouldFailToConfirmEmailChangeWhenUnauthenticated() throws Exception {
+        EmailChangeConfirmRequest request = new EmailChangeConfirmRequest("NONE");
+        post(API_EMAIL_CHANGE_CONFIRM, request, status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(username = "test@example.com", authorities = "user:update:own")
+    void shouldPerformCompleteEmailChangeFlow() throws Exception {
+        createUser("test@example.com");
+
+        doNothing().when(notificationSenderPort).sendEmailChangeOtpNotification(any(), anyString());
+        doNothing().when(notificationSenderPort).sendEmailChangedOldAddressNotification(any(), anyString());
+        doNothing().when(notificationSenderPort).sendEmailChangedNewAddressNotification(any());
+
+        // 1. Request email change
+        EmailChangeRequest changeRequest = new EmailChangeRequest("new@example.com");
+        post(API_EMAIL_CHANGE_REQUEST, changeRequest, status().isNoContent());
+
+        UserEntity userWithCode = userRepository.findOneByUserCredentialsEmailIgnoreCase("test@example.com").orElseThrow();
+        String emailChangeCode = userWithCode.getUserCredentials().getEmailChangeCode();
+        assertThat(emailChangeCode).isNotNull();
+        assertThat(userWithCode.getUserCredentials().getPendingEmail()).isEqualTo("new@example.com");
+
+        // 2. Confirm email change
+        EmailChangeConfirmRequest confirmRequest = new EmailChangeConfirmRequest(emailChangeCode);
+        post(API_EMAIL_CHANGE_CONFIRM, confirmRequest, status().isNoContent());
+
+        UserEntity updatedUser = userRepository.findById(userWithCode.getId()).orElseThrow();
+        assertThat(updatedUser.getUserCredentials().getEmail()).isEqualTo("new@example.com");
+        assertThat(updatedUser.getUserCredentials().getPendingEmail()).isNull();
+        assertThat(updatedUser.getUserCredentials().getEmailChangeCode()).isNull();
+        assertThat(updatedUser.getUserCredentials().getEmailChangeCodeDate()).isNull();
+
+        verify(notificationSenderPort).sendEmailChangeOtpNotification(any(), eq("new@example.com"));
+        verify(notificationSenderPort).sendEmailChangedOldAddressNotification(any(), eq("test@example.com"));
+        verify(notificationSenderPort).sendEmailChangedNewAddressNotification(any());
+    }
+
+    // endregion
 
     private CreateUserRequest createValidUserRequest() {
 
