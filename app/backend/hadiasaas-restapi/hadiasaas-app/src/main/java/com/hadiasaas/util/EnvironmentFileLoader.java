@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -86,7 +87,7 @@ public class EnvironmentFileLoader {
 
     private static boolean shouldSkipLine(String line) {
         // Skip comments and empty lines
-        return StringUtils.startsWith(line, COMMENT_LINE_START_SYMBOL)
-                || !StringUtils.contains(line, VARIABLE_AFFECTATION_OPERATOR);
+        return Strings.CS.startsWith(line, COMMENT_LINE_START_SYMBOL)
+                || !Strings.CS.contains(line, VARIABLE_AFFECTATION_OPERATOR);
     }
 }

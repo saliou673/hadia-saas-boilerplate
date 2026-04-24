@@ -6,10 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+/**
+ * Scheduled job that periodically removes stale user accounts (not activated and soft-deleted).
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
-/** Scheduled job that periodically removes stale user accounts (not activated and soft-deleted). */
 public class UserCleanupScheduler {
 
     private final AccountUseCase accountUseCase;
