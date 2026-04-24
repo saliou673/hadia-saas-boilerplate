@@ -9,7 +9,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - hadiasaas_pg_data:/var/lib/postgresql/data
+      - hadiasaas_pg_data:/var/lib/postgresql/18/docker
+
     restart: always
 
   maildev:
