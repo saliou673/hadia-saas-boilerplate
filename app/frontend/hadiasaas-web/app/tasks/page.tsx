@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
+import TasksClient from "./tasks-client";
 
 export const metadata: Metadata = {
     title: "Tasks",
 };
-
-const TasksClient = dynamic(() => import("./tasks-client"), { ssr: false });
 
 export default function TasksPage() {
     return <TasksClient />;

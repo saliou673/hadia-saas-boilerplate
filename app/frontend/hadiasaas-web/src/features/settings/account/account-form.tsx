@@ -167,7 +167,8 @@ export function AccountForm() {
     if (isError || !user) {
         return (
             <p className="text-sm text-muted-foreground">
-                Unable to load account details. Refresh the page and try again.
+                Unable to load account details. Refresh the page and try again.{" "}
+                {JSON.stringify(isError)}
             </p>
         );
     }
