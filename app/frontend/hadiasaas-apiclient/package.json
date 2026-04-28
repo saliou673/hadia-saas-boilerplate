@@ -6,7 +6,7 @@
     "main": "./src/index.ts",
     "types": "./src/index.ts",
     "scripts": {
-        "generate": "kubb --config kubb.config.ts"
+        "generate": "KUBB_DISABLE_TELEMETRY=1 kubb --config kubb.config.ts"
     },
     "dependencies": {
         "@tanstack/react-query": "^5.66.0"

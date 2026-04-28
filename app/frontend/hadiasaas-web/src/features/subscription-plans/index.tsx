@@ -10,7 +10,7 @@ import {
 } from "@/hooks/use-next-search-state";
 import { Button } from "@/components/ui/button";
 import { SubscriptionPlansDeleteDialog } from "./subscription-plans-delete-dialog";
-import { SubscriptionPlansMutateDrawer } from "./subscription-plans-mutate-drawer";
+import { SubscriptionPlanForm } from "./subscription-plan-form";
 import { SubscriptionPlansTable } from "./subscription-plans-table";
 
 export function SubscriptionPlans() {
@@ -91,7 +91,7 @@ export function SubscriptionPlans() {
                 />
             </div>
 
-            <SubscriptionPlansMutateDrawer
+            <SubscriptionPlanForm
                 open={mutateOpen}
                 onOpenChange={setMutateOpen}
                 currentRow={currentRow}

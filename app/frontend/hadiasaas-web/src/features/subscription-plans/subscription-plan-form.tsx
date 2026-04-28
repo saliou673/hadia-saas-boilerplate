@@ -6,6 +6,7 @@ import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import {
+    type GetSubscriptionPlansAsAdminQueryParams,
     type SubscriptionPlan,
     useCreateSubscriptionPlanAsAdmin,
     useUpdateSubscriptionPlanAsAdmin,
@@ -52,7 +53,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { getSubscriptionPlansAsAdminQueryKey } from "../../../../hadiasaas-apiclient";
+import { getSubscriptionPlansAsAdminQueryKey } from "@api-client";
 
 const formSchema = z
     .object({
@@ -84,7 +85,7 @@ const formSchema = z
 
         if (!hasMonthly && !hasYearly && !hasLifetime && !hasCustomPrice) {
             ctx.addIssue({
-                code: z.ZodIssueCode.custom,
+                code: "custom",
                 message:
                     "At least one price (monthly, yearly, lifetime, or custom) is required.",
                 path: ["monthlyPrice"],
@@ -93,7 +94,7 @@ const formSchema = z
 
         if (hasCustomPrice && !hasDuration) {
             ctx.addIssue({
-                code: z.ZodIssueCode.custom,
+                code: "custom",
                 message:
                     "Duration (days) is required when a custom price is set.",
                 path: ["durationDays"],
@@ -102,7 +103,7 @@ const formSchema = z
 
         if (hasDuration && !hasCustomPrice) {
             ctx.addIssue({
-                code: z.ZodIssueCode.custom,
+                code: "custom",
                 message: "Custom price is required when duration is set.",
                 path: ["price"],
             });
@@ -111,7 +112,7 @@ const formSchema = z
 
 type PlanForm = z.infer<typeof formSchema>;
 
-type SubscriptionPlansMutateDrawerProps = {
+type SubscriptionPlanFormProps = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     currentRow?: SubscriptionPlan | null;
@@ -273,12 +274,12 @@ function PlanPreview({ values }: PlanPreviewProps) {
     );
 }
 
-export function SubscriptionPlansMutateDrawer({
+export function SubscriptionPlanForm({
     open,
     onOpenChange,
     currentRow,
     initialTab = "form",
-}: SubscriptionPlansMutateDrawerProps) {
+}: SubscriptionPlanFormProps) {
     const isUpdate = !!currentRow;
     const queryClient = useQueryClient();
 
@@ -362,7 +363,7 @@ export function SubscriptionPlansMutateDrawer({
 
     const invalidatePlans = async () => {
         await queryClient.invalidateQueries({
-            queryKey: getSubscriptionPlansAsAdminQueryKey(),
+            queryKey: getSubscriptionPlansAsAdminQueryKey(undefined as unknown as GetSubscriptionPlansAsAdminQueryParams),
         });
     };
 
@@ -454,13 +455,13 @@ export function SubscriptionPlansMutateDrawer({
                     </TabsContent>
                     <TabsContent
                         value="form"
-                        className="flex-1 overflow-hidden"
+                        className="flex flex-1 flex-col overflow-hidden"
                     >
                         <Form {...form}>
                             <form
                                 id="subscription-plan-form"
                                 onSubmit={form.handleSubmit(onSubmit)}
-                                className="flex h-full flex-col space-y-5 overflow-y-auto px-1"
+                                className="flex flex-1 flex-col space-y-5 overflow-y-auto px-1 pb-1"
                             >
                                 <FormField
                                     control={form.control}

@@ -5,7 +5,8 @@
 
 export type EmailChangeConfirmRequest = {
     /**
-     * @minLength 1
+     * @minLength 4
+     * @maxLength 4
      * @type string
      */
     code: string;
