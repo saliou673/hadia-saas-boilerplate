@@ -10,7 +10,7 @@ import {
 } from "@/hooks/use-next-search-state";
 import { Button } from "@/components/ui/button";
 import { TaxConfigurationsDeleteDialog } from "./tax-configurations-delete-dialog";
-import { TaxConfigurationsMutateDrawer } from "./tax-configurations-mutate-drawer";
+import { TaxConfigurationsFormDialog } from "./tax-configurations-form-dialog";
 import { TaxConfigurationsTable } from "./tax-configurations-table";
 
 export function TaxConfigurations() {
@@ -78,7 +78,7 @@ export function TaxConfigurations() {
                 />
             </div>
 
-            <TaxConfigurationsMutateDrawer
+            <TaxConfigurationsFormDialog
                 open={mutateOpen}
                 onOpenChange={setMutateOpen}
                 currentRow={currentRow}

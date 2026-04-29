@@ -16,6 +16,15 @@ import { toast } from "sonner";
 import { handleServerError } from "@/lib/handle-server-error";
 import { Button } from "@/components/ui/button";
 import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import {
     Form,
     FormControl,
     FormDescription,
@@ -25,15 +34,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-    Sheet,
-    SheetClose,
-    SheetContent,
-    SheetDescription,
-    SheetFooter,
-    SheetHeader,
-    SheetTitle,
-} from "@/components/ui/sheet";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { SelectDropdown } from "@/components/select-dropdown";
@@ -53,17 +53,17 @@ const formSchema = z.object({
 
 type ConfigurationForm = z.infer<typeof formSchema>;
 
-type ConfigurationsMutateDrawerProps = {
+type ConfigurationsFormDialogProps = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     currentRow?: AppConfiguration | null;
 };
 
-export function ConfigurationsMutateDrawer({
+export function ConfigurationsFormDialog({
     open,
     onOpenChange,
     currentRow,
-}: ConfigurationsMutateDrawerProps) {
+}: ConfigurationsFormDialogProps) {
     const isUpdate = !!currentRow;
     const queryClient = useQueryClient();
     const { data: categoriesData } = useGetCategoriesAsAdmin();
@@ -163,23 +163,23 @@ export function ConfigurationsMutateDrawer({
     };
 
     return (
-        <Sheet open={open} onOpenChange={handleOpenChange}>
-            <SheetContent className="flex flex-col">
-                <SheetHeader className="text-start">
-                    <SheetTitle>
+        <Dialog open={open} onOpenChange={handleOpenChange}>
+            <DialogContent className="sm:max-w-lg">
+                <DialogHeader>
+                    <DialogTitle>
                         {isUpdate ? "Edit" : "Create"} Configuration
-                    </SheetTitle>
-                    <SheetDescription>
+                    </DialogTitle>
+                    <DialogDescription>
                         {isUpdate
                             ? "Update the configuration entry."
                             : "Create a new configuration entry."}
-                    </SheetDescription>
-                </SheetHeader>
+                    </DialogDescription>
+                </DialogHeader>
                 <Form {...form}>
                     <form
                         id="configurations-form"
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="flex-1 space-y-6 overflow-y-auto px-4"
+                        className="max-h-[60vh] space-y-6 overflow-y-auto px-1"
                     >
                         <FormField
                             control={form.control}
@@ -291,12 +291,12 @@ export function ConfigurationsMutateDrawer({
                         )}
                     </form>
                 </Form>
-                <SheetFooter className="gap-2">
-                    <SheetClose asChild>
+                <DialogFooter className="gap-2">
+                    <DialogClose asChild>
                         <Button variant="outline" disabled={isPending}>
                             Close
                         </Button>
-                    </SheetClose>
+                    </DialogClose>
                     <Button
                         form="configurations-form"
                         type="submit"
@@ -304,8 +304,8 @@ export function ConfigurationsMutateDrawer({
                     >
                         {isUpdate ? "Save changes" : "Create configuration"}
                     </Button>
-                </SheetFooter>
-            </SheetContent>
-        </Sheet>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     );
 }

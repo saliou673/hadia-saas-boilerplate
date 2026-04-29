@@ -16,6 +16,15 @@ import { toast } from "sonner";
 import { handleServerError } from "@/lib/handle-server-error";
 import { Button } from "@/components/ui/button";
 import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import {
     Form,
     FormControl,
     FormDescription,
@@ -25,15 +34,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-    Sheet,
-    SheetClose,
-    SheetContent,
-    SheetDescription,
-    SheetFooter,
-    SheetHeader,
-    SheetTitle,
-} from "@/components/ui/sheet";
 import { Switch } from "@/components/ui/switch";
 import { SelectDropdown } from "@/components/select-dropdown";
 import { providerOptions } from "./data";
@@ -48,17 +48,17 @@ const formSchema = z.object({
 
 type StorageSettingsForm = z.infer<typeof formSchema>;
 
-type StorageSettingsMutateDrawerProps = {
+type StorageSettingsFormDialogProps = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     currentRow?: StorageSettings | null;
 };
 
-export function StorageSettingsMutateDrawer({
+export function StorageSettingsFormDialog({
     open,
     onOpenChange,
     currentRow,
-}: StorageSettingsMutateDrawerProps) {
+}: StorageSettingsFormDialogProps) {
     const isUpdate = !!currentRow;
     const queryClient = useQueryClient();
 
@@ -157,23 +157,23 @@ export function StorageSettingsMutateDrawer({
     };
 
     return (
-        <Sheet open={open} onOpenChange={handleOpenChange}>
-            <SheetContent className="flex flex-col">
-                <SheetHeader className="text-start">
-                    <SheetTitle>
+        <Dialog open={open} onOpenChange={handleOpenChange}>
+            <DialogContent className="sm:max-w-lg">
+                <DialogHeader>
+                    <DialogTitle>
                         {isUpdate ? "Edit" : "Create"} Storage Settings
-                    </SheetTitle>
-                    <SheetDescription>
+                    </DialogTitle>
+                    <DialogDescription>
                         {isUpdate
                             ? "Update the storage settings entry."
                             : "Configure a new file storage provider."}
-                    </SheetDescription>
-                </SheetHeader>
+                    </DialogDescription>
+                </DialogHeader>
                 <Form {...form}>
                     <form
                         id="storage-settings-form"
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="flex-1 space-y-6 overflow-y-auto px-4"
+                        className="max-h-[60vh] space-y-6 overflow-y-auto px-1"
                     >
                         <FormField
                             control={form.control}
@@ -287,12 +287,12 @@ export function StorageSettingsMutateDrawer({
                         />
                     </form>
                 </Form>
-                <SheetFooter className="gap-2">
-                    <SheetClose asChild>
+                <DialogFooter className="gap-2">
+                    <DialogClose asChild>
                         <Button variant="outline" disabled={isPending}>
                             Close
                         </Button>
-                    </SheetClose>
+                    </DialogClose>
                     <Button
                         form="storage-settings-form"
                         type="submit"
@@ -300,8 +300,8 @@ export function StorageSettingsMutateDrawer({
                     >
                         {isUpdate ? "Save changes" : "Create"}
                     </Button>
-                </SheetFooter>
-            </SheetContent>
-        </Sheet>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     );
 }

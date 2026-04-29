@@ -15,6 +15,15 @@ import { toast } from "sonner";
 import { handleServerError } from "@/lib/handle-server-error";
 import { Button } from "@/components/ui/button";
 import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import {
     Form,
     FormControl,
     FormDescription,
@@ -24,15 +33,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-    Sheet,
-    SheetClose,
-    SheetContent,
-    SheetDescription,
-    SheetFooter,
-    SheetHeader,
-    SheetTitle,
-} from "@/components/ui/sheet";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -56,17 +56,17 @@ const formSchema = z.object({
 
 type TaxConfigurationForm = z.infer<typeof formSchema>;
 
-type TaxConfigurationsMutateDrawerProps = {
+type TaxConfigurationsFormDialogProps = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     currentRow?: TaxConfiguration | null;
 };
 
-export function TaxConfigurationsMutateDrawer({
+export function TaxConfigurationsFormDialog({
     open,
     onOpenChange,
     currentRow,
-}: TaxConfigurationsMutateDrawerProps) {
+}: TaxConfigurationsFormDialogProps) {
     const isUpdate = !!currentRow;
     const queryClient = useQueryClient();
 
@@ -167,23 +167,23 @@ export function TaxConfigurationsMutateDrawer({
     };
 
     return (
-        <Sheet open={open} onOpenChange={handleOpenChange}>
-            <SheetContent className="flex flex-col">
-                <SheetHeader className="text-start">
-                    <SheetTitle>
+        <Dialog open={open} onOpenChange={handleOpenChange}>
+            <DialogContent className="sm:max-w-lg">
+                <DialogHeader>
+                    <DialogTitle>
                         {isUpdate ? "Edit" : "Create"} Tax Configuration
-                    </SheetTitle>
-                    <SheetDescription>
+                    </DialogTitle>
+                    <DialogDescription>
                         {isUpdate
                             ? "Update the tax configuration entry."
                             : "Create a new tax configuration entry."}
-                    </SheetDescription>
-                </SheetHeader>
+                    </DialogDescription>
+                </DialogHeader>
                 <Form {...form}>
                     <form
                         id="tax-configurations-form"
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="flex-1 space-y-6 overflow-y-auto px-4"
+                        className="max-h-[60vh] space-y-6 overflow-y-auto px-1"
                     >
                         <FormField
                             control={form.control}
@@ -302,12 +302,12 @@ export function TaxConfigurationsMutateDrawer({
                         )}
                     </form>
                 </Form>
-                <SheetFooter className="gap-2">
-                    <SheetClose asChild>
+                <DialogFooter className="gap-2">
+                    <DialogClose asChild>
                         <Button variant="outline" disabled={isPending}>
                             Close
                         </Button>
-                    </SheetClose>
+                    </DialogClose>
                     <Button
                         form="tax-configurations-form"
                         type="submit"
@@ -315,8 +315,8 @@ export function TaxConfigurationsMutateDrawer({
                     >
                         {isUpdate ? "Save changes" : "Create tax rate"}
                     </Button>
-                </SheetFooter>
-            </SheetContent>
-        </Sheet>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     );
 }

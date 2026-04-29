@@ -10,7 +10,7 @@ import {
 } from "@/hooks/use-next-search-state";
 import { Button } from "@/components/ui/button";
 import { ConfigurationsDeleteDialog } from "./configurations-delete-dialog";
-import { ConfigurationsMutateDrawer } from "./configurations-mutate-drawer";
+import { ConfigurationsFormDialog } from "./configurations-form-dialog";
 import { ConfigurationsTable } from "./configurations-table";
 
 export function Configurations() {
@@ -81,7 +81,7 @@ export function Configurations() {
                 />
             </div>
 
-            <ConfigurationsMutateDrawer
+            <ConfigurationsFormDialog
                 open={mutateOpen}
                 onOpenChange={setMutateOpen}
                 currentRow={currentRow}

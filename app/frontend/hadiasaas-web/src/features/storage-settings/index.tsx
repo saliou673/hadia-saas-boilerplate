@@ -10,7 +10,7 @@ import {
 } from "@/hooks/use-next-search-state";
 import { Button } from "@/components/ui/button";
 import { StorageSettingsDeleteDialog } from "./storage-settings-delete-dialog";
-import { StorageSettingsMutateDrawer } from "./storage-settings-mutate-drawer";
+import { StorageSettingsFormDialog } from "./storage-settings-form-dialog";
 import { StorageSettingsTable } from "./storage-settings-table";
 
 export function StorageSettingsFeature() {
@@ -78,7 +78,7 @@ export function StorageSettingsFeature() {
                 />
             </div>
 
-            <StorageSettingsMutateDrawer
+            <StorageSettingsFormDialog
                 open={mutateOpen}
                 onOpenChange={setMutateOpen}
                 currentRow={currentRow}
