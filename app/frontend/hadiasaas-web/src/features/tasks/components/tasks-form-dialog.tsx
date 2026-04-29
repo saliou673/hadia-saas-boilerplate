@@ -4,6 +4,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { showSubmittedData } from "@/lib/show-submitted-data";
 import { Button } from "@/components/ui/button";
 import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import {
     Form,
     FormControl,
     FormField,
@@ -13,19 +22,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-    Sheet,
-    SheetClose,
-    SheetContent,
-    SheetDescription,
-    SheetFooter,
-    SheetHeader,
-    SheetTitle,
-} from "@/components/ui/sheet";
 import { SelectDropdown } from "@/components/select-dropdown";
 import { type Task } from "../data/schema";
 
-type TaskMutateDrawerProps = {
+type TasksFormDialogProps = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     currentRow?: Task;
@@ -39,11 +39,11 @@ const formSchema = z.object({
 });
 type TaskForm = z.infer<typeof formSchema>;
 
-export function TasksMutateDrawer({
+export function TasksFormDialog({
     open,
     onOpenChange,
     currentRow,
-}: TaskMutateDrawerProps) {
+}: TasksFormDialogProps) {
     const isUpdate = !!currentRow;
 
     const form = useForm<TaskForm>({
@@ -57,37 +57,36 @@ export function TasksMutateDrawer({
     });
 
     const onSubmit = (data: TaskForm) => {
-        // do something with the form data
         onOpenChange(false);
         form.reset();
         showSubmittedData(data);
     };
 
     return (
-        <Sheet
+        <Dialog
             open={open}
             onOpenChange={(v) => {
                 onOpenChange(v);
                 form.reset();
             }}
         >
-            <SheetContent className="flex flex-col">
-                <SheetHeader className="text-start">
-                    <SheetTitle>
+            <DialogContent className="sm:max-w-lg">
+                <DialogHeader>
+                    <DialogTitle>
                         {isUpdate ? "Update" : "Create"} Task
-                    </SheetTitle>
-                    <SheetDescription>
+                    </DialogTitle>
+                    <DialogDescription>
                         {isUpdate
                             ? "Update the task by providing necessary info."
-                            : "Add a new task by providing necessary info."}
+                            : "Add a new task by providing necessary info."}{" "}
                         Click save when you&apos;re done.
-                    </SheetDescription>
-                </SheetHeader>
+                    </DialogDescription>
+                </DialogHeader>
                 <Form {...form}>
                     <form
                         id="tasks-form"
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="flex-1 space-y-6 overflow-y-auto px-4"
+                        className="max-h-[60vh] space-y-6 overflow-y-auto px-1"
                     >
                         <FormField
                             control={form.control}
@@ -222,15 +221,15 @@ export function TasksMutateDrawer({
                         />
                     </form>
                 </Form>
-                <SheetFooter className="gap-2">
-                    <SheetClose asChild>
+                <DialogFooter className="gap-2">
+                    <DialogClose asChild>
                         <Button variant="outline">Close</Button>
-                    </SheetClose>
+                    </DialogClose>
                     <Button form="tasks-form" type="submit">
                         Save changes
                     </Button>
-                </SheetFooter>
-            </SheetContent>
-        </Sheet>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     );
 }

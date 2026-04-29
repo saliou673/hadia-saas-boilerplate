@@ -1,14 +1,14 @@
 import { showSubmittedData } from "@/lib/show-submitted-data";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import { TasksImportDialog } from "./tasks-import-dialog";
-import { TasksMutateDrawer } from "./tasks-mutate-drawer";
+import { TasksFormDialog } from "./tasks-form-dialog";
 import { useTasks } from "./tasks-provider";
 
 export function TasksDialogs() {
     const { open, setOpen, currentRow, setCurrentRow } = useTasks();
     return (
         <>
-            <TasksMutateDrawer
+            <TasksFormDialog
                 key="task-create"
                 open={open === "create"}
                 onOpenChange={() => setOpen("create")}
@@ -22,7 +22,7 @@ export function TasksDialogs() {
 
             {currentRow && (
                 <>
-                    <TasksMutateDrawer
+                    <TasksFormDialog
                         key={`task-update-${currentRow.id}`}
                         open={open === "update"}
                         onOpenChange={() => {
