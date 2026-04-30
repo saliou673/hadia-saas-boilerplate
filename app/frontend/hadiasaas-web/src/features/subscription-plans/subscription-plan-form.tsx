@@ -54,6 +54,7 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { getSubscriptionPlansAsAdminQueryKey } from "@api-client";
+import { CurrencySelect } from "@/components/currency-select";
 
 const formSchema = z
     .object({
@@ -507,13 +508,11 @@ export function SubscriptionPlanForm({
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>Currency Code</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    disabled={isPending}
-                                                    placeholder="USD"
-                                                />
-                                            </FormControl>
+                                            <CurrencySelect
+                                                value={field.value}
+                                                onValueChange={field.onChange}
+                                                disabled={isPending}
+                                            />
                                             <FormMessage />
                                         </FormItem>
                                     )}
