@@ -48,6 +48,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/password-input";
+import { useTheme } from "@/context/theme-provider";
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -780,6 +781,7 @@ function GenericCheckoutForm({
 // ── Main CheckoutStep
 
 function CheckoutStep({ plan, billing }: CheckoutStepProps) {
+    const { resolvedTheme } = useTheme();
     const [selectedMode, setSelectedMode] = useState<string | null>(null);
     const [stripeClientSecret, setStripeClientSecret] = useState<string | null>(
         null
@@ -947,7 +949,7 @@ function CheckoutStep({ plan, billing }: CheckoutStepProps) {
                                 stripe={stripePromise}
                                 options={{
                                     clientSecret: stripeClientSecret,
-                                    appearance: { theme: "stripe" },
+                                    appearance: { theme: resolvedTheme === "dark" ? "night" : "stripe" },
                                 }}
                             >
                                 <StripeCardForm
